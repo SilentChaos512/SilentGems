@@ -9,6 +9,7 @@ import net.minecraft.loot.*;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.RegistryObject;
+import net.silentchaos512.gems.block.GemLampBlock;
 import net.silentchaos512.gems.setup.GemsBlocks;
 import net.silentchaos512.gems.setup.Registration;
 import net.silentchaos512.gems.util.Gems;
@@ -47,6 +48,10 @@ public class GemsLootTableProvider extends LootTableProvider {
                 registerDropSelfLootTable(gem.getBlock());
                 registerDropSelfLootTable(gem.getBricks());
                 registerDropSelfLootTable(gem.getGlass());
+                for (GemLampBlock.State state : GemLampBlock.State.values()) {
+                    // Always drop the unpowered version of the lamp, as the others don't have items
+                    registerDropping(gem.getLamp(state), gem.getLamp(state.withPower(false)));
+                }
                 registerDropSelfLootTable(gem.getGlowrose());
                 registerFlowerPot(gem.getPottedGlowrose());
             }

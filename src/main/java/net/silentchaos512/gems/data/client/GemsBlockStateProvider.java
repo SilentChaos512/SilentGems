@@ -7,6 +7,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.silentchaos512.gems.GemsBase;
+import net.silentchaos512.gems.block.GemLampBlock;
 import net.silentchaos512.gems.setup.GemsBlocks;
 import net.silentchaos512.gems.util.Gems;
 import net.silentchaos512.lib.block.IBlockProvider;
@@ -28,6 +29,10 @@ public class GemsBlockStateProvider extends BlockStateProvider {
             simpleBlock(gem.getBlock());
             simpleBlock(gem.getBricks());
             simpleBlock(gem.getGlass());
+
+            for (GemLampBlock.State state : GemLampBlock.State.values()) {
+                simpleBlock(gem.getLamp(state), "block/" + gem.getName() + "_lamp" + (state.lit() ? "_on" : ""));
+            }
 
             String glowroseName = gem.getName() + "_glowrose";
             simpleBlock(gem.getGlowrose(), models()

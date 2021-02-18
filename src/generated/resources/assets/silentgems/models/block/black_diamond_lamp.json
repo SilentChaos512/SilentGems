@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "silentgems:block/black_diamond_lamp"
+  }
+}

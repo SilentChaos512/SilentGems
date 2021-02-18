@@ -6,7 +6,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.silentchaos512.gems.util.Gems;
 
 public class GemBlock extends Block implements IGemBlock {
-    private final Gems gem;
+    protected final Gems gem;
     private final String translationKey;
 
     public GemBlock(Gems gem, String translationKey, Properties properties) {

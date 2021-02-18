@@ -10,11 +10,13 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.util.IItemProvider;
 import net.minecraftforge.common.Tags;
 import net.silentchaos512.gems.GemsBase;
+import net.silentchaos512.gems.block.GemLampBlock;
 import net.silentchaos512.gems.setup.GemsBlocks;
 import net.silentchaos512.gems.setup.GemsItems;
 import net.silentchaos512.gems.setup.GemsTags;
 import net.silentchaos512.gems.util.Gems;
 import net.silentchaos512.lib.data.ExtendedShapedRecipeBuilder;
+import net.silentchaos512.lib.data.ExtendedShapelessRecipeBuilder;
 import net.silentchaos512.lib.util.NameUtils;
 
 import javax.annotation.Nullable;
@@ -54,6 +56,22 @@ public class GemsRecipeProvider extends RecipeProvider {
                     .patternLine("###")
                     .key('#', Tags.Items.GLASS_COLORLESS)
                     .key('o', gem.getItemTag())
+                    .addCriterion("has_item", hasItem(gem.getItemTag()))
+                    .build(consumer);
+
+            ExtendedShapedRecipeBuilder.vanillaBuilder(gem.getLamp(GemLampBlock.State.OFF))
+                    .patternLine("rgr")
+                    .patternLine("gog")
+                    .patternLine("rgr")
+                    .key('r', Tags.Items.DUSTS_REDSTONE)
+                    .key('g', Tags.Items.DUSTS_GLOWSTONE)
+                    .key('o', gem.getItemTag())
+                    .addCriterion("has_item", hasItem(gem.getItemTag()))
+                    .build(consumer);
+
+            ExtendedShapelessRecipeBuilder.vanillaBuilder(gem.getLamp(GemLampBlock.State.INVERTED_ON))
+                    .addIngredient(gem.getLamp(GemLampBlock.State.OFF))
+                    .addIngredient(Items.REDSTONE_TORCH)
                     .addCriterion("has_item", hasItem(gem.getItemTag()))
                     .build(consumer);
         }

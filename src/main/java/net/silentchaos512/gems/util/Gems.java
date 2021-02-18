@@ -37,6 +37,7 @@ import net.silentchaos512.lib.world.placement.LibPlacements;
 import net.silentchaos512.utils.Color;
 import net.silentchaos512.utils.Lazy;
 
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -144,6 +145,7 @@ public enum Gems {
     BlockRegistryObject<GemGlassBlock> glass;
     BlockRegistryObject<GlowroseBlock> glowrose;
     BlockRegistryObject<FlowerPotBlock> pottedGlowrose;
+    Map<GemLampBlock.State, BlockRegistryObject<GemLampBlock>> lamps = new EnumMap<>(GemLampBlock.State.class);
 
     // Items
     ItemRegistryObject<GemItem> item;
@@ -322,6 +324,10 @@ public enum Gems {
         return glass.get();
     }
 
+    public GemLampBlock getLamp(GemLampBlock.State state) {
+        return lamps.get(state).get();
+    }
+
     public GlowroseBlock getGlowrose() {
         return glowrose.get();
     }
@@ -426,6 +432,15 @@ public enum Gems {
                             .setBlocksVision(isNotSolid)));
 
         for (Gems gem : values())
+            gem.lamps.put(GemLampBlock.State.OFF, registerLamp(gem, GemLampBlock.State.OFF));
+        for (Gems gem : values())
+            gem.lamps.put(GemLampBlock.State.ON, registerLamp(gem, GemLampBlock.State.ON));
+        for (Gems gem : values())
+            gem.lamps.put(GemLampBlock.State.INVERTED_ON, registerLamp(gem, GemLampBlock.State.INVERTED_ON));
+        for (Gems gem : values())
+            gem.lamps.put(GemLampBlock.State.INVERTED_OFF, registerLamp(gem, GemLampBlock.State.INVERTED_OFF));
+
+        for (Gems gem : values())
             gem.glowrose = registerBlock(gem.getName() + "_glowrose", () ->
                     new GlowroseBlock(gem, AbstractBlock.Properties.create(Material.PLANTS)
                             .sound(SoundType.PLANT)
@@ -463,8 +478,19 @@ public enum Gems {
 
     private static <T extends Block> BlockRegistryObject<T> registerBlock(String name, Supplier<T> block, Function<BlockRegistryObject<T>, Supplier<BlockItem>> item) {
         BlockRegistryObject<T> ret = registerBlockNoItem(name, block);
-        Registration.ITEMS.register(name, item.apply(ret));
+        if (item != null) {
+            Registration.ITEMS.register(name, item.apply(ret));
+        }
         return ret;
+    }
+
+    private static BlockRegistryObject<GemLampBlock> registerLamp(Gems gem, GemLampBlock.State state) {
+        String name = gem.getName() + "_lamp" + (state.inverted() ? "_inverted" : "") + (state.lit() ? "_on" : "");
+        return registerBlock(name,
+                () -> new GemLampBlock(gem, state, Block.Properties.create(Material.REDSTONE_LIGHT)
+                        .hardnessAndResistance(0.3f, 15)
+                        .setLightLevel(s -> state.lit() ? 15 : 0)),
+                state.hasItem() ? Gems::defaultBlockItem : null);
     }
 
     private static <T extends Item> ItemRegistryObject<T> registerItem(String name, Supplier<T> item) {
