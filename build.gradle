@@ -20,7 +20,7 @@ apply plugin: 'net.minecraftforge.gradle'
 
 version = "${MC_VERSION}-${VERSION}"
 group = "${GROUP}.${MODID}"
-archivesBaseName = MODNAME
+archivesBaseName = JAR_NAME
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
 
