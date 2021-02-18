@@ -13,9 +13,9 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
-import net.minecraft.world.gen.feature.ConfiguredFeature;
-import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.OreFeatureConfig;
+import net.minecraft.world.gen.blockplacer.SimpleBlockPlacer;
+import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
+import net.minecraft.world.gen.feature.*;
 import net.minecraft.world.gen.feature.template.RuleTest;
 import net.minecraft.world.gen.placement.ChanceConfig;
 import net.minecraft.world.gen.placement.Placement;
@@ -32,6 +32,8 @@ import net.silentchaos512.gems.setup.Registration;
 import net.silentchaos512.gems.world.GemsWorldFeatures;
 import net.silentchaos512.lib.registry.BlockRegistryObject;
 import net.silentchaos512.lib.registry.ItemRegistryObject;
+import net.silentchaos512.lib.world.placement.DimensionFilterConfig;
+import net.silentchaos512.lib.world.placement.LibPlacements;
 import net.silentchaos512.utils.Color;
 import net.silentchaos512.utils.Lazy;
 
@@ -127,10 +129,11 @@ public enum Gems {
     private final Color color;
     private final Rarity rarity;
 
-    // Ore generation
+    // World/ore generation
     private final Map<RegistryKey<World>, OreConfig.Defaults> oreConfigDefaults = new HashMap<>();
     private final Map<RegistryKey<World>, OreConfig> oreConfigs = new HashMap<>();
     private final Map<RegistryKey<World>, Lazy<ConfiguredFeature<?, ?>>> oreConfiguredFeatures = new HashMap<>();
+    private final Map<RegistryKey<World>, Lazy<ConfiguredFeature<?, ?>>> glowroseConfiguredFeatures = new HashMap<>();
 
     // Blocks
     BlockRegistryObject<GemOreBlock> ore;
@@ -172,6 +175,13 @@ public enum Gems {
                 createOreConfiguredFeature(World.THE_NETHER, OreFeatureConfig.FillerBlockType.NETHERRACK)));
         this.oreConfiguredFeatures.put(World.THE_END, Lazy.of(() ->
                 createOreConfiguredFeature(World.THE_END, GemsWorldFeatures.BASE_STONE_END)));
+
+        this.glowroseConfiguredFeatures.put(World.OVERWORLD, Lazy.of(() ->
+                createGlowroseConfiguredFeature(World.OVERWORLD)));
+        this.glowroseConfiguredFeatures.put(World.THE_NETHER, Lazy.of(() ->
+                createGlowroseConfiguredFeature(World.THE_NETHER)));
+        this.glowroseConfiguredFeatures.put(World.THE_END, Lazy.of(() ->
+                createGlowroseConfiguredFeature(World.THE_END)));
 
         String name = this.getName();
         this.blockTag = makeBlockTag(forgeId("storage_blocks/" + name));
@@ -225,6 +235,10 @@ public enum Gems {
         return this.oreConfiguredFeatures.getOrDefault(world, this.oreConfiguredFeatures.get(World.OVERWORLD)).get();
     }
 
+    public ConfiguredFeature<?, ?> getGlowroseConfiguredFeature(RegistryKey<World> world) {
+        return this.glowroseConfiguredFeatures.getOrDefault(world, this.glowroseConfiguredFeatures.get(World.OVERWORLD)).get();
+    }
+
     public OreConfig getOreConfig(RegistryKey<World> world) {
         return this.oreConfigs.getOrDefault(world, this.oreConfigs.get(World.OVERWORLD));
     }
@@ -256,6 +270,32 @@ public enum Gems {
                 .withPlacement(Placement.CHANCE.configure(new ChanceConfig(config.getRarity())))
                 .square()
                 .func_242731_b(config.getCount());
+    }
+
+    private ConfiguredFeature<?, ?> createGlowroseConfiguredFeature(RegistryKey<World> world) {
+        OreConfig config = this.getOreConfig(world);
+        int baseSpread = config.isEnabled() ? 2 : 0;
+        int rarity = 2 * config.getRarity();
+
+        int tryCount;
+        if (world == World.THE_END) {
+            tryCount = 6;
+        } else if (world == World.THE_NETHER) {
+            tryCount = 12;
+        } else {
+            tryCount = 8;
+        }
+
+        return Feature.FLOWER
+                .withConfiguration(new BlockClusterFeatureConfig.Builder(
+                        new SimpleBlockStateProvider(this.getGlowrose().getDefaultState()), SimpleBlockPlacer.PLACER)
+                        .tries(tryCount)
+                        .build())
+                .withPlacement(Placement.COUNT_MULTILAYER.configure(new FeatureSpreadConfig(baseSpread)))
+                .withPlacement(LibPlacements.DIMENSION_FILTER.configure(DimensionFilterConfig.whitelist(World.OVERWORLD)))
+                .withPlacement(Placement.CHANCE.configure(new ChanceConfig(rarity)))
+                .range(128)
+                .chance(32);
     }
 
     //endregion
