@@ -33,6 +33,7 @@ public class GemsItemTagsProvider extends ItemTagsProvider {
 
             // Groups
             getOrCreateBuilder(GemsTags.Items.GEM_ORES).addTag(gem.getModOresItemTag());
+            getOrCreateBuilder(GemsTags.Items.GEMS).addTag(gem.getItemTag());
             getOrCreateBuilder(GemsTags.Items.GLOWROSES).addTag(gem.getGlowroseItemTag());
             getOrCreateBuilder(Tags.Items.GEMS).add(gem.getItem());
 //            getOrCreateBuilder(Tags.Items.NUGGETS).add(gem.getShard());

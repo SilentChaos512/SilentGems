@@ -30,6 +30,7 @@ public class GemsTags {
 
     public static final class Items {
         public static final ITag.INamedTag<Item> GEM_ORES = gems("ores");
+        public static final ITag.INamedTag<Item> GEMS = gems("gems");
         public static final ITag.INamedTag<Item> GLOWROSES = gems("glowroses");
         public static final ITag.INamedTag<Item> STEW_FISH = gems("stew_fish");
         public static final ITag.INamedTag<Item> STEW_MEAT = gems("stew_meat");

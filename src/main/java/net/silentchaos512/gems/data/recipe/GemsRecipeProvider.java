@@ -32,6 +32,7 @@ public class GemsRecipeProvider extends RecipeProvider {
         registerGemRecipes(consumer);
         registerMetals(consumer);
         registerFoods(consumer);
+        registerMisc(consumer);
     }
 
     private static void registerGemRecipes(Consumer<IFinishedRecipe> consumer) {
@@ -128,6 +129,28 @@ public class GemsRecipeProvider extends RecipeProvider {
                 .build(consumer);
         CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(GemsItems.UNCOOKED_MEATY_STEW), GemsItems.MEATY_STEW, 0.45f, 200)
                 .addCriterion("has_item", hasItem(GemsTags.Items.STEW_MEAT))
+                .build(consumer);
+    }
+
+    private void registerMisc(Consumer<IFinishedRecipe> consumer) {
+        ShapedRecipeBuilder.shapedRecipe(GemsItems.SUMMON_KITTY)
+                .patternLine("|f|")
+                .patternLine("|g|")
+                .patternLine("|f|")
+                .key('|', Tags.Items.STRING)
+                .key('f', GemsTags.Items.STEW_FISH)
+                .key('g', GemsTags.Items.GEMS)
+                .addCriterion("has_item", hasItem(GemsTags.Items.GEMS))
+                .build(consumer);
+
+        ShapedRecipeBuilder.shapedRecipe(GemsItems.SUMMON_PUPPY)
+                .patternLine(" m ")
+                .patternLine("#g#")
+                .patternLine(" m ")
+                .key('m', GemsTags.Items.STEW_FISH)
+                .key('#', Tags.Items.LEATHER)
+                .key('g', GemsTags.Items.GEMS)
+                .addCriterion("has_item", hasItem(GemsTags.Items.GEMS))
                 .build(consumer);
     }
 

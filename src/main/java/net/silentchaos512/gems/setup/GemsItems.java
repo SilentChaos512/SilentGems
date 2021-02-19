@@ -8,6 +8,7 @@ import net.minecraft.potion.Effects;
 import net.minecraft.util.IItemProvider;
 import net.silentchaos512.gems.GemsBase;
 import net.silentchaos512.gems.item.GemsFoodItem;
+import net.silentchaos512.gems.item.PetSummonerItem;
 import net.silentchaos512.gems.item.SoulGemItem;
 import net.silentchaos512.gems.item.container.FlowerBasketItem;
 import net.silentchaos512.gems.item.container.GemBagItem;
@@ -41,6 +42,11 @@ public final class GemsItems {
             new GemBagItem(unstackableProps()));
     public static final ItemRegistryObject<FlowerBasketItem> FLOWER_BASKET = register("flower_basket", () ->
             new FlowerBasketItem(unstackableProps()));
+
+    public static final ItemRegistryObject<PetSummonerItem> SUMMON_KITTY = registerSimpleModel("summon_kitty", () ->
+            new PetSummonerItem(PetSummonerItem::getCat, baseProps()));
+    public static final ItemRegistryObject<PetSummonerItem> SUMMON_PUPPY = registerSimpleModel("summon_puppy", () ->
+            new PetSummonerItem(PetSummonerItem::getDog, baseProps()));
 
     public static final ItemRegistryObject<Item> POTATO_ON_A_STICK = registerFood("potato_on_a_stick", Items.STICK, new Food.Builder()
             .hunger(6)

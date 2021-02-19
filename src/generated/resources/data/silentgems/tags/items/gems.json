@@ -1,0 +1,21 @@
+{
+  "replace": false,
+  "values": [
+    "#forge:gems/ruby",
+    "#forge:gems/carnelian",
+    "#forge:gems/topaz",
+    "#forge:gems/citrine",
+    "#forge:gems/heliodor",
+    "#forge:gems/moldavite",
+    "#forge:gems/peridot",
+    "#forge:gems/turquoise",
+    "#forge:gems/kyanite",
+    "#forge:gems/sapphire",
+    "#forge:gems/iolite",
+    "#forge:gems/alexandrite",
+    "#forge:gems/ammolite",
+    "#forge:gems/rose_quartz",
+    "#forge:gems/black_diamond",
+    "#forge:gems/white_diamond"
+  ]
+}
