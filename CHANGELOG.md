@@ -3,6 +3,10 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.7.11] - 2021-02-20
+### Fixed
+- Gear souls not giving stat bonuses (may require Silent Gear 2.6.3)
+
 ## [3.7.10] - 2021-02-13
 ### Added
 - Russian translation (shikhtv) [#527]
