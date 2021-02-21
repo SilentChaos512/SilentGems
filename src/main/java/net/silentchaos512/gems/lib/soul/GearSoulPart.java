@@ -56,7 +56,7 @@ public class GearSoulPart extends AbstractGearPart {
         if (soul != null) {
             float amount = getSoulStatModifier(soul, key.getStat());
             if (!MathUtils.doublesEqual(amount, 0)) {
-                mods.add(getSoulBoostedModifier(amount));
+                mods.add(getSoulBoostedModifier(key, amount));
             }
         }
 
@@ -67,8 +67,8 @@ public class GearSoulPart extends AbstractGearPart {
         return soul.getStatModifier(stat);
     }
 
-    private static StatInstance getSoulBoostedModifier(float value) {
-        return StatInstance.of(value, StatInstance.Operation.MUL1);
+    private static StatInstance getSoulBoostedModifier(StatGearKey key, float value) {
+        return StatInstance.of(value, StatInstance.Operation.MUL1, key);
     }
 
     @Override
