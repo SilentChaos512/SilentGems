@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "/~/",
+    "#g#",
+    "###"
+  ],
+  "key": {
+    "~": {
+      "tag": "forge:string"
+    },
+    "/": {
+      "tag": "forge:nuggets/gold"
+    },
+    "#": [
+      {
+        "item": "minecraft:sugar_cane"
+      },
+      {
+        "item": "minecraft:bamboo"
+      }
+    ],
+    "g": {
+      "tag": "silentgems:glowroses"
+    }
+  },
+  "result": {
+    "item": "silentgems:flower_basket"
+  }
+}
