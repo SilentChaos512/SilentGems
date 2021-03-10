@@ -12,31 +12,32 @@ buildscript {
 plugins {
     id 'maven'
     id 'maven-publish'
-    id "com.jfrog.bintray" version "1.8.5"
     id "com.matthewprenger.cursegradle" version "1.4.0"
 }
 
 apply plugin: 'net.minecraftforge.gradle'
+apply plugin: 'idea'
 
-version = "${MC_VERSION}-${VERSION}"
-group = "${GROUP}.${MODID}"
-archivesBaseName = JAR_NAME
+archivesBaseName = jar_name
+def versionInfo = getModVersion()
+System.out.println(versionInfo)
+version = "${versionInfo['version']}"
+
+def gpr_creds = { // Credentials for GitHub Packages, since this is used multiple times
+    username = property('gpr.username')
+    password = property('gpr.token')
+}
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
 
 minecraft {
-    mappings channel: MCP_CHANNEL, version: MCP_MAPPINGS
+    mappings channel: mcp_channel, version: mcp_mappings
 
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
     runs {
         client {
             workingDirectory project.file('run')
-
-            // Recommended logging data for a userdev environment
-//            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
-
-            // Recommended logging level for the console
             property 'forge.logging.console.level', 'debug'
 
             mods {
@@ -48,11 +49,6 @@ minecraft {
 
         server {
             workingDirectory project.file('run')
-
-            // Recommended logging data for a userdev environment
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
-
-            // Recommended logging level for the console
             property 'forge.logging.console.level', 'debug'
 
             mods {
@@ -64,14 +60,9 @@ minecraft {
 
         data {
             workingDirectory project.file('run')
-
-            // Recommended logging data for a userdev environment
-//            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
-
-            // Recommended logging level for the console
             property 'forge.logging.console.level', 'debug'
 
-            args '--mod', MODID, '--all',
+            args '--mod', mod_id, '--all',
                     '--existing', file('src/main/resources').toString(),
                     '--existing', file('src/generated/resources').toString(),
                     '--output', file('src/generated/resources/')
@@ -89,42 +80,20 @@ sourceSets.main.resources {
     srcDir 'src/generated/resources'
 }
 
-class Secrets {
-    def data = null
-
-    def getProperty(String key) {
-        return data ? data[key] : ''
-    }
-}
-
-
-import groovy.json.JsonSlurper
-
-def secretFile
-if (System.getenv().SECRET_FILE) {
-    secretFile = file System.getenv().SECRET_FILE
-} else {
-    secretFile = file 'secret.json'
-}
-
-project.ext.secret = new Secrets()
-if (secretFile.exists()) {
-    secretFile.withReader {
-        project.ext.secret.data = new JsonSlurper().parse it
-    }
-}
-
 repositories {
     jcenter()
     mavenLocal()
     maven {
-        url "https://dl.bintray.com/silentchaos512/silent-lib"
+        url = uri("https://maven.pkg.github.com/silentchaos512/silentlib")
+        credentials gpr_creds
     }
     maven {
-        url "https://dl.bintray.com/silentchaos512/silent-utils"
+        url = uri("https://maven.pkg.github.com/silentchaos512/silent-utils")
+        credentials gpr_creds
     }
     maven {
-        url "https://dl.bintray.com/silentchaos512/silent-gear"
+        url = uri("https://maven.pkg.github.com/silentchaos512/silent-gear")
+        credentials gpr_creds
     }
     maven { // JEI
         name = "Progwml6 maven"
@@ -140,12 +109,12 @@ repositories {
 }
 
 dependencies {
-    minecraft "net.minecraftforge:forge:${FORGE_VERSION}"
+    minecraft "net.minecraftforge:forge:${forge_version}"
 
-    compile fg.deobf("net.silentchaos512:silent-lib-${SILENT_LIB_VERSION}") {
+    compile fg.deobf("net.silentchaos512:silent-lib-${silent_lib_version}") {
         exclude module: "forge"
     }
-    compile fg.deobf("net.silentchaos512:silent-gear-${SILENT_GEAR_VERSION}") {
+    compile fg.deobf("net.silentchaos512:silent-gear-${silent_gear_version}") {
         exclude module: 'forge'
         exclude module: 'jei-1.16.3'
         exclude module: 'silent-lib-1.16.3'
@@ -156,12 +125,12 @@ dependencies {
     }
 
     if (project.hasProperty('token_enchanter_version')) {
-        compileOnly fg.deobf("net.silentchaos512:token-enchanter-${TOKEN_ENCHANTER_VERSION}:api") {
+        compileOnly fg.deobf("net.silentchaos512:token-enchanter-${token_enchanter_version}:api") {
             exclude module: 'forge'
             exclude module: 'jei-1.16.3'
             exclude module: 'silent-lib-1.16.3'
         }
-        runtimeOnly fg.deobf("net.silentchaos512:token-enchanter-${TOKEN_ENCHANTER_VERSION}") {
+        runtimeOnly fg.deobf("net.silentchaos512:token-enchanter-${token_enchanter_version}") {
             exclude module: 'forge'
             exclude module: 'jei-1.16.3'
             exclude module: 'silent-lib-1.16.3'
@@ -170,8 +139,8 @@ dependencies {
 
     // JEI
     if (project.hasProperty('JEI_VERSION')) {
-        compileOnly fg.deobf("mezz.jei:jei-${JEI_VERSION}:api")
-        runtimeOnly fg.deobf("mezz.jei:jei-${JEI_VERSION}")
+        compileOnly fg.deobf("mezz.jei:jei-${jei_version}:api")
+        runtimeOnly fg.deobf("mezz.jei:jei-${jei_version}")
     }
 
     // HWYLA
@@ -188,19 +157,14 @@ dependencies {
 
 jar {
     manifest {
-        attributes(["Specification-Title"     : MODNAME,
-                    "Specification-Vendor"    : AUTHOR,
+        attributes(["Specification-Title"     : mod_name,
+                    "Specification-Vendor"    : author,
                     "Specification-Version"   : "1",
                     "Implementation-Title"    : project.name,
-                    "Implementation-Version"  : VERSION,
-                    "Implementation-Vendor"   : AUTHOR,
+                    "Implementation-Version"  : build_version,
+                    "Implementation-Vendor"   : author,
                     "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")],)
     }
-}
-
-task deobfJar(type: Jar) {
-    classifier = 'deobf'
-    from sourceSets.main.output
 }
 
 task sourcesJar(type: Jar) {
@@ -217,40 +181,15 @@ artifacts {
     archives sourcesJar
 }
 
-// GPR/Maven publishing
-
-publishing {
-    repositories {
-        maven {
-            name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/silentchaos512/${REPO_NAME}")
-            credentials {
-                username = secret.github_username ?: System.getenv('github_username')
-                password = secret.github_token ?: System.getenv('github_token')
-            }
-        }
-    }
-    publications {
-        gpr(MavenPublication) {
-            group "${GROUP}"
-            artifactId "${project.name}"
-            version "${VERSION}"
-            from(components.java)
-            artifact sourcesJar
-            artifact javadocJar
-        }
-    }
-}
-
 curseforge {
     if (project.hasProperty('cf_project_id') && project.hasProperty('cf_release_type') && project.hasProperty('cf_changelog_filename') &&
             ((project.cf_release_type == 'alpha') || (project.cf_release_type == 'beta') || (project.cf_release_type == 'release'))) {
-        apiKey = secret.curseforgeAPIKey
+        apiKey = property('curseforge.apiKey')
         project {
             id = project.cf_project_id
             changelog = file(project.cf_changelog_filename)
             releaseType = project.cf_release_type
-            addGameVersion(MC_VERSION)
+            addGameVersion(mc_version)
             addGameVersion('1.16.4')
             addGameVersion('1.16.5')
             mainArtifact(jar) {
@@ -262,4 +201,79 @@ curseforge {
             }
         }
     }
+}
+
+// GPR/Maven publishing
+
+publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/silentchaos512/${repo_name}")
+            credentials gpr_creds
+        }
+    }
+    publications {
+        gpr(MavenPublication) {
+            from(components.java)
+            artifact sourcesJar
+            artifact javadocJar
+        }
+    }
+}
+
+// Version stuff
+
+def getModVersion() {
+    try {
+        return getGitVersion()
+    } catch (Exception ex) {
+        System.out.println("Git version failed, falling back to gradle.properties")
+        return makeVersionMap(project.build_version + '-' + getGitHash())
+    }
+}
+
+def getGitVersion() {
+    // Call git command
+    def outStream = new ByteArrayOutputStream()
+    def result = exec {
+        executable = 'git'
+        args = ['describe', '--long']
+        standardOutput = outStream
+    }
+
+    def fullVersion = outStream.toString()
+    return makeVersionMap(fullVersion)
+}
+
+def getGitHash() {
+    def outStream = new ByteArrayOutputStream()
+    def result = exec {
+        executable = 'git'
+        args = ['rev-parse', 'HEAD']
+        standardOutput = outStream
+    }
+
+    return outStream.toString().trim().substring(0, 6)
+}
+
+def makeVersionMap(version) {
+    def matcher = version.trim() =~ /(\d+).(\d+).(\d+)-(.*)/
+
+    def maj = matcher[0][1]
+    def min = matcher[0][2]
+    def rev = matcher[0][3]
+
+    return makeVersionMap(maj, min, rev, matcher[0][4])
+}
+
+def makeVersionMap(maj, min, rev, githash) {
+    def out = [:]
+    out['build.major.number'] = maj.toString()
+    out['build.minor.number'] = min.toString()
+    out['build.revision.number'] = rev.toString()
+    out['build.githash'] = githash
+    out['version_short'] = "${maj}.${min}.${rev}".toString()
+    out['version'] = "${project.mc_version}-${maj}.${min}.${rev}".toString()
+    return out
 }
