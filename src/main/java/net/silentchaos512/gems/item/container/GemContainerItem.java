@@ -1,11 +1,13 @@
 package net.silentchaos512.gems.item.container;
 
+import io.netty.buffer.Unpooled;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.inventory.container.SimpleNamedContainerProvider;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
@@ -36,7 +38,7 @@ public abstract class GemContainerItem extends Item implements IContainerItem {
     public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
         if (!worldIn.isRemote) {
             playerIn.openContainer(new SimpleNamedContainerProvider((id, playerInventory, player) ->
-                    this.getContainerType().create(id, playerInventory),
+                    this.getContainerType().create(id, playerInventory, new PacketBuffer(Unpooled.buffer())),
                     this.containerName));
         }
 
