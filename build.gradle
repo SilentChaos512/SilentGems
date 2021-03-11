@@ -21,6 +21,7 @@ apply plugin: 'idea'
 archivesBaseName = jar_name
 def versionInfo = getModVersion()
 System.out.println(versionInfo)
+def version_short = "${versionInfo['version_short']}"
 version = "${versionInfo['version']}"
 
 def gpr_creds = { // Credentials for GitHub Packages, since this is used multiple times
@@ -82,7 +83,7 @@ sourceSets.main.resources {
 
 repositories {
     jcenter()
-    mavenLocal()
+//    mavenLocal()
     maven {
         url = uri("https://maven.pkg.github.com/silentchaos512/silentlib")
         credentials gpr_creds
@@ -111,10 +112,10 @@ repositories {
 dependencies {
     minecraft "net.minecraftforge:forge:${forge_version}"
 
-    compile fg.deobf("net.silentchaos512:silent-lib-${silent_lib_version}") {
+    compile fg.deobf("net.silentchaos512:silent-lib:${silent_lib_version}") {
         exclude module: "forge"
     }
-    compile fg.deobf("net.silentchaos512:silent-gear-${silent_gear_version}") {
+    compile fg.deobf("net.silentchaos512:silent-gear:${silent_gear_version}") {
         exclude module: 'forge'
         exclude module: 'jei-1.16.3'
         exclude module: 'silent-lib-1.16.3'
@@ -125,12 +126,12 @@ dependencies {
     }
 
     if (project.hasProperty('token_enchanter_version')) {
-        compileOnly fg.deobf("net.silentchaos512:token-enchanter-${token_enchanter_version}:api") {
+        compileOnly fg.deobf("net.silentchaos512:token-enchanter:${token_enchanter_version}:api") {
             exclude module: 'forge'
             exclude module: 'jei-1.16.3'
             exclude module: 'silent-lib-1.16.3'
         }
-        runtimeOnly fg.deobf("net.silentchaos512:token-enchanter-${token_enchanter_version}") {
+        runtimeOnly fg.deobf("net.silentchaos512:token-enchanter:${token_enchanter_version}") {
             exclude module: 'forge'
             exclude module: 'jei-1.16.3'
             exclude module: 'silent-lib-1.16.3'
@@ -138,18 +139,18 @@ dependencies {
     }
 
     // JEI
-    if (project.hasProperty('JEI_VERSION')) {
+    if (project.hasProperty('jei_version')) {
         compileOnly fg.deobf("mezz.jei:jei-${jei_version}:api")
         runtimeOnly fg.deobf("mezz.jei:jei-${jei_version}")
     }
 
     // HWYLA
-    if (project.hasProperty('HWYLA_VERSION')) {
+    if (project.hasProperty('hwyla_version')) {
         compileOnly "mcp.mobius.waila:Hwyla:${project.hwyla_version}"
     }
 
     // Curios
-    if (project.hasProperty('CURIOS_VERSION')) {
+    if (project.hasProperty('curios_version')) {
         compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:${project.curios_version}:api")
         runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:${project.curios_version}")
     }
@@ -161,7 +162,7 @@ jar {
                     "Specification-Vendor"    : author,
                     "Specification-Version"   : "1",
                     "Implementation-Title"    : project.name,
-                    "Implementation-Version"  : build_version,
+                    "Implementation-Version"  : version_short,
                     "Implementation-Vendor"   : author,
                     "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")],)
     }
