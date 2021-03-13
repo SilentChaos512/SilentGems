@@ -172,7 +172,7 @@ public class GemsAdvancementProvider implements IDataProvider {
             Advancement enderCrystalBlock = Advancement.Builder.builder()
                     .withParent(enderCrystal)
                     .withDisplay(MiscBlocks.ENDER_CRYSTAL, title("ender_crystal_block"), description("ender_crystal_block"), null, FrameType.TASK, true, true, false)
-                    .withCriterion("walk_on", GenericIntTrigger.Instance.instance(SilentGems.getId("walk_on_ender_crystal"), 1))
+                    .withCriterion("walk_on", GenericIntTrigger.Instance.instance(MiscBlocks.WALK_ON_ENDER_CRYSTAL, 1))
                     .register(consumer, id("ender_crystal_block"));
 
             Advancement teleporter = simpleGetItem(consumer, GemsTags.Items.TELEPORTERS, Gems.SAPPHIRE.getTeleporter(), enderCrystal, "teleporter");

@@ -54,6 +54,8 @@ public enum MiscBlocks implements IBlockProvider {
                builder(Material.IRON)
     );
 
+    public static final ResourceLocation WALK_ON_ENDER_CRYSTAL = SilentGems.getId("walk_on_ender_crystal");
+
     private final Block.Properties builder;
     @SuppressWarnings("NonFinalFieldInEnum")
     private BlockRegistryObject<MiscBlock> block;
@@ -119,8 +121,7 @@ public enum MiscBlocks implements IBlockProvider {
 
                     // Advancement triggers?
                     if (entityIn instanceof ServerPlayerEntity) {
-                        ResourceLocation triggerType = new ResourceLocation(SilentGems.MOD_ID, "walk_on_" + this.type.getName());
-                        LibTriggers.GENERIC_INT.trigger((ServerPlayerEntity) entityIn, triggerType, stackedBlocks);
+                        LibTriggers.GENERIC_INT.trigger((ServerPlayerEntity) entityIn, WALK_ON_ENDER_CRYSTAL, stackedBlocks);
                     }
                 }
             }
