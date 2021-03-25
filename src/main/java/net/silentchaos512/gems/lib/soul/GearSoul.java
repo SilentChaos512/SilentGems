@@ -7,7 +7,6 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.SoundCategory;
@@ -22,13 +21,13 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.common.Tags;
+import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.FakePlayer;
 import net.silentchaos512.gear.api.stats.IItemStat;
 import net.silentchaos512.gear.util.GearData;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.item.GearSoulItem;
-import net.silentchaos512.gems.util.SoulManager;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -44,52 +43,92 @@ public class GearSoul {
     private static final int BASE_XP = 30;
     private static final float XP_CURVE_FACTOR = 3.0f;
 
-    String name = "";
-    boolean readyToSave = false;
+    private String name = "";
 
-    // Experience and levels
-    private int xp = 0;
-    private int level = 1;
+    private final ItemStack item;
 
-    // Elements
-    private SoulElement primaryElement = SoulElement.NONE;
-    private SoulElement secondaryElement = SoulElement.NONE;
+    public GearSoul(ItemStack stack) {
+        this.item = stack;
+    }
 
-    // Skills
-    final Map<SoulTraits, Integer> skills = new HashMap<>();
+    private GearSoul(ItemStack stack, SoulElement primary, SoulElement secondary) {
+        this.item = stack;
+        getTag().putString("element1", primary.name());
+        getTag().putString("element2", secondary.name());
+    }
 
-    // Temporary variables NOT saved to NBT
-    public int climbTimer = 0;
-    public int coffeeCooldown = 0;
-    // Variables used by updateTick
-    private int ticksExisted = 0;
+    private CompoundNBT getTag() {
+        return !item.isEmpty() ? item.getOrCreateChildTag("SG_GearSoul") : new CompoundNBT();
+    }
 
     //region Getters and Setters
 
+    public ItemStack getItem() {
+        return item;
+    }
+
+    /**
+     * Gets the XP value stored in the item's NBT
+     *
+     * @return The total XP gained
+     */
     public int getXp() {
-        return xp;
+        return getTag().getInt("xp");
+    }
+
+    /**
+     * Directly sets the XP amount. This DOES NOT check for level ups! It is mostly meant to be used
+     * internally.
+     *
+     * @param xp The amount to assign to xp.
+     */
+    public void setXp(int xp) {
+        getTag().putInt("xp", xp);
     }
 
     public int getLevel() {
-        return level;
+        short level = getTag().getShort("level");
+        return level > 0 ? level : 1;
+    }
+
+
+    /**
+     * Directly sets the level. This SHOULD NOT be used in most cases! It is mostly meant to be used
+     * internally.
+     *
+     * @param level The amount to assign to level.
+     */
+    public void setLevel(int level) {
+        getTag().putShort("level", (short) level);
     }
 
     public SoulElement getPrimaryElement() {
-        return primaryElement;
+        return SoulElement.fromString(getTag().getString("element1"));
     }
 
     public SoulElement getSecondaryElement() {
-        return secondaryElement;
+        return SoulElement.fromString(getTag().getString("element2"));
     }
 
     public Map<SoulTraits, Integer> getSkills() {
-        return Collections.unmodifiableMap(skills);
+        Map<SoulTraits, Integer> ret = new LinkedHashMap<>();
+        ListNBT listNbt = getTag().getList("skills", Constants.NBT.TAG_COMPOUND);
+
+        for (int i = 0; i < listNbt.size(); i++) {
+            CompoundNBT nbt = listNbt.getCompound(i);
+            SoulTraits trait = SoulTraits.get(nbt.getString("id"));
+            if (trait != null) {
+                ret.put(trait, (int) nbt.getShort("level"));
+            }
+        }
+
+        return ret;
     }
 
-    public ITextComponent getName(ItemStack tool) {
+    public ITextComponent getName() {
         if (name.isEmpty()) {
-            if (!tool.isEmpty()) {
-                return tool.getDisplayName();
+            if (!this.item.isEmpty()) {
+                return this.item.getDisplayName();
             }
         }
         return new StringTextComponent(name);
@@ -103,55 +142,44 @@ public class GearSoul {
 
     //region XP and Levels
 
-    public void addXp(int amount, ItemStack tool, @Nullable PlayerEntity player) {
+    public void addXp(int amount, @Nullable PlayerEntity player) {
         if (!GemsConfig.Common.gearSoulsGetXpFromFakePlayers.get() && player instanceof FakePlayer) {
             return;
         }
 
-        xp += amount;
-        boolean packetSent = false;
-        while (xp >= getXpToNextLevel()) {
-            SoulTraits skillLearned = levelUp(tool, player);
-            if (skillLearned != null) {
-                Integer skillLevel = getSkillLevel(skillLearned);
-                if (player != null) {
-                    sendUpdatePacket(tool, player, skillLearned, skillLevel);
-                    packetSent = true;
-                }
-            }
+        setXp(getXp() + amount);
+        while (getXp() >= getXpToNextLevel()) {
+            levelUp(player);
         }
-
-        if (!packetSent && player != null) {
-            sendUpdatePacket(tool, player, null, 0);
-        }
-    }
-
-    /**
-     * Directly sets the XP amount. This DOES NOT check for level ups! It is meant to be used only
-     * by MessageSoulSync.
-     *
-     * @param packetAmount The amount to assign to xp.
-     */
-    public void setXp(int packetAmount) {
-        this.xp = packetAmount;
     }
 
     public int getXpToNextLevel() {
-        return getXpForLevel(level + 1);
+        return getXpForLevel(getLevel() + 1);
     }
 
     public static int getXpForLevel(int target) {
         return BASE_XP * (int) Math.pow(target, XP_CURVE_FACTOR);
     }
 
-    /**
-     * Directly sets the level. This SHOULD NOT be used in most cases! It is meant to be used only
-     * by MessageSoulSync.
-     *
-     * @param packetAmount The amount to assign to level.
-     */
-    public void setLevel(int packetAmount) {
-        this.level = packetAmount;
+    @Nullable
+    private SoulTraits levelUp(@Nullable PlayerEntity player) {
+        if (player != null && player.world.isRemote) return null;
+
+        setLevel(getLevel() + 1);
+        if (player != null) {
+            player.sendMessage(new TranslationTextComponent("misc.silentgems.gear_soul.levelUp", getName(), getLevel()), Util.DUMMY_UUID);
+            player.world.playSound(null, player.getPosition(), SoundEvents.ENTITY_PLAYER_LEVELUP, SoundCategory.PLAYERS, 1.0f, 1.0f);
+        }
+
+        // Learn new skill?
+        SoulTraits toLearn = SoulTraits.selectTraitToLearn(this, this.item);
+        if (toLearn != null) {
+            addOrLevelSkill(toLearn, player);
+        }
+
+        GearData.recalculateStats(this.item, player);
+
+        return toLearn;
     }
 
     public int getXpForBlockHarvest(IBlockReader world, BlockPos pos, BlockState state) {
@@ -164,7 +192,7 @@ public class GearSoul {
         int oreBonus = 0;
         Block block = state.getBlock();
         if (BlockTags.LOGS.contains(block) || Tags.Blocks.ORES.contains(block)) {
-            oreBonus = this.level / 2;
+            oreBonus = this.getLevel() / 2;
         }
 
         // Wood gives less XP.
@@ -176,46 +204,23 @@ public class GearSoul {
         return oreBonus + clamp;
     }
 
-    @Nullable
-    private SoulTraits levelUp(ItemStack tool, @Nullable PlayerEntity player) {
-        if (player != null && player.world.isRemote) return null;
-
-        ++level;
-        if (player != null) {
-            player.sendMessage(new TranslationTextComponent("misc.silentgems.gear_soul.levelUp", getName(tool), level), Util.DUMMY_UUID);
-            player.world.playSound(null, player.getPosition(), SoundEvents.ENTITY_PLAYER_LEVELUP, SoundCategory.PLAYERS, 1.0f, 1.0f);
-        }
-
-        // Learn new skill?
-        SoulTraits toLearn = SoulTraits.selectTraitToLearn(this, tool);
-        if (toLearn != null) {
-            addOrLevelSkill(toLearn, tool, player);
-        }
-
-        // Save soul to NBT
-        SoulManager.setSoul(tool, this);
-        readyToSave = false;
-
-        GearData.recalculateStats(tool, player);
-
-        return toLearn;
-    }
-
-    public void onBreakBlock(PlayerEntity player, ItemStack gear, IBlockReader world, BlockPos pos, BlockState blockState) {
+    public void onBreakBlock(PlayerEntity player, IBlockReader world, BlockPos pos, BlockState blockState) {
         int xp = getXpForBlockHarvest(world, pos, blockState);
-        this.addXp(xp, gear, player);
+        this.addXp(xp, player);
     }
 
-    public void onAttackedWith(PlayerEntity player, ItemStack gear, LivingEntity target, float damageAmount) {
+    public void onAttackedWith(PlayerEntity player, LivingEntity target, float damageAmount) {
         int xp = Math.round(XP_FACTOR_KILLS * damageAmount);
         xp = MathHelper.clamp(xp, 1, 1000);
-        this.addXp(xp, gear, player);
+        this.addXp(xp, player);
     }
     //endregion
 
     //region Skills
 
-    public boolean addOrLevelSkill(SoulTraits skill, ItemStack tool, @Nullable PlayerEntity player) {
+    private void addOrLevelSkill(SoulTraits skill, @Nullable PlayerEntity player) {
+        Map<SoulTraits, Integer> skills = getSkills();
+
         if (skills.containsKey(skill)) {
             // Has skill already.
             int level = skills.get(skill);
@@ -223,51 +228,22 @@ public class GearSoul {
                 // Can be leveled up.
                 ++level;
                 skills.put(skill, level);
+                writeLearnedSkills(skills, getTag());
                 if (player != null) {
                     player.sendMessage(new TranslationTextComponent("misc.silentgems.gear_soul.skillLearned", skill.getDisplayName(level)), Util.DUMMY_UUID);
                 }
-                return true;
-            } else {
-                // Already max level
-                return false;
+                return;
             }
+            // Already max level
+            return;
         }
 
         skills.put(skill, 1);
+        writeLearnedSkills(skills, getTag());
         if (player != null) {
             player.sendMessage(new TranslationTextComponent("misc.silentgems.gear_soul.skillLearned", skill.getDisplayName(1)), Util.DUMMY_UUID);
         }
 
-        return true;
-    }
-
-    public void setSkillLevel(SoulTraits skill, int skillLevel, ItemStack tool, PlayerEntity player) {
-        if (skillLevel <= 0) {
-            skills.remove(skill);
-        }
-        skills.put(skill, skillLevel > skill.getMaxLevel() ? skill.getMaxLevel() : skillLevel);
-    }
-
-    /**
-     * Determine if the soul has learned any level of this skill.
-     *
-     * @param skill The skill to check.
-     * @return True if any level has been learned, false otherwise.
-     */
-    public boolean hasSkill(SoulTraits skill) {
-        return skills.containsKey(skill);
-    }
-
-    /**
-     * Determine the level of the skill learned.
-     *
-     * @param skill The skill to check.
-     * @return The level of the skill that has been learned, or 0 if the skill has not been learned.
-     */
-    public int getSkillLevel(SoulTraits skill) {
-        if (!hasSkill(skill))
-            return 0;
-        return skills.get(skill);
     }
 
     //endregion
@@ -276,8 +252,8 @@ public class GearSoul {
         // Level, XP
         list.add(1, new TranslationTextComponent(
                 "misc.silentgems.gear_soul.level",
-                String.valueOf(level),
-                String.format("%,d", xp),
+                String.valueOf(getLevel()),
+                String.format("%,d", getXp()),
                 String.format("%,d", getXpToNextLevel()))
                 .mergeStyle(TextFormatting.GREEN));
 
@@ -289,19 +265,19 @@ public class GearSoul {
 
     float getStatModifier(IItemStat stat) {
         String statName = stat.getStatId().getPath();
-        return primaryElement.getStatModifier(statName) + secondaryElement.getStatModifier(statName) / 2f;
+        return getPrimaryElement().getStatModifier(statName) + getSecondaryElement().getStatModifier(statName) / 2f;
     }
 
     private ITextComponent getElementPairText() {
-        if (secondaryElement != SoulElement.NONE)
+        if (getSecondaryElement() != SoulElement.NONE)
             return new TranslationTextComponent("misc.silentgems.gear_soul.elements.pair",
-                    primaryElement.getDisplayName(),
-                    secondaryElement.getDisplayName());
+                    getPrimaryElement().getDisplayName(),
+                    getSecondaryElement().getDisplayName());
         return new TranslationTextComponent("misc.silentgems.gear_soul.elements.single",
-                primaryElement.getDisplayName());
+                getPrimaryElement().getDisplayName());
     }
 
-    public static GearSoul construct(Iterable<Soul> souls) {
+    public static GearSoul construct(ItemStack stack, Iterable<Soul> souls) {
         // Soul weight map
         Map<SoulElement, Integer> elements = new EnumMap<>(SoulElement.class);
         for (Soul soul : souls) {
@@ -319,21 +295,16 @@ public class GearSoul {
         }
 
         // Highest weight becomes element 1, second becomes element 2.
-        GearSoul toolSoul = new GearSoul();
         // Primary
-        toolSoul.primaryElement = selectHighestWeight(elements);
-        elements.remove(toolSoul.primaryElement);
+        SoulElement primaryElement = selectHighestWeight(elements);
+        elements.remove(primaryElement);
         // Secondary (if any are left)
-        if (!elements.isEmpty()) {
-            toolSoul.secondaryElement = selectHighestWeight(elements);
-        }
+        SoulElement secondaryElement = !elements.isEmpty() ? selectHighestWeight(elements) : SoulElement.NONE;
 
-        return toolSoul;
+        return new GearSoul(stack, primaryElement, secondaryElement);
     }
 
     public static GearSoul randomSoul() {
-        GearSoul soul = new GearSoul();
-
         List<SoulElement> elements = new ArrayList<>();
         for (SoulElement elem : SoulElement.values()) {
             if (elem != SoulElement.NONE) {
@@ -341,12 +312,12 @@ public class GearSoul {
             }
         }
 
-        soul.primaryElement = elements.get(SilentGems.random.nextInt(elements.size()));
-        elements.remove(soul.primaryElement);
+        SoulElement primaryElement = elements.get(SilentGems.random.nextInt(elements.size()));
+        elements.remove(primaryElement);
         elements.add(SoulElement.NONE);
-        soul.secondaryElement = elements.get(SilentGems.random.nextInt(elements.size()));
+        SoulElement secondaryElement = elements.get(SilentGems.random.nextInt(elements.size()));
 
-        return soul;
+        return new GearSoul(ItemStack.EMPTY, primaryElement, secondaryElement);
     }
 
     private static SoulElement selectHighestWeight(Map<SoulElement, Integer> elements) {
@@ -366,94 +337,43 @@ public class GearSoul {
         return element;
     }
 
-    public void updateTick(ItemStack tool, PlayerEntity player) {
-        if (!player.world.isRemote) {
-            ++ticksExisted;
-            if (coffeeCooldown > 0) {
-                --coffeeCooldown;
-            }
-        }
-
-        boolean inMainHand = player.getHeldItemMainhand() == tool;
-        if (readyToSave && !inMainHand) {
-            readyToSave = false;
-            SoulManager.setSoul(tool, this);
-        }
-    }
-
-    public boolean isReadyToSave() {
-        return this.readyToSave;
-    }
-
-    public void setReadyToSave(boolean value) {
-        this.readyToSave = value;
-    }
-
-    public static GearSoul read(CompoundNBT tags) {
-        GearSoul soul = new GearSoul();
-
-        soul.name = tags.getString("name");
-        soul.primaryElement = SoulElement.fromString(tags.getString("element1"));
-        soul.secondaryElement = SoulElement.fromString(tags.getString("element2"));
-
-        soul.xp = tags.getInt("xp");
-        soul.level = tags.getInt("level");
-
-        // Load skills
-        soul.skills.clear();
-        ListNBT tagList = tags.getList("skills", 10);
-        for (INBT nbt : tagList) {
-            if (nbt instanceof CompoundNBT) {
-                CompoundNBT tag = (CompoundNBT) nbt;
-                SoulTraits skill = SoulTraits.get(tag.getString("id"));
-                if (skill != null) {
-                    int level = tag.getShort("level");
-                    soul.skills.put(skill, level);
-                }
-                // Skills with unknown IDs are ignored!
-            }
-        }
-
-        return soul;
-    }
+    public void updateTick(ItemStack tool, PlayerEntity player) {}
 
     public void write(CompoundNBT tags) {
         if (!name.isEmpty()) {
             tags.putString("name", name);
         }
-        tags.putString("element1", this.primaryElement.name());
-        tags.putString("element2", this.secondaryElement.name());
-        tags.putInt("xp", xp);
-        tags.putInt("level", level);
+        tags.putString("element1", getPrimaryElement().name());
+        tags.putString("element2", getSecondaryElement().name());
+        tags.putInt("xp", getXp());
+        tags.putInt("level", getLevel());
 
         // Save skills
+        writeLearnedSkills(getSkills(), tags);
+    }
+
+    private static void writeLearnedSkills(Map<SoulTraits, Integer> skills, CompoundNBT tags) {
         ListNBT tagList = new ListNBT();
-        skills.forEach((trait, level) -> {
+
+        for (Map.Entry<SoulTraits, Integer> entry : skills.entrySet()) {
+            SoulTraits trait = entry.getKey();
+            Integer value = entry.getValue();
+
             CompoundNBT tag = new CompoundNBT();
             tag.putString("id", trait.getTraitId().toString());
-            tag.putShort("level", level.shortValue());
+            tag.putShort("level", value.shortValue());
             tagList.add(tag);
-        });
+        }
+
         tags.put("skills", tagList);
     }
 
     @Override
     public String toString() {
         return "GearSoul{" +
-                "Level: " + level +
-                ", XP: " + xp +
-                ", Elements: {" + primaryElement.name() + ", " + secondaryElement.name() + "}" +
+                "Level: " + getLevel() +
+                ", XP: " + getXp() +
+                ", Elements: {" + getPrimaryElement().name() + ", " + getSecondaryElement().name() + "}" +
                 "}";
-    }
-
-    private void sendUpdatePacket(ItemStack tool, PlayerEntity player, @Nullable SoulTraits skillLearned, int skillLevel) {
-        // Server side: send update packet to player.
-        // TODO: GearSoul sendUpdatePacket -- Is this still necessary?
-//        if (!player.world.isRemote) {
-//            UUID uuid = ToolHelper.getSoulUUID(tool);
-//            MessageSoulSync message = new MessageSoulSync(uuid, xp, level, actionPoints, skillLearned,
-//                    skillLevel);
-//            NetworkHandler.INSTANCE.sendTo(message, (PlayerEntityMP) player);
-//        }
     }
 }

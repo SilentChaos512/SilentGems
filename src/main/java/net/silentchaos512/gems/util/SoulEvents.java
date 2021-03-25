@@ -43,7 +43,7 @@ public final class SoulEvents {
             GearSoul soul = SoulManager.getSoul(mainHand);
 
             if (soul != null) {
-                soul.onBreakBlock(player, mainHand, event.getWorld(), event.getPos(), event.getState());
+                soul.onBreakBlock(player, event.getWorld(), event.getPos(), event.getState());
             }
         }
     }
@@ -85,7 +85,7 @@ public final class SoulEvents {
 
             if (soul != null) {
                 float damageAmount = Math.min(event.getAmount(), hurt.getMaxHealth());
-                soul.onAttackedWith(player, mainHand, hurt, damageAmount);
+                soul.onAttackedWith(player, hurt, damageAmount);
             }
         }
     }
@@ -130,11 +130,6 @@ public final class SoulEvents {
     }
 
     @SubscribeEvent
-    public void onPlayerLogout(PlayerEvent.PlayerLoggedOutEvent event) {
-        SoulManager.writeSoulsToNBT(event.getPlayer(), true);
-    }
-
-    @SubscribeEvent
     public void onPlayerTick(TickEvent.PlayerTickEvent event) {
         PlayerEntity player = event.player;
 
@@ -148,11 +143,6 @@ public final class SoulEvents {
                 GearHelper.attemptDamage(stack, 2, player, hand);
                 player.world.playSound(null, player.getPosition(), SoundEvents.ENTITY_PLAYER_HURT_DROWN, SoundCategory.PLAYERS, 1f, 1f);
             });
-        }
-
-        if (!player.world.isRemote && player.ticksExisted % SOUL_WRITE_DELAY == 0) {
-            SoulManager.queueSoulsForWrite(player);
-            SoulManager.writeSoulsToNBT(player, false);
         }
 
         // TODO: Maybe make this less frequent? Or avoid using PlayerUtils.

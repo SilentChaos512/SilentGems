@@ -119,7 +119,7 @@ public final class SoulCommand {
         GearSoul soul = SoulManager.getSoul(stack);
         if (soul != null) {
             int amount = soul.getXpToNextLevel() - soul.getXp();
-            soul.addXp(amount, stack, player);
+            soul.addXp(amount, player);
             GearData.recalculateStats(stack, player);
         }
         return 1;

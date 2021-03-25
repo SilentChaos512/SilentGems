@@ -9,6 +9,7 @@ import net.silentchaos512.gear.api.part.PartType;
 import net.silentchaos512.gear.api.stats.IItemStat;
 import net.silentchaos512.gear.api.stats.StatInstance;
 import net.silentchaos512.gear.api.traits.TraitInstance;
+import net.silentchaos512.gear.api.util.PartGearKey;
 import net.silentchaos512.gear.api.util.StatGearKey;
 import net.silentchaos512.gear.gear.part.AbstractGearPart;
 import net.silentchaos512.gear.gear.part.PartData;
@@ -72,8 +73,8 @@ public class GearSoulPart extends AbstractGearPart {
     }
 
     @Override
-    public Collection<TraitInstance> getTraits(IPartData part, PartType partType, GearType gearType, ItemStack gear) {
-        Collection<TraitInstance> traits = new ArrayList<>(super.getTraits(part, partType, gearType, gear));
+    public Collection<TraitInstance> getTraits(IPartData part, PartGearKey partKey, ItemStack gear) {
+        Collection<TraitInstance> traits = new ArrayList<>(super.getTraits(part, partKey, gear));
 
         GearSoul soul = getSoul(gear, part);
         if (soul != null) {

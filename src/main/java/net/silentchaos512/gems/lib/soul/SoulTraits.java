@@ -255,8 +255,9 @@ public class SoulTraits {
                 }
 
                 // If a lower level of the skill is already known, reduce the weight.
-                if (soul.skills.containsKey(skill)) {
-                    weight -= 2.5 * soul.skills.get(skill);
+                Map<SoulTraits, Integer> skills = soul.getSkills();
+                if (skills.containsKey(skill)) {
+                    weight -= 2.5 * skills.get(skill);
                 }
 
                 // Base weight diff, favors multiplier

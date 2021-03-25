@@ -35,7 +35,7 @@ public class GearSoulRecipe extends ExtendedShapedRecipe {
         Collection<Soul> souls = list.allOfType(SoulGemItem.class).stream()
                 .map(SoulGemItem::getSoul)
                 .collect(Collectors.toList());
-        GearSoul gearSoul = GearSoul.construct(souls);
+        GearSoul gearSoul = GearSoul.construct(result, souls);
         SoulManager.setSoul(result, gearSoul);
 
         return result;
