@@ -1,0 +1,14 @@
+{
+    "name": "Discord",
+    "icon": "silents_gems:icons/discord.png",
+    "category": "introduction",
+    "sortnum": 0,
+    "pages": [
+        {
+            "type": "link",
+            "text": "Below is the link to the offical Silent's Gems discord server. On this discord server you can learn all kinds of information. It is a place to ask questions and help you troubleshoot. Discord server should NOT be used to report bugs! Use the issue tracker. Use the #gems-and-chaos channel for questions ",
+            "link_text": "discord",
+            "url": "https://discord.gg/Adyk9zHnUn"
+        }
+    ]
+}

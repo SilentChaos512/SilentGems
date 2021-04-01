@@ -1,0 +1,25 @@
+{
+    "name": "Other Useful Items",
+    "icon": "silentgems:aquamarine_return_home_charm",
+    "category": "introduction",
+    "sortnum": 11,
+    "pages": [
+        {
+            "type": "spotlight",
+            "item": "silentgems:aquamarine_return_home_charm",
+            "link_recipe": true,
+            "title": "Other Useful Items",
+            "text": "$(li)Return Home Charm - Right-click on a teleporter (anchors are fine) to bind it to that point. To teleport, hold right-click for a certain amount of time (24 ticks by default), then release! Teleporting will generate chaos, depending on the distance.$(li)Holding Gem - Functions identically to the torch"
+        },
+        {
+            "type": "text",
+            "text": "bandolier, except you can set it to store/place any block and it stores a larger amount. Simply craft the block you wish to set with an empty holding gem. You can change the set block later, but the holding gem must be empty!$(li)Summon Kitty/Summon Puppy - Spawns a tamed cat/dog. You can also name it in an anvil, just like spawn eggs.$(li)Fluffy Puffs - A cotton-like plant used to craft soft things (wool, string, feathers, and fluffy blocks). You can obtain seeds by finding wild fluffy"
+        },
+        {
+            "type": "text",
+            "text": "puff plants in certain types of biomes. Plant the seeds to grow fluffy puffs.$(li)Fluffy Blocks will reduce/negate fall damage when you land on them, depending on how many are stacked below the topmost."
+        }
+    ]
+}
+
+

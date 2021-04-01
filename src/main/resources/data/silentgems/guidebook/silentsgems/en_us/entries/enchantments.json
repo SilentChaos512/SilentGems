@@ -1,0 +1,25 @@
+{
+    "name": "Enchantments",
+    "icon": "silentgems:enchantment_token",
+    "category": "introduction",
+    "sortnum": 10,
+    "pages": [
+        {
+            "type": "spotlight",
+            "item": "silentgems:enchantment_token",
+            "link_recipe": true,
+            "title": "Enchantments",
+            "text": "This mod adds a couple of enchantments. You can get them through enchantment tokens, or the enchanting table!$(br2)$(li)Life Steal - The user is healed for a small fraction of the damage they deal. Mostly just for melee, but it works with thrown tomahawks too!$(li)Ice Aspect - Swords enchanted with Ice Aspect will chill the target, slowing "
+        },
+        {
+            "type": "text",
+            "text": "or immobilizing them for a short time. The target also takes 'cold' damage over time while chilled. Mobs naturally immune to fire will take extra damage.$(li)Lightning Aspect - Swords enchanted with Lightning Aspect will electrify the target, weakening them and dealing damage over time. The electric charge can also jump to other nearby mobs, although with reduced intensity. Good for crowd control, but you might want to be careful with this one."
+        },
+        {
+            "type": "text",
+            "text": "$(li)Concentration - Increases magic damage dealt by the weapon. The math is identical to the Sharpness enchantment. Cannot be applied with other damage-boosting enchantments.$(li)Gravity - Reduces or completely eliminates (depending on level) the speed penalty for harvesting blocks while flying or underwater."
+        }
+    ]
+}
+
+

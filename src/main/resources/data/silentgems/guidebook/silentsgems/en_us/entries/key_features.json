@@ -1,0 +1,16 @@
+{
+    "name": "Key Features",
+    "icon": "silentgems:ruby",
+    "category": "introduction",
+    "sortnum": 1,
+    "pages": [
+        {
+            "type": "text",
+            "text": "$(l)Key Features$()$(br)$(li)Built-in support for Silent Gear - No additional data packs required $(li)Blocks - Bricks, lamps, teleporters, pedestals, and more $(li)Enchantment Tokens - Invest your resources to enchant tools, instead of XP. They should work with most other mods."         
+        },
+        {
+            "type": "text",
+            "text": "$(li)Chaos Gems - Somewhat like reusable potions, but could have other effects. New runes can be defined with data packs. $(li)Return Home Charm - Return to a set point from anywhere, even across dimensions! $(li)Soul Urns - Portable storage, similar to shulker boxes, but with an upgrade system"         
+        }
+    ]
+}

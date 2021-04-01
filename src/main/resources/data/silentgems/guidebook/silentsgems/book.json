@@ -1,0 +1,7 @@
+{
+	"name": "Silent's Gems",
+	"landing_text": "This book is a reference guide to help with get started and navigate Silent's Gems.$(br2)This book was compiled by ClaudiusMinimus from the text and images on the Silent's Gems Curseforge page.",
+	"version": 1,
+	"show_progress": false,
+	"model": "patchouli:book_cyan"
+}

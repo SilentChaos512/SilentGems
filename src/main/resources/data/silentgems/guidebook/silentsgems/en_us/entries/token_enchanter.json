@@ -1,0 +1,22 @@
+{
+    "name": "Token Enchanter",
+    "icon": "silentgems:token_enchanter",
+    "category": "introduction",
+    "sortnum": 4,
+    "pages": [
+        {
+            "type": "crafting",
+            "recipe": "silentgems:token_enchanter",
+            "text": "The token enchanter is a block which processes token enchanting recipes."
+        },
+        {
+            "type": "text",
+            "text": "Tired of making mob grinders and hoping you'll get the enchantments you want? Why not just invest your mineral assets into enchanting instead? With enchantment tokens, you can have exactly what you want, for the right price! They should also work with tools from most other mods (no, they don't work with Tinker's Construct!) Of course, you can still use enchantment tables if you like.            "
+        },
+        {
+            "type": "text",
+            "title": "How to Use",
+            "text": "Craft the enchantment tokens you want (you'll get one level of the enchantment per token), then craft the tokens with a tool. You can craft multiple tokens with a tool at one time, just put one token in each slot. Normal enchanting rules apply.$(br2)Keep in mind that enchantment tables won't work on something that is already enchanted, but tokens will."
+        }
+    ]
+}

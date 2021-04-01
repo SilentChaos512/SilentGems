@@ -1,0 +1,36 @@
+{
+    "name": "Gear Souls",
+    "icon": "silentgems:gear_soul",
+    "category": "introduction",
+    "sortnum": 5,
+    "pages": [
+        {
+            "type": "crafting",
+            "recipe": "silentgems:gear_soul",
+            "text": "Gear souls are an upgrade part for Silent Gear items. Souls have their own experience system and will level up with use (mining, fighting, etc.) Currently they are incomplete, but usable."
+        },
+        {
+            "type": "text",
+            "text": "A gear soul will have one or two (usually two) elements, depending on the soul gems used to craft it. Both elements add some basic stat modifiers and affect what skills can be learned. The primary (or first) element has a greater effect than the secondary one on both stats and traits."
+        },
+        {
+            "type": "text",
+            "title": "How To Use",
+            "text": "Craft a gear soul. The elements and stat bonuses it gets will depend on the soul gems used. Then craft the gear soul with a gear item from Silent Gear (just place both in the same crafting grid). After that, just use the item normally. Mine blocks (tools), attack stuff (weapons), or take damage (armor)."
+        },
+        {
+            "type": "text",
+            "title": "Soul Traits",
+            "text": "Gear souls will gain additional traits as they level up. These are just regular Silent Gear traits, which will be added to the item the soul is a part of. Currently, the set of traits is limited, but you will be able to add any trait as potential soul traits once the system is more fleshed-out."
+        },
+        {
+            "type": "text",
+            "title": "Soul Gems",
+            "text": "The main crafting component for $(l)gear souls$(). Also required to craft $(l)soul urns$(). Soul gems have one or two elements that determine the elements and properties of gear souls. The elements on each soul gem are randomly selected based on the world seed. Drop rates are also somewhat randomized, but can be tweaked in the config.$(br2)Soul gems are automatically created for all living entities,"
+        },
+        {
+            "type": "text",
+            "text": "including entities from other mods, whenever possible. Note that soul gems may be created for entities which do not spawn or cannot be killed."
+        }
+    ]
+}

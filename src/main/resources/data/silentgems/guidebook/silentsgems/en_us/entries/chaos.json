@@ -1,0 +1,43 @@
+{
+    "name": "Chaos",
+    "icon": "silentgems:chaos_meter",
+    "category": "introduction",
+    "sortnum": 8,
+    "pages": [
+        {
+            "type": "text",
+            "title": "Chaos",
+            "text": "Chaos can be thought of as a 'pollution system' of sorts. The world always has some amount of chaos and it is harmless at low levels. There is a fluctuating equilibrium point that chaos levels will move towards over time, increasing or decreasing to get closer to equilibrium."
+        },
+        {
+            "type": "text",
+            "text": "Both the world and all players have chaos. Players will slowly leak their chaos to the world. The world will slowly dissipate chaos if above the equilibrium point."
+        },
+        {
+            "type": "spotlight",
+            "item": "silentgems:perfect_chaos_orb",
+            "title": "Absorbing Chaos",
+            "text": "Chaos orbs can be used to safely absorb chaos. Chaos that would have been added to the player can be absorbed if the player is carrying an orb. Chaos that would go to the world can be absorbed if an orb is on a nearby pedestal. Chaos orbs will break after absorbing a set amount of chaos. "
+        },
+        {
+            "type": "text",
+            "text": "They are also not 100% efficient, leaking a tiny bit of chaos they would have absorbed to the world."
+        },
+        {
+            "type": "text",
+            "title": "Types",
+            "text": "$(li)Regular - Can teleport players that right-click on them.$(li)Redstone - In addition to the functions of the regular teleporters, these can be triggered by a redstone pulse. They can also teleport non-player entities!$(li)Anchors - Not capable of teleporting anything, but the other teleporter types and return home charms can link to it. Also much cheaper!"
+        },
+        {
+            "type": "text",
+            "title": "Chaos Events",
+            "text": "Chaos can cause certain events to occur. All chaos events have a minimum chaos level that must be reached before they can trigger. The chance an event will occur increases as chaos levels increase above the minimum. At minimum chaos, the probability is extremely low. On a positive note however, chaos events also dissipate a large amount of chaos when they occur."
+        },
+        {
+            "type": "text",
+            "text": "This is a work in progress. Currently there are two events: random lightning strikes (minimum chaos is somewhat low, at 150,000), and corrupting stone/dirt blocks (minimum chaos is somewhat high, at 1 million). Corrupted blocks will drop dust when broken and have no special effects. There is an item to restore them, but it is not craftable yet."
+        }
+    ]
+}
+
+
