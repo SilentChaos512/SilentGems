@@ -1,0 +1,50 @@
+{
+    "name": "Chaos Gems",
+    "icon": "silentgems:chaos_green_sapphire",
+    "category": "introduction",
+    "sortnum": 7,
+    "pages": [
+        {
+            "type": "spotlight",
+            "item": "silentgems:chaos_green_sapphire",
+            "link_recipe": true,
+            "title": "Chaos Gems",
+            "text": "Chaos gems apply effects called buffs to players when activated. Most buffs are simply potion effects. If placed on a pedestal and given a redstone signal (lever, pressure plate, etc.), the chaos gem will apply buffs to all nearby players."
+        },
+        {
+            "type": "text",
+            "text": "When active, chaos gems will generate chaos. The chaos goes to the player if in a player's inventory, or the world if on a pedestal. Chaos orbs can be used to safely absorb the chaos.$(br2)Chaos gems must be crafted. You do not mine them. They are not materials for gear."
+        },
+        {
+            "type": "spotlight",
+            "item": "silentgems:chaos_rune",
+            "link_recipe": true,
+            "title": "Buffs and Runes",
+            "text": "Chaos runes are items which are crafted with chaos gems to assign buffs to them. Each rune will apply one level of the buff. Note that chaos gems have a limited number of slots available. Higher level buffs use extra slots, but usually just one or two per extra level."
+        },
+        {
+            "type": "text",
+            "text": "Different buffs will generate different amounts of chaos depending on some conditions.$(br2)Most will generate a little chaos at all times when active, but some will only generate their full amount when you would be benefiting from the effect. For example, fire resistance creates much more chaos when you are on fire."
+        },
+        {
+            "type": "link",
+            "url": "https://github.com/SilentChaos512/SilentGems/wiki/Chaos-Gems-and-Runes",
+            "link_text": "wiki",
+            "text": "Chaos gem buffs are defined with JSON files and can be added with data packs. Currently, you can only define potion buffs. Don't forget to also add a recipe for the rune, so you can actually obtain it in survival. I recommend using token enchanter recipes, but vanilla crafting can work as well. Details can be found on the wiki."
+        },
+        {
+            "type": "text",
+            "title": "Pedestals",
+            "text": "Pedestals can be used to simply display items, but have some special functions for certain items. Chaos gems can apply buffs to players in a small area when on a pedestal receiving a redstone signal. If chaos orbs are placed on a pedestal, any chaos generated nearby will be absorbed by the orb, instead of being released into the world."
+        },
+        {
+            "type": "image",
+            "title": "Pedestals",
+            "images": ["silents_gems:silentgear_tools/sword.png"]
+        },
+        {
+            "type": "text",
+            "text": "Pedestals can only hold a single item at a time (even stackable items), but they can accept items from hoppers, and probably other item transfer methods."
+        }
+    ]
+}

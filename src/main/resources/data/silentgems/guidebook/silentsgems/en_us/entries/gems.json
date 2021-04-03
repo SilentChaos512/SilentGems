@@ -1,0 +1,43 @@
+{
+    "name": "Gems",
+    "icon": "silentgems:ruby",
+    "category": "introduction",
+    "sortnum": 2,
+    "pages": [
+        {
+            "type": "image",
+            "title": "Gems",
+            "images": [
+                "silents_gems:allgems.png",
+                "silents_gems:allgems_2.png"
+            ]
+        },
+        {
+            "type": "text",
+            "text": "There are 48 gems, divided into three sets of sixteen. World generation settings are still being worked on. Currently, gems are assigned randomly to each biome in the overworld, but multi-gem ore is spawned in the Nether and The End. The randomness is seeded with your PC username (this is not collected or stored, the mod just calculates a hash code from the value). Glowroses spawning in the overworld will match gems that spawn in that biome."
+        },
+        {
+            "type": "text",
+            "title": "Gem Sets",
+            "text": "$(li)$(l)Classic$() - Found in the $(l)overworld$() Heights, vein counts, and frequency are randomized by biome.$(li)$(l)Dark$() - Found in the $(l)Nether$() at most heights, from around lava level to lower ceiling. They are darker in color than classic gems and have slightly different shades.$(li)$(l)Light$() - Found in the $(l)End$() at most heights. They are lighter in color than classic gems and have slightly different shades."
+        },
+        {
+            "type": "image",
+            "title": "Silent Gear Support",
+            "images":[
+                "silents_gems:silentgear_tools/sword.png",
+                "silents_gems:silentgear_tools/bow.png",
+                "silents_gems:silentgear_tools/paxel.png",
+                "silents_gems:silentgear_tools/braclet.png",
+                "silents_gems:silentgear_tools/saw.png",
+                "silents_gems:silentgear_tools/katana.png"
+                
+            ],
+            "text": "Gems (and some other items) can be used to craft Silent Gear items. These are"
+        },
+        {
+            "type": "text",
+            "text": "automatically registered if both mods are installed together. The parts can be modified with a data pack if you wish."
+        }
+    ]
+}

@@ -1,0 +1,97 @@
+{
+    "name": "Supercharger",
+    "category": "multiblocks",
+    "icon": "silentgems:supercharger",
+    "pages": [
+        {
+            "type": "text",
+            "title": "Supercharger Levels",
+            "text": "These pages show you how to set up the three levels of the Silent's Gems Supercharger.$(br2)$(l)Level 1$()$(br)Place a Chaos Iron block in each corner of a 7x7 grid. The Supercharger is placed in the center. Place any Silent's Gem block on top of each Chaos Iron block.$(br2)Press the Visualize button in lower-left to place in world."
+        },
+        {
+            "type": "multiblock",
+            "name": "Level 1",
+            "multiblock": {
+                "mapping": {
+                    "I": "silentgems:chaos_iron_block",
+                    "G": "#silentgems:gem_blocks",
+                    "0": "silentgems:supercharger"
+                },
+                "pattern": [
+                    [
+                        "G     G", "       ", "       ", "       ", "       ", "       ", "G     G"
+                    ],
+                    [
+                        "I     I", "       ", "       ", "   0   ", "       ", "       ", "I     I"
+                    ]
+                ]
+            },
+            "symmetrical": true
+        },
+        {
+            "type": "text",
+            "title": "Supercharger",
+            "text": "Place an Enriched Chaos Crystal Block in each corner of a 7x7 grid. The Supercharger is placed in the center. Place a Chaos Iron Block on top of each Enriched Chaos Crystal Block. Place any Silent's Gem block on top of each Chaos Iron Block.$(br2)Press the Visualize button in lower-left to place in world."
+        },
+        {
+            "type": "multiblock",
+            "name": "Level 2",
+            "multiblock": {
+                "mapping": {
+                    "I": "silentgems:chaos_iron_block",
+                    "G": "#silentgems:gem_blocks",
+                    "0": "silentgems:supercharger",
+                    "C": "silentgems:enriched_chaos_crystal_block"
+                },
+                "pattern": [
+                    [
+                        "G     G", "       ", "       ", "       ", "       ", "       ", "G     G"
+                    ],
+                    [
+                        "I     I", "       ", "       ", "       ", "       ", "       ", "I     I"
+                    ],
+                    [
+                        "C     C", "       ", "       ", "   0   ", "       ", "       ", "C     C"
+                    ]
+                ]
+            },
+            "symmetrical": true
+        },
+        {
+            "type": "text",
+            "title": "Supercharger",
+            "text": "Place two Ender Crystal Blocks one on top of the other in each corner of a 7x7 grid. The Supercharger is placed in the center. Place an Enriched Chaos Crystal Block on top of each upper Ender Crystal Block. Place a Chaos Iron Block on top of each Enriched Chaos Crystal Block. Place any Silent's Gem block on top of each Chaos Iron Block.$(br2)Press the Visualize button in lower-left to place in world."
+        },
+        {
+            "type": "multiblock",
+            "name": "Level 3",
+            "multiblock": {
+                "mapping": {
+                    "I": "silentgems:chaos_iron_block",
+                    "G": "#silentgems:gem_blocks",
+                    "0": "silentgems:supercharger",
+                    "C": "silentgems:enriched_chaos_crystal_block",
+                    "E": "silentgems:ender_crystal_block"
+                },
+                "pattern": [
+                    [
+                        "G     G", "       ", "       ", "       ", "       ", "       ", "G     G"
+                    ],
+                    [
+                        "I     I", "       ", "       ", "       ", "       ", "       ", "I     I"
+                    ],
+                    [
+                        "C     C", "       ", "       ", "       ", "       ", "       ", "C     C"
+                    ],
+                    [
+                        "E     E", "       ", "       ", "       ", "       ", "       ", "E     E"
+                    ],
+                    [
+                        "E     E", "       ", "       ", "   0   ", "       ", "       ", "E     E"
+                    ]
+                ]
+            },
+            "symmetrical": true
+        }
+    ]
+}

@@ -1,0 +1,29 @@
+{
+    "name": "Teleporters",
+    "icon": "silentgems:alexandrite_redstone_teleporter",
+    "category": "introduction",
+    "sortnum": 7,
+    "pages": [
+        {
+            "type": "spotlight",
+            "item": "silentgems:alexandrite_redstone_teleporter",
+            "link_recipe": true,
+            "title": "Teleporters",
+            "text": "Want to get around faster? Silent's Gems has some modestly priced teleporters to use! There are three kinds: regular, redstone, and anchors. These teleporters are somewhat 'dumb'. They don't actually care if another teleporter exists at the destination, but you need two teleporters to set the destination. Recipes can be disabled in the config file."
+        },
+        {
+            "type": "text",
+            "title": "How To Use",
+            "text": "Place any combination of teleporters you wish (even anchors). Use a Teleporter Linker to connect pairs. You can link any of the three types together however you wish! Note that there are no actual 'links' between the teleporters. The linker merely tells the teleporters where to send things. Try using anchors to establish one-way connections."
+        },
+        {
+            "type": "text",
+            "text": "Teleporting will generate some chaos, unless the distance is below a certain threshold. If the distance is in the 'free range', no chaos is created."
+        },
+        {
+            "type": "text",
+            "title": "Types",
+            "text": "$(li)Regular - Can teleport players that right-click on them.$(li)Redstone - In addition to the functions of the regular teleporters, these can be triggered by a redstone pulse. They can also teleport non-player entities!$(li)Anchors - Not capable of teleporting anything, but the other teleporter types and return home charms can link to it. Also much cheaper!"
+        }
+    ]
+}

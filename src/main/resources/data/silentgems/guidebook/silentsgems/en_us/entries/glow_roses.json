@@ -1,0 +1,21 @@
+{
+    "name": "Glowroses",
+    "icon": "silentgems:zircon_glowrose",
+    "category": "introduction",
+    "sortnum": 9,
+    "pages": [
+        {
+            "type": "spotlight",
+            "item": "silentgems:zircon_glowrose",
+            "link_recipe": true,
+            "title": "Glowroses",
+            "text": "Glowroses are light-emitting flowers that spawn naturally throughout the world. Their light is enough to prevent mob spawns just two blocks away (configurable). The varieties that spawn also happen to match the gem ores that will spawn in that biome."
+        },
+        {
+            "type": "text",
+            "text": "Glowroses can be planted in vanilla flower pots. Potted glowroses create much more light than freestanding ones."
+        }
+    ]
+}
+
+

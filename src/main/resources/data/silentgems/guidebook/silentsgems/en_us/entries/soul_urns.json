@@ -1,0 +1,21 @@
+{
+    "name": "Soul Urns",
+    "icon": "silentgems:soul_urn",
+    "category": "introduction",
+    "sortnum": 6,
+    "pages": [
+        {
+            "type": "crafting",
+            "recipe": "silentgems:soul_urn",
+            "text": "Soul urns are storage blocks which retain their inventory when broken, similar to shulker boxes. A soul gem is required to craft them, but the type of soul has no effect on the urn. They have a lid which can be opened, closed, or removed entirely."
+        },
+        {
+            "type": "text",
+            "text": "If the lid is not closed, soul urns will pull items like a hopper (but do not push items to other inventories). They are planned to have an upgrade system.$(br2)Soul urns can be dyed any color (same mechanics as leather armor) and can be set with any of the 48 gems. These features are purely cosmetic. "
+        },
+        {
+            "type": "text",
+            "text": "The color of an urn or its gems can be changed by simply crafting it with dyes or gems. Right-clicking it on a cauldron will reset the clay color to that of undyed terracotta. Placing the urn in a crafting grid by itself will remove the lid, creating a 'lidless' urn which is always open. Repeat to restore the lid."
+        }
+    ]
+}
