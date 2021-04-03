@@ -1,0 +1,13 @@
+{
+  "displayName": {
+    "translate": "Light Gems Bag"
+  },
+  "lootTable": "silentgems:bags/light_gems",
+  "rarity": "epic",
+  "bagColor": "dodgerblue",
+  "bagOverlayColor": "gold",
+  "bagStringColor": "gold",
+  "dropsFromGroups": [
+    "hostile"
+  ]
+}

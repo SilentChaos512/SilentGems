@@ -1,0 +1,13 @@
+{
+  "displayName": {
+    "translate": "Dark Gems Bag"
+  },
+  "lootTable": "silentgems:bags/dark_gems",
+  "rarity": "rare",
+  "bagColor": "crimson",
+  "bagOverlayColor": "gold",
+  "bagStringColor": "gold",
+  "dropsFromGroups": [
+    "hostile"
+  ]
+}

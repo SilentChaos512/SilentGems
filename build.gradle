@@ -113,6 +113,10 @@ repositories {
         url = uri("https://maven.pkg.github.com/silentchaos512/silent-gear")
         credentials gpr_creds
     }
+    maven {
+        url = uri("https://maven.pkg.github.com/silentchaos512/treasure-bags")
+        credentials gpr_creds
+    }
     maven { // JEI
         name = "Progwml6 maven"
         url = "https://dvs1.progwml6.com/files/maven/"
@@ -141,11 +145,22 @@ dependencies {
     compile fg.deobf("net.silentchaos512:silent-gear:${project.sgear_version}") {
         exclude module: 'forge'
         exclude module: 'jei-1.16.3'
-        exclude module: 'silent-lib-1.16.3'
+        exclude module: 'silent-lib'
         exclude module: 'curios-forge'
-        exclude module: 'Bookshelf-1.16.3'
-        exclude module: 'GameStages-1.16.3'
         exclude module: 'World-Stripper'
+    }
+
+    if (project.hasProperty('tbags_version')) {
+        compileOnly fg.deobf("net.silentchaos512:treasure-bags:${project.tbags_version}") {
+            exclude module: 'forge'
+            exclude module: 'jei-1.16.3'
+            exclude module: 'silent-lib'
+        }
+        runtimeOnly fg.deobf("net.silentchaos512:treasure-bags:${project.tbags_version}") {
+            exclude module: 'forge'
+            exclude module: 'jei-1.16.3'
+            exclude module: 'silent-lib'
+        }
     }
 
     // JEI
@@ -221,6 +236,7 @@ curseforge {
                 relations {
                     requiredDependency 'silent-lib'
                     optionalDependency 'silent-gear'
+                    optionalDependency 'treasure-bags'
                 }
             }
         }

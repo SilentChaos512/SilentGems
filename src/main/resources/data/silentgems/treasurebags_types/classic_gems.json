@@ -1,0 +1,13 @@
+{
+  "displayName": {
+    "translate": "Classic Gems Bag"
+  },
+  "lootTable": "silentgems:bags/classic_gems",
+  "rarity": "uncommon",
+  "bagColor": "seagreen",
+  "bagOverlayColor": "gold",
+  "bagStringColor": "gold",
+  "dropsFromGroups": [
+    "hostile"
+  ]
+}
