@@ -4,6 +4,7 @@
     "1.16.3": {
         "3.7.8": "https://github.com/SilentChaos512/SilentGems/blob/1.16.x/CHANGELOG.md",
         "3.7.7": "https://github.com/SilentChaos512/SilentGems/blob/1.16.x/CHANGELOG.md",
+        "3.7.14": "https://github.com/SilentChaos512/Silent-Gear/blob/1.16.x/CHANGELOG.md",
         "3.7.13": "https://github.com/SilentChaos512/Silent-Gear/blob/1.16.x/CHANGELOG.md",
         "3.7.12": "https://github.com/SilentChaos512/SilentGems/blob/1.16.x/CHANGELOG.md",
         "3.7.11": "https://github.com/SilentChaos512/SilentGems/blob/1.16.x/CHANGELOG.md",
@@ -20,7 +21,7 @@
         "1.15.2-recommended": "3.6.0",
         "1.16.1-latest": "3.6.3",
         "1.16.1-recommended": "3.6.3",
-        "1.16.3-latest": "3.7.13",
-        "1.16.3-recommended": "3.7.13"
+        "1.16.3-latest": "3.7.14",
+        "1.16.3-recommended": "3.7.14"
     }
 }
