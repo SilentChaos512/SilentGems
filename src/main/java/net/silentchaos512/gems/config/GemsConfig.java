@@ -12,6 +12,7 @@ import net.minecraftforge.fml.config.ModConfig;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.chaos.ChaosEvents;
 import net.silentchaos512.gems.lib.Gems;
+import net.silentchaos512.utils.config.StringValue;
 
 import javax.annotation.Nullable;
 import java.util.EnumMap;
@@ -45,6 +46,7 @@ public final class GemsConfig {
         public static final ForgeConfigSpec.DoubleValue soulGemDropRateAverage;
         public static final ForgeConfigSpec.DoubleValue soulGemDropRateBoss;
         public static final ForgeConfigSpec.DoubleValue soulGemDropRateDeviation;
+        public static final ForgeConfigSpec.ConfigValue<String> soulGemElementSeed;
         public static final ForgeConfigSpec.BooleanValue teleporterAllowAnchors;
         public static final ForgeConfigSpec.IntValue teleporterChaosCrossDimension;
         public static final ForgeConfigSpec.IntValue teleporterChaosPerBlock;
@@ -173,10 +175,12 @@ public final class GemsConfig {
             }
             {
                 builder.push("soulGem");
+
                 builder.comment("Drop rate of soul gems is randomly selected based on the world seed.",
                         "There is an average and a deviation, which makes a normal distribution.",
                         "The numbers will tend to be close to average, but could occasionally be plus/minus a couple deviations.");
                 builder.push("dropRate");
+
                 soulGemDropRateAverage = builder
                         .comment("Average drop rate of soul gems (1 = 100%)")
                         .defineInRange("average", 0.025, 0, 1);
@@ -186,7 +190,17 @@ public final class GemsConfig {
                 soulGemDropRateDeviation = builder
                         .comment("Standard deviation of drop rate (should be no more than a quarter of the average, preferably less) [0 ~ 1]")
                         .defineInRange("deviation", 0.002, 0, 1);
-                builder.pop(2);
+
+                builder.pop();
+
+                soulGemElementSeed = builder
+                        .comment("A seed value to use for randomizing soul gem elements.",
+                                "If this is an empty string, the mod attempts to use the world seed.",
+                                "Setting a seed value (any string with any number and type of characters) will make the soul gem elements consistent across your Minecraft instance.")
+                        .worldRestart()
+                        .define("elementSeed", "", o -> o instanceof String);
+
+                builder.pop();
             }
             {
                 builder.push("teleporter");

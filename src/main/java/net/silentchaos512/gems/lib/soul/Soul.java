@@ -251,6 +251,11 @@ public final class Soul {
         }
 
         private static long calculateSeed(FMLServerStartingEvent event) {
+            String configSeed = GemsConfig.Common.soulGemElementSeed.get();
+            if (!configSeed.isEmpty()) {
+                return configSeed.hashCode();
+            }
+
             // Have to get the seed before the world actually exists...
             MinecraftServer server = event.getServer();
 

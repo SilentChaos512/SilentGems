@@ -3,6 +3,10 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.7.15]
+### Added
+- Config to set the seed value used to determine soul gem elements. If left empty, it uses the world seed instead. [#538]
+
 ## [3.7.14] - 2021-04-03
 ### Added
 - Patchouli guide book (ClaudiusMinimus) [#532]
