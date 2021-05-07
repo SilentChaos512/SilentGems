@@ -73,17 +73,17 @@ public class SoulTraits {
                 .weight(-3, 1.0)
                 .favorsElements(SoulElement.WATER)
                 .add();
-        Builder.create(CHILL, 3)
+        /*Builder.create(CHILL, 3)
                 .medianLevel(3)
                 .weight(-6, 0.5)
                 .favorsElements(SoulElement.WATER, SoulElement.ICE)
-                .add();
-        Builder.create(COFFEE_POT, 1)
+                .add();*/
+        /*Builder.create(COFFEE_POT, 1)
                 .medianLevel(13)
                 .weight(-7, 0.25)
                 .favorsElements(SoulElement.FLORA, SoulElement.EARTH)
                 .lockToFavoredElements()
-                .add();
+                .add();*/
         Builder.create(PERSISTENCE, 5)
                 .medianLevel(11)
                 .weight(-2, 0.75)
@@ -93,11 +93,11 @@ public class SoulTraits {
                 .weight(-5, 0.75)
                 .favorsElements(SoulElement.MONSTER, SoulElement.ALIEN)
                 .add();
-        Builder.create(WARM, 3)
+        /*Builder.create(WARM, 3)
                 .medianLevel(3)
                 .weight(-6, 0.5)
                 .favorsElements(SoulElement.FIRE, SoulElement.METAL)
-                .add();
+                .add();*/
 
         Builder.create(GemsTraits.CRITICAL, 5)
                 .medianLevel(7)
