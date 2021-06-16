@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ITag;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.WorldGenRegistries;
@@ -86,10 +87,16 @@ public final class GemsWorldFeatures {
             .func_242731_b(GemsConfig.Common.gemCountOthers.get()));
 
     // Regional glowroses
+    @SuppressWarnings("unchecked")
+    private static final Lazy<DimensionFilterConfig> GLOWROSE_DIMENSION_BLACKLIST_CONFIG = Lazy.of(() ->
+            DimensionFilterConfig.blacklist(GemsConfig.Common.glowroseDimensionBlacklist.get().stream()
+                    .map(s -> RegistryKey.getOrCreateKey(Registry.WORLD_KEY, new ResourceLocation(s)))
+                    .toArray(RegistryKey[]::new)));
     private static final Lazy<ConfiguredFeature<?, ?>> OVERWORLD_GLOWROSES = configuredFeature("overworld_glowroses", () -> REGIONAL_GLOWROSES
             .withConfiguration(new RegionalGlowrosesFeatureConfig(Gems.Set.CLASSIC, GemsConfig.Common.regionSizeOverworld.get()))
             .withPlacement(Placement.COUNT_MULTILAYER.configure(new FeatureSpreadConfig(GemsConfig.Common.glowrosePlacementCount.get())))
             .withPlacement(LibPlacements.DIMENSION_FILTER.configure(DimensionFilterConfig.whitelist(World.OVERWORLD)))
+            .withPlacement(LibPlacements.DIMENSION_FILTER.configure(GLOWROSE_DIMENSION_BLACKLIST_CONFIG.get()))
             .range(128)
             .chance(16));
     private static final Lazy<ConfiguredFeature<?, ?>> NETHER_GLOWROSES = configuredFeature("nether_glowroses", () -> REGIONAL_GLOWROSES
@@ -97,18 +104,21 @@ public final class GemsWorldFeatures {
             .withPlacement(Features.Placements.VEGETATION_PLACEMENT)
             .withPlacement(Placement.COUNT_MULTILAYER.configure(new FeatureSpreadConfig(GemsConfig.Common.glowrosePlacementCount.get())))
             .withPlacement(LibPlacements.DIMENSION_FILTER.configure(DimensionFilterConfig.whitelist(World.THE_NETHER)))
+            .withPlacement(LibPlacements.DIMENSION_FILTER.configure(GLOWROSE_DIMENSION_BLACKLIST_CONFIG.get()))
             .range(128)
             .chance(4));
     private static final Lazy<ConfiguredFeature<?, ?>> END_GLOWROSES = configuredFeature("end_glowroses", () -> REGIONAL_GLOWROSES
             .withConfiguration(new RegionalGlowrosesFeatureConfig(Gems.Set.LIGHT, GemsConfig.Common.regionSizeEnd.get()))
             .withPlacement(Placement.COUNT_MULTILAYER.configure(new FeatureSpreadConfig(GemsConfig.Common.glowrosePlacementCount.get())))
             .withPlacement(LibPlacements.DIMENSION_FILTER.configure(DimensionFilterConfig.whitelist(World.THE_END)))
+            .withPlacement(LibPlacements.DIMENSION_FILTER.configure(GLOWROSE_DIMENSION_BLACKLIST_CONFIG.get()))
             .range(128)
             .chance(8));
     private static final Lazy<ConfiguredFeature<?, ?>> MOD_DIM_GLOWROSES = configuredFeature("mod_dim_glowroses", () -> REGIONAL_GLOWROSES
             .withConfiguration(new RegionalGlowrosesFeatureConfig(Gems.Set.CLASSIC, GemsConfig.Common.regionSizeOthers.get(), 24))
             .withPlacement(Placement.COUNT_MULTILAYER.configure(new FeatureSpreadConfig(GemsConfig.Common.glowrosePlacementCount.get())))
             .withPlacement(LibPlacements.DIMENSION_FILTER.configure(DimensionFilterConfig.blacklist(World.OVERWORLD, World.THE_NETHER, World.THE_END)))
+            .withPlacement(LibPlacements.DIMENSION_FILTER.configure(GLOWROSE_DIMENSION_BLACKLIST_CONFIG.get()))
             .range(128)
             .chance(8));
 

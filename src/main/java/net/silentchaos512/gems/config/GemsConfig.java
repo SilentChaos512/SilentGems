@@ -1,7 +1,9 @@
 package net.silentchaos512.gems.config;
 
 import net.minecraft.util.RegistryKey;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.WeightedList;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -14,9 +16,7 @@ import net.silentchaos512.gems.chaos.ChaosEvents;
 import net.silentchaos512.gems.lib.Gems;
 
 import javax.annotation.Nullable;
-import java.util.EnumMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import java.util.function.Supplier;
 
 @Mod.EventBusSubscriber(modid = SilentGems.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -35,6 +35,7 @@ public final class GemsConfig {
         public static final ForgeConfigSpec.IntValue enderSlimeGroupSizeMax;
         public static final ForgeConfigSpec.BooleanValue gearSoulsGetXpFromFakePlayers;
         public static final ForgeConfigSpec.IntValue glowrosePlacementCount;
+        public static final ForgeConfigSpec.ConfigValue<List<? extends String>> glowroseDimensionBlacklist;
         public static final ForgeConfigSpec.IntValue glowroseNormalLight;
         public static final ForgeConfigSpec.IntValue glowrosePottedLight;
         public static final ForgeConfigSpec.BooleanValue returnHomeAllowAnchors;
@@ -140,6 +141,11 @@ public final class GemsConfig {
                         .comment("Max patches of glowroses per chunk. Setting to zero will stop glowroses from spawning.",
                                 "Requires a Minecraft restart")
                         .defineInRange("world.patchCount", 2, 0, Integer.MAX_VALUE);
+                glowroseDimensionBlacklist = builder
+                        .comment("The dimensions that glowroses will never spawn in",
+                                "Requires a Minecraft restart")
+                        .defineList("world.dimensionBlacklist", Collections.emptyList(), o ->
+                                o instanceof String && ResourceLocation.tryCreate((String) o) != null);
                 glowroseNormalLight = builder
                         .comment("The light level of free-standing glowroses.",
                                 "Existing glowroses may not update until broken and replaced.",
