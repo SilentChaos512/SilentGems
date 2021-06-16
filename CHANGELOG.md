@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Changed
 - Gear souls can no longer gain the unimplemented traits Chill, Warm, and Coffee Pot
+### Fixed
+- Replaced the broken glowrose world gen configs with a new one that actually works (`glowrose.world.patchCount`) [#536]
 
 ## [3.7.15] - 2021-05-04
 ### Added

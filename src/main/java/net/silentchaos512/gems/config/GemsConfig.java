@@ -12,7 +12,6 @@ import net.minecraftforge.fml.config.ModConfig;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.chaos.ChaosEvents;
 import net.silentchaos512.gems.lib.Gems;
-import net.silentchaos512.utils.config.StringValue;
 
 import javax.annotation.Nullable;
 import java.util.EnumMap;
@@ -35,10 +34,9 @@ public final class GemsConfig {
         public static final ForgeConfigSpec.IntValue enderSlimeGroupSizeMin;
         public static final ForgeConfigSpec.IntValue enderSlimeGroupSizeMax;
         public static final ForgeConfigSpec.BooleanValue gearSoulsGetXpFromFakePlayers;
-        public static final ForgeConfigSpec.IntValue glowroseMaxPlaceCount;
+        public static final ForgeConfigSpec.IntValue glowrosePlacementCount;
         public static final ForgeConfigSpec.IntValue glowroseNormalLight;
         public static final ForgeConfigSpec.IntValue glowrosePottedLight;
-        public static final ForgeConfigSpec.IntValue glowroseSpawnTryCount;
         public static final ForgeConfigSpec.BooleanValue returnHomeAllowAnchors;
         public static final ForgeConfigSpec.BooleanValue returnHomeMatchGems;
         public static final ForgeConfigSpec.IntValue returnHomeMaxUses;
@@ -138,13 +136,10 @@ public final class GemsConfig {
             }
             {
                 builder.push("glowrose");
-                glowroseMaxPlaceCount = builder
-                        .comment("The most glowroses that can be in a single patch")
-                        .defineInRange("world.maxPerPatch", 16, 0, Integer.MAX_VALUE);
-                glowroseSpawnTryCount = builder
-                        .comment("The number of placement attempts when generating new chunks (higher numbers = bigger patches)",
-                                "Note this is the number of 'attempts', not the actual number you will likely see in any given patch")
-                        .defineInRange("world.placeTryCount", 40, 0, Integer.MAX_VALUE);
+                glowrosePlacementCount = builder
+                        .comment("Max patches of glowroses per chunk. Setting to zero will stop glowroses from spawning.",
+                                "Requires a Minecraft restart")
+                        .defineInRange("world.patchCount", 2, 0, Integer.MAX_VALUE);
                 glowroseNormalLight = builder
                         .comment("The light level of free-standing glowroses.",
                                 "Existing glowroses may not update until broken and replaced.",
