@@ -47,14 +47,14 @@
         "level": 1,
         "conditions": [
           {
-            "type": "silentgear:gear_type",
-            "gear_type": "armor"
-          },
-          {
             "type": "silentgear:material_ratio",
             "ratio": 0.7
           }
         ]
+      },
+      {
+        "name": "silentgear:sturdy",
+        "level": 2
       }
     ],
     "adornment": [

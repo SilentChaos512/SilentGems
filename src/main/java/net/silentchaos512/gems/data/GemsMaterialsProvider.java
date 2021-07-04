@@ -1,13 +1,11 @@
 package net.silentchaos512.gems.data;
 
 import net.minecraft.data.DataGenerator;
-import net.silentchaos512.gear.api.item.GearType;
 import net.silentchaos512.gear.api.part.PartType;
 import net.silentchaos512.gear.data.material.MaterialBuilder;
 import net.silentchaos512.gear.data.material.MaterialsProvider;
 import net.silentchaos512.gear.gear.material.MaterialCategories;
 import net.silentchaos512.gear.gear.part.PartTextureSet;
-import net.silentchaos512.gear.gear.trait.condition.GearTypeTraitCondition;
 import net.silentchaos512.gear.gear.trait.condition.MaterialRatioTraitCondition;
 import net.silentchaos512.gear.util.Const;
 import net.silentchaos512.gems.GemsBase;
@@ -135,7 +133,7 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .noStats(PartType.ROD)
                 .noStats(PartType.ADORNMENT)
                 .trait(PartType.MAIN, Const.Traits.CHILLED, 4)
-                .trait(PartType.MAIN, Const.Traits.BRITTLE, 1)
+                .trait(PartType.MAIN, Const.Traits.STELLAR, 2)
         );
         ret.add(gem(Gems.SAPPHIRE, 3) // armor
                 .mainStatsCommon(512, 28, 12, 30)
@@ -209,8 +207,8 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .noStats(PartType.ROD)
                 .noStats(PartType.ADORNMENT)
                 .trait(PartType.MAIN, Const.Traits.FLAME_WARD, 1,
-                        new GearTypeTraitCondition(GearType.ARMOR),
                         new MaterialRatioTraitCondition(0.7f))
+                .trait(PartType.MAIN, Const.Traits.STURDY, 2)
                 .trait(PartType.ADORNMENT, Const.Traits.CURE_WITHER, 1)
         );
         ret.add(gem(Gems.WHITE_DIAMOND, 4) // super
@@ -222,6 +220,10 @@ public class GemsMaterialsProvider extends MaterialsProvider {
                 .stat(PartType.MAIN, GemsStats.CHARGEABILITY.get(), 1.0f)
                 .noStats(PartType.ROD)
                 .noStats(PartType.ADORNMENT)
+                .trait(PartType.MAIN, Const.Traits.VOID_WARD, 1,
+                        new MaterialRatioTraitCondition(0.7f))
+                .trait(PartType.MAIN, Const.Traits.STURDY, 2)
+                .trait(PartType.ADORNMENT, Const.Traits.MOONWALKER, 2)
         );
 
         return ret;

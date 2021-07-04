@@ -39,5 +39,29 @@
     },
     "rod": {},
     "adornment": {}
+  },
+  "traits": {
+    "main": [
+      {
+        "name": "silentgear:void_ward",
+        "level": 1,
+        "conditions": [
+          {
+            "type": "silentgear:material_ratio",
+            "ratio": 0.7
+          }
+        ]
+      },
+      {
+        "name": "silentgear:sturdy",
+        "level": 2
+      }
+    ],
+    "adornment": [
+      {
+        "name": "silentgear:moonwalker",
+        "level": 2
+      }
+    ]
   }
 }
