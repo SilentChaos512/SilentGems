@@ -10,6 +10,8 @@ import net.silentchaos512.gems.GemsBase;
 
 public class GemsTags {
     public static final class Blocks {
+        public static final ITag.INamedTag<Block> ORES_SILVER = forge("ores/silver");
+
         public static final ITag.INamedTag<Block> GEM_ORES = gems("ores");
         public static final ITag.INamedTag<Block> GLOWROSES = gems("glowroses");
 
@@ -29,6 +31,10 @@ public class GemsTags {
     }
 
     public static final class Items {
+        public static final ITag.INamedTag<Item> INGOTS_SILVER = forge("ingots/silver");
+        public static final ITag.INamedTag<Item> ORES_SILVER = forge("ores/silver");
+        public static final ITag.INamedTag<Item> NUGGETS_SILVER = forge("nuggets/silver");
+
         public static final ITag.INamedTag<Item> GEM_ORES = gems("ores");
         public static final ITag.INamedTag<Item> GEMS = gems("gems");
         public static final ITag.INamedTag<Item> GLOWROSES = gems("glowroses");

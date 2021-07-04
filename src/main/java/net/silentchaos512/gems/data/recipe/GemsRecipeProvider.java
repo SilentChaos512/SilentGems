@@ -149,6 +149,16 @@ public class GemsRecipeProvider extends LibRecipeProvider {
                 .key('g', GemsTags.Items.GLOWROSES)
                 .build(consumer);
 
+        shapedBuilder(GemsItems.SOUL_GEM)
+                .patternLine(" g ")
+                .patternLine("#d#")
+                .patternLine(" o ")
+                .key('d', Tags.Items.GEMS_DIAMOND)
+                .key('o', Items.CHORUS_FRUIT)
+                .key('g', GemsTags.Items.GEMS)
+                .key('#', GemsTags.Items.INGOTS_SILVER)
+                .build(consumer);
+
         shapedBuilder(GemsItems.SUMMON_KITTY)
                 .patternLine("|f|")
                 .patternLine("|g|")

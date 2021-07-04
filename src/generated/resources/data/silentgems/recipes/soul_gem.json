@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " g ",
+    "#d#",
+    " o "
+  ],
+  "key": {
+    "d": {
+      "tag": "forge:gems/diamond"
+    },
+    "o": {
+      "item": "minecraft:chorus_fruit"
+    },
+    "g": {
+      "tag": "silentgems:gems"
+    },
+    "#": {
+      "tag": "forge:ingots/silver"
+    }
+  },
+  "result": {
+    "item": "silentgems:soul_gem"
+  }
+}

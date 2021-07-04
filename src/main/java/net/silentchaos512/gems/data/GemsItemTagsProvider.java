@@ -8,6 +8,7 @@ import net.minecraft.tags.ItemTags;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.silentchaos512.gems.GemsBase;
+import net.silentchaos512.gems.setup.GemsItems;
 import net.silentchaos512.gems.setup.GemsTags;
 import net.silentchaos512.gems.util.Gems;
 
@@ -43,6 +44,10 @@ public class GemsItemTagsProvider extends ItemTagsProvider {
         }
 
         copy(Tags.Blocks.ORES, Tags.Items.ORES);
+        copy(GemsTags.Blocks.ORES_SILVER, GemsTags.Items.ORES_SILVER);
+
+        getOrCreateBuilder(GemsTags.Items.INGOTS_SILVER).add(GemsItems.SILVER_INGOT.get());
+        getOrCreateBuilder(GemsTags.Items.NUGGETS_SILVER).add(GemsItems.SILVER_NUGGET.get());
 
         getOrCreateBuilder(GemsTags.Items.STEW_FISH).add(Items.COD, Items.SALMON);
         getOrCreateBuilder(GemsTags.Items.STEW_MEAT).add(Items.BEEF, Items.CHICKEN, Items.MUTTON, Items.PORKCHOP, Items.RABBIT);

@@ -6,6 +6,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.silentchaos512.gems.GemsBase;
+import net.silentchaos512.gems.setup.GemsBlocks;
 import net.silentchaos512.gems.setup.GemsTags;
 import net.silentchaos512.gems.util.Gems;
 
@@ -30,5 +31,7 @@ public class GemsBlockTagsProvider extends BlockTagsProvider {
             getOrCreateBuilder(Tags.Blocks.ORES).addTag(gem.getOreTag());
             getOrCreateBuilder(Tags.Blocks.STORAGE_BLOCKS).add(gem.getBlock());
         }
+
+        getOrCreateBuilder(GemsTags.Blocks.ORES_SILVER).add(GemsBlocks.SILVER_ORE.get());
     }
 }
