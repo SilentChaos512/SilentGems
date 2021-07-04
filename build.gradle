@@ -5,7 +5,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '4.1.+', changing: true
     }
 }
 
@@ -130,36 +130,40 @@ repositories {
 dependencies {
     minecraft "net.minecraftforge:forge:${project.forge_version}"
 
-    compile fg.deobf("net.silentchaos512:silent-lib:${project.silent_lib_version}") {
+    compile fg.deobf("net.silentchaos512:silent-lib:${project.sl_version}") {
         exclude module: "forge"
-    }
-    compile fg.deobf("net.silentchaos512:silent-gear:${project.silent_gear_version}") {
-        exclude module: 'forge'
-        exclude module: 'jei-1.16.3'
-        exclude module: 'silent-lib-1.16.3'
-        exclude module: 'curios-forge'
-        exclude module: 'Bookshelf-1.16.3'
-        exclude module: 'GameStages-1.16.3'
-        exclude module: 'World-Stripper'
-    }
-
-    if (project.hasProperty('token_enchanter_version')) {
-        compileOnly fg.deobf("net.silentchaos512:token-enchanter:${project.token_enchanter_version}:api") {
-            exclude module: 'forge'
-            exclude module: 'jei-1.16.3'
-            exclude module: 'silent-lib-1.16.3'
-        }
-        runtimeOnly fg.deobf("net.silentchaos512:token-enchanter:${project.token_enchanter_version}") {
-            exclude module: 'forge'
-            exclude module: 'jei-1.16.3'
-            exclude module: 'silent-lib-1.16.3'
-        }
     }
 
     // JEI
     if (project.hasProperty('jei_version')) {
         compileOnly fg.deobf("mezz.jei:jei-${project.jei_version}:api")
         runtimeOnly fg.deobf("mezz.jei:jei-${project.jei_version}")
+    }
+
+    // Silent Gear
+    if (project.hasProperty("sgear_version")) {
+        compile fg.deobf("net.silentchaos512:silent-gear:${project.sgear_version}") {
+            exclude module: 'forge'
+            exclude module: 'jei-1.16.5'
+            exclude module: 'silent-lib'
+            exclude module: 'curios-forge'
+            exclude module: 'World-Stripper'
+            exclude module: 'Patchouli'
+        }
+    }
+
+    // Token Enchanter
+    if (project.hasProperty('token_enchanter_version')) {
+        compileOnly fg.deobf("net.silentchaos512:token-enchanter:${project.token_enchanter_version}:api") {
+            exclude module: 'forge'
+            exclude module: 'jei-1.16.3'
+            exclude module: 'silent-lib'
+        }
+        runtimeOnly fg.deobf("net.silentchaos512:token-enchanter:${project.token_enchanter_version}") {
+            exclude module: 'forge'
+            exclude module: 'jei-1.16.3'
+            exclude module: 'silent-lib'
+        }
     }
 
     // HWYLA
