@@ -5,6 +5,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
+- Raw silver, which ores now drop
 - Missing tags for silver
 
 ## [4.0.4] - 2021-03-11

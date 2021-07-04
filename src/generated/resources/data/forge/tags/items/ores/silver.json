@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "silentgems:silver_ore"
+    "silentgems:silver_ore",
+    "silentgems:raw_silver"
   ]
 }

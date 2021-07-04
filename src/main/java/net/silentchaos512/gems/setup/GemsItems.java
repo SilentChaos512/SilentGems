@@ -28,11 +28,9 @@ public final class GemsItems {
         Gems.registerItems();
     }
 
+    public static final ItemRegistryObject<Item> RAW_SILVER = registerCraftingItem("raw_silver");
     public static final ItemRegistryObject<Item> SILVER_INGOT = registerCraftingItem("silver_ingot");
     public static final ItemRegistryObject<Item> SILVER_NUGGET = registerCraftingItem("silver_nugget");
-    public static final ItemRegistryObject<Item> FLUFFY_PUFF = registerCraftingItem("fluffy_puff");
-    public static final ItemRegistryObject<Item> FLUFFY_FABRIC = registerCraftingItem("fluffy_fabric");
-    // fluffy puff seeds here
     public static final ItemRegistryObject<Item> LOLINOMICON = registerCraftingItem("lolinomicon");
 
     public static final ItemRegistryObject<SoulGemItem> SOUL_GEM = register("soul_gem", () ->

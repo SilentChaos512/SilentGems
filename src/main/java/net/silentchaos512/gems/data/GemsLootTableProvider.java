@@ -5,12 +5,14 @@ import com.mojang.datafixers.util.Pair;
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.LootTableProvider;
+import net.minecraft.item.Item;
 import net.minecraft.loot.*;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.RegistryObject;
 import net.silentchaos512.gems.block.GemLampBlock;
 import net.silentchaos512.gems.setup.GemsBlocks;
+import net.silentchaos512.gems.setup.GemsItems;
 import net.silentchaos512.gems.setup.Registration;
 import net.silentchaos512.gems.util.Gems;
 
@@ -42,9 +44,9 @@ public class GemsLootTableProvider extends LootTableProvider {
         @Override
         protected void addTables() {
             for (Gems gem : Gems.values()) {
-                registerLootTable(gem.getOre(World.OVERWORLD), droppingItemWithFortune(gem.getOre(World.OVERWORLD), gem.getItem()));
-                registerLootTable(gem.getOre(World.THE_NETHER), droppingItemWithFortune(gem.getOre(World.THE_NETHER), gem.getItem()));
-                registerLootTable(gem.getOre(World.THE_END), droppingItemWithFortune(gem.getOre(World.THE_END), gem.getItem()));
+                registerFortuneDrops(gem.getOre(World.OVERWORLD), gem.getItem());
+                registerFortuneDrops(gem.getOre(World.THE_NETHER), gem.getItem());
+                registerFortuneDrops(gem.getOre(World.THE_END), gem.getItem());
                 registerDropSelfLootTable(gem.getBlock());
                 registerDropSelfLootTable(gem.getBricks());
                 registerDropSelfLootTable(gem.getGlass());
@@ -56,13 +58,17 @@ public class GemsLootTableProvider extends LootTableProvider {
                 registerFlowerPot(gem.getPottedGlowrose());
             }
 
-            registerDropSelfLootTable(GemsBlocks.SILVER_ORE.get());
+            registerFortuneDrops(GemsBlocks.SILVER_ORE.get(), GemsItems.RAW_SILVER.get());
             registerDropSelfLootTable(GemsBlocks.SILVER_BLOCK.get());
         }
 
         @Override
         protected Iterable<Block> getKnownBlocks() {
             return Registration.BLOCKS.getEntries().stream().map(RegistryObject::get).collect(Collectors.toList());
+        }
+
+        private void registerFortuneDrops(Block block, Item item) {
+            registerLootTable(block, droppingItemWithFortune(block, item));
         }
     }
 }

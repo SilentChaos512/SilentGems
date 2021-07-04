@@ -45,6 +45,7 @@ public class GemsItemTagsProvider extends ItemTagsProvider {
 
         copy(Tags.Blocks.ORES, Tags.Items.ORES);
         copy(GemsTags.Blocks.ORES_SILVER, GemsTags.Items.ORES_SILVER);
+        getOrCreateBuilder(GemsTags.Items.ORES_SILVER).add(GemsItems.RAW_SILVER.get());
 
         getOrCreateBuilder(GemsTags.Items.INGOTS_SILVER).add(GemsItems.SILVER_INGOT.get());
         getOrCreateBuilder(GemsTags.Items.NUGGETS_SILVER).add(GemsItems.SILVER_NUGGET.get());
