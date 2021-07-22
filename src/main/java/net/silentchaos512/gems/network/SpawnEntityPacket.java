@@ -32,15 +32,15 @@ public class SpawnEntityPacket {
     public SpawnEntityPacket(Entity e) {
         this.entity = e;
         this.typeId = Registry.ENTITY_TYPE.getId(e.getType());
-        this.entityId = e.getEntityId();
-        this.uuid = e.getUniqueID();
-        this.posX = e.getPosX();
-        this.posY = e.getPosY();
-        this.posZ = e.getPosZ();
-        this.pitch = (byte) MathHelper.floor(e.rotationPitch * 256.0F / 360.0F);
-        this.yaw = (byte) MathHelper.floor(e.rotationYaw * 256.0F / 360.0F);
-        this.headYaw = (byte) (e.getRotationYawHead() * 256.0F / 360.0F);
-        Vector3d vec3d = e.getMotion();
+        this.entityId = e.getId();
+        this.uuid = e.getUUID();
+        this.posX = e.getX();
+        this.posY = e.getY();
+        this.posZ = e.getZ();
+        this.pitch = (byte) MathHelper.floor(e.xRot * 256.0F / 360.0F);
+        this.yaw = (byte) MathHelper.floor(e.yRot * 256.0F / 360.0F);
+        this.headYaw = (byte) (e.getYHeadRot() * 256.0F / 360.0F);
+        Vector3d vec3d = e.getDeltaMovement();
         double d1 = MathHelper.clamp(vec3d.x, -3.9D, 3.9D);
         double d2 = MathHelper.clamp(vec3d.y, -3.9D, 3.9D);
         double d3 = MathHelper.clamp(vec3d.z, -3.9D, 3.9D);
@@ -100,7 +100,7 @@ public class SpawnEntityPacket {
 
     public static void handle(SpawnEntityPacket msg, Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
-            EntityType<?> type = Registry.ENTITY_TYPE.getByValue(msg.typeId);
+            EntityType<?> type = Registry.ENTITY_TYPE.byId(msg.typeId);
             if (type == null) {
                 throw new RuntimeException(String.format("Could not spawn entity (id %d) with unknown type at (%f, %f, %f)", msg.entityId, msg.posX, msg.posY, msg.posZ));
             }
@@ -112,14 +112,14 @@ public class SpawnEntityPacket {
             }
 
             e.setPacketCoordinates(msg.posX, msg.posY, msg.posZ);
-            e.setPositionAndRotation(msg.posX, msg.posY, msg.posZ, (msg.yaw * 360) / 256.0F, (msg.pitch * 360) / 256.0F);
-            e.setRotationYawHead((msg.headYaw * 360) / 256.0F);
-            e.setRenderYawOffset((msg.headYaw * 360) / 256.0F);
+            e.absMoveTo(msg.posX, msg.posY, msg.posZ, (msg.yaw * 360) / 256.0F, (msg.pitch * 360) / 256.0F);
+            e.setYHeadRot((msg.headYaw * 360) / 256.0F);
+            e.setYBodyRot((msg.headYaw * 360) / 256.0F);
 
-            e.setEntityId(msg.entityId);
-            e.setUniqueId(msg.uuid);
-            world.filter(ClientWorld.class::isInstance).ifPresent(w -> ((ClientWorld) w).addEntity(msg.entityId, e));
-            e.setVelocity(msg.velX / 8000.0, msg.velY / 8000.0, msg.velZ / 8000.0);
+            e.setId(msg.entityId);
+            e.setUUID(msg.uuid);
+            world.filter(ClientWorld.class::isInstance).ifPresent(w -> ((ClientWorld) w).putNonPlayerEntity(msg.entityId, e));
+            e.lerpMotion(msg.velX / 8000.0, msg.velY / 8000.0, msg.velZ / 8000.0);
             if (e instanceof IEntityAdditionalSpawnData) {
                 ((IEntityAdditionalSpawnData) e).readSpawnData(msg.buf);
             }

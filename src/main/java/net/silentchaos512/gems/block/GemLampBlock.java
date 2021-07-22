@@ -58,20 +58,20 @@ public class GemLampBlock extends GemBlock {
     }
 
     private void checkAndUpdateState(World world, BlockPos pos) {
-        if (!world.isRemote) {
-            boolean powered = world.isBlockPowered(pos);
+        if (!world.isClientSide) {
+            boolean powered = world.hasNeighborSignal(pos);
             State newLampState = this.lampState.withPower(powered);
 
             if (newLampState != this.lampState) {
-                BlockState newState = this.gem.getLamp(newLampState).getDefaultState();
-                world.setBlockState(pos, newState, 2);
+                BlockState newState = this.gem.getLamp(newLampState).defaultBlockState();
+                world.setBlock(pos, newState, 2);
             }
         }
     }
 
     @SuppressWarnings("deprecation")
     @Override
-    public void onBlockAdded(BlockState state, World worldIn, BlockPos pos, BlockState oldState, boolean p_220082_5_) {
+    public void onPlace(BlockState state, World worldIn, BlockPos pos, BlockState oldState, boolean p_220082_5_) {
         checkAndUpdateState(worldIn, pos);
     }
 
@@ -88,9 +88,9 @@ public class GemLampBlock extends GemBlock {
     }
 
     @Override
-    public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items) {
+    public void fillItemCategory(ItemGroup group, NonNullList<ItemStack> items) {
         if (this.lampState.hasItem()) {
-            super.fillItemGroup(group, items);
+            super.fillItemCategory(group, items);
         }
     }
 }

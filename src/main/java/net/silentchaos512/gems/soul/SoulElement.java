@@ -96,7 +96,7 @@ public enum SoulElement {
     }
 
     public static SoulElement read(PacketBuffer buffer) {
-        return buffer.readEnumValue(SoulElement.class);
+        return buffer.readEnum(SoulElement.class);
     }
 
     public void write(PacketBuffer buffer) {

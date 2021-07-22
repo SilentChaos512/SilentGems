@@ -37,7 +37,7 @@ public class GemsLootTableProvider extends LootTableProvider {
 
     @Override
     protected void validate(Map<ResourceLocation, LootTable> map, ValidationTracker validationtracker) {
-        map.forEach((p_218436_2_, p_218436_3_) -> LootTableManager.validateLootTable(validationtracker, p_218436_2_, p_218436_3_));
+        map.forEach((p_218436_2_, p_218436_3_) -> LootTableManager.validate(validationtracker, p_218436_2_, p_218436_3_));
     }
 
     private static final class BlockLootTables extends net.minecraft.data.loot.BlockLootTables {
@@ -45,21 +45,21 @@ public class GemsLootTableProvider extends LootTableProvider {
         protected void addTables() {
             for (Gems gem : Gems.values()) {
                 registerFortuneDrops(gem.getOre(World.OVERWORLD), gem.getItem());
-                registerFortuneDrops(gem.getOre(World.THE_NETHER), gem.getItem());
-                registerFortuneDrops(gem.getOre(World.THE_END), gem.getItem());
-                registerDropSelfLootTable(gem.getBlock());
-                registerDropSelfLootTable(gem.getBricks());
-                registerDropSelfLootTable(gem.getGlass());
+                registerFortuneDrops(gem.getOre(World.NETHER), gem.getItem());
+                registerFortuneDrops(gem.getOre(World.END), gem.getItem());
+                dropSelf(gem.getBlock());
+                dropSelf(gem.getBricks());
+                dropSelf(gem.getGlass());
                 for (GemLampBlock.State state : GemLampBlock.State.values()) {
                     // Always drop the unpowered version of the lamp, as the others don't have items
-                    registerDropping(gem.getLamp(state), gem.getLamp(state.withPower(false)));
+                    dropOther(gem.getLamp(state), gem.getLamp(state.withPower(false)));
                 }
-                registerDropSelfLootTable(gem.getGlowrose());
-                registerFlowerPot(gem.getPottedGlowrose());
+                dropSelf(gem.getGlowrose());
+                dropPottedContents(gem.getPottedGlowrose());
             }
 
             registerFortuneDrops(GemsBlocks.SILVER_ORE.get(), GemsItems.RAW_SILVER.get());
-            registerDropSelfLootTable(GemsBlocks.SILVER_BLOCK.get());
+            dropSelf(GemsBlocks.SILVER_BLOCK.get());
         }
 
         @Override
@@ -68,7 +68,7 @@ public class GemsLootTableProvider extends LootTableProvider {
         }
 
         private void registerFortuneDrops(Block block, Item item) {
-            registerLootTable(block, droppingItemWithFortune(block, item));
+            add(block, createOreDrop(block, item));
         }
     }
 }

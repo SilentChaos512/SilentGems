@@ -26,7 +26,7 @@ public class GemsTags {
         }
 
         private static ITag.INamedTag<Block> tag(String namespace, String name) {
-            return BlockTags.makeWrapperTag(new ResourceLocation(namespace, name).toString());
+            return BlockTags.bind(new ResourceLocation(namespace, name).toString());
         }
     }
 
@@ -52,7 +52,7 @@ public class GemsTags {
         }
 
         private static ITag.INamedTag<Item> tag(String namespace, String name) {
-            return ItemTags.makeWrapperTag(new ResourceLocation(namespace, name).toString());
+            return ItemTags.bind(new ResourceLocation(namespace, name).toString());
         }
     }
 }

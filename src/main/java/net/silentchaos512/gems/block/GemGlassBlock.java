@@ -30,7 +30,7 @@ public class GemGlassBlock extends StainedGlassBlock implements IGemBlock {
     }
 
     @Override
-    public IFormattableTextComponent getTranslatedName() {
+    public IFormattableTextComponent getName() {
         return getGemBlockName();
     }
 

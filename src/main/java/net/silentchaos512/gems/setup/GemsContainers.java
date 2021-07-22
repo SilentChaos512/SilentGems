@@ -21,8 +21,8 @@ public class GemsContainers {
 
     @OnlyIn(Dist.CLIENT)
     public static void registerScreens(FMLClientSetupEvent event) {
-        ScreenManager.registerFactory(GEM_BAG.get(), GemContainerScreen::new);
-        ScreenManager.registerFactory(FLOWER_BASKET.get(), GemContainerScreen::new);
+        ScreenManager.register(GEM_BAG.get(), GemContainerScreen::new);
+        ScreenManager.register(FLOWER_BASKET.get(), GemContainerScreen::new);
     }
 
     private static <T extends Container> RegistryObject<ContainerType<T>> register(String name, IContainerFactory<T> factory) {

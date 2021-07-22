@@ -20,7 +20,7 @@ public class GemsItemTagsProvider extends ItemTagsProvider {
     }
 
     @Override
-    protected void registerTags() {
+    protected void addTags() {
         for (Gems gem : Gems.values()) {
             // Block copies
             copy(gem.getModOresTag(), gem.getModOresItemTag());
@@ -29,28 +29,28 @@ public class GemsItemTagsProvider extends ItemTagsProvider {
             copy(gem.getGlowroseTag(), gem.getGlowroseItemTag());
 
             // Items
-            getOrCreateBuilder(gem.getItemTag()).add(gem.getItem());
+            tag(gem.getItemTag()).add(gem.getItem());
 //            getOrCreateBuilder(gem.getShardTag()).add(gem.getShard());
 
             // Groups
-            getOrCreateBuilder(GemsTags.Items.GEM_ORES).addTag(gem.getModOresItemTag());
-            getOrCreateBuilder(GemsTags.Items.GEMS).addTag(gem.getItemTag());
-            getOrCreateBuilder(GemsTags.Items.GLOWROSES).addTag(gem.getGlowroseItemTag());
-            getOrCreateBuilder(Tags.Items.GEMS).add(gem.getItem());
+            tag(GemsTags.Items.GEM_ORES).addTag(gem.getModOresItemTag());
+            tag(GemsTags.Items.GEMS).addTag(gem.getItemTag());
+            tag(GemsTags.Items.GLOWROSES).addTag(gem.getGlowroseItemTag());
+            tag(Tags.Items.GEMS).add(gem.getItem());
 //            getOrCreateBuilder(Tags.Items.NUGGETS).add(gem.getShard());
 
             // Others
-            getOrCreateBuilder(ItemTags.BEACON_PAYMENT_ITEMS).add(gem.getItem());
+            tag(ItemTags.BEACON_PAYMENT_ITEMS).add(gem.getItem());
         }
 
         copy(Tags.Blocks.ORES, Tags.Items.ORES);
         copy(GemsTags.Blocks.ORES_SILVER, GemsTags.Items.ORES_SILVER);
-        getOrCreateBuilder(GemsTags.Items.ORES_SILVER).add(GemsItems.RAW_SILVER.get());
+        tag(GemsTags.Items.ORES_SILVER).add(GemsItems.RAW_SILVER.get());
 
-        getOrCreateBuilder(GemsTags.Items.INGOTS_SILVER).add(GemsItems.SILVER_INGOT.get());
-        getOrCreateBuilder(GemsTags.Items.NUGGETS_SILVER).add(GemsItems.SILVER_NUGGET.get());
+        tag(GemsTags.Items.INGOTS_SILVER).add(GemsItems.SILVER_INGOT.get());
+        tag(GemsTags.Items.NUGGETS_SILVER).add(GemsItems.SILVER_NUGGET.get());
 
-        getOrCreateBuilder(GemsTags.Items.STEW_FISH).add(Items.COD, Items.SALMON);
-        getOrCreateBuilder(GemsTags.Items.STEW_MEAT).add(Items.BEEF, Items.CHICKEN, Items.MUTTON, Items.PORKCHOP, Items.RABBIT);
+        tag(GemsTags.Items.STEW_FISH).add(Items.COD, Items.SALMON);
+        tag(GemsTags.Items.STEW_MEAT).add(Items.BEEF, Items.CHICKEN, Items.MUTTON, Items.PORKCHOP, Items.RABBIT);
     }
 }

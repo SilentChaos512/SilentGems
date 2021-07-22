@@ -24,7 +24,7 @@ public class GemsRecipeProvider extends LibRecipeProvider {
     }
 
     @Override
-    protected void registerRecipes(Consumer<IFinishedRecipe> consumer) {
+    protected void buildShapelessRecipes(Consumer<IFinishedRecipe> consumer) {
         registerGemRecipes(consumer);
         registerMetals(consumer);
         registerFoods(consumer);
@@ -44,7 +44,7 @@ public class GemsRecipeProvider extends LibRecipeProvider {
                     .patternLine("###")
                     .key('#', ItemTags.STONE_BRICKS)
                     .key('o', gem.getItemTag())
-                    .addCriterion("has_item", hasItem(gem.getItemTag()))
+                    .addCriterion("has_item", has(gem.getItemTag()))
                     .build(consumer);
 
             shapedBuilder(gem.getGlass(), 12)
@@ -53,7 +53,7 @@ public class GemsRecipeProvider extends LibRecipeProvider {
                     .patternLine("###")
                     .key('#', Tags.Items.GLASS_COLORLESS)
                     .key('o', gem.getItemTag())
-                    .addCriterion("has_item", hasItem(gem.getItemTag()))
+                    .addCriterion("has_item", has(gem.getItemTag()))
                     .build(consumer);
 
             shapedBuilder(gem.getLamp(GemLampBlock.State.OFF))
@@ -63,13 +63,13 @@ public class GemsRecipeProvider extends LibRecipeProvider {
                     .key('r', Tags.Items.DUSTS_REDSTONE)
                     .key('g', Tags.Items.DUSTS_GLOWSTONE)
                     .key('o', gem.getItemTag())
-                    .addCriterion("has_item", hasItem(gem.getItemTag()))
+                    .addCriterion("has_item", has(gem.getItemTag()))
                     .build(consumer);
 
             shapelessBuilder(gem.getLamp(GemLampBlock.State.INVERTED_ON))
                     .addIngredient(gem.getLamp(GemLampBlock.State.OFF))
                     .addIngredient(Items.REDSTONE_TORCH)
-                    .addCriterion("has_item", hasItem(gem.getItemTag()))
+                    .addCriterion("has_item", has(gem.getItemTag()))
                     .build(consumer);
         }
     }
@@ -85,7 +85,7 @@ public class GemsRecipeProvider extends LibRecipeProvider {
                 .patternLine("/ ")
                 .key('p', Items.BAKED_POTATO)
                 .key('/', Tags.Items.RODS_WOODEN)
-                .addCriterion("has_item", hasItem(Items.BAKED_POTATO))
+                .addCriterion("has_item", has(Items.BAKED_POTATO))
                 .build(consumer);
         shapedBuilder(GemsItems.SUGAR_COOKIE, 8)
                 .patternLine(" S ")
@@ -93,7 +93,7 @@ public class GemsRecipeProvider extends LibRecipeProvider {
                 .patternLine(" S ")
                 .key('S', Items.SUGAR)
                 .key('/', Items.WHEAT)
-                .addCriterion("has_item", hasItem(Items.SUGAR))
+                .addCriterion("has_item", has(Items.SUGAR))
                 .build(consumer);
         shapedBuilder(GemsItems.IRON_POTATO)
                 .patternLine("/#/")
@@ -102,30 +102,30 @@ public class GemsRecipeProvider extends LibRecipeProvider {
                 .key('/', Tags.Items.GEMS)
                 .key('#', Tags.Items.STORAGE_BLOCKS_IRON)
                 .key('p', Items.POTATO)
-                .addCriterion("has_item", hasItem(Items.POTATO))
+                .addCriterion("has_item", has(Items.POTATO))
                 .build(consumer);
 
-        ShapelessRecipeBuilder.shapelessRecipe(GemsItems.UNCOOKED_FISHY_STEW)
-                .addIngredient(Items.BOWL)
-                .addIngredient(GemsTags.Items.STEW_FISH)
-                .addIngredient(Items.DRIED_KELP)
-                .addIngredient(Items.BROWN_MUSHROOM)
-                .addCriterion("has_item", hasItem(GemsTags.Items.STEW_FISH))
-                .build(consumer);
-        ShapelessRecipeBuilder.shapelessRecipe(GemsItems.UNCOOKED_MEATY_STEW)
-                .addIngredient(Items.BOWL)
-                .addIngredient(GemsTags.Items.STEW_MEAT)
-                .addIngredient(Items.POTATO)
-                .addIngredient(Items.CARROT)
-                .addCriterion("has_item", hasItem(GemsTags.Items.STEW_MEAT))
-                .build(consumer);
+        ShapelessRecipeBuilder.shapeless(GemsItems.UNCOOKED_FISHY_STEW)
+                .requires(Items.BOWL)
+                .requires(GemsTags.Items.STEW_FISH)
+                .requires(Items.DRIED_KELP)
+                .requires(Items.BROWN_MUSHROOM)
+                .unlockedBy("has_item", has(GemsTags.Items.STEW_FISH))
+                .save(consumer);
+        ShapelessRecipeBuilder.shapeless(GemsItems.UNCOOKED_MEATY_STEW)
+                .requires(Items.BOWL)
+                .requires(GemsTags.Items.STEW_MEAT)
+                .requires(Items.POTATO)
+                .requires(Items.CARROT)
+                .unlockedBy("has_item", has(GemsTags.Items.STEW_MEAT))
+                .save(consumer);
 
-        CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(GemsItems.UNCOOKED_FISHY_STEW), GemsItems.FISHY_STEW, 0.45f, 200)
-                .addCriterion("has_item", hasItem(GemsTags.Items.STEW_FISH))
-                .build(consumer);
-        CookingRecipeBuilder.smeltingRecipe(Ingredient.fromItems(GemsItems.UNCOOKED_MEATY_STEW), GemsItems.MEATY_STEW, 0.45f, 200)
-                .addCriterion("has_item", hasItem(GemsTags.Items.STEW_MEAT))
-                .build(consumer);
+        CookingRecipeBuilder.smelting(Ingredient.of(GemsItems.UNCOOKED_FISHY_STEW), GemsItems.FISHY_STEW, 0.45f, 200)
+                .unlockedBy("has_item", has(GemsTags.Items.STEW_FISH))
+                .save(consumer);
+        CookingRecipeBuilder.smelting(Ingredient.of(GemsItems.UNCOOKED_MEATY_STEW), GemsItems.MEATY_STEW, 0.45f, 200)
+                .unlockedBy("has_item", has(GemsTags.Items.STEW_MEAT))
+                .save(consumer);
     }
 
     private void registerMisc(Consumer<IFinishedRecipe> consumer) {
@@ -145,7 +145,7 @@ public class GemsRecipeProvider extends LibRecipeProvider {
                 .patternLine("###")
                 .key('~', Tags.Items.STRING)
                 .key('/', Tags.Items.NUGGETS_GOLD)
-                .key('#', Ingredient.fromItems(Items.SUGAR_CANE, Items.BAMBOO))
+                .key('#', Ingredient.of(Items.SUGAR_CANE, Items.BAMBOO))
                 .key('g', GemsTags.Items.GLOWROSES)
                 .build(consumer);
 
@@ -166,7 +166,7 @@ public class GemsRecipeProvider extends LibRecipeProvider {
                 .key('|', Tags.Items.STRING)
                 .key('f', GemsTags.Items.STEW_FISH)
                 .key('g', GemsTags.Items.GEMS)
-                .addCriterion("has_item", hasItem(GemsTags.Items.GEMS))
+                .addCriterion("has_item", has(GemsTags.Items.GEMS))
                 .build(consumer);
 
         shapedBuilder(GemsItems.SUMMON_PUPPY)
@@ -176,7 +176,7 @@ public class GemsRecipeProvider extends LibRecipeProvider {
                 .key('m', GemsTags.Items.STEW_FISH)
                 .key('#', Tags.Items.LEATHER)
                 .key('g', GemsTags.Items.GEMS)
-                .addCriterion("has_item", hasItem(GemsTags.Items.GEMS))
+                .addCriterion("has_item", has(GemsTags.Items.GEMS))
                 .build(consumer);
     }
 }

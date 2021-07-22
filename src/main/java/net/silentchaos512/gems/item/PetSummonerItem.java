@@ -30,53 +30,53 @@ public class PetSummonerItem extends Item {
     }
 
     @Override
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+    public void appendHoverText(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
         tooltip.add(TextUtil.itemSub(this, "desc"));
     }
 
     @Override
-    public boolean hasEffect(ItemStack stack) {
+    public boolean isFoil(ItemStack stack) {
         return true;
     }
 
     @Override
-    public ActionResultType onItemUse(ItemUseContext context) {
-        ItemStack stack = context.getItem();
-        World world = context.getWorld();
+    public ActionResultType useOn(ItemUseContext context) {
+        ItemStack stack = context.getItemInHand();
+        World world = context.getLevel();
         PlayerEntity player = context.getPlayer();
-        BlockPos pos = context.getPos();
-        Direction facing = context.getFace();
+        BlockPos pos = context.getClickedPos();
+        Direction facing = context.getClickedFace();
 
-        if (world.isRemote || player == null) {
+        if (world.isClientSide || player == null) {
             return ActionResultType.SUCCESS;
-        } else if (!player.canPlayerEdit(pos.offset(facing), facing, stack)) {
+        } else if (!player.mayUseItemAt(pos.relative(facing), facing, stack)) {
             return ActionResultType.PASS;
         } else {
-            pos = pos.offset(facing);
+            pos = pos.relative(facing);
 
             TameableEntity pet = this.petFactory.apply(world);
 
             // Set position
-            pet.setLocationAndAngles(pos.getX(), pos.getY(), pos.getZ(),
-                    MathHelper.wrapDegrees(world.rand.nextFloat() * 360.0F), 0.0F);
-            pet.rotationYawHead = pet.rotationYaw;
-            pet.renderYawOffset = pet.rotationYaw;
+            pet.moveTo(pos.getX(), pos.getY(), pos.getZ(),
+                    MathHelper.wrapDegrees(world.random.nextFloat() * 360.0F), 0.0F);
+            pet.yHeadRot = pet.yRot;
+            pet.yBodyRot = pet.yRot;
 
-            world.addEntity(pet);
+            world.addFreshEntity(pet);
             pet.playAmbientSound();
 
-            if (stack.hasDisplayName()) {
-                pet.setCustomName(stack.getDisplayName());
+            if (stack.hasCustomHoverName()) {
+                pet.setCustomName(stack.getHoverName());
             }
 
-            if (!player.abilities.isCreativeMode) {
+            if (!player.abilities.instabuild) {
                 stack.shrink(1);
             }
 
             // Make it tame and set master.
-            pet.setTamed(true);
-            pet.setOwnerId(player.getUniqueID());
-            world.setEntityState(pet, (byte) 7);
+            pet.setTame(true);
+            pet.setOwnerUUID(player.getUUID());
+            world.broadcastEntityEvent(pet, (byte) 7);
 
             // Heal to full health (because wolves)
             pet.setHealth(pet.getMaxHealth());
@@ -87,7 +87,7 @@ public class PetSummonerItem extends Item {
 
     public static CatEntity getCat(World world) {
         CatEntity cat = new CatEntity(EntityType.CAT, world);
-        cat.setCatType( world.rand.nextInt(11));
+        cat.setCatType( world.random.nextInt(11));
         return cat;
     }
 

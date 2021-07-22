@@ -20,12 +20,12 @@ public class PottedGlowroseBlock extends FlowerPotBlock {
     }
 
     @Override
-    public IFormattableTextComponent getTranslatedName() {
+    public IFormattableTextComponent getName() {
         return new TranslationTextComponent("block.silentgems.potted_glowrose", this.gem.getDisplayName());
     }
 
     @Override
-    public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items) {
+    public void fillItemCategory(ItemGroup group, NonNullList<ItemStack> items) {
         // Do not show
     }
 }

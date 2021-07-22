@@ -5,7 +5,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '4.1.+', changing: true
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '4.+', changing: true
     }
 }
 
@@ -36,7 +36,7 @@ javadoc {
     failOnError = false
 }
 
-archivesBaseName = jar_name
+archivesBaseName = project.archivesBaseName
 def versionInfo = getModVersion()
 System.out.println(versionInfo)
 def version_short = "${versionInfo['version_short']}"
@@ -50,7 +50,7 @@ def gpr_creds = { // Credentials for GitHub Packages, since this is used multipl
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
 
 minecraft {
-    mappings channel: mcp_channel, version: mcp_mappings
+    mappings channel: mappings_channel, version: mappings_version
 
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
@@ -180,10 +180,10 @@ dependencies {
 
 jar {
     manifest {
-        attributes(["Specification-Title"     : mod_name,
+        attributes(["Specification-Title"     : name,
                     "Specification-Vendor"    : author,
                     "Specification-Version"   : "1",
-                    "Implementation-Title"    : project.name,
+                    "Implementation-Title"    : name,
                     "Implementation-Version"  : version_short,
                     "Implementation-Vendor"   : author,
                     "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")],)
@@ -232,7 +232,7 @@ publishing {
     repositories {
         maven {
             name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/silentchaos512/${repo_name}")
+            url = uri("https://maven.pkg.github.com/silentchaos512/${project.repoName}")
             credentials gpr_creds
         }
     }
@@ -286,17 +286,78 @@ def makeVersionMap(version) {
     def maj = matcher[0][1]
     def min = matcher[0][2]
     def rev = matcher[0][3]
+    def bn = getBuildNumber()
 
-    return makeVersionMap(maj, min, rev, matcher[0][4])
+    return makeVersionMap(maj, min, rev, bn, matcher[0][4])
 }
 
-def makeVersionMap(maj, min, rev, githash) {
+def makeVersionMap(maj, min, rev, bn, githash) {
     def out = [:]
     out['build.major.number'] = maj.toString()
     out['build.minor.number'] = min.toString()
     out['build.revision.number'] = rev.toString()
     out['build.githash'] = githash
+    out['build.number'] = bn.toString()
     out['version_short'] = "${maj}.${min}.${rev}".toString()
     out['version'] = "${project.mc_version}-${maj}.${min}.${rev}".toString()
     return out
 }
+
+// Build number tracking
+
+String getBuildNumber() {
+    def versionFile = file('version.properties')
+    if (versionFile.canRead()) {
+        Properties versionProps = new Properties()
+        versionProps.load(new FileInputStream(versionFile))
+        return versionProps['build_num'].toString()
+    }
+    return "1"
+}
+
+task incrementBuild {
+    doFirst {
+        def versionFile = file('version.properties')
+        if (versionFile.canRead()) {
+            Properties versionProps = new Properties()
+            versionProps.load(new FileInputStream(versionFile))
+            def num = versionProps['build_num'].toInteger() + 1
+            println("incrementing BuildNumber to: " + num)
+            versionProps['build_num'] = num.toString()
+            versionProps.store(versionFile.newWriter(), null)
+        } else {
+            println("version.properties file not found! Ignoring.")
+        }
+    }
+}
+build.finalizedBy incrementBuild // only increment on successful builds
+
+// Update JSON management
+
+import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
+
+def writeUpdateJson() {
+    def version = getModVersion()['version_short']
+    def slurper = new JsonSlurper()
+    def file = new File('update.json')
+    def json = slurper.parse(file)
+
+    // TODO: Maybe add something to create an abbreviated changelog? May not be useful...
+    if (!json[project.mc_version].containsKey(version.toString()))
+        json[project.mc_version][version.toString()] = 'https://github.com/SilentChaos512/SilentGems/blob/1.16.x/CHANGELOG.md'
+    json[project.mc_version] = json[project.mc_version].sort([compare: { a, b -> b.compareTo(a) }] as Comparator)
+    json['promos']["${project.mc_version}-latest"] = version
+    json['promos']["${project.mc_version}-recommended"] = version
+
+    println(json)
+    file.write(JsonOutput.prettyPrint(JsonOutput.toJson(json)))
+}
+
+task createUpdateJson {
+    doLast {
+        println('Updating update.json...')
+        writeUpdateJson()
+    }
+}
+build.finalizedBy createUpdateJson

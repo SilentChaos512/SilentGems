@@ -10,6 +10,8 @@ import net.minecraft.world.IBlockReader;
 import net.minecraftforge.common.Tags;
 import net.silentchaos512.gems.util.Gems;
 
+import net.minecraft.block.AbstractBlock.Properties;
+
 public class GlowroseBlock extends FlowerBlock implements IGemBlock {
     private final Gems gem;
 
@@ -24,17 +26,17 @@ public class GlowroseBlock extends FlowerBlock implements IGemBlock {
     }
 
     @Override
-    protected boolean isValidGround(BlockState state, IBlockReader worldIn, BlockPos pos) {
+    protected boolean mayPlaceOn(BlockState state, IBlockReader worldIn, BlockPos pos) {
         Block block = state.getBlock();
-        return super.isValidGround(state, worldIn, pos)
-                || block.isIn(BlockTags.BASE_STONE_NETHER)
+        return super.mayPlaceOn(state, worldIn, pos)
+                || block.is(BlockTags.BASE_STONE_NETHER)
                 || block == Blocks.NETHER_QUARTZ_ORE
-                || block.isIn(BlockTags.NYLIUM)
-                || block.isIn(Tags.Blocks.END_STONES);
+                || block.is(BlockTags.NYLIUM)
+                || block.is(Tags.Blocks.END_STONES);
     }
 
     @Override
-    public IFormattableTextComponent getTranslatedName() {
+    public IFormattableTextComponent getName() {
         return getGemBlockName();
     }
 

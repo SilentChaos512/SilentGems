@@ -26,7 +26,7 @@ public class GemBlock extends Block implements IGemBlock {
     }
 
     @Override
-    public IFormattableTextComponent getTranslatedName() {
+    public IFormattableTextComponent getName() {
         return getGemBlockName();
     }
 }

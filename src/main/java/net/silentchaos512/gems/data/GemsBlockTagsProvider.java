@@ -18,20 +18,20 @@ public class GemsBlockTagsProvider extends BlockTagsProvider {
     }
 
     @Override
-    protected void registerTags() {
+    protected void addTags() {
         for (Gems gem : Gems.values()) {
-            getOrCreateBuilder(gem.getModOresTag()).add(gem.getOre(World.OVERWORLD), gem.getOre(World.THE_NETHER), gem.getOre(World.THE_END));
-            getOrCreateBuilder(gem.getOreTag()).addTag(gem.getModOresTag());
-            getOrCreateBuilder(gem.getBlockTag()).add(gem.getBlock());
-            getOrCreateBuilder(gem.getGlowroseTag()).add(gem.getGlowrose());
+            tag(gem.getModOresTag()).add(gem.getOre(World.OVERWORLD), gem.getOre(World.NETHER), gem.getOre(World.END));
+            tag(gem.getOreTag()).addTag(gem.getModOresTag());
+            tag(gem.getBlockTag()).add(gem.getBlock());
+            tag(gem.getGlowroseTag()).add(gem.getGlowrose());
 
             // Group tags
-            getOrCreateBuilder(GemsTags.Blocks.GEM_ORES).addTag(gem.getModOresTag());
-            getOrCreateBuilder(GemsTags.Blocks.GLOWROSES).addTag(gem.getGlowroseTag());
-            getOrCreateBuilder(Tags.Blocks.ORES).addTag(gem.getOreTag());
-            getOrCreateBuilder(Tags.Blocks.STORAGE_BLOCKS).add(gem.getBlock());
+            tag(GemsTags.Blocks.GEM_ORES).addTag(gem.getModOresTag());
+            tag(GemsTags.Blocks.GLOWROSES).addTag(gem.getGlowroseTag());
+            tag(Tags.Blocks.ORES).addTag(gem.getOreTag());
+            tag(Tags.Blocks.STORAGE_BLOCKS).add(gem.getBlock());
         }
 
-        getOrCreateBuilder(GemsTags.Blocks.ORES_SILVER).add(GemsBlocks.SILVER_ORE.get());
+        tag(GemsTags.Blocks.ORES_SILVER).add(GemsBlocks.SILVER_ORE.get());
     }
 }

@@ -47,33 +47,33 @@ public final class GemsItems {
             new PetSummonerItem(PetSummonerItem::getDog, baseProps()));
 
     public static final ItemRegistryObject<Item> POTATO_ON_A_STICK = registerFood("potato_on_a_stick", Items.STICK, new Food.Builder()
-            .hunger(6)
-            .saturation(0.7f));
+            .nutrition(6)
+            .saturationMod(0.7f));
     public static final ItemRegistryObject<Item> SUGAR_COOKIE = registerFood("sugar_cookie", null, new Food.Builder()
-            .hunger(2)
-            .saturation(0.4f)
-            .setAlwaysEdible()
-            .effect(() -> new EffectInstance(Effects.SPEED, 600), 1f)
-            .effect(() -> new EffectInstance(Effects.HASTE, 400), 1f));
+            .nutrition(2)
+            .saturationMod(0.4f)
+            .alwaysEat()
+            .effect(() -> new EffectInstance(Effects.MOVEMENT_SPEED, 600), 1f)
+            .effect(() -> new EffectInstance(Effects.DIG_SPEED, 400), 1f));
     public static final ItemRegistryObject<Item> UNCOOKED_MEATY_STEW = registerFood("uncooked_meaty_stew", Items.BOWL, new Food.Builder()
-            .hunger(4)
-            .saturation(0.6f));
+            .nutrition(4)
+            .saturationMod(0.6f));
     public static final ItemRegistryObject<Item> MEATY_STEW = registerFood("meaty_stew", Items.BOWL, new Food.Builder()
-            .hunger(12)
-            .saturation(1.6f));
+            .nutrition(12)
+            .saturationMod(1.6f));
     public static final ItemRegistryObject<Item> UNCOOKED_FISHY_STEW = registerFood("uncooked_fishy_stew", Items.BOWL, new Food.Builder()
-            .hunger(4)
-            .saturation(0.5f));
+            .nutrition(4)
+            .saturationMod(0.5f));
     public static final ItemRegistryObject<Item> FISHY_STEW = registerFood("fishy_stew", Items.BOWL, new Food.Builder()
-            .hunger(10)
-            .saturation(1.2f));
+            .nutrition(10)
+            .saturationMod(1.2f));
     public static final ItemRegistryObject<Item> IRON_POTATO = registerFood("iron_potato", null, new Food.Builder()
-            .hunger(9)
-            .saturation(0.9f)
-            .setAlwaysEdible()
+            .nutrition(9)
+            .saturationMod(0.9f)
+            .alwaysEat()
             .effect(() -> new EffectInstance(Effects.ABSORPTION, 10 * 60 * 20, 4), 1f)
-            .effect(() -> new EffectInstance(Effects.RESISTANCE, 5 * 60 * 20, 0), 1f)
-            .effect(() -> new EffectInstance(Effects.STRENGTH, 5 * 60 * 20, 1), 1f)
+            .effect(() -> new EffectInstance(Effects.DAMAGE_RESISTANCE, 5 * 60 * 20, 0), 1f)
+            .effect(() -> new EffectInstance(Effects.DAMAGE_BOOST, 5 * 60 * 20, 1), 1f)
     );
 
     private GemsItems() {}
@@ -107,10 +107,10 @@ public final class GemsItems {
     }
 
     private static Item.Properties baseProps() {
-        return new Item.Properties().group(GemsBase.ITEM_GROUP);
+        return new Item.Properties().tab(GemsBase.ITEM_GROUP);
     }
 
     private static Item.Properties unstackableProps() {
-        return baseProps().maxStackSize(1);
+        return baseProps().stacksTo(1);
     }
 }

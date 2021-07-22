@@ -25,14 +25,14 @@ public final class GemsBlocks {
     }
 
     public static final BlockRegistryObject<Block> SILVER_ORE = register("silver_ore", () ->
-            new OreBlockSG(null, 2, AbstractBlock.Properties.create(Material.ROCK).hardnessAndResistance(3)) {
+            new OreBlockSG(null, 2, AbstractBlock.Properties.of(Material.STONE).strength(3)) {
                 @Override
                 public int getExpRandom() {
                     return 0;
                 }
             });
     public static final BlockRegistryObject<Block> SILVER_BLOCK = register("silver_block", () ->
-            new Block(AbstractBlock.Properties.create(Material.IRON).hardnessAndResistance(4, 30).sound(SoundType.METAL)));
+            new Block(AbstractBlock.Properties.of(Material.METAL).strength(4, 30).sound(SoundType.METAL)));
 
     private GemsBlocks() {}
 
@@ -41,9 +41,9 @@ public final class GemsBlocks {
     @OnlyIn(Dist.CLIENT)
     static void registerRenderTypes(FMLClientSetupEvent event) {
         for (Gems gem : Gems.values()) {
-            RenderTypeLookup.setRenderLayer(gem.getGlass(), RenderType.getTranslucent());
-            RenderTypeLookup.setRenderLayer(gem.getGlowrose(), RenderType.getCutout());
-            RenderTypeLookup.setRenderLayer(gem.getPottedGlowrose(), RenderType.getCutout());
+            RenderTypeLookup.setRenderLayer(gem.getGlass(), RenderType.translucent());
+            RenderTypeLookup.setRenderLayer(gem.getGlowrose(), RenderType.cutout());
+            RenderTypeLookup.setRenderLayer(gem.getPottedGlowrose(), RenderType.cutout());
         }
 //        RenderTypeLookup.setRenderLayer(FLUFFY_PUFF_PLANT.get(), RenderType.getCutout());
 //        RenderTypeLookup.setRenderLayer(WILD_FLUFFY_PUFF_PLANT.get(), RenderType.getCutout());
@@ -68,6 +68,6 @@ public final class GemsBlocks {
 //    }
 
     private static <T extends Block> Supplier<BlockItem> defaultItem(BlockRegistryObject<T> block) {
-        return () -> new BlockItem(block.get(), new Item.Properties().group(GemsBase.ITEM_GROUP));
+        return () -> new BlockItem(block.get(), new Item.Properties().tab(GemsBase.ITEM_GROUP));
     }
 }

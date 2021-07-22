@@ -24,12 +24,12 @@ public class GemItem extends Item implements IGem {
     }
 
     @Override
-    public ITextComponent getDisplayName(ItemStack stack) {
-        return getName();
+    public ITextComponent getName(ItemStack stack) {
+        return getDescription();
     }
 
     @Override
-    public ITextComponent getName() {
+    public ITextComponent getDescription() {
         return new TranslationTextComponent("item.silentgems." + this.translationKey, this.gem.getDisplayName());
     }
 

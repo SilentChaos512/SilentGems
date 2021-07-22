@@ -30,18 +30,18 @@ public abstract class GemContainerItem extends Item implements IContainerItem {
     protected abstract ContainerType<? extends GemContainer> getContainerType();
 
     @Override
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-        tooltip.add(new TranslationTextComponent(Util.makeTranslationKey("item", this.getRegistryName()) + ".desc"));
+    public void appendHoverText(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+        tooltip.add(new TranslationTextComponent(Util.makeDescriptionId("item", this.getRegistryName()) + ".desc"));
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
-        if (!worldIn.isRemote) {
-            playerIn.openContainer(new SimpleNamedContainerProvider((id, playerInventory, player) ->
+    public ActionResult<ItemStack> use(World worldIn, PlayerEntity playerIn, Hand handIn) {
+        if (!worldIn.isClientSide) {
+            playerIn.openMenu(new SimpleNamedContainerProvider((id, playerInventory, player) ->
                     this.getContainerType().create(id, playerInventory, new PacketBuffer(Unpooled.buffer())),
                     this.containerName));
         }
 
-        return new ActionResult<>(ActionResultType.SUCCESS, playerIn.getHeldItem(handIn));
+        return new ActionResult<>(ActionResultType.SUCCESS, playerIn.getItemInHand(handIn));
     }
 }

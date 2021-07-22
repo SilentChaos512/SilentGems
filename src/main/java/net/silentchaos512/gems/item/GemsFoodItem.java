@@ -20,10 +20,10 @@ public class GemsFoodItem extends Item {
     }
 
     @Override
-    public ItemStack onItemUseFinish(ItemStack stack, World worldIn, LivingEntity entityLiving) {
-        if (returnItem != null && !worldIn.isRemote && entityLiving instanceof PlayerEntity) {
+    public ItemStack finishUsingItem(ItemStack stack, World worldIn, LivingEntity entityLiving) {
+        if (returnItem != null && !worldIn.isClientSide && entityLiving instanceof PlayerEntity) {
             PlayerUtils.giveItem((PlayerEntity) entityLiving, new ItemStack(returnItem));
         }
-        return super.onItemUseFinish(stack, worldIn, entityLiving);
+        return super.finishUsingItem(stack, worldIn, entityLiving);
     }
 }

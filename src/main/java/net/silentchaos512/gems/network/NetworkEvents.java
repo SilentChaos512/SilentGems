@@ -14,7 +14,7 @@ public final class NetworkEvents {
 
     @SubscribeEvent
     public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
-        if (event.player instanceof ServerPlayerEntity && event.player.ticksExisted % SYNC_PACKET_FREQUENCY == 0 ) {
+        if (event.player instanceof ServerPlayerEntity && event.player.tickCount % SYNC_PACKET_FREQUENCY == 0 ) {
 //            GeneralSyncPacket packet = new GeneralSyncPacket(event.player);
 //            Network.channel.sendTo(packet, ((ServerPlayerEntity) event.player).connection.netManager, NetworkDirection.PLAY_TO_CLIENT);
         }

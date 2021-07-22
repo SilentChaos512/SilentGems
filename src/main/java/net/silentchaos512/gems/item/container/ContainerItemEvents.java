@@ -20,8 +20,8 @@ public final class ContainerItemEvents {
         int initialCount = itemOnGround.getCount();
         PlayerEntity player = event.getPlayer();
 
-        for (int i = 0; i < player.inventory.getSizeInventory(); ++i) {
-            ItemStack stack = player.inventory.getStackInSlot(i);
+        for (int i = 0; i < player.inventory.getContainerSize(); ++i) {
+            ItemStack stack = player.inventory.getItem(i);
             if (stack.getItem() instanceof IContainerItem && ((IContainerItem) stack.getItem()).canStore(itemOnGround)) {
                 IItemHandler itemHandler = ((IContainerItem) stack.getItem()).getInventory(stack);
                 itemOnGround = ItemHandlerHelper.insertItem(itemHandler, itemOnGround, false);
@@ -37,9 +37,9 @@ public final class ContainerItemEvents {
         }
 
         if (itemOnGround.getCount() != initialCount) {
-            float pitch = ((player.world.rand.nextFloat() - player.world.rand.nextFloat()) * 0.7F + 1.0F) * 2.0F;
-            player.world.playSound(null, player.getPosX(), player.getPosY() + 0.5, player.getPosZ(),
-                    SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.PLAYERS, 0.2F, pitch);
+            float pitch = ((player.level.random.nextFloat() - player.level.random.nextFloat()) * 0.7F + 1.0F) * 2.0F;
+            player.level.playSound(null, player.getX(), player.getY() + 0.5, player.getZ(),
+                    SoundEvents.ITEM_PICKUP, SoundCategory.PLAYERS, 0.2F, pitch);
         }
     }
 }

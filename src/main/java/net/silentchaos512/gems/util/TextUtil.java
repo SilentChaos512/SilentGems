@@ -24,12 +24,12 @@ public final class TextUtil {
     }
 
     public static IFormattableTextComponent itemSub(IForgeRegistryEntry<Item> item, String suffix, Object... params) {
-        String key = Util.makeTranslationKey("item", NameUtils.from(item));
+        String key = Util.makeDescriptionId("item", NameUtils.from(item));
         return new TranslationTextComponent(key + "." + suffix, params);
     }
 
     public static IFormattableTextComponent withColor(IFormattableTextComponent text, int color) {
-        return text.mergeStyle(text.getStyle().setColor(Color.fromInt(color & 16777215)));
+        return text.withStyle(text.getStyle().withColor(Color.fromRgb(color & 16777215)));
     }
 
     public static IFormattableTextComponent withColor(IFormattableTextComponent text, net.silentchaos512.utils.Color color) {

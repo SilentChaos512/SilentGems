@@ -49,7 +49,7 @@ public class GemOreBlock extends OreBlockSG implements IGemBlock {
     }
 
     @Override
-    public IFormattableTextComponent getTranslatedName() {
+    public IFormattableTextComponent getName() {
         return getGemBlockName();
     }
 }

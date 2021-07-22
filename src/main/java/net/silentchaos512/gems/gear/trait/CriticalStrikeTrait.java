@@ -11,13 +11,15 @@ import net.silentchaos512.gems.GemsBase;
 import java.util.Collection;
 import java.util.Collections;
 
+import net.silentchaos512.gear.gear.trait.SimpleTrait.Serializer;
+
 public class CriticalStrikeTrait extends SimpleTrait {
     public static final ITraitSerializer<CriticalStrikeTrait> SERIALIZER = new Serializer<>(
             GemsBase.getId("critical_strike"),
             CriticalStrikeTrait::new,
             (trait, json) -> {
-                trait.damageMulti = JSONUtils.getFloat(json, "damage_multiplier");
-                trait.activationChance = JSONUtils.getFloat(json, "activation_chance");
+                trait.damageMulti = JSONUtils.getAsFloat(json, "damage_multiplier");
+                trait.activationChance = JSONUtils.getAsFloat(json, "activation_chance");
             },
             (trait, buffer) -> {
                 trait.damageMulti = buffer.readFloat();
@@ -39,7 +41,7 @@ public class CriticalStrikeTrait extends SimpleTrait {
     @Override
     public float onAttackEntity(TraitActionContext context, LivingEntity target, float baseValue) {
         if (GemsBase.RANDOM.nextFloat() < this.activationChance) {
-            target.world.playSound(null, target.getPosition(), SoundEvents.ENTITY_PLAYER_ATTACK_CRIT, SoundCategory.PLAYERS, 1.0f, 1.5f);
+            target.level.playSound(null, target.blockPosition(), SoundEvents.PLAYER_ATTACK_CRIT, SoundCategory.PLAYERS, 1.0f, 1.5f);
             return baseValue * (1f + this.damageMulti) * context.getTraitLevel();
         }
         return baseValue;

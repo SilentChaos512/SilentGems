@@ -22,6 +22,6 @@ public class FlowerBasketItem extends GemContainerItem {
 
     @Override
     public boolean canStore(ItemStack stack) {
-        return stack.getItem().isIn(ItemTags.FLOWERS);
+        return stack.getItem().is(ItemTags.FLOWERS);
     }
 }

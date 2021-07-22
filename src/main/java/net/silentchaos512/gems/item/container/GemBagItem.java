@@ -17,7 +17,7 @@ public class GemBagItem extends GemContainerItem {
 
     @Override
     public boolean canStore(ItemStack stack) {
-        return stack.getItem().isIn(Tags.Items.GEMS);
+        return stack.getItem().is(Tags.Items.GEMS);
     }
 
     @Override

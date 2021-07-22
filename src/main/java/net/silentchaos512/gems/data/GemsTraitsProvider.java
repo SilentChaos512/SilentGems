@@ -30,7 +30,7 @@ public class GemsTraitsProvider extends TraitsProvider {
         );
 
         ret.add(new PotionTraitBuilder(GemsTraits.BOOSTER, 5)
-                .addEffect(GearType.CURIO, PotionEffectTrait.LevelType.TRAIT_LEVEL, Effects.SPEED, 1, 2, 3, 4, 5)
+                .addEffect(GearType.CURIO, PotionEffectTrait.LevelType.TRAIT_LEVEL, Effects.MOVEMENT_SPEED, 1, 2, 3, 4, 5)
         );
 
         ret.add(new PotionTraitBuilder(GemsTraits.CLOAKING, 1)
@@ -50,7 +50,7 @@ public class GemsTraitsProvider extends TraitsProvider {
         );
 
         ret.add(new PotionTraitBuilder(GemsTraits.LEAPING, 5)
-                .addEffect(GearType.CURIO, PotionEffectTrait.LevelType.TRAIT_LEVEL, Effects.JUMP_BOOST, 1, 2, 3, 4, 5)
+                .addEffect(GearType.CURIO, PotionEffectTrait.LevelType.TRAIT_LEVEL, Effects.JUMP, 1, 2, 3, 4, 5)
                 .addEffect(GearType.CURIO, PotionEffectTrait.LevelType.TRAIT_LEVEL, Effects.SLOW_FALLING, 1, 1, 1, 1, 1)
         );
 

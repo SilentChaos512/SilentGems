@@ -65,11 +65,11 @@ public class OreConfig {
     public ConfiguredFeature<?, ?> createConfiguredFeature(RuleTest fillerType, BlockState state) {
         int bottom = getMinHeight();
         configuredFeature = Feature.ORE
-                .withConfiguration(new OreFeatureConfig(fillerType, state, getSize()))
-                .withPlacement(Placement.RANGE.configure(new TopSolidRangeConfig(bottom, bottom, getMaxHeight())))
-                .withPlacement(Placement.CHANCE.configure(new ChanceConfig(getRarity())))
-                .square()
-                .func_242731_b(getCount());
+                .configured(new OreFeatureConfig(fillerType, state, getSize()))
+                .decorated(Placement.RANGE.configured(new TopSolidRangeConfig(bottom, bottom, getMaxHeight())))
+                .decorated(Placement.CHANCE.configured(new ChanceConfig(getRarity())))
+                .squared()
+                .count(getCount());
         return configuredFeature;
     }
 

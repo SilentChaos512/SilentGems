@@ -94,21 +94,21 @@ public class SoulGemItem extends Item {
     }
 
     @Override
-    public ITextComponent getDisplayName(ItemStack stack) {
+    public ITextComponent getName(ItemStack stack) {
         Soul soul = getSoul(stack);
         if (soul != null) {
             ITextComponent entityName = soul.getEntityName();
-            return new TranslationTextComponent(this.getTranslationKey(), entityName.deepCopy().appendString(" "));
+            return new TranslationTextComponent(this.getDescriptionId(), entityName.copy().append(" "));
         }
-        return super.getDisplayName(stack);
+        return super.getName(stack);
     }
 
     @Override
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+    public void appendHoverText(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
         Soul soul = getSoul(stack);
         if (soul != null) {
             if (flagIn.isAdvanced()) {
-                tooltip.add(new StringTextComponent("Soul ID: " + soul.getId()).mergeStyle(TextFormatting.DARK_GRAY));
+                tooltip.add(new StringTextComponent("Soul ID: " + soul.getId()).withStyle(TextFormatting.DARK_GRAY));
             }
 
             // Elements
@@ -128,8 +128,8 @@ public class SoulGemItem extends Item {
     }
 
     @Override
-    public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items) {
-        if (isInGroup(group)) {
+    public void fillItemCategory(ItemGroup group, NonNullList<ItemStack> items) {
+        if (allowdedIn(group)) {
             items.add(new ItemStack(this));
 
             for (Soul soul : Soul.getValues()) {

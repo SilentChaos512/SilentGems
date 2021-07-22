@@ -24,8 +24,8 @@ public class GemsBlockStateProvider extends BlockStateProvider {
 
         for (Gems gem : Gems.values()) {
             simpleBlock(gem.getOre(World.OVERWORLD));
-            simpleBlock(gem.getOre(World.THE_NETHER));
-            simpleBlock(gem.getOre(World.THE_END));
+            simpleBlock(gem.getOre(World.NETHER));
+            simpleBlock(gem.getOre(World.END));
             simpleBlock(gem.getBlock());
             simpleBlock(gem.getBricks());
             simpleBlock(gem.getGlass());

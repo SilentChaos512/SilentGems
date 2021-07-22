@@ -17,30 +17,30 @@ public class GemContainerScreen extends ContainerScreen<GemContainer> {
         super(container, playerInventory, title);
         this.playerInventory = playerInventory;
         this.inventoryRows = container.getInventoryRows();
-        this.ySize = 114 + this.inventoryRows * 18;
+        this.imageHeight = 114 + this.inventoryRows * 18;
     }
 
     @Override
     public void render(MatrixStack matrix, int mouseX, int mouseY, float partialTicks) {
         this.renderBackground(matrix);
         super.render(matrix, mouseX, mouseY, partialTicks);
-        this.renderHoveredTooltip(matrix, mouseX, mouseY);
+        this.renderTooltip(matrix, mouseX, mouseY);
     }
 
     @Override
-    protected void drawGuiContainerForegroundLayer(MatrixStack matrixStack, int x, int y) {
-        this.font.drawString(matrixStack, title.getString(), 8, 6, 4210752);
-        this.font.drawString(matrixStack, playerInventory.getDisplayName().getString(), 8, this.ySize - 96 + 2, 4210752);
+    protected void renderLabels(MatrixStack matrixStack, int x, int y) {
+        this.font.draw(matrixStack, title.getString(), 8, 6, 4210752);
+        this.font.draw(matrixStack, playerInventory.getDisplayName().getString(), 8, this.imageHeight - 96 + 2, 4210752);
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(MatrixStack matrixStack, float partialTicks, int x, int y) {
+    protected void renderBg(MatrixStack matrixStack, float partialTicks, int x, int y) {
         if (minecraft == null) return;
         RenderSystem.color4f(1, 1, 1, 1);
-        minecraft.getTextureManager().bindTexture(TEXTURE);
-        int i = (this.width - this.xSize) / 2;
-        int j = (this.height - this.ySize) / 2;
-        blit(matrixStack, i, j, 0, 0, this.xSize, this.inventoryRows * 18 + 17);
-        blit(matrixStack, i, j + this.inventoryRows * 18 + 17, 0, 126, this.xSize, 96);
+        minecraft.getTextureManager().bind(TEXTURE);
+        int i = (this.width - this.imageWidth) / 2;
+        int j = (this.height - this.imageHeight) / 2;
+        blit(matrixStack, i, j, 0, 0, this.imageWidth, this.inventoryRows * 18 + 17);
+        blit(matrixStack, i, j + this.inventoryRows * 18 + 17, 0, 126, this.imageWidth, 96);
     }
 }

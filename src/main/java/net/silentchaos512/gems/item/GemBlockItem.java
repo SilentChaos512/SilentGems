@@ -15,15 +15,15 @@ public class GemBlockItem extends BlockItem {
     }
 
     @Override
-    public ITextComponent getDisplayName(ItemStack stack) {
+    public ITextComponent getName(ItemStack stack) {
         if (block instanceof IGemBlock) {
             return ((IGemBlock) block).getGemBlockName();
         }
-        return super.getDisplayName(stack);
+        return super.getName(stack);
     }
 
     @Override
-    public ITextComponent getName() {
-        return block.getTranslatedName();
+    public ITextComponent getDescription() {
+        return block.getName();
     }
 }

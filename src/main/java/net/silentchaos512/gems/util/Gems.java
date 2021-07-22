@@ -168,22 +168,22 @@ public enum Gems {
         this.rarity = rarity;
 
         this.oreConfigDefaults.put(World.OVERWORLD, overworldOres);
-        this.oreConfigDefaults.put(World.THE_NETHER, netherOres);
-        this.oreConfigDefaults.put(World.THE_END, endOres);
+        this.oreConfigDefaults.put(World.NETHER, netherOres);
+        this.oreConfigDefaults.put(World.END, endOres);
 
         this.oreConfiguredFeatures.put(World.OVERWORLD, Lazy.of(() ->
-                createOreConfiguredFeature(World.OVERWORLD, OreFeatureConfig.FillerBlockType.BASE_STONE_OVERWORLD)));
-        this.oreConfiguredFeatures.put(World.THE_NETHER, Lazy.of(() ->
-                createOreConfiguredFeature(World.THE_NETHER, OreFeatureConfig.FillerBlockType.NETHERRACK)));
-        this.oreConfiguredFeatures.put(World.THE_END, Lazy.of(() ->
-                createOreConfiguredFeature(World.THE_END, GemsWorldFeatures.BASE_STONE_END)));
+                createOreConfiguredFeature(World.OVERWORLD, OreFeatureConfig.FillerBlockType.NATURAL_STONE)));
+        this.oreConfiguredFeatures.put(World.NETHER, Lazy.of(() ->
+                createOreConfiguredFeature(World.NETHER, OreFeatureConfig.FillerBlockType.NETHERRACK)));
+        this.oreConfiguredFeatures.put(World.END, Lazy.of(() ->
+                createOreConfiguredFeature(World.END, GemsWorldFeatures.BASE_STONE_END)));
 
         this.glowroseConfiguredFeatures.put(World.OVERWORLD, Lazy.of(() ->
                 createGlowroseConfiguredFeature(World.OVERWORLD)));
-        this.glowroseConfiguredFeatures.put(World.THE_NETHER, Lazy.of(() ->
-                createGlowroseConfiguredFeature(World.THE_NETHER)));
-        this.glowroseConfiguredFeatures.put(World.THE_END, Lazy.of(() ->
-                createGlowroseConfiguredFeature(World.THE_END)));
+        this.glowroseConfiguredFeatures.put(World.NETHER, Lazy.of(() ->
+                createGlowroseConfiguredFeature(World.NETHER)));
+        this.glowroseConfiguredFeatures.put(World.END, Lazy.of(() ->
+                createGlowroseConfiguredFeature(World.END)));
 
         String name = this.getName();
         this.blockTag = makeBlockTag(forgeId("storage_blocks/" + name));
@@ -200,11 +200,11 @@ public enum Gems {
     }
 
     private static ITag.INamedTag<Block> makeBlockTag(ResourceLocation name) {
-        return BlockTags.makeWrapperTag(name.toString());
+        return BlockTags.bind(name.toString());
     }
 
     private static ITag.INamedTag<Item> makeItemTag(ResourceLocation name) {
-        return ItemTags.makeWrapperTag(name.toString());
+        return ItemTags.bind(name.toString());
     }
 
     private static ResourceLocation forgeId(String path) {
@@ -254,12 +254,12 @@ public enum Gems {
             gem.oreConfigs.put(World.OVERWORLD, new OreConfig(builder,
                     gem.getName() + ".overworld",
                     gem.getOreConfigDefaults(World.OVERWORLD)));
-            gem.oreConfigs.put(World.THE_NETHER, new OreConfig(builder,
+            gem.oreConfigs.put(World.NETHER, new OreConfig(builder,
                     gem.getName() + ".the_nether",
-                    gem.getOreConfigDefaults(World.THE_NETHER)));
-            gem.oreConfigs.put(World.THE_END, new OreConfig(builder,
+                    gem.getOreConfigDefaults(World.NETHER)));
+            gem.oreConfigs.put(World.END, new OreConfig(builder,
                     gem.getName() + ".the_end",
-                    gem.getOreConfigDefaults(World.THE_END)));
+                    gem.getOreConfigDefaults(World.END)));
         }
     }
 
@@ -267,11 +267,11 @@ public enum Gems {
         OreConfig config = this.getOreConfig(world);
         int bottom = config.getMinHeight();
         return Feature.ORE
-                .withConfiguration(new OreFeatureConfig(fillerType, this.getOre(world).getDefaultState(), config.getSize()))
-                .withPlacement(Placement.RANGE.configure(new TopSolidRangeConfig(bottom, bottom, config.getMaxHeight())))
-                .withPlacement(Placement.CHANCE.configure(new ChanceConfig(config.getRarity())))
-                .square()
-                .func_242731_b(config.getCount());
+                .configured(new OreFeatureConfig(fillerType, this.getOre(world).defaultBlockState(), config.getSize()))
+                .decorated(Placement.RANGE.configured(new TopSolidRangeConfig(bottom, bottom, config.getMaxHeight())))
+                .decorated(Placement.CHANCE.configured(new ChanceConfig(config.getRarity())))
+                .squared()
+                .count(config.getCount());
     }
 
     private ConfiguredFeature<?, ?> createGlowroseConfiguredFeature(RegistryKey<World> world) {
@@ -280,22 +280,22 @@ public enum Gems {
         int rarity = 2 * config.getRarity();
 
         int tryCount;
-        if (world == World.THE_END) {
+        if (world == World.END) {
             tryCount = 6;
-        } else if (world == World.THE_NETHER) {
+        } else if (world == World.NETHER) {
             tryCount = 12;
         } else {
             tryCount = 8;
         }
 
         return Feature.FLOWER
-                .withConfiguration(new BlockClusterFeatureConfig.Builder(
-                        new SimpleBlockStateProvider(this.getGlowrose().getDefaultState()), SimpleBlockPlacer.PLACER)
+                .configured(new BlockClusterFeatureConfig.Builder(
+                        new SimpleBlockStateProvider(this.getGlowrose().defaultBlockState()), SimpleBlockPlacer.INSTANCE)
                         .tries(tryCount)
                         .build())
-                .withPlacement(Placement.COUNT_MULTILAYER.configure(new FeatureSpreadConfig(baseSpread)))
-                .withPlacement(LibPlacements.DIMENSION_FILTER.configure(DimensionFilterConfig.whitelist(World.OVERWORLD)))
-                .withPlacement(Placement.CHANCE.configure(new ChanceConfig(rarity)))
+                .decorated(Placement.COUNT_MULTILAYER.configured(new FeatureSpreadConfig(baseSpread)))
+                .decorated(LibPlacements.DIMENSION_FILTER.configured(DimensionFilterConfig.whitelist(World.OVERWORLD)))
+                .decorated(Placement.CHANCE.configured(new ChanceConfig(rarity)))
                 .range(128)
                 .chance(32);
     }
@@ -305,9 +305,9 @@ public enum Gems {
     //region Block, Item, and Tag getters
 
     public GemOreBlock getOre(RegistryKey<World> world) {
-        if (world.equals(World.THE_NETHER))
+        if (world.equals(World.NETHER))
             return netherOre.get();
-        if (world.equals(World.THE_END))
+        if (world.equals(World.END))
             return endOre.get();
         return ore.get();
     }
@@ -386,50 +386,50 @@ public enum Gems {
     public static void registerBlocks() {
         for (Gems gem : values())
             gem.ore = registerBlock(gem.getName() + "_ore", () ->
-                    new GemOreBlock(gem, 2, "gem_ore", AbstractBlock.Properties.create(Material.ROCK)
-                            .hardnessAndResistance(3)
+                    new GemOreBlock(gem, 2, "gem_ore", AbstractBlock.Properties.of(Material.STONE)
+                            .strength(3)
                             .harvestTool(ToolType.PICKAXE)
-                            .setRequiresTool()
+                            .requiresCorrectToolForDrops()
                             .sound(SoundType.STONE)));
 
         for (Gems gem : values())
             gem.netherOre = registerBlock(gem.getName() + "_nether_ore", () ->
-                    new GemOreBlock(gem, 3, "gem_nether_ore", AbstractBlock.Properties.create(Material.ROCK)
-                            .hardnessAndResistance(4)
+                    new GemOreBlock(gem, 3, "gem_nether_ore", AbstractBlock.Properties.of(Material.STONE)
+                            .strength(4)
                             .harvestTool(ToolType.PICKAXE)
-                            .setRequiresTool()
+                            .requiresCorrectToolForDrops()
                             .sound(SoundType.NETHER_ORE)));
 
         for (Gems gem : values())
             gem.endOre = registerBlock(gem.getName() + "_end_ore", () ->
-                    new GemOreBlock(gem, 4, "gem_end_ore", AbstractBlock.Properties.create(Material.ROCK)
-                            .hardnessAndResistance(6)
+                    new GemOreBlock(gem, 4, "gem_end_ore", AbstractBlock.Properties.of(Material.STONE)
+                            .strength(6)
                             .harvestTool(ToolType.PICKAXE)
-                            .setRequiresTool()
+                            .requiresCorrectToolForDrops()
                             .sound(SoundType.STONE)));
 
         for (Gems gem : values())
             gem.block = registerBlock(gem.getName() + "_block", () ->
-                    new GemBlock(gem, "gem_block", AbstractBlock.Properties.create(Material.IRON)
-                            .hardnessAndResistance(4, 30)
+                    new GemBlock(gem, "gem_block", AbstractBlock.Properties.of(Material.METAL)
+                            .strength(4, 30)
                             .sound(SoundType.METAL)));
 
         for (Gems gem : values())
             gem.bricks = registerBlock(gem.getName() + "_bricks", () ->
-                    new GemBlock(gem, "gem_bricks", AbstractBlock.Properties.create(Material.ROCK)
-                            .hardnessAndResistance(2f, 8f)));
+                    new GemBlock(gem, "gem_bricks", AbstractBlock.Properties.of(Material.STONE)
+                            .strength(2f, 8f)));
 
         AbstractBlock.IPositionPredicate isNotSolid = (state, world, pos) -> false;
         for (Gems gem : values())
             gem.glass = registerBlock(gem.getName() + "_glass", () ->
-                    new GemGlassBlock(gem, AbstractBlock.Properties.create(Material.GLASS)
-                            .hardnessAndResistance(1f, 5f)
+                    new GemGlassBlock(gem, AbstractBlock.Properties.of(Material.GLASS)
+                            .strength(1f, 5f)
                             .sound(SoundType.GLASS)
-                            .notSolid()
-                            .setAllowsSpawn((state, world, pos, entityType) -> false)
-                            .setOpaque(isNotSolid)
-                            .setSuffocates(isNotSolid)
-                            .setBlocksVision(isNotSolid)));
+                            .noOcclusion()
+                            .isValidSpawn((state, world, pos, entityType) -> false)
+                            .isRedstoneConductor(isNotSolid)
+                            .isSuffocating(isNotSolid)
+                            .isViewBlocking(isNotSolid)));
 
         for (Gems gem : values())
             gem.lamps.put(GemLampBlock.State.OFF, registerLamp(gem, GemLampBlock.State.OFF));
@@ -442,18 +442,18 @@ public enum Gems {
 
         for (Gems gem : values())
             gem.glowrose = registerBlock(gem.getName() + "_glowrose", () ->
-                    new GlowroseBlock(gem, AbstractBlock.Properties.create(Material.PLANTS)
-                            .sound(SoundType.PLANT)
-                            .setLightLevel(state -> GemsConfig.Common.glowroseNormalLight.get())
-                            .hardnessAndResistance(0)
-                            .doesNotBlockMovement()));
+                    new GlowroseBlock(gem, AbstractBlock.Properties.of(Material.PLANT)
+                            .sound(SoundType.GRASS)
+                            .lightLevel(state -> GemsConfig.Common.glowroseNormalLight.get())
+                            .strength(0)
+                            .noCollission()));
 
         for (Gems gem : values()) {
             gem.pottedGlowrose = registerBlockNoItem("potted_" + gem.getName() + "_glowrose", () ->
                     new PottedGlowroseBlock(gem, gem.glowrose, AbstractBlock.Properties
-                            .create(Material.MISCELLANEOUS)
-                            .setLightLevel(state -> GemsConfig.Common.glowrosePottedLight.get())
-                            .hardnessAndResistance(0)));
+                            .of(Material.DECORATION)
+                            .lightLevel(state -> GemsConfig.Common.glowrosePottedLight.get())
+                            .strength(0)));
             ((FlowerPotBlock) Blocks.FLOWER_POT).addPlant(GemsBase.getId(gem.getName() + "_glowrose"), gem.pottedGlowrose);
         }
     }
@@ -461,7 +461,7 @@ public enum Gems {
     public static void registerItems() {
         for (Gems gem : values())
             gem.item = registerItem(gem.getName(), () ->
-                    new GemItem(gem, "gem", new Item.Properties().group(GemsBase.ITEM_GROUP)));
+                    new GemItem(gem, "gem", new Item.Properties().tab(GemsBase.ITEM_GROUP)));
 
 //        for (Gems gem : values())
 //            gem.shard = registerItem(gem.getName() + "_shard", () ->
@@ -487,9 +487,9 @@ public enum Gems {
     private static BlockRegistryObject<GemLampBlock> registerLamp(Gems gem, GemLampBlock.State state) {
         String name = gem.getName() + "_lamp" + (state.inverted() ? "_inverted" : "") + (state.lit() ? "_on" : "");
         return registerBlock(name,
-                () -> new GemLampBlock(gem, state, Block.Properties.create(Material.REDSTONE_LIGHT)
-                        .hardnessAndResistance(0.3f, 15)
-                        .setLightLevel(s -> state.lit() ? 15 : 0)),
+                () -> new GemLampBlock(gem, state, Block.Properties.of(Material.BUILDABLE_GLASS)
+                        .strength(0.3f, 15)
+                        .lightLevel(s -> state.lit() ? 15 : 0)),
                 state.hasItem() ? Gems::defaultBlockItem : null);
     }
 
@@ -498,6 +498,6 @@ public enum Gems {
     }
 
     private static Supplier<BlockItem> defaultBlockItem(BlockRegistryObject<?> block) {
-        return () -> new GemBlockItem(block.get(), new Item.Properties().group(GemsBase.ITEM_GROUP));
+        return () -> new GemBlockItem(block.get(), new Item.Properties().tab(GemsBase.ITEM_GROUP));
     }
 }

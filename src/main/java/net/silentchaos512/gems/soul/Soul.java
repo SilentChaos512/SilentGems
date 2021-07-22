@@ -113,12 +113,12 @@ public final class Soul {
     }
 
     public int getKillValue(LivingEntity entity) {
-        if (!entity.isNonBoss()) {
+        if (!entity.canChangeDimensions()) {
             return MAX_VALUE;
         }
         if (entity instanceof SlimeEntity) {
             SlimeEntity slimeEntity = (SlimeEntity) entity;
-            int size = MathHelper.clamp(slimeEntity.getSlimeSize(), 1, 4);
+            int size = MathHelper.clamp(slimeEntity.getSize(), 1, 4);
             return STANDARD_KILL_VALUE / (6 - size);
         }
         return STANDARD_KILL_VALUE;
@@ -168,7 +168,7 @@ public final class Soul {
 
     @Nullable
     private static SpawnEggItem getSpawnEggForType(EntityType<?> entityType) {
-        for (SpawnEggItem egg : SpawnEggItem.getEggs()) {
+        for (SpawnEggItem egg : SpawnEggItem.eggs()) {
             if (egg.getType(null) == entityType) {
                 return egg;
             }
@@ -177,17 +177,17 @@ public final class Soul {
     }
 
     private static int getEggPrimaryColor(SpawnEggItem egg) {
-        Integer i = ObfuscationReflectionHelper.getPrivateValue(SpawnEggItem.class, egg, "field_195988_c");
+        Integer i = ObfuscationReflectionHelper.getPrivateValue(SpawnEggItem.class, egg, "color1");
         return i != null ? i : 0xFF00FF;
     }
 
     private static int getEggSecondaryColor(SpawnEggItem egg) {
-        Integer i = ObfuscationReflectionHelper.getPrivateValue(SpawnEggItem.class, egg, "field_195989_d");
+        Integer i = ObfuscationReflectionHelper.getPrivateValue(SpawnEggItem.class, egg, "color2");
         return i != null ? i : 0x0;
     }
 
     public static boolean canHaveSoulGem(EntityType<?> type) {
-        return type.getClassification() != EntityClassification.MISC;
+        return type.getCategory() != EntityClassification.MISC;
     }
 
     @Override
@@ -222,7 +222,7 @@ public final class Soul {
 
         @SubscribeEvent
         public static void onMobKilled(LivingDeathEvent event) {
-            Entity killer = event.getSource().getTrueSource();
+            Entity killer = event.getSource().getEntity();
 
             if (killer instanceof PlayerEntity) {
                 PlayerEntity player = (PlayerEntity) killer;
