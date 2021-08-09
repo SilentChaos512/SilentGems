@@ -1,11 +1,11 @@
 package net.silentchaos512.gems.setup;
 
-import net.minecraft.item.Food;
-import net.minecraft.item.Item;
-import net.minecraft.item.Items;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
-import net.minecraft.util.IItemProvider;
+import net.minecraft.world.food.FoodProperties;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.level.ItemLike;
 import net.silentchaos512.gems.GemsBase;
 import net.silentchaos512.gems.item.GemsFoodItem;
 import net.silentchaos512.gems.item.PetSummonerItem;
@@ -46,34 +46,34 @@ public final class GemsItems {
     public static final ItemRegistryObject<PetSummonerItem> SUMMON_PUPPY = registerSimpleModel("summon_puppy", () ->
             new PetSummonerItem(PetSummonerItem::getDog, baseProps()));
 
-    public static final ItemRegistryObject<Item> POTATO_ON_A_STICK = registerFood("potato_on_a_stick", Items.STICK, new Food.Builder()
+    public static final ItemRegistryObject<Item> POTATO_ON_A_STICK = registerFood("potato_on_a_stick", Items.STICK, new FoodProperties.Builder()
             .nutrition(6)
             .saturationMod(0.7f));
-    public static final ItemRegistryObject<Item> SUGAR_COOKIE = registerFood("sugar_cookie", null, new Food.Builder()
+    public static final ItemRegistryObject<Item> SUGAR_COOKIE = registerFood("sugar_cookie", null, new FoodProperties.Builder()
             .nutrition(2)
             .saturationMod(0.4f)
             .alwaysEat()
-            .effect(() -> new EffectInstance(Effects.MOVEMENT_SPEED, 600), 1f)
-            .effect(() -> new EffectInstance(Effects.DIG_SPEED, 400), 1f));
-    public static final ItemRegistryObject<Item> UNCOOKED_MEATY_STEW = registerFood("uncooked_meaty_stew", Items.BOWL, new Food.Builder()
+            .effect(() -> new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 600), 1f)
+            .effect(() -> new MobEffectInstance(MobEffects.DIG_SPEED, 400), 1f));
+    public static final ItemRegistryObject<Item> UNCOOKED_MEATY_STEW = registerFood("uncooked_meaty_stew", Items.BOWL, new FoodProperties.Builder()
             .nutrition(4)
             .saturationMod(0.6f));
-    public static final ItemRegistryObject<Item> MEATY_STEW = registerFood("meaty_stew", Items.BOWL, new Food.Builder()
+    public static final ItemRegistryObject<Item> MEATY_STEW = registerFood("meaty_stew", Items.BOWL, new FoodProperties.Builder()
             .nutrition(12)
             .saturationMod(1.6f));
-    public static final ItemRegistryObject<Item> UNCOOKED_FISHY_STEW = registerFood("uncooked_fishy_stew", Items.BOWL, new Food.Builder()
+    public static final ItemRegistryObject<Item> UNCOOKED_FISHY_STEW = registerFood("uncooked_fishy_stew", Items.BOWL, new FoodProperties.Builder()
             .nutrition(4)
             .saturationMod(0.5f));
-    public static final ItemRegistryObject<Item> FISHY_STEW = registerFood("fishy_stew", Items.BOWL, new Food.Builder()
+    public static final ItemRegistryObject<Item> FISHY_STEW = registerFood("fishy_stew", Items.BOWL, new FoodProperties.Builder()
             .nutrition(10)
             .saturationMod(1.2f));
-    public static final ItemRegistryObject<Item> IRON_POTATO = registerFood("iron_potato", null, new Food.Builder()
+    public static final ItemRegistryObject<Item> IRON_POTATO = registerFood("iron_potato", null, new FoodProperties.Builder()
             .nutrition(9)
             .saturationMod(0.9f)
             .alwaysEat()
-            .effect(() -> new EffectInstance(Effects.ABSORPTION, 10 * 60 * 20, 4), 1f)
-            .effect(() -> new EffectInstance(Effects.DAMAGE_RESISTANCE, 5 * 60 * 20, 0), 1f)
-            .effect(() -> new EffectInstance(Effects.DAMAGE_BOOST, 5 * 60 * 20, 1), 1f)
+            .effect(() -> new MobEffectInstance(MobEffects.ABSORPTION, 10 * 60 * 20, 4), 1f)
+            .effect(() -> new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 5 * 60 * 20, 0), 1f)
+            .effect(() -> new MobEffectInstance(MobEffects.DAMAGE_BOOST, 5 * 60 * 20, 1), 1f)
     );
 
     private GemsItems() {}
@@ -100,7 +100,7 @@ public final class GemsItems {
         return registerSimpleModel(name, () -> new Item(baseProps()));
     }
 
-    private static ItemRegistryObject<Item> registerFood(String name, @Nullable IItemProvider returnItem, Food.Builder foodBuilder) {
+    private static ItemRegistryObject<Item> registerFood(String name, @Nullable ItemLike returnItem, FoodProperties.Builder foodBuilder) {
         ItemRegistryObject<Item> ret = register(name, () -> new GemsFoodItem(foodBuilder, returnItem, baseProps()));
         SIMPLE_MODEL_ITEMS.add(ret);
         return ret;

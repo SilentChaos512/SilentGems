@@ -1,13 +1,13 @@
 package net.silentchaos512.gems.block;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.NonNullList;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 import net.silentchaos512.gems.util.Gems;
 
 import java.util.Random;
@@ -57,7 +57,7 @@ public class GemLampBlock extends GemBlock {
         this.lampState = lampState;
     }
 
-    private void checkAndUpdateState(World world, BlockPos pos) {
+    private void checkAndUpdateState(Level world, BlockPos pos) {
         if (!world.isClientSide) {
             boolean powered = world.hasNeighborSignal(pos);
             State newLampState = this.lampState.withPower(powered);
@@ -71,24 +71,24 @@ public class GemLampBlock extends GemBlock {
 
     @SuppressWarnings("deprecation")
     @Override
-    public void onPlace(BlockState state, World worldIn, BlockPos pos, BlockState oldState, boolean p_220082_5_) {
+    public void onPlace(BlockState state, Level worldIn, BlockPos pos, BlockState oldState, boolean p_220082_5_) {
         checkAndUpdateState(worldIn, pos);
     }
 
     @SuppressWarnings("deprecation")
     @Override
-    public void neighborChanged(BlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean p_220069_6_) {
+    public void neighborChanged(BlockState state, Level worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean p_220069_6_) {
         checkAndUpdateState(worldIn, pos);
     }
 
     @SuppressWarnings("deprecation")
     @Override
-    public void tick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+    public void tick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
         checkAndUpdateState(world, pos);
     }
 
     @Override
-    public void fillItemCategory(ItemGroup group, NonNullList<ItemStack> items) {
+    public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
         if (this.lampState.hasItem()) {
             super.fillItemCategory(group, items);
         }

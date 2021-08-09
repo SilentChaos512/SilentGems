@@ -1,9 +1,10 @@
 package net.silentchaos512.gems.item.container;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -18,10 +19,10 @@ public final class ContainerItemEvents {
     public static void onItemPickup(EntityItemPickupEvent event) {
         ItemStack itemOnGround = event.getItem().getItem();
         int initialCount = itemOnGround.getCount();
-        PlayerEntity player = event.getPlayer();
+        Player player = event.getPlayer();
 
-        for (int i = 0; i < player.inventory.getContainerSize(); ++i) {
-            ItemStack stack = player.inventory.getItem(i);
+        for (int i = 0; i < player.getInventory().getContainerSize(); ++i) {
+            ItemStack stack = player.getInventory().getItem(i);
             if (stack.getItem() instanceof IContainerItem && ((IContainerItem) stack.getItem()).canStore(itemOnGround)) {
                 IItemHandler itemHandler = ((IContainerItem) stack.getItem()).getInventory(stack);
                 itemOnGround = ItemHandlerHelper.insertItem(itemHandler, itemOnGround, false);
@@ -30,7 +31,7 @@ public final class ContainerItemEvents {
 
                 if (itemOnGround.isEmpty()) {
                     event.setResult(Event.Result.ALLOW);
-                    event.getItem().remove();
+                    event.getItem().remove(Entity.RemovalReason.DISCARDED);
                     break;
                 }
             }
@@ -39,7 +40,7 @@ public final class ContainerItemEvents {
         if (itemOnGround.getCount() != initialCount) {
             float pitch = ((player.level.random.nextFloat() - player.level.random.nextFloat()) * 0.7F + 1.0F) * 2.0F;
             player.level.playSound(null, player.getX(), player.getY() + 0.5, player.getZ(),
-                    SoundEvents.ITEM_PICKUP, SoundCategory.PLAYERS, 0.2F, pitch);
+                    SoundEvents.ITEM_PICKUP, SoundSource.PLAYERS, 0.2F, pitch);
         }
     }
 }

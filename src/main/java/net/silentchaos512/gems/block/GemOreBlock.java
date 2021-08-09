@@ -18,9 +18,9 @@
 
 package net.silentchaos512.gems.block;
 
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.IFormattableTextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.util.Mth;
 import net.silentchaos512.gems.util.Gems;
 
 public class GemOreBlock extends OreBlockSG implements IGemBlock {
@@ -39,17 +39,17 @@ public class GemOreBlock extends OreBlockSG implements IGemBlock {
     }
 
     @Override
-    public IFormattableTextComponent getGemBlockName() {
-        return new TranslationTextComponent("block.silentgems." + this.translationKey, this.gem.getDisplayName());
+    public MutableComponent getGemBlockName() {
+        return new TranslatableComponent("block.silentgems." + this.translationKey, this.gem.getDisplayName());
     }
 
     @Override
     public int getExpRandom() {
-        return MathHelper.nextInt(RANDOM, 1, 5);
+        return Mth.nextInt(RANDOM, 1, 5);
     }
 
     @Override
-    public IFormattableTextComponent getName() {
+    public MutableComponent getName() {
         return getGemBlockName();
     }
 }

@@ -1,7 +1,7 @@
 package net.silentchaos512.gems.item.container;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
@@ -16,7 +16,7 @@ public interface IContainerItem {
         return stackHandler;
     }
 
-    default void saveInventory(ItemStack stack, IItemHandler itemHandler, PlayerEntity player) {
+    default void saveInventory(ItemStack stack, IItemHandler itemHandler, Player player) {
         if (itemHandler != null && itemHandler instanceof ItemStackHandler) {
             stack.getOrCreateTag().put("Inventory", ((ItemStackHandler) itemHandler).serializeNBT());
         }

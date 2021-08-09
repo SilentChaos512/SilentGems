@@ -1,26 +1,26 @@
 package net.silentchaos512.gems.item.container;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.ClickType;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.ContainerType;
-import net.minecraft.inventory.container.Slot;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
 import javax.annotation.Nonnull;
 import java.util.function.Predicate;
 
-public class GemContainer extends Container {
+public class GemContainer extends AbstractContainerMenu {
     private final ItemStack item;
     private final IItemHandler itemHandler;
     private final Class<? extends IContainerItem> containerItemClass;
     private int blocked = -1;
 
-    public <T extends Item & IContainerItem> GemContainer(int id, PlayerInventory playerInventory, ContainerType<?> containerType, Class<T> containerItemClass) {
+    public <T extends Item & IContainerItem> GemContainer(int id, Inventory playerInventory, MenuType<?> containerType, Class<T> containerItemClass) {
         super(containerType, id);
         this.item = getHeldContainerItem(playerInventory.player, containerItemClass);
         this.itemHandler = containerItemClass.cast(this.item.getItem()).getInventory(this.item);
@@ -53,7 +53,7 @@ public class GemContainer extends Container {
         for (int x = 0; x < 9; ++x) {
             Slot slot = addSlot(new Slot(playerInventory, x, 8 + x * 18, 161 + yOffset) {
                 @Override
-                public boolean mayPickup(PlayerEntity playerIn) {
+                public boolean mayPickup(Player playerIn) {
                     return index != blocked;
                 }
             });
@@ -64,7 +64,7 @@ public class GemContainer extends Container {
         }
     }
 
-    private static ItemStack getHeldContainerItem(PlayerEntity player, Class<? extends Item> itemClass) {
+    private static ItemStack getHeldContainerItem(Player player, Class<? extends Item> itemClass) {
         if (itemClass.isInstance(player.getMainHandItem().getItem()))
             return player.getMainHandItem();
         if (itemClass.isInstance(player.getOffhandItem().getItem()))
@@ -81,12 +81,12 @@ public class GemContainer extends Container {
     }
 
     @Override
-    public boolean stillValid(PlayerEntity playerIn) {
+    public boolean stillValid(Player playerIn) {
         return true;
     }
 
     @Override
-    public ItemStack quickMoveStack(PlayerEntity playerIn, int index) {
+    public ItemStack quickMoveStack(Player playerIn, int index) {
         Slot slot = this.getSlot(index);
 
         if (!slot.mayPickup(playerIn))
@@ -112,29 +112,33 @@ public class GemContainer extends Container {
         else
             slot.setChanged();
 
-        return slot.onTake(playerIn, newStack);
+        slot.onTake(playerIn, newStack);
+        return newStack;
     }
 
     @Override
-    public ItemStack clicked(int slotId, int dragType, ClickType clickTypeIn, PlayerEntity player) {
-        if (slotId < 0 || slotId > slots.size())
-            return super.clicked(slotId, dragType, clickTypeIn, player);
+    public void clicked(int slotId, int dragType, ClickType clickTypeIn, Player player) {
+        if (slotId < 0 || slotId > slots.size()) {
+            super.clicked(slotId, dragType, clickTypeIn, player);
+            return;
+        }
 
         Slot slot = slots.get(slotId);
-        if (!canTake(slotId, slot, dragType, player, clickTypeIn))
-            return slot.getItem();
+        if (!canTake(slotId, slot, dragType, player, clickTypeIn)) {
+            return;
+        }
 
-        return super.clicked(slotId, dragType, clickTypeIn, player);
+        super.clicked(slotId, dragType, clickTypeIn, player);
     }
 
     @Override
-    public void removed(PlayerEntity playerIn) {
+    public void removed(Player playerIn) {
         super.removed(playerIn);
         ((IContainerItem) item.getItem()).saveInventory(item, itemHandler, playerIn);
     }
 
-    public boolean canTake(int slotId, Slot slot, int button, PlayerEntity player, ClickType clickType) {
-        if (slotId == blocked || slotId <= itemHandler.getSlots() - 1 && isContainerItem(player.inventory.getCarried()))
+    public boolean canTake(int slotId, Slot slot, int button, Player player, ClickType clickType) {
+        if (slotId == blocked || slotId <= itemHandler.getSlots() - 1 && isContainerItem(player.getInventory().getSelected()))
             return false;
 
         // Hotbar swapping via number keys

@@ -1,12 +1,12 @@
 package net.silentchaos512.gems.block;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.StainedGlassBlock;
-import net.minecraft.item.DyeColor;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.IFormattableTextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.IWorldReader;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.StainedGlassBlock;
+import net.minecraft.world.level.block.state.BlockState;
 import net.silentchaos512.gems.util.Gems;
 
 import javax.annotation.Nullable;
@@ -25,18 +25,18 @@ public class GemGlassBlock extends StainedGlassBlock implements IGemBlock {
     }
 
     @Override
-    public IFormattableTextComponent getGemBlockName() {
-        return new TranslationTextComponent("block.silentgems.gem_glass", this.gem.getDisplayName());
+    public MutableComponent getGemBlockName() {
+        return new TranslatableComponent("block.silentgems.gem_glass", this.gem.getDisplayName());
     }
 
     @Override
-    public IFormattableTextComponent getName() {
+    public MutableComponent getName() {
         return getGemBlockName();
     }
 
     @Nullable
     @Override
-    public float[] getBeaconColorMultiplier(BlockState state, IWorldReader world, BlockPos pos, BlockPos beaconPos) {
+    public float[] getBeaconColorMultiplier(BlockState state, LevelReader world, BlockPos pos, BlockPos beaconPos) {
         return this.gem.getColorArray();
     }
 }

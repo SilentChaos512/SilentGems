@@ -1,13 +1,13 @@
 package net.silentchaos512.gems.config;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.world.gen.feature.ConfiguredFeature;
-import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.OreFeatureConfig;
-import net.minecraft.world.gen.feature.template.RuleTest;
-import net.minecraft.world.gen.placement.ChanceConfig;
-import net.minecraft.world.gen.placement.Placement;
-import net.minecraft.world.gen.placement.TopSolidRangeConfig;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.VerticalAnchor;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
+import net.minecraft.world.level.levelgen.placement.ChanceDecoratorConfiguration;
+import net.minecraft.world.level.levelgen.placement.FeatureDecorator;
+import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 import net.minecraftforge.common.ForgeConfigSpec;
 
 public class OreConfig {
@@ -63,11 +63,10 @@ public class OreConfig {
     }
 
     public ConfiguredFeature<?, ?> createConfiguredFeature(RuleTest fillerType, BlockState state) {
-        int bottom = getMinHeight();
         configuredFeature = Feature.ORE
-                .configured(new OreFeatureConfig(fillerType, state, getSize()))
-                .decorated(Placement.RANGE.configured(new TopSolidRangeConfig(bottom, bottom, getMaxHeight())))
-                .decorated(Placement.CHANCE.configured(new ChanceConfig(getRarity())))
+                .configured(new OreConfiguration(fillerType, state, getSize()))
+                .rangeUniform(VerticalAnchor.aboveBottom(getMinHeight()), VerticalAnchor.absolute(getMaxHeight()))
+                .decorated(FeatureDecorator.CHANCE.configured(new ChanceDecoratorConfiguration(getRarity())))
                 .squared()
                 .count(getCount());
         return configuredFeature;

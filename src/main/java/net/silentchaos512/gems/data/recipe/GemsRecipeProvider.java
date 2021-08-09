@@ -1,11 +1,11 @@
 package net.silentchaos512.gems.data.recipe;
 
-import net.minecraft.data.CookingRecipeBuilder;
+import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.IFinishedRecipe;
-import net.minecraft.data.ShapelessRecipeBuilder;
-import net.minecraft.item.Items;
-import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.data.recipes.ShapelessRecipeBuilder;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.tags.ItemTags;
 import net.minecraftforge.common.Tags;
 import net.silentchaos512.gems.GemsBase;
@@ -24,14 +24,14 @@ public class GemsRecipeProvider extends LibRecipeProvider {
     }
 
     @Override
-    protected void buildShapelessRecipes(Consumer<IFinishedRecipe> consumer) {
+    protected void buildCraftingRecipes(Consumer<FinishedRecipe> consumer) {
         registerGemRecipes(consumer);
         registerMetals(consumer);
         registerFoods(consumer);
         registerMisc(consumer);
     }
 
-    private void registerGemRecipes(Consumer<IFinishedRecipe> consumer) {
+    private void registerGemRecipes(Consumer<FinishedRecipe> consumer) {
         for (Gems gem : Gems.values()) {
             String name = gem.getName();
 
@@ -74,12 +74,12 @@ public class GemsRecipeProvider extends LibRecipeProvider {
         }
     }
 
-    private void registerMetals(Consumer<IFinishedRecipe> consumer) {
+    private void registerMetals(Consumer<FinishedRecipe> consumer) {
         smeltingAndBlastingRecipes(consumer, "silver_ingot", GemsBlocks.SILVER_ORE.get(), GemsItems.SILVER_INGOT.get(), 1.0f);
         compressionRecipes(consumer, GemsBlocks.SILVER_BLOCK.get(), GemsItems.SILVER_INGOT.get(), GemsItems.SILVER_NUGGET.get());
     }
 
-    private void registerFoods(Consumer<IFinishedRecipe> consumer) {
+    private void registerFoods(Consumer<FinishedRecipe> consumer) {
         shapedBuilder(GemsItems.POTATO_ON_A_STICK)
                 .patternLine(" p")
                 .patternLine("/ ")
@@ -120,15 +120,15 @@ public class GemsRecipeProvider extends LibRecipeProvider {
                 .unlockedBy("has_item", has(GemsTags.Items.STEW_MEAT))
                 .save(consumer);
 
-        CookingRecipeBuilder.smelting(Ingredient.of(GemsItems.UNCOOKED_FISHY_STEW), GemsItems.FISHY_STEW, 0.45f, 200)
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(GemsItems.UNCOOKED_FISHY_STEW), GemsItems.FISHY_STEW, 0.45f, 200)
                 .unlockedBy("has_item", has(GemsTags.Items.STEW_FISH))
                 .save(consumer);
-        CookingRecipeBuilder.smelting(Ingredient.of(GemsItems.UNCOOKED_MEATY_STEW), GemsItems.MEATY_STEW, 0.45f, 200)
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(GemsItems.UNCOOKED_MEATY_STEW), GemsItems.MEATY_STEW, 0.45f, 200)
                 .unlockedBy("has_item", has(GemsTags.Items.STEW_MEAT))
                 .save(consumer);
     }
 
-    private void registerMisc(Consumer<IFinishedRecipe> consumer) {
+    private void registerMisc(Consumer<FinishedRecipe> consumer) {
         shapedBuilder(GemsItems.GEM_BAG)
                 .patternLine("/~/")
                 .patternLine("#g#")

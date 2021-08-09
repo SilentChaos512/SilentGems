@@ -2,14 +2,18 @@ package net.silentchaos512.gems.data;
 
 import com.google.common.collect.ImmutableList;
 import com.mojang.datafixers.util.Pair;
-import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.LootTableProvider;
-import net.minecraft.item.Item;
-import net.minecraft.loot.*;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.RegistryObject;
+import net.minecraft.data.loot.LootTableProvider;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.LootTables;
+import net.minecraft.world.level.storage.loot.ValidationContext;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParamSet;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+import net.minecraftforge.fmllegacy.RegistryObject;
 import net.silentchaos512.gems.block.GemLampBlock;
 import net.silentchaos512.gems.setup.GemsBlocks;
 import net.silentchaos512.gems.setup.GemsItems;
@@ -29,24 +33,24 @@ public class GemsLootTableProvider extends LootTableProvider {
     }
 
     @Override
-    protected List<Pair<Supplier<Consumer<BiConsumer<ResourceLocation, LootTable.Builder>>>, LootParameterSet>> getTables() {
+    protected List<Pair<Supplier<Consumer<BiConsumer<ResourceLocation, LootTable.Builder>>>, LootContextParamSet>> getTables() {
         return ImmutableList.of(
-                Pair.of(BlockLootTables::new, LootParameterSets.BLOCK)
+                Pair.of(BlockLootTables::new, LootContextParamSets.BLOCK)
         );
     }
 
     @Override
-    protected void validate(Map<ResourceLocation, LootTable> map, ValidationTracker validationtracker) {
-        map.forEach((p_218436_2_, p_218436_3_) -> LootTableManager.validate(validationtracker, p_218436_2_, p_218436_3_));
+    protected void validate(Map<ResourceLocation, LootTable> map, ValidationContext validationtracker) {
+        map.forEach((p_218436_2_, p_218436_3_) -> LootTables.validate(validationtracker, p_218436_2_, p_218436_3_));
     }
 
-    private static final class BlockLootTables extends net.minecraft.data.loot.BlockLootTables {
+    private static final class BlockLootTables extends net.minecraft.data.loot.BlockLoot {
         @Override
         protected void addTables() {
             for (Gems gem : Gems.values()) {
-                registerFortuneDrops(gem.getOre(World.OVERWORLD), gem.getItem());
-                registerFortuneDrops(gem.getOre(World.NETHER), gem.getItem());
-                registerFortuneDrops(gem.getOre(World.END), gem.getItem());
+                registerFortuneDrops(gem.getOre(Level.OVERWORLD), gem.getItem());
+                registerFortuneDrops(gem.getOre(Level.NETHER), gem.getItem());
+                registerFortuneDrops(gem.getOre(Level.END), gem.getItem());
                 dropSelf(gem.getBlock());
                 dropSelf(gem.getBricks());
                 dropSelf(gem.getGlass());

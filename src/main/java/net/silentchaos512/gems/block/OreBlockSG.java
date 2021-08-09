@@ -1,23 +1,23 @@
 package net.silentchaos512.gems.block;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.OreBlock;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.IItemProvider;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorldReader;
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.OreBlock;
+import net.minecraft.world.level.block.state.BlockState;
 import net.silentchaos512.gems.GemsBase;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
 public abstract class OreBlockSG extends OreBlock {
-    @Nullable private final IItemProvider droppedItem;
+    @Nullable private final ItemLike droppedItem;
     private final int harvestLevel;
 
     /**
@@ -28,7 +28,7 @@ public abstract class OreBlockSG extends OreBlock {
      * @param harvestLevel The harvest level required
      * @param builder      The block properties
      */
-    public OreBlockSG(@Nullable IItemProvider droppedItem, int harvestLevel, Properties builder) {
+    public OreBlockSG(@Nullable ItemLike droppedItem, int harvestLevel, Properties builder) {
         super(builder);
         this.droppedItem = droppedItem;
         this.harvestLevel = harvestLevel;
@@ -37,7 +37,7 @@ public abstract class OreBlockSG extends OreBlock {
     /**
      * Gets the item dropped when mined with a non-silk touch tool
      */
-    public IItemProvider getDroppedItem() {
+    public ItemLike getDroppedItem() {
         return this.droppedItem != null ? this.droppedItem : this;
     }
 
@@ -47,7 +47,7 @@ public abstract class OreBlockSG extends OreBlock {
     public abstract int getExpRandom();
 
     @Override
-    public int getExpDrop(BlockState state, IWorldReader reader, BlockPos pos, int fortune, int silkTouch) {
+    public int getExpDrop(BlockState state, LevelReader reader, BlockPos pos, int fortune, int silkTouch) {
         return silkTouch == 0 ? getExpRandom() : 0;
     }
 
@@ -57,12 +57,12 @@ public abstract class OreBlockSG extends OreBlock {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable IBlockReader worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-        ITextComponent itemName = this.getDroppedItem().asItem().getDescription();
-        tooltip.add(new TranslationTextComponent("misc.silentgems.dropFromOre", itemName)
-                .withStyle(TextFormatting.GRAY));
+    public void appendHoverText(ItemStack stack, @Nullable BlockGetter worldIn, List<Component> tooltip, TooltipFlag flagIn) {
+        Component itemName = this.getDroppedItem().asItem().getDescription();
+        tooltip.add(new TranslatableComponent("misc.silentgems.dropFromOre", itemName)
+                .withStyle(ChatFormatting.GRAY));
         // Harvest level tips
-        ITextComponent harvestLevelName = GemsBase.TEXT.misc("harvestLevel." + this.harvestLevel);
+        Component harvestLevelName = GemsBase.TEXT.misc("harvestLevel." + this.harvestLevel);
         tooltip.add(GemsBase.TEXT.misc("harvestLevel", this.harvestLevel, harvestLevelName));
     }
 }

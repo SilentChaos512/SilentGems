@@ -1,20 +1,20 @@
 package net.silentchaos512.gems.item;
 
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.passive.CatEntity;
-import net.minecraft.entity.passive.TameableEntity;
-import net.minecraft.entity.passive.WolfEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUseContext;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
+import net.minecraft.util.Mth;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.TamableAnimal;
+import net.minecraft.world.entity.animal.Cat;
+import net.minecraft.world.entity.animal.Wolf;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.Level;
 import net.silentchaos512.gems.util.TextUtil;
 
 import javax.annotation.Nullable;
@@ -22,15 +22,15 @@ import java.util.List;
 import java.util.function.Function;
 
 public class PetSummonerItem extends Item {
-    private final Function<World, ? extends TameableEntity> petFactory;
+    private final Function<Level, ? extends TamableAnimal> petFactory;
 
-    public PetSummonerItem(Function<World, ? extends TameableEntity> petFactory, Properties properties) {
+    public PetSummonerItem(Function<Level, ? extends TamableAnimal> petFactory, Properties properties) {
         super(properties);
         this.petFactory = petFactory;
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+    public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
         tooltip.add(TextUtil.itemSub(this, "desc"));
     }
 
@@ -40,27 +40,27 @@ public class PetSummonerItem extends Item {
     }
 
     @Override
-    public ActionResultType useOn(ItemUseContext context) {
+    public InteractionResult useOn(UseOnContext context) {
         ItemStack stack = context.getItemInHand();
-        World world = context.getLevel();
-        PlayerEntity player = context.getPlayer();
+        Level world = context.getLevel();
+        Player player = context.getPlayer();
         BlockPos pos = context.getClickedPos();
         Direction facing = context.getClickedFace();
 
         if (world.isClientSide || player == null) {
-            return ActionResultType.SUCCESS;
+            return InteractionResult.SUCCESS;
         } else if (!player.mayUseItemAt(pos.relative(facing), facing, stack)) {
-            return ActionResultType.PASS;
+            return InteractionResult.PASS;
         } else {
             pos = pos.relative(facing);
 
-            TameableEntity pet = this.petFactory.apply(world);
+            TamableAnimal pet = this.petFactory.apply(world);
 
             // Set position
             pet.moveTo(pos.getX(), pos.getY(), pos.getZ(),
-                    MathHelper.wrapDegrees(world.random.nextFloat() * 360.0F), 0.0F);
-            pet.yHeadRot = pet.yRot;
-            pet.yBodyRot = pet.yRot;
+                    Mth.wrapDegrees(world.random.nextFloat() * 360.0F), 0.0F);
+            pet.yHeadRot = pet.getYRot();
+            pet.yBodyRot = pet.getYRot();
 
             world.addFreshEntity(pet);
             pet.playAmbientSound();
@@ -69,7 +69,7 @@ public class PetSummonerItem extends Item {
                 pet.setCustomName(stack.getHoverName());
             }
 
-            if (!player.abilities.instabuild) {
+            if (!player.getAbilities().instabuild) {
                 stack.shrink(1);
             }
 
@@ -81,17 +81,17 @@ public class PetSummonerItem extends Item {
             // Heal to full health (because wolves)
             pet.setHealth(pet.getMaxHealth());
 
-            return ActionResultType.SUCCESS;
+            return InteractionResult.SUCCESS;
         }
     }
 
-    public static CatEntity getCat(World world) {
-        CatEntity cat = new CatEntity(EntityType.CAT, world);
+    public static Cat getCat(Level world) {
+        Cat cat = new Cat(EntityType.CAT, world);
         cat.setCatType( world.random.nextInt(11));
         return cat;
     }
 
-    public static WolfEntity getDog(World world) {
-        return new WolfEntity(EntityType.WOLF, world);
+    public static Wolf getDog(Level world) {
+        return new Wolf(EntityType.WOLF, world);
     }
 }

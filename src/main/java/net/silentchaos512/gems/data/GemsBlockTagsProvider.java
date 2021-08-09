@@ -1,8 +1,8 @@
 package net.silentchaos512.gems.data;
 
-import net.minecraft.data.BlockTagsProvider;
+import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.world.World;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.silentchaos512.gems.GemsBase;
@@ -20,7 +20,7 @@ public class GemsBlockTagsProvider extends BlockTagsProvider {
     @Override
     protected void addTags() {
         for (Gems gem : Gems.values()) {
-            tag(gem.getModOresTag()).add(gem.getOre(World.OVERWORLD), gem.getOre(World.NETHER), gem.getOre(World.END));
+            tag(gem.getModOresTag()).add(gem.getOre(Level.OVERWORLD), gem.getOre(Level.NETHER), gem.getOre(Level.END));
             tag(gem.getOreTag()).addTag(gem.getModOresTag());
             tag(gem.getBlockTag()).add(gem.getBlock());
             tag(gem.getGlowroseTag()).add(gem.getGlowrose());

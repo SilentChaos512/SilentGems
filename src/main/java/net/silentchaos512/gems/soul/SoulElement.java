@@ -1,8 +1,8 @@
 package net.silentchaos512.gems.soul;
 
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.silentchaos512.gems.util.TextUtil;
 import net.silentchaos512.utils.Color;
 import net.silentchaos512.utils.MathUtils;
@@ -71,9 +71,9 @@ public enum SoulElement {
         return modifiers.getOrDefault(stat, 0f);
     }
 
-    public ITextComponent getDisplayName() {
+    public Component getDisplayName() {
         String translationKey = "soul.silentgems.element." + this.name().toLowerCase(Locale.ROOT);
-        return TextUtil.withColor(new TranslationTextComponent(translationKey), this.color);
+        return TextUtil.withColor(new TranslatableComponent(translationKey), this.color);
     }
 
     public static SoulElement selectRandom(Random random) {
@@ -95,11 +95,11 @@ public enum SoulElement {
         return NONE;
     }
 
-    public static SoulElement read(PacketBuffer buffer) {
+    public static SoulElement read(FriendlyByteBuf buffer) {
         return buffer.readEnum(SoulElement.class);
     }
 
-    public void write(PacketBuffer buffer) {
+    public void write(FriendlyByteBuf buffer) {
         buffer.writeByte(ordinal());
     }
 

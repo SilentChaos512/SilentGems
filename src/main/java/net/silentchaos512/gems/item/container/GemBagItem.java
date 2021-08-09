@@ -1,7 +1,7 @@
 package net.silentchaos512.gems.item.container;
 
-import net.minecraft.inventory.container.ContainerType;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.Tags;
 import net.silentchaos512.gems.setup.GemsContainers;
 
@@ -17,11 +17,11 @@ public class GemBagItem extends GemContainerItem {
 
     @Override
     public boolean canStore(ItemStack stack) {
-        return stack.getItem().is(Tags.Items.GEMS);
+        return stack.is(Tags.Items.GEMS);
     }
 
     @Override
-    protected ContainerType<? extends GemContainer> getContainerType() {
+    protected MenuType<? extends GemContainer> getContainerType() {
         return GemsContainers.GEM_BAG.get();
     }
 }

@@ -1,25 +1,33 @@
 package net.silentchaos512.gems.util;
 
-import net.minecraft.block.*;
-import net.minecraft.block.material.Material;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.Rarity;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.ITag;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
-import net.minecraft.world.gen.blockplacer.SimpleBlockPlacer;
-import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
-import net.minecraft.world.gen.feature.*;
-import net.minecraft.world.gen.feature.template.RuleTest;
-import net.minecraft.world.gen.placement.ChanceConfig;
-import net.minecraft.world.gen.placement.Placement;
-import net.minecraft.world.gen.placement.TopSolidRangeConfig;
+import net.minecraft.tags.Tag;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.FlowerPotBlock;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.levelgen.VerticalAnchor;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.blockplacers.SimpleBlockPlacer;
+import net.minecraft.world.level.levelgen.feature.configurations.CountConfiguration;
+import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
+import net.minecraft.world.level.levelgen.feature.configurations.RandomPatchConfiguration;
+import net.minecraft.world.level.levelgen.feature.stateproviders.SimpleStateProvider;
+import net.minecraft.world.level.levelgen.placement.ChanceDecoratorConfiguration;
+import net.minecraft.world.level.levelgen.placement.FeatureDecorator;
+import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
+import net.minecraft.world.level.material.Material;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ToolType;
 import net.silentchaos512.gems.GemsBase;
@@ -131,10 +139,10 @@ public enum Gems {
     private final Rarity rarity;
 
     // World/ore generation
-    private final Map<RegistryKey<World>, OreConfig.Defaults> oreConfigDefaults = new HashMap<>();
-    private final Map<RegistryKey<World>, OreConfig> oreConfigs = new HashMap<>();
-    private final Map<RegistryKey<World>, Lazy<ConfiguredFeature<?, ?>>> oreConfiguredFeatures = new HashMap<>();
-    private final Map<RegistryKey<World>, Lazy<ConfiguredFeature<?, ?>>> glowroseConfiguredFeatures = new HashMap<>();
+    private final Map<ResourceKey<Level>, OreConfig.Defaults> oreConfigDefaults = new HashMap<>();
+    private final Map<ResourceKey<Level>, OreConfig> oreConfigs = new HashMap<>();
+    private final Map<ResourceKey<Level>, Lazy<ConfiguredFeature<?, ?>>> oreConfiguredFeatures = new HashMap<>();
+    private final Map<ResourceKey<Level>, Lazy<ConfiguredFeature<?, ?>>> glowroseConfiguredFeatures = new HashMap<>();
 
     // Blocks
     BlockRegistryObject<GemOreBlock> ore;
@@ -152,38 +160,38 @@ public enum Gems {
     ItemRegistryObject<GemItem> shard;
 
     // Tags
-    final ITag.INamedTag<Block> blockTag;
-    final ITag.INamedTag<Block> glowroseTag;
-    final ITag.INamedTag<Block> oreTag;
-    final ITag.INamedTag<Block> modOresTag;
-    final ITag.INamedTag<Item> blockItemTag;
-    final ITag.INamedTag<Item> glowroseItemTag;
-    final ITag.INamedTag<Item> oreItemTag;
-    final ITag.INamedTag<Item> modOresItemTag;
-    final ITag.INamedTag<Item> itemTag;
+    final Tag.Named<Block> blockTag;
+    final Tag.Named<Block> glowroseTag;
+    final Tag.Named<Block> oreTag;
+    final Tag.Named<Block> modOresTag;
+    final Tag.Named<Item> blockItemTag;
+    final Tag.Named<Item> glowroseItemTag;
+    final Tag.Named<Item> oreItemTag;
+    final Tag.Named<Item> modOresItemTag;
+    final Tag.Named<Item> itemTag;
 //    final ITag.INamedTag<Item> shardTag;
 
     Gems(int colorIn, Rarity rarity, OreConfig.Defaults overworldOres, OreConfig.Defaults netherOres, OreConfig.Defaults endOres) {
         this.color = new Color(colorIn);
         this.rarity = rarity;
 
-        this.oreConfigDefaults.put(World.OVERWORLD, overworldOres);
-        this.oreConfigDefaults.put(World.NETHER, netherOres);
-        this.oreConfigDefaults.put(World.END, endOres);
+        this.oreConfigDefaults.put(Level.OVERWORLD, overworldOres);
+        this.oreConfigDefaults.put(Level.NETHER, netherOres);
+        this.oreConfigDefaults.put(Level.END, endOres);
 
-        this.oreConfiguredFeatures.put(World.OVERWORLD, Lazy.of(() ->
-                createOreConfiguredFeature(World.OVERWORLD, OreFeatureConfig.FillerBlockType.NATURAL_STONE)));
-        this.oreConfiguredFeatures.put(World.NETHER, Lazy.of(() ->
-                createOreConfiguredFeature(World.NETHER, OreFeatureConfig.FillerBlockType.NETHERRACK)));
-        this.oreConfiguredFeatures.put(World.END, Lazy.of(() ->
-                createOreConfiguredFeature(World.END, GemsWorldFeatures.BASE_STONE_END)));
+        this.oreConfiguredFeatures.put(Level.OVERWORLD, Lazy.of(() ->
+                createOreConfiguredFeature(Level.OVERWORLD, OreConfiguration.Predicates.NATURAL_STONE)));
+        this.oreConfiguredFeatures.put(Level.NETHER, Lazy.of(() ->
+                createOreConfiguredFeature(Level.NETHER, OreConfiguration.Predicates.NETHERRACK)));
+        this.oreConfiguredFeatures.put(Level.END, Lazy.of(() ->
+                createOreConfiguredFeature(Level.END, GemsWorldFeatures.BASE_STONE_END)));
 
-        this.glowroseConfiguredFeatures.put(World.OVERWORLD, Lazy.of(() ->
-                createGlowroseConfiguredFeature(World.OVERWORLD)));
-        this.glowroseConfiguredFeatures.put(World.NETHER, Lazy.of(() ->
-                createGlowroseConfiguredFeature(World.NETHER)));
-        this.glowroseConfiguredFeatures.put(World.END, Lazy.of(() ->
-                createGlowroseConfiguredFeature(World.END)));
+        this.glowroseConfiguredFeatures.put(Level.OVERWORLD, Lazy.of(() ->
+                createGlowroseConfiguredFeature(Level.OVERWORLD)));
+        this.glowroseConfiguredFeatures.put(Level.NETHER, Lazy.of(() ->
+                createGlowroseConfiguredFeature(Level.NETHER)));
+        this.glowroseConfiguredFeatures.put(Level.END, Lazy.of(() ->
+                createGlowroseConfiguredFeature(Level.END)));
 
         String name = this.getName();
         this.blockTag = makeBlockTag(forgeId("storage_blocks/" + name));
@@ -199,11 +207,11 @@ public enum Gems {
 //        this.shardTag = ItemTags.makeWrapperTag(new ResourceLocation("forge", "nuggets/" + this.getName()).toString());
     }
 
-    private static ITag.INamedTag<Block> makeBlockTag(ResourceLocation name) {
+    private static Tag.Named<Block> makeBlockTag(ResourceLocation name) {
         return BlockTags.bind(name.toString());
     }
 
-    private static ITag.INamedTag<Item> makeItemTag(ResourceLocation name) {
+    private static Tag.Named<Item> makeItemTag(ResourceLocation name) {
         return ItemTags.bind(name.toString());
     }
 
@@ -227,87 +235,85 @@ public enum Gems {
         return rarity;
     }
 
-    public ITextComponent getDisplayName() {
-        return new TranslationTextComponent("gem.silentgems." + this.getName());
+    public Component getDisplayName() {
+        return new TranslatableComponent("gem.silentgems." + this.getName());
     }
 
     //region World generation
 
-    public ConfiguredFeature<?, ?> getOreConfiguredFeature(RegistryKey<World> world) {
-        return this.oreConfiguredFeatures.getOrDefault(world, this.oreConfiguredFeatures.get(World.OVERWORLD)).get();
+    public ConfiguredFeature<?, ?> getOreConfiguredFeature(ResourceKey<Level> world) {
+        return this.oreConfiguredFeatures.getOrDefault(world, this.oreConfiguredFeatures.get(Level.OVERWORLD)).get();
     }
 
-    public ConfiguredFeature<?, ?> getGlowroseConfiguredFeature(RegistryKey<World> world) {
-        return this.glowroseConfiguredFeatures.getOrDefault(world, this.glowroseConfiguredFeatures.get(World.OVERWORLD)).get();
+    public ConfiguredFeature<?, ?> getGlowroseConfiguredFeature(ResourceKey<Level> world) {
+        return this.glowroseConfiguredFeatures.getOrDefault(world, this.glowroseConfiguredFeatures.get(Level.OVERWORLD)).get();
     }
 
-    public OreConfig getOreConfig(RegistryKey<World> world) {
-        return this.oreConfigs.getOrDefault(world, this.oreConfigs.get(World.OVERWORLD));
+    public OreConfig getOreConfig(ResourceKey<Level> world) {
+        return this.oreConfigs.getOrDefault(world, this.oreConfigs.get(Level.OVERWORLD));
     }
 
-    public OreConfig.Defaults getOreConfigDefaults(RegistryKey<World> world) {
-        return this.oreConfigDefaults.getOrDefault(world, this.oreConfigDefaults.get(World.OVERWORLD));
+    public OreConfig.Defaults getOreConfigDefaults(ResourceKey<Level> world) {
+        return this.oreConfigDefaults.getOrDefault(world, this.oreConfigDefaults.get(Level.OVERWORLD));
     }
 
     public static void buildOreConfigs(ForgeConfigSpec.Builder builder) {
         for (Gems gem : Gems.values()) {
-            gem.oreConfigs.put(World.OVERWORLD, new OreConfig(builder,
+            gem.oreConfigs.put(Level.OVERWORLD, new OreConfig(builder,
                     gem.getName() + ".overworld",
-                    gem.getOreConfigDefaults(World.OVERWORLD)));
-            gem.oreConfigs.put(World.NETHER, new OreConfig(builder,
+                    gem.getOreConfigDefaults(Level.OVERWORLD)));
+            gem.oreConfigs.put(Level.NETHER, new OreConfig(builder,
                     gem.getName() + ".the_nether",
-                    gem.getOreConfigDefaults(World.NETHER)));
-            gem.oreConfigs.put(World.END, new OreConfig(builder,
+                    gem.getOreConfigDefaults(Level.NETHER)));
+            gem.oreConfigs.put(Level.END, new OreConfig(builder,
                     gem.getName() + ".the_end",
-                    gem.getOreConfigDefaults(World.END)));
+                    gem.getOreConfigDefaults(Level.END)));
         }
     }
 
-    private ConfiguredFeature<?, ?> createOreConfiguredFeature(RegistryKey<World> world, RuleTest fillerType) {
+    private ConfiguredFeature<?, ?> createOreConfiguredFeature(ResourceKey<Level> world, RuleTest fillerType) {
         OreConfig config = this.getOreConfig(world);
-        int bottom = config.getMinHeight();
         return Feature.ORE
-                .configured(new OreFeatureConfig(fillerType, this.getOre(world).defaultBlockState(), config.getSize()))
-                .decorated(Placement.RANGE.configured(new TopSolidRangeConfig(bottom, bottom, config.getMaxHeight())))
-                .decorated(Placement.CHANCE.configured(new ChanceConfig(config.getRarity())))
+                .configured(new OreConfiguration(fillerType, this.getOre(world).defaultBlockState(), config.getSize()))
+                .rangeUniform(VerticalAnchor.aboveBottom(config.getMinHeight()), VerticalAnchor.absolute(config.getMaxHeight()))
+                .decorated(FeatureDecorator.CHANCE.configured(new ChanceDecoratorConfiguration(config.getRarity())))
                 .squared()
                 .count(config.getCount());
     }
 
-    private ConfiguredFeature<?, ?> createGlowroseConfiguredFeature(RegistryKey<World> world) {
+    private ConfiguredFeature<?, ?> createGlowroseConfiguredFeature(ResourceKey<Level> world) {
         OreConfig config = this.getOreConfig(world);
         int baseSpread = config.isEnabled() ? 2 : 0;
-        int rarity = 2 * config.getRarity();
+        int rarity = 32 * config.getRarity();
 
         int tryCount;
-        if (world == World.END) {
+        if (world == Level.END) {
             tryCount = 6;
-        } else if (world == World.NETHER) {
+        } else if (world == Level.NETHER) {
             tryCount = 12;
         } else {
             tryCount = 8;
         }
 
         return Feature.FLOWER
-                .configured(new BlockClusterFeatureConfig.Builder(
-                        new SimpleBlockStateProvider(this.getGlowrose().defaultBlockState()), SimpleBlockPlacer.INSTANCE)
+                .configured(new RandomPatchConfiguration.GrassConfigurationBuilder(
+                        new SimpleStateProvider(this.getGlowrose().defaultBlockState()), SimpleBlockPlacer.INSTANCE)
                         .tries(tryCount)
                         .build())
-                .decorated(Placement.COUNT_MULTILAYER.configured(new FeatureSpreadConfig(baseSpread)))
-                .decorated(LibPlacements.DIMENSION_FILTER.configured(DimensionFilterConfig.whitelist(World.OVERWORLD)))
-                .decorated(Placement.CHANCE.configured(new ChanceConfig(rarity)))
-                .range(128)
-                .chance(32);
+                .decorated(FeatureDecorator.COUNT_MULTILAYER.configured(new CountConfiguration(baseSpread)))
+                .decorated(LibPlacements.DIMENSION_FILTER.configured(DimensionFilterConfig.whitelist(Level.OVERWORLD)))
+                .decorated(FeatureDecorator.CHANCE.configured(new ChanceDecoratorConfiguration(rarity)))
+                .rangeUniform(VerticalAnchor.bottom(), VerticalAnchor.absolute(128));
     }
 
     //endregion
 
     //region Block, Item, and Tag getters
 
-    public GemOreBlock getOre(RegistryKey<World> world) {
-        if (world.equals(World.NETHER))
+    public GemOreBlock getOre(ResourceKey<Level> world) {
+        if (world.equals(Level.NETHER))
             return netherOre.get();
-        if (world.equals(World.END))
+        if (world.equals(Level.END))
             return endOre.get();
         return ore.get();
     }
@@ -345,39 +351,39 @@ public enum Gems {
         return shard.get();
     }
 
-    public ITag.INamedTag<Block> getOreTag() {
+    public Tag.Named<Block> getOreTag() {
         return oreTag;
     }
 
-    public ITag.INamedTag<Block> getModOresTag() {
+    public Tag.Named<Block> getModOresTag() {
         return modOresTag;
     }
 
-    public ITag.INamedTag<Block> getBlockTag() {
+    public Tag.Named<Block> getBlockTag() {
         return blockTag;
     }
 
-    public ITag.INamedTag<Block> getGlowroseTag() {
+    public Tag.Named<Block> getGlowroseTag() {
         return glowroseTag;
     }
 
-    public ITag.INamedTag<Item> getOreItemTag() {
+    public Tag.Named<Item> getOreItemTag() {
         return oreItemTag;
     }
 
-    public ITag.INamedTag<Item> getModOresItemTag() {
+    public Tag.Named<Item> getModOresItemTag() {
         return modOresItemTag;
     }
 
-    public ITag.INamedTag<Item> getBlockItemTag() {
+    public Tag.Named<Item> getBlockItemTag() {
         return blockItemTag;
     }
 
-    public ITag.INamedTag<Item> getGlowroseItemTag() {
+    public Tag.Named<Item> getGlowroseItemTag() {
         return glowroseItemTag;
     }
 
-    public ITag.INamedTag<Item> getItemTag() {
+    public Tag.Named<Item> getItemTag() {
         return itemTag;
     }
 
@@ -386,7 +392,7 @@ public enum Gems {
     public static void registerBlocks() {
         for (Gems gem : values())
             gem.ore = registerBlock(gem.getName() + "_ore", () ->
-                    new GemOreBlock(gem, 2, "gem_ore", AbstractBlock.Properties.of(Material.STONE)
+                    new GemOreBlock(gem, 2, "gem_ore", BlockBehaviour.Properties.of(Material.STONE)
                             .strength(3)
                             .harvestTool(ToolType.PICKAXE)
                             .requiresCorrectToolForDrops()
@@ -394,7 +400,7 @@ public enum Gems {
 
         for (Gems gem : values())
             gem.netherOre = registerBlock(gem.getName() + "_nether_ore", () ->
-                    new GemOreBlock(gem, 3, "gem_nether_ore", AbstractBlock.Properties.of(Material.STONE)
+                    new GemOreBlock(gem, 3, "gem_nether_ore", BlockBehaviour.Properties.of(Material.STONE)
                             .strength(4)
                             .harvestTool(ToolType.PICKAXE)
                             .requiresCorrectToolForDrops()
@@ -402,7 +408,7 @@ public enum Gems {
 
         for (Gems gem : values())
             gem.endOre = registerBlock(gem.getName() + "_end_ore", () ->
-                    new GemOreBlock(gem, 4, "gem_end_ore", AbstractBlock.Properties.of(Material.STONE)
+                    new GemOreBlock(gem, 4, "gem_end_ore", BlockBehaviour.Properties.of(Material.STONE)
                             .strength(6)
                             .harvestTool(ToolType.PICKAXE)
                             .requiresCorrectToolForDrops()
@@ -410,19 +416,19 @@ public enum Gems {
 
         for (Gems gem : values())
             gem.block = registerBlock(gem.getName() + "_block", () ->
-                    new GemBlock(gem, "gem_block", AbstractBlock.Properties.of(Material.METAL)
+                    new GemBlock(gem, "gem_block", BlockBehaviour.Properties.of(Material.METAL)
                             .strength(4, 30)
                             .sound(SoundType.METAL)));
 
         for (Gems gem : values())
             gem.bricks = registerBlock(gem.getName() + "_bricks", () ->
-                    new GemBlock(gem, "gem_bricks", AbstractBlock.Properties.of(Material.STONE)
+                    new GemBlock(gem, "gem_bricks", BlockBehaviour.Properties.of(Material.STONE)
                             .strength(2f, 8f)));
 
-        AbstractBlock.IPositionPredicate isNotSolid = (state, world, pos) -> false;
+        BlockBehaviour.StatePredicate isNotSolid = (state, world, pos) -> false;
         for (Gems gem : values())
             gem.glass = registerBlock(gem.getName() + "_glass", () ->
-                    new GemGlassBlock(gem, AbstractBlock.Properties.of(Material.GLASS)
+                    new GemGlassBlock(gem, BlockBehaviour.Properties.of(Material.GLASS)
                             .strength(1f, 5f)
                             .sound(SoundType.GLASS)
                             .noOcclusion()
@@ -442,7 +448,7 @@ public enum Gems {
 
         for (Gems gem : values())
             gem.glowrose = registerBlock(gem.getName() + "_glowrose", () ->
-                    new GlowroseBlock(gem, AbstractBlock.Properties.of(Material.PLANT)
+                    new GlowroseBlock(gem, BlockBehaviour.Properties.of(Material.PLANT)
                             .sound(SoundType.GRASS)
                             .lightLevel(state -> GemsConfig.Common.glowroseNormalLight.get())
                             .strength(0)
@@ -450,7 +456,7 @@ public enum Gems {
 
         for (Gems gem : values()) {
             gem.pottedGlowrose = registerBlockNoItem("potted_" + gem.getName() + "_glowrose", () ->
-                    new PottedGlowroseBlock(gem, gem.glowrose, AbstractBlock.Properties
+                    new PottedGlowroseBlock(gem, gem.glowrose, BlockBehaviour.Properties
                             .of(Material.DECORATION)
                             .lightLevel(state -> GemsConfig.Common.glowrosePottedLight.get())
                             .strength(0)));

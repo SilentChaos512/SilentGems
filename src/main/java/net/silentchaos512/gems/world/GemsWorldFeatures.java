@@ -1,15 +1,15 @@
 package net.silentchaos512.gems.world;
 
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.WorldGenRegistries;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.gen.GenerationStage;
-import net.minecraft.world.gen.feature.ConfiguredFeature;
-import net.minecraft.world.gen.feature.OreFeatureConfig;
-import net.minecraft.world.gen.feature.template.RuleTest;
-import net.minecraft.world.gen.feature.template.TagMatchRuleTest;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.core.Registry;
+import net.minecraft.data.BuiltinRegistries;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.levelgen.GenerationStep;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
+import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
+import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -25,7 +25,7 @@ import java.util.Map;
 
 @Mod.EventBusSubscriber(modid = GemsBase.MOD_ID)
 public final class GemsWorldFeatures {
-    public static final RuleTest BASE_STONE_END = new TagMatchRuleTest(Tags.Blocks.END_STONES);
+    public static final RuleTest BASE_STONE_END = new TagMatchTest(Tags.Blocks.END_STONES);
 
     private static boolean configuredFeaturesRegistered = false;
 
@@ -35,13 +35,13 @@ public final class GemsWorldFeatures {
     public static void biomeLoading(BiomeLoadingEvent biome) {
         registerConfiguredFeatures();
 
-        if (biome.getCategory() == Biome.Category.NETHER) {
-            addGemOreFeatures(biome, World.NETHER);
-        } else if (biome.getCategory() == Biome.Category.THEEND) {
-            addGemOreFeatures(biome, World.END);
+        if (biome.getCategory() == Biome.BiomeCategory.NETHER) {
+            addGemOreFeatures(biome, Level.NETHER);
+        } else if (biome.getCategory() == Biome.BiomeCategory.THEEND) {
+            addGemOreFeatures(biome, Level.END);
         } else {
-            addGemOreFeatures(biome, World.OVERWORLD);
-            biome.getGeneration().addFeature(GenerationStage.Decoration.UNDERGROUND_ORES,
+            addGemOreFeatures(biome, Level.OVERWORLD);
+            biome.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES,
                     GemsConfig.Common.silverOres.getConfiguredFeature());
         }
     }
@@ -51,17 +51,17 @@ public final class GemsWorldFeatures {
         configuredFeaturesRegistered = true;
 
         for (Gems gem : Gems.values()) {
-            registerConfiguredFeature(gem.getName(), gem.getOreConfiguredFeature(World.OVERWORLD));
-            registerConfiguredFeature(gem.getName() + "_nether", gem.getOreConfiguredFeature(World.NETHER));
-            registerConfiguredFeature(gem.getName() + "_end", gem.getOreConfiguredFeature(World.END));
+            registerConfiguredFeature(gem.getName(), gem.getOreConfiguredFeature(Level.OVERWORLD));
+            registerConfiguredFeature(gem.getName() + "_nether", gem.getOreConfiguredFeature(Level.NETHER));
+            registerConfiguredFeature(gem.getName() + "_end", gem.getOreConfiguredFeature(Level.END));
 
-            registerConfiguredFeature(gem.getName() + "_glowrose", gem.getGlowroseConfiguredFeature(World.OVERWORLD));
-            registerConfiguredFeature(gem.getName() + "_nether_glowrose", gem.getGlowroseConfiguredFeature(World.NETHER));
-            registerConfiguredFeature(gem.getName() + "_end_glowrose", gem.getGlowroseConfiguredFeature(World.END));
+            registerConfiguredFeature(gem.getName() + "_glowrose", gem.getGlowroseConfiguredFeature(Level.OVERWORLD));
+            registerConfiguredFeature(gem.getName() + "_nether_glowrose", gem.getGlowroseConfiguredFeature(Level.NETHER));
+            registerConfiguredFeature(gem.getName() + "_end_glowrose", gem.getGlowroseConfiguredFeature(Level.END));
         }
 
         registerConfiguredFeature("silver", GemsConfig.Common.silverOres.createConfiguredFeature(
-                OreFeatureConfig.FillerBlockType.NATURAL_STONE,
+                OreConfiguration.Predicates.NATURAL_STONE,
                 GemsBlocks.SILVER_ORE.asBlockState()));
 
         logOreConfigs();
@@ -69,21 +69,21 @@ public final class GemsWorldFeatures {
 
     private static void registerConfiguredFeature(String name, ConfiguredFeature<?, ?> configuredFeature) {
         GemsBase.LOGGER.debug("register configured feature '{}'", name);
-        Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, GemsBase.getId(name), configuredFeature);
+        Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, GemsBase.getId(name), configuredFeature);
     }
 
-    private static void addGemOreFeatures(BiomeLoadingEvent biome, RegistryKey<World> world) {
+    private static void addGemOreFeatures(BiomeLoadingEvent biome, ResourceKey<Level> world) {
         for (Gems gem : Gems.values()) {
             ConfiguredFeature<?, ?> feature = gem.getOreConfiguredFeature(world);
-            biome.getGeneration().addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, feature);
+            biome.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, feature);
         }
         addGlowroseFeatures(biome, world);
     }
 
-    private static void addGlowroseFeatures(BiomeLoadingEvent biome, RegistryKey<World> world) {
+    private static void addGlowroseFeatures(BiomeLoadingEvent biome, ResourceKey<Level> world) {
         for (Gems gem : Gems.values()) {
             ConfiguredFeature<?, ?> feature = gem.getGlowroseConfiguredFeature(world);
-            biome.getGeneration().addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, feature);
+            biome.getGeneration().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, feature);
         }
     }
 
@@ -98,9 +98,9 @@ public final class GemsWorldFeatures {
             Map<Gems, OreConfig> endConfigs = new LinkedHashMap<>();
 
             for (Gems gem : Gems.values()) {
-                OreConfig overworld = gem.getOreConfig(World.OVERWORLD);
-                OreConfig nether = gem.getOreConfig(World.NETHER);
-                OreConfig end = gem.getOreConfig(World.END);
+                OreConfig overworld = gem.getOreConfig(Level.OVERWORLD);
+                OreConfig nether = gem.getOreConfig(Level.NETHER);
+                OreConfig end = gem.getOreConfig(Level.END);
 
                 if (overworld.isEnabled()) {
                     overworldConfigs.put(gem, overworld);

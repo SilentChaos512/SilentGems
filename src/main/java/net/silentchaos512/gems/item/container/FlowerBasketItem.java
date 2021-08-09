@@ -1,8 +1,8 @@
 package net.silentchaos512.gems.item.container;
 
-import net.minecraft.inventory.container.ContainerType;
-import net.minecraft.item.ItemStack;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.item.ItemStack;
 import net.silentchaos512.gems.setup.GemsContainers;
 
 public class FlowerBasketItem extends GemContainerItem {
@@ -11,7 +11,7 @@ public class FlowerBasketItem extends GemContainerItem {
     }
 
     @Override
-    protected ContainerType<? extends GemContainer> getContainerType() {
+    protected MenuType<? extends GemContainer> getContainerType() {
         return GemsContainers.FLOWER_BASKET.get();
     }
 
@@ -22,6 +22,6 @@ public class FlowerBasketItem extends GemContainerItem {
 
     @Override
     public boolean canStore(ItemStack stack) {
-        return stack.getItem().is(ItemTags.FLOWERS);
+        return stack.is(ItemTags.FLOWERS);
     }
 }

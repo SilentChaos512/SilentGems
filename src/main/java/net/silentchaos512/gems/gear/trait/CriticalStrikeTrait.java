@@ -1,8 +1,11 @@
 package net.silentchaos512.gems.gear.trait;
 
 import com.google.gson.JsonObject;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.*;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.GsonHelper;
+import net.minecraft.world.entity.LivingEntity;
 import net.silentchaos512.gear.api.traits.ITraitSerializer;
 import net.silentchaos512.gear.api.traits.TraitActionContext;
 import net.silentchaos512.gear.gear.trait.SimpleTrait;
@@ -11,15 +14,13 @@ import net.silentchaos512.gems.GemsBase;
 import java.util.Collection;
 import java.util.Collections;
 
-import net.silentchaos512.gear.gear.trait.SimpleTrait.Serializer;
-
 public class CriticalStrikeTrait extends SimpleTrait {
     public static final ITraitSerializer<CriticalStrikeTrait> SERIALIZER = new Serializer<>(
             GemsBase.getId("critical_strike"),
             CriticalStrikeTrait::new,
             (trait, json) -> {
-                trait.damageMulti = JSONUtils.getAsFloat(json, "damage_multiplier");
-                trait.activationChance = JSONUtils.getAsFloat(json, "activation_chance");
+                trait.damageMulti = GsonHelper.getAsFloat(json, "damage_multiplier");
+                trait.activationChance = GsonHelper.getAsFloat(json, "activation_chance");
             },
             (trait, buffer) -> {
                 trait.damageMulti = buffer.readFloat();
@@ -41,7 +42,7 @@ public class CriticalStrikeTrait extends SimpleTrait {
     @Override
     public float onAttackEntity(TraitActionContext context, LivingEntity target, float baseValue) {
         if (GemsBase.RANDOM.nextFloat() < this.activationChance) {
-            target.level.playSound(null, target.blockPosition(), SoundEvents.PLAYER_ATTACK_CRIT, SoundCategory.PLAYERS, 1.0f, 1.5f);
+            target.level.playSound(null, target.blockPosition(), SoundEvents.PLAYER_ATTACK_CRIT, SoundSource.PLAYERS, 1.0f, 1.5f);
             return baseValue * (1f + this.damageMulti) * context.getTraitLevel();
         }
         return baseValue;

@@ -1,14 +1,14 @@
 package net.silentchaos512.gems.data.client;
 
-import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.item.Items;
-import net.minecraft.util.IItemProvider;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.fml.RegistryObject;
+import net.minecraftforge.fmllegacy.RegistryObject;
 import net.silentchaos512.gems.GemsBase;
 import net.silentchaos512.gems.block.GlowroseBlock;
 import net.silentchaos512.gems.setup.GemsItems;
@@ -66,12 +66,12 @@ public class GemsItemModelProvider extends ItemModelProvider {
         return false;
     }
 
-    private void builder(IItemProvider item, ModelFile parent) {
+    private void builder(ItemLike item, ModelFile parent) {
         String name = NameUtils.fromItem(item).getPath();
         builder(item, parent, "item/" + name);
     }
 
-    private void builder(IItemProvider item, ModelFile parent, String texture) {
+    private void builder(ItemLike item, ModelFile parent, String texture) {
         getBuilder(NameUtils.fromItem(item).getPath())
                 .parent(parent)
                 .texture("layer0", modLoc(texture));

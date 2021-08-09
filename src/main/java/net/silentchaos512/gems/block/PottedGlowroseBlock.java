@@ -1,12 +1,12 @@
 package net.silentchaos512.gems.block;
 
-import net.minecraft.block.Blocks;
-import net.minecraft.block.FlowerPotBlock;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.text.IFormattableTextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.core.NonNullList;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.FlowerPotBlock;
 import net.silentchaos512.gems.util.Gems;
 
 import java.util.function.Supplier;
@@ -20,12 +20,12 @@ public class PottedGlowroseBlock extends FlowerPotBlock {
     }
 
     @Override
-    public IFormattableTextComponent getName() {
-        return new TranslationTextComponent("block.silentgems.potted_glowrose", this.gem.getDisplayName());
+    public MutableComponent getName() {
+        return new TranslatableComponent("block.silentgems.potted_glowrose", this.gem.getDisplayName());
     }
 
     @Override
-    public void fillItemCategory(ItemGroup group, NonNullList<ItemStack> items) {
+    public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
         // Do not show
     }
 }

@@ -1,10 +1,10 @@
 package net.silentchaos512.gems.item;
 
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Rarity;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
 import net.silentchaos512.gems.util.Gems;
 import net.silentchaos512.gems.util.IGem;
 
@@ -24,13 +24,13 @@ public class GemItem extends Item implements IGem {
     }
 
     @Override
-    public ITextComponent getName(ItemStack stack) {
+    public Component getName(ItemStack stack) {
         return getDescription();
     }
 
     @Override
-    public ITextComponent getDescription() {
-        return new TranslationTextComponent("item.silentgems." + this.translationKey, this.gem.getDisplayName());
+    public Component getDescription() {
+        return new TranslatableComponent("item.silentgems." + this.translationKey, this.gem.getDisplayName());
     }
 
     @Override

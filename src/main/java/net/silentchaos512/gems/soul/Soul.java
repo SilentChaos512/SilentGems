@@ -1,25 +1,25 @@
 package net.silentchaos512.gems.soul;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityClassification;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.monster.SlimeEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.SpawnEggItem;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.util.Tuple;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.monster.Slime;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.SpawnEggItem;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
-import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
+import net.minecraftforge.fmllegacy.network.NetworkEvent;
+import net.minecraftforge.fmlserverevents.FMLServerStartingEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.gems.GemsBase;
 import net.silentchaos512.gems.item.SoulGemItem;
@@ -116,34 +116,34 @@ public final class Soul {
         if (!entity.canChangeDimensions()) {
             return MAX_VALUE;
         }
-        if (entity instanceof SlimeEntity) {
-            SlimeEntity slimeEntity = (SlimeEntity) entity;
-            int size = MathHelper.clamp(slimeEntity.getSize(), 1, 4);
+        if (entity instanceof Slime) {
+            Slime slimeEntity = (Slime) entity;
+            int size = Mth.clamp(slimeEntity.getSize(), 1, 4);
             return STANDARD_KILL_VALUE / (6 - size);
         }
         return STANDARD_KILL_VALUE;
     }
 
-    public ITextComponent getEntityName() {
-        return new TranslationTextComponent("entity." + this.id.getNamespace() + "." + this.id.getPath());
+    public Component getEntityName() {
+        return new TranslatableComponent("entity." + this.id.getNamespace() + "." + this.id.getPath());
     }
 
     //endregion
 
     //region Network
 
-    private Soul(PacketBuffer buffer) {
+    private Soul(FriendlyByteBuf buffer) {
         this.id = buffer.readResourceLocation();
         this.elements = new Tuple<>(SoulElement.read(buffer), SoulElement.read(buffer));
         this.colors = new Tuple<>(buffer.readVarInt(), buffer.readVarInt());
         this.entityType = ForgeRegistries.ENTITIES.getValue(this.id);
     }
 
-    public static Soul read(PacketBuffer buffer) {
+    public static Soul read(FriendlyByteBuf buffer) {
         return new Soul(buffer);
     }
 
-    public void write(PacketBuffer buffer) {
+    public void write(FriendlyByteBuf buffer) {
         buffer.writeResourceLocation(id);
         this.elements.getA().write(buffer);
         this.elements.getB().write(buffer);
@@ -177,17 +177,17 @@ public final class Soul {
     }
 
     private static int getEggPrimaryColor(SpawnEggItem egg) {
-        Integer i = ObfuscationReflectionHelper.getPrivateValue(SpawnEggItem.class, egg, "color1");
+        Integer i = ObfuscationReflectionHelper.getPrivateValue(SpawnEggItem.class, egg, "backgroundColor");
         return i != null ? i : 0xFF00FF;
     }
 
     private static int getEggSecondaryColor(SpawnEggItem egg) {
-        Integer i = ObfuscationReflectionHelper.getPrivateValue(SpawnEggItem.class, egg, "color2");
+        Integer i = ObfuscationReflectionHelper.getPrivateValue(SpawnEggItem.class, egg, "highlightColor");
         return i != null ? i : 0x0;
     }
 
     public static boolean canHaveSoulGem(EntityType<?> type) {
-        return type.getCategory() != EntityClassification.MISC;
+        return type.getCategory() != MobCategory.MISC;
     }
 
     @Override
@@ -224,8 +224,8 @@ public final class Soul {
         public static void onMobKilled(LivingDeathEvent event) {
             Entity killer = event.getSource().getEntity();
 
-            if (killer instanceof PlayerEntity) {
-                PlayerEntity player = (PlayerEntity) killer;
+            if (killer instanceof Player) {
+                Player player = (Player) killer;
                 LivingEntity entity = event.getEntityLiving();
                 Soul soul = from(entity);
 

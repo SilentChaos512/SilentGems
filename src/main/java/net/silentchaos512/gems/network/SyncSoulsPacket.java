@@ -1,6 +1,6 @@
 package net.silentchaos512.gems.network;
 
-import net.minecraft.network.PacketBuffer;
+import net.minecraft.network.FriendlyByteBuf;
 import net.silentchaos512.gems.soul.Soul;
 
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ public class SyncSoulsPacket extends LoginPacket {
         this.souls = new ArrayList<>(soulsIn);
     }
 
-    public static SyncSoulsPacket fromBytes(PacketBuffer buf) {
+    public static SyncSoulsPacket fromBytes(FriendlyByteBuf buf) {
         SyncSoulsPacket packet = new SyncSoulsPacket();
         packet.souls = new ArrayList<>();
         int count = buf.readVarInt();
@@ -35,7 +35,7 @@ public class SyncSoulsPacket extends LoginPacket {
         return packet;
     }
 
-    public void toBytes(PacketBuffer buf) {
+    public void toBytes(FriendlyByteBuf buf) {
         buf.writeVarInt(this.souls.size());
         this.souls.forEach(soul -> soul.write(buf));
     }

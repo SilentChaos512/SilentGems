@@ -1,7 +1,6 @@
 package net.silentchaos512.gems.config;
 
 import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
@@ -76,17 +75,5 @@ public final class GemsConfig {
 
     public static void init() {
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Common.spec);
-    }
-
-    public static void sync() {}
-
-    @SubscribeEvent
-    public static void sync(ModConfig.Loading event) {
-        sync();
-    }
-
-    @SubscribeEvent
-    public static void sync(ModConfig.Reloading event) {
-        sync();
     }
 }

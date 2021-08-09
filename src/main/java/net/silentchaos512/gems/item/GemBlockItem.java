@@ -1,9 +1,9 @@
 package net.silentchaos512.gems.item;
 
-import net.minecraft.block.Block;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
 import net.silentchaos512.gems.block.IGemBlock;
 
 public class GemBlockItem extends BlockItem {
@@ -15,7 +15,7 @@ public class GemBlockItem extends BlockItem {
     }
 
     @Override
-    public ITextComponent getName(ItemStack stack) {
+    public Component getName(ItemStack stack) {
         if (block instanceof IGemBlock) {
             return ((IGemBlock) block).getGemBlockName();
         }
@@ -23,7 +23,7 @@ public class GemBlockItem extends BlockItem {
     }
 
     @Override
-    public ITextComponent getDescription() {
+    public Component getDescription() {
         return block.getName();
     }
 }

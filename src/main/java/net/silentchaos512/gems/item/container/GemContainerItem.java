@@ -1,47 +1,47 @@
 package net.silentchaos512.gems.item.container;
 
 import io.netty.buffer.Unpooled;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.container.ContainerType;
-import net.minecraft.inventory.container.SimpleNamedContainerProvider;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.Util;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.Util;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.SimpleMenuProvider;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.Level;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
 public abstract class GemContainerItem extends Item implements IContainerItem {
-    private final ITextComponent containerName;
+    private final Component containerName;
 
     public GemContainerItem(String containerName, Properties properties) {
         super(properties);
-        this.containerName = new TranslationTextComponent("container.silentgems." + containerName);
+        this.containerName = new TranslatableComponent("container.silentgems." + containerName);
     }
 
-    protected abstract ContainerType<? extends GemContainer> getContainerType();
+    protected abstract MenuType<? extends GemContainer> getContainerType();
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-        tooltip.add(new TranslationTextComponent(Util.makeDescriptionId("item", this.getRegistryName()) + ".desc"));
+    public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
+        tooltip.add(new TranslatableComponent(Util.makeDescriptionId("item", this.getRegistryName()) + ".desc"));
     }
 
     @Override
-    public ActionResult<ItemStack> use(World worldIn, PlayerEntity playerIn, Hand handIn) {
+    public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, InteractionHand handIn) {
         if (!worldIn.isClientSide) {
-            playerIn.openMenu(new SimpleNamedContainerProvider((id, playerInventory, player) ->
-                    this.getContainerType().create(id, playerInventory, new PacketBuffer(Unpooled.buffer())),
+            playerIn.openMenu(new SimpleMenuProvider((id, playerInventory, player) ->
+                    this.getContainerType().create(id, playerInventory, new FriendlyByteBuf(Unpooled.buffer())),
                     this.containerName));
         }
 
-        return new ActionResult<>(ActionResultType.SUCCESS, playerIn.getItemInHand(handIn));
+        return new InteractionResultHolder<>(InteractionResult.SUCCESS, playerIn.getItemInHand(handIn));
     }
 }

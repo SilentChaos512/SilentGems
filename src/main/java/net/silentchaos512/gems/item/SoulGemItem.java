@@ -1,17 +1,17 @@
 package net.silentchaos512.gems.item;
 
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.NonNullList;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.Level;
 import net.silentchaos512.gems.setup.GemsItems;
 import net.silentchaos512.gems.soul.Soul;
 import net.silentchaos512.gems.soul.SoulElement;
@@ -78,7 +78,7 @@ public class SoulGemItem extends Item {
     }
 
     public static void setSoulValue(ItemStack stack, int value) {
-        stack.getOrCreateTag().putInt(NBT_VALUE, MathHelper.clamp(value, 0, Soul.MAX_VALUE));
+        stack.getOrCreateTag().putInt(NBT_VALUE, Mth.clamp(value, 0, Soul.MAX_VALUE));
     }
 
     public static void addSoulValue(ItemStack stack, int value) {
@@ -94,21 +94,21 @@ public class SoulGemItem extends Item {
     }
 
     @Override
-    public ITextComponent getName(ItemStack stack) {
+    public Component getName(ItemStack stack) {
         Soul soul = getSoul(stack);
         if (soul != null) {
-            ITextComponent entityName = soul.getEntityName();
-            return new TranslationTextComponent(this.getDescriptionId(), entityName.copy().append(" "));
+            Component entityName = soul.getEntityName();
+            return new TranslatableComponent(this.getDescriptionId(), entityName.copy().append(" "));
         }
         return super.getName(stack);
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+    public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
         Soul soul = getSoul(stack);
         if (soul != null) {
             if (flagIn.isAdvanced()) {
-                tooltip.add(new StringTextComponent("Soul ID: " + soul.getId()).withStyle(TextFormatting.DARK_GRAY));
+                tooltip.add(new TextComponent("Soul ID: " + soul.getId()).withStyle(ChatFormatting.DARK_GRAY));
             }
 
             // Elements
@@ -120,15 +120,15 @@ public class SoulGemItem extends Item {
 
             // Stored value
             int soulValue = getSoulValue(stack);
-            ITextComponent valueText = soulValue < Soul.MAX_VALUE
-                    ? new StringTextComponent(String.format("%d", soulValue))
+            Component valueText = soulValue < Soul.MAX_VALUE
+                    ? new TextComponent(String.format("%d", soulValue))
                     : TextUtil.itemSub(this, "full");
             tooltip.add(TextUtil.itemSub(this, "value", valueText));
         }
     }
 
     @Override
-    public void fillItemCategory(ItemGroup group, NonNullList<ItemStack> items) {
+    public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
         if (allowdedIn(group)) {
             items.add(new ItemStack(this));
 

@@ -1,23 +1,23 @@
 package net.silentchaos512.gems.network;
 
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.LogicalSidedProvider;
-import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.core.Registry;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.fmllegacy.LogicalSidedProvider;
+import net.minecraftforge.fmllegacy.common.registry.IEntityAdditionalSpawnData;
+import net.minecraftforge.fmllegacy.network.NetworkEvent;
 
 import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Supplier;
 
 /**
- * More or less a straight copy from {@link net.minecraftforge.fml.network.FMLPlayMessages.SpawnEntity}.
+ * More or less a straight copy from {@link net.minecraftforge.fmllegacy.network.FMLPlayMessages.SpawnEntity}.
  */
 public class SpawnEntityPacket {
     private final Entity entity;
@@ -27,7 +27,7 @@ public class SpawnEntityPacket {
     private final double posX, posY, posZ;
     private final byte pitch, yaw, headYaw;
     private final int velX, velY, velZ;
-    private final PacketBuffer buf;
+    private final FriendlyByteBuf buf;
 
     public SpawnEntityPacket(Entity e) {
         this.entity = e;
@@ -37,20 +37,20 @@ public class SpawnEntityPacket {
         this.posX = e.getX();
         this.posY = e.getY();
         this.posZ = e.getZ();
-        this.pitch = (byte) MathHelper.floor(e.xRot * 256.0F / 360.0F);
-        this.yaw = (byte) MathHelper.floor(e.yRot * 256.0F / 360.0F);
+        this.pitch = (byte) Mth.floor(e.getXRot() * 256.0F / 360.0F);
+        this.yaw = (byte) Mth.floor(e.getYRot() * 256.0F / 360.0F);
         this.headYaw = (byte) (e.getYHeadRot() * 256.0F / 360.0F);
-        Vector3d vec3d = e.getDeltaMovement();
-        double d1 = MathHelper.clamp(vec3d.x, -3.9D, 3.9D);
-        double d2 = MathHelper.clamp(vec3d.y, -3.9D, 3.9D);
-        double d3 = MathHelper.clamp(vec3d.z, -3.9D, 3.9D);
+        Vec3 vec3d = e.getDeltaMovement();
+        double d1 = Mth.clamp(vec3d.x, -3.9D, 3.9D);
+        double d2 = Mth.clamp(vec3d.y, -3.9D, 3.9D);
+        double d3 = Mth.clamp(vec3d.z, -3.9D, 3.9D);
         this.velX = (int) (d1 * 8000.0D);
         this.velY = (int) (d2 * 8000.0D);
         this.velZ = (int) (d3 * 8000.0D);
         this.buf = null;
     }
 
-    private SpawnEntityPacket(int typeId, int entityId, UUID uuid, double posX, double posY, double posZ, byte pitch, byte yaw, byte headYaw, int velX, int velY, int velZ, PacketBuffer buf) {
+    private SpawnEntityPacket(int typeId, int entityId, UUID uuid, double posX, double posY, double posZ, byte pitch, byte yaw, byte headYaw, int velX, int velY, int velZ, FriendlyByteBuf buf) {
         this.entity = null;
         this.typeId = typeId;
         this.entityId = entityId;
@@ -67,7 +67,7 @@ public class SpawnEntityPacket {
         this.buf = buf;
     }
 
-    public static void encode(SpawnEntityPacket msg, PacketBuffer buf) {
+    public static void encode(SpawnEntityPacket msg, FriendlyByteBuf buf) {
         buf.writeVarInt(msg.typeId);
         buf.writeInt(msg.entityId);
         buf.writeLong(msg.uuid.getMostSignificantBits());
@@ -86,7 +86,7 @@ public class SpawnEntityPacket {
         }
     }
 
-    public static SpawnEntityPacket decode(PacketBuffer buf) {
+    public static SpawnEntityPacket decode(FriendlyByteBuf buf) {
         return new SpawnEntityPacket(
                 buf.readVarInt(),
                 buf.readInt(),
@@ -105,7 +105,7 @@ public class SpawnEntityPacket {
                 throw new RuntimeException(String.format("Could not spawn entity (id %d) with unknown type at (%f, %f, %f)", msg.entityId, msg.posX, msg.posY, msg.posZ));
             }
 
-            Optional<World> world = LogicalSidedProvider.CLIENTWORLD.get(ctx.get().getDirection().getReceptionSide());
+            Optional<Level> world = LogicalSidedProvider.CLIENTWORLD.get(ctx.get().getDirection().getReceptionSide());
             Entity e = world.map(type::create).orElse(null);
             if (e == null) {
                 return;
@@ -118,7 +118,7 @@ public class SpawnEntityPacket {
 
             e.setId(msg.entityId);
             e.setUUID(msg.uuid);
-            world.filter(ClientWorld.class::isInstance).ifPresent(w -> ((ClientWorld) w).putNonPlayerEntity(msg.entityId, e));
+            world.filter(ClientLevel.class::isInstance).ifPresent(w -> ((ClientLevel) w).putNonPlayerEntity(msg.entityId, e));
             e.lerpMotion(msg.velX / 8000.0, msg.velY / 8000.0, msg.velZ / 8000.0);
             if (e instanceof IEntityAdditionalSpawnData) {
                 ((IEntityAdditionalSpawnData) e).readSpawnData(msg.buf);
