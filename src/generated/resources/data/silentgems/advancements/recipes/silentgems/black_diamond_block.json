@@ -11,7 +11,9 @@
       "conditions": {
         "items": [
           {
-            "item": "silentgems:black_diamond"
+            "items": [
+              "silentgems:black_diamond"
+            ]
           }
         ]
       }

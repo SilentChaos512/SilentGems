@@ -2,6 +2,7 @@
   "replace": false,
   "values": [
     "silentgems:citrine_ore",
+    "silentgems:deepslate_citrine_ore",
     "silentgems:citrine_nether_ore",
     "silentgems:citrine_end_ore"
   ]

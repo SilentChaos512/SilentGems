@@ -2,6 +2,7 @@
   "replace": false,
   "values": [
     "silentgems:ruby_ore",
+    "silentgems:deepslate_ruby_ore",
     "silentgems:ruby_nether_ore",
     "silentgems:ruby_end_ore"
   ]

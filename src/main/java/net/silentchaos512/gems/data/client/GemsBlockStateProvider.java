@@ -1,9 +1,8 @@
 package net.silentchaos512.gems.data.client;
 
-import net.minecraft.world.level.block.Block;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.silentchaos512.gems.GemsBase;
@@ -23,9 +22,10 @@ public class GemsBlockStateProvider extends BlockStateProvider {
         ResourceLocation flowerPotCross = mcLoc("block/flower_pot_cross");
 
         for (Gems gem : Gems.values()) {
-            simpleBlock(gem.getOre(Level.OVERWORLD));
-            simpleBlock(gem.getOre(Level.NETHER));
-            simpleBlock(gem.getOre(Level.END));
+            simpleBlock(gem.getOre());
+            simpleBlock(gem.getDeepslateOre());
+            simpleBlock(gem.getNetherOre());
+            simpleBlock(gem.getEndOre());
             simpleBlock(gem.getBlock());
             simpleBlock(gem.getBricks());
             simpleBlock(gem.getGlass());

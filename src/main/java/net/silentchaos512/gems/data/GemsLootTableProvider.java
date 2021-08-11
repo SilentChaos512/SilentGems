@@ -6,7 +6,6 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.LootTables;
@@ -48,9 +47,10 @@ public class GemsLootTableProvider extends LootTableProvider {
         @Override
         protected void addTables() {
             for (Gems gem : Gems.values()) {
-                registerFortuneDrops(gem.getOre(Level.OVERWORLD), gem.getItem());
-                registerFortuneDrops(gem.getOre(Level.NETHER), gem.getItem());
-                registerFortuneDrops(gem.getOre(Level.END), gem.getItem());
+                registerFortuneDrops(gem.getOre(), gem.getItem());
+                registerFortuneDrops(gem.getDeepslateOre(), gem.getItem());
+                registerFortuneDrops(gem.getNetherOre(), gem.getItem());
+                registerFortuneDrops(gem.getEndOre(), gem.getItem());
                 dropSelf(gem.getBlock());
                 dropSelf(gem.getBricks());
                 dropSelf(gem.getGlass());

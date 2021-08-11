@@ -1,5 +1,6 @@
 package net.silentchaos512.gems.util;
 
+import com.google.common.collect.ImmutableList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceKey;
@@ -26,7 +27,6 @@ import net.minecraft.world.level.levelgen.feature.configurations.RandomPatchConf
 import net.minecraft.world.level.levelgen.feature.stateproviders.SimpleStateProvider;
 import net.minecraft.world.level.levelgen.placement.ChanceDecoratorConfiguration;
 import net.minecraft.world.level.levelgen.placement.FeatureDecorator;
-import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ToolType;
@@ -146,6 +146,7 @@ public enum Gems {
 
     // Blocks
     BlockRegistryObject<GemOreBlock> ore;
+    BlockRegistryObject<GemOreBlock> deepslateOre;
     BlockRegistryObject<GemOreBlock> netherOre;
     BlockRegistryObject<GemOreBlock> endOre;
     BlockRegistryObject<GemBlock> block;
@@ -180,11 +181,11 @@ public enum Gems {
         this.oreConfigDefaults.put(Level.END, endOres);
 
         this.oreConfiguredFeatures.put(Level.OVERWORLD, Lazy.of(() ->
-                createOreConfiguredFeature(Level.OVERWORLD, OreConfiguration.Predicates.NATURAL_STONE)));
+                createOreConfiguredFeature(Level.OVERWORLD)));
         this.oreConfiguredFeatures.put(Level.NETHER, Lazy.of(() ->
-                createOreConfiguredFeature(Level.NETHER, OreConfiguration.Predicates.NETHERRACK)));
+                createOreConfiguredFeature(Level.NETHER)));
         this.oreConfiguredFeatures.put(Level.END, Lazy.of(() ->
-                createOreConfiguredFeature(Level.END, GemsWorldFeatures.BASE_STONE_END)));
+                createOreConfiguredFeature(Level.END)));
 
         this.glowroseConfiguredFeatures.put(Level.OVERWORLD, Lazy.of(() ->
                 createGlowroseConfiguredFeature(Level.OVERWORLD)));
@@ -271,10 +272,23 @@ public enum Gems {
         }
     }
 
-    private ConfiguredFeature<?, ?> createOreConfiguredFeature(ResourceKey<Level> world, RuleTest fillerType) {
+    private ConfiguredFeature<?, ?> createOreConfiguredFeature(ResourceKey<Level> world) {
         OreConfig config = this.getOreConfig(world);
+
+        OreConfiguration oreConfiguration;
+        if (world == Level.NETHER) {
+            oreConfiguration = new OreConfiguration(OreConfiguration.Predicates.NETHERRACK, netherOre.get().defaultBlockState(), config.getSize());
+        } else if (world == Level.END) {
+            oreConfiguration = new OreConfiguration(GemsWorldFeatures.BASE_STONE_END, endOre.get().defaultBlockState(), config.getSize());
+        } else {
+            ImmutableList<OreConfiguration.TargetBlockState> targetList = ImmutableList.of(
+                    OreConfiguration.target(OreConfiguration.Predicates.STONE_ORE_REPLACEABLES, ore.get().defaultBlockState()),
+                    OreConfiguration.target(OreConfiguration.Predicates.DEEPSLATE_ORE_REPLACEABLES, deepslateOre.get().defaultBlockState()));
+            oreConfiguration = new OreConfiguration(targetList, config.getSize());
+        }
+
         return Feature.ORE
-                .configured(new OreConfiguration(fillerType, this.getOre(world).defaultBlockState(), config.getSize()))
+                .configured(oreConfiguration)
                 .rangeUniform(VerticalAnchor.aboveBottom(config.getMinHeight()), VerticalAnchor.absolute(config.getMaxHeight()))
                 .decorated(FeatureDecorator.CHANCE.configured(new ChanceDecoratorConfiguration(config.getRarity())))
                 .squared()
@@ -310,12 +324,20 @@ public enum Gems {
 
     //region Block, Item, and Tag getters
 
-    public GemOreBlock getOre(ResourceKey<Level> world) {
-        if (world.equals(Level.NETHER))
-            return netherOre.get();
-        if (world.equals(Level.END))
-            return endOre.get();
+    public GemOreBlock getOre() {
         return ore.get();
+    }
+
+    public GemOreBlock getDeepslateOre() {
+        return deepslateOre.get();
+    }
+
+    public GemOreBlock getNetherOre() {
+        return netherOre.get();
+    }
+
+    public GemOreBlock getEndOre() {
+        return endOre.get();
     }
 
     public GemBlock getBlock() {
@@ -393,26 +415,27 @@ public enum Gems {
         for (Gems gem : values())
             gem.ore = registerBlock(gem.getName() + "_ore", () ->
                     new GemOreBlock(gem, 2, "gem_ore", BlockBehaviour.Properties.of(Material.STONE)
-                            .strength(3)
+                            .strength(3f)
                             .harvestTool(ToolType.PICKAXE)
                             .requiresCorrectToolForDrops()
                             .sound(SoundType.STONE)));
 
         for (Gems gem : values())
+            gem.deepslateOre = registerBlock("deepslate_" + gem.getName() + "_ore", () ->
+                    new GemOreBlock(gem, 2, "deepslate_gem_ore", BlockBehaviour.Properties.copy(gem.ore.get())
+                            .strength(4.5f, 3f)
+                            .sound(SoundType.DEEPSLATE)));
+
+        for (Gems gem : values())
             gem.netherOre = registerBlock(gem.getName() + "_nether_ore", () ->
-                    new GemOreBlock(gem, 3, "gem_nether_ore", BlockBehaviour.Properties.of(Material.STONE)
-                            .strength(4)
-                            .harvestTool(ToolType.PICKAXE)
-                            .requiresCorrectToolForDrops()
+                    new GemOreBlock(gem, 3, "gem_nether_ore", BlockBehaviour.Properties.copy(gem.ore.get())
+                            .strength(4f)
                             .sound(SoundType.NETHER_ORE)));
 
         for (Gems gem : values())
             gem.endOre = registerBlock(gem.getName() + "_end_ore", () ->
-                    new GemOreBlock(gem, 4, "gem_end_ore", BlockBehaviour.Properties.of(Material.STONE)
-                            .strength(6)
-                            .harvestTool(ToolType.PICKAXE)
-                            .requiresCorrectToolForDrops()
-                            .sound(SoundType.STONE)));
+                    new GemOreBlock(gem, 4, "gem_end_ore", BlockBehaviour.Properties.copy(gem.ore.get())
+                            .strength(6f)));
 
         for (Gems gem : values())
             gem.block = registerBlock(gem.getName() + "_block", () ->

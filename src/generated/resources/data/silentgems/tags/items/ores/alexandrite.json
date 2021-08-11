@@ -2,6 +2,7 @@
   "replace": false,
   "values": [
     "silentgems:alexandrite_ore",
+    "silentgems:deepslate_alexandrite_ore",
     "silentgems:alexandrite_nether_ore",
     "silentgems:alexandrite_end_ore"
   ]
