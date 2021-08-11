@@ -1,7 +1,7 @@
 {
   "type": "minecraft:blasting",
   "ingredient": {
-    "item": "silentgems:silver_ore"
+    "item": "silentgems:raw_silver"
   },
   "result": "silentgems:silver_ingot",
   "experience": 1.0,

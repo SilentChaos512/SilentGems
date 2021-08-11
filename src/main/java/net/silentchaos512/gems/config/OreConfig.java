@@ -1,14 +1,9 @@
 package net.silentchaos512.gems.config;
 
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
-import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
-import net.minecraft.world.level.levelgen.placement.ChanceDecoratorConfiguration;
-import net.minecraft.world.level.levelgen.placement.FeatureDecorator;
-import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 import net.minecraftforge.common.ForgeConfigSpec;
+
+import java.util.function.Function;
 
 public class OreConfig {
     private final String name;
@@ -62,13 +57,8 @@ public class OreConfig {
         return maxHeight.get();
     }
 
-    public ConfiguredFeature<?, ?> createConfiguredFeature(RuleTest fillerType, BlockState state) {
-        configuredFeature = Feature.ORE
-                .configured(new OreConfiguration(fillerType, state, getSize()))
-                .rangeUniform(VerticalAnchor.aboveBottom(getMinHeight()), VerticalAnchor.absolute(getMaxHeight()))
-                .decorated(FeatureDecorator.CHANCE.configured(new ChanceDecoratorConfiguration(getRarity())))
-                .squared()
-                .count(getCount());
+    public ConfiguredFeature<?, ?> createConfiguredFeature(Function<OreConfig, ConfiguredFeature<?, ?>> configuredFeatureSupplier) {
+        configuredFeature = configuredFeatureSupplier.apply(this);
         return configuredFeature;
     }
 

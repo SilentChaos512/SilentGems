@@ -43,6 +43,7 @@ public class GemsBlockStateProvider extends BlockStateProvider {
         }
 
         simpleBlock(GemsBlocks.SILVER_BLOCK);
+        simpleBlock(GemsBlocks.DEEPSLATE_SILVER_ORE);
         simpleBlock(GemsBlocks.SILVER_ORE);
     }
 

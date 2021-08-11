@@ -31,6 +31,7 @@ public class GemsBlockTagsProvider extends BlockTagsProvider {
             tag(Tags.Blocks.STORAGE_BLOCKS).add(gem.getBlock());
         }
 
-        tag(GemsTags.Blocks.ORES_SILVER).add(GemsBlocks.SILVER_ORE.get());
+        tag(GemsTags.Blocks.ORES_SILVER).add(GemsBlocks.SILVER_ORE.get(), GemsBlocks.DEEPSLATE_SILVER_ORE.get());
+        tag(Tags.Blocks.ORES).addTag(GemsTags.Blocks.ORES_SILVER);
     }
 }

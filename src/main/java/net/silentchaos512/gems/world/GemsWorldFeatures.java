@@ -1,13 +1,18 @@
 package net.silentchaos512.gems.world;
 
+import com.google.common.collect.ImmutableList;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.core.Registry;
 import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.levelgen.GenerationStep;
+import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
+import net.minecraft.world.level.levelgen.placement.ChanceDecoratorConfiguration;
+import net.minecraft.world.level.levelgen.placement.FeatureDecorator;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest;
 import net.minecraftforge.common.Tags;
@@ -60,9 +65,17 @@ public final class GemsWorldFeatures {
             registerConfiguredFeature(gem.getName() + "_end_glowrose", gem.getGlowroseConfiguredFeature(Level.END));
         }
 
-        registerConfiguredFeature("silver", GemsConfig.Common.silverOres.createConfiguredFeature(
-                OreConfiguration.Predicates.NATURAL_STONE,
-                GemsBlocks.SILVER_ORE.asBlockState()));
+        registerConfiguredFeature("silver", GemsConfig.Common.silverOres.createConfiguredFeature(config -> {
+            ImmutableList<OreConfiguration.TargetBlockState> targetList = ImmutableList.of(
+                    OreConfiguration.target(OreConfiguration.Predicates.STONE_ORE_REPLACEABLES, GemsBlocks.SILVER_ORE.get().defaultBlockState()),
+                    OreConfiguration.target(OreConfiguration.Predicates.DEEPSLATE_ORE_REPLACEABLES, GemsBlocks.DEEPSLATE_SILVER_ORE.get().defaultBlockState()));
+            return Feature.ORE
+                    .configured(new OreConfiguration(targetList, config.getSize()))
+                    .rangeUniform(VerticalAnchor.aboveBottom(config.getMinHeight()), VerticalAnchor.absolute(config.getMaxHeight()))
+                    .decorated(FeatureDecorator.CHANCE.configured(new ChanceDecoratorConfiguration(config.getRarity())))
+                    .squared()
+                    .count(config.getCount());
+        }));
 
         logOreConfigs();
     }

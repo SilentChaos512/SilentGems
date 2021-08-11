@@ -2,6 +2,7 @@
   "replace": false,
   "values": [
     "silentgems:silver_ore",
+    "silentgems:deepslate_silver_ore",
     "silentgems:raw_silver"
   ]
 }

@@ -63,6 +63,7 @@ public class GemsLootTableProvider extends LootTableProvider {
             }
 
             registerFortuneDrops(GemsBlocks.SILVER_ORE.get(), GemsItems.RAW_SILVER.get());
+            registerFortuneDrops(GemsBlocks.DEEPSLATE_SILVER_ORE.get(), GemsItems.RAW_SILVER.get());
             dropSelf(GemsBlocks.SILVER_BLOCK.get());
         }
 

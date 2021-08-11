@@ -16,6 +16,7 @@
     "#forge:ores/ammolite",
     "#forge:ores/rose_quartz",
     "#forge:ores/black_diamond",
-    "#forge:ores/white_diamond"
+    "#forge:ores/white_diamond",
+    "#forge:ores/silver"
   ]
 }

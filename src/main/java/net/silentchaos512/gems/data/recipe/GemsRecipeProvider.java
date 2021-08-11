@@ -75,7 +75,7 @@ public class GemsRecipeProvider extends LibRecipeProvider {
     }
 
     private void registerMetals(Consumer<FinishedRecipe> consumer) {
-        smeltingAndBlastingRecipes(consumer, "silver_ingot", GemsBlocks.SILVER_ORE.get(), GemsItems.SILVER_INGOT.get(), 1.0f);
+        smeltingAndBlastingRecipes(consumer, "silver_ingot", GemsItems.RAW_SILVER.get(), GemsItems.SILVER_INGOT.get(), 1.0f);
         compressionRecipes(consumer, GemsBlocks.SILVER_BLOCK.get(), GemsItems.SILVER_INGOT.get(), GemsItems.SILVER_NUGGET.get());
     }
 
