@@ -17,7 +17,7 @@ public final class GemsTraits {
 
     private GemsTraits() {}
 
-    public static void register() {
+    public static void registerSerializers() {
         GearApi.registerTraitSerializer(CriticalStrikeTrait.SERIALIZER);
     }
 

@@ -14,19 +14,17 @@ import java.util.Random;
 
 public class GemLampBlock extends GemBlock {
     public enum State {
-        OFF(false, false, ""),
-        ON(true, false, "_on"),
-        INVERTED_ON(true, true, "_inverted_on"),
-        INVERTED_OFF(false, true, "_inverted");
+        OFF(false, false),
+        ON(true, false),
+        INVERTED_ON(true, true),
+        INVERTED_OFF(false, true);
 
         private final boolean lit;
         private final boolean inverted;
-        private final String suffix;
 
-        State(boolean lit, boolean inverted, String suffix) {
+        State(boolean lit, boolean inverted) {
             this.lit = lit;
             this.inverted = inverted;
-            this.suffix = suffix;
         }
 
         public boolean lit() {

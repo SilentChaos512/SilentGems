@@ -44,8 +44,6 @@ public final class GemsBlocks {
             ItemBlockRenderTypes.setRenderLayer(gem.getGlowrose(), RenderType.cutout());
             ItemBlockRenderTypes.setRenderLayer(gem.getPottedGlowrose(), RenderType.cutout());
         }
-//        RenderTypeLookup.setRenderLayer(FLUFFY_PUFF_PLANT.get(), RenderType.getCutout());
-//        RenderTypeLookup.setRenderLayer(WILD_FLUFFY_PUFF_PLANT.get(), RenderType.getCutout());
     }
 
     private static <T extends Block> BlockRegistryObject<T> registerNoItem(String name, Supplier<T> block) {
@@ -61,10 +59,6 @@ public final class GemsBlocks {
         Registration.ITEMS.register(name, item.apply(ret));
         return ret;
     }
-
-//    private static BlockRegistryObject<FluffyBlock> registerFluffyBlock(DyeColor color) {
-//        return register(color.getTranslationKey() + "_fluffy_block", () -> new FluffyBlock(color));
-//    }
 
     private static <T extends Block> Supplier<BlockItem> defaultItem(BlockRegistryObject<T> block) {
         return () -> new BlockItem(block.get(), new Item.Properties().tab(GemsBase.ITEM_GROUP));

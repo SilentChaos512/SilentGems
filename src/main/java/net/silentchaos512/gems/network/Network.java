@@ -6,7 +6,6 @@ import net.minecraftforge.fmllegacy.network.NetworkRegistry;
 import net.minecraftforge.fmllegacy.network.simple.SimpleChannel;
 import net.silentchaos512.gems.GemsBase;
 import net.silentchaos512.gems.soul.Soul;
-import net.silentchaos512.lib.network.internal.SpawnEntityPacket;
 
 import java.util.Objects;
 
@@ -14,19 +13,17 @@ public final class Network {
     private static final ResourceLocation NAME = GemsBase.getId("network");
 
     public static SimpleChannel channel;
+
+    public static final String NET_VERSION = "2";
+
     static {
         channel = NetworkRegistry.ChannelBuilder.named(NAME)
-                .clientAcceptedVersions(s -> Objects.equals(s, "1"))
-                .serverAcceptedVersions(s -> Objects.equals(s, "1"))
-                .networkProtocolVersion(() -> "1")
+                .clientAcceptedVersions(s -> Objects.equals(s, NET_VERSION))
+                .serverAcceptedVersions(s -> Objects.equals(s, NET_VERSION))
+                .networkProtocolVersion(() -> NET_VERSION)
                 .simpleChannel();
 
-//        channel.messageBuilder(GeneralSyncPacket.class, 1)
-//                .decoder(GeneralSyncPacket::fromBytes)
-//                .encoder(GeneralSyncPacket::toBytes)
-//                .consumer(GeneralSyncPacket::handle)
-//                .add();
-        channel.messageBuilder(SyncSoulsPacket.class, 2)
+        channel.messageBuilder(SyncSoulsPacket.class, 1)
                 .loginIndex(LoginPacket::getLoginIndex, LoginPacket::setLoginIndex)
                 .decoder(SyncSoulsPacket::fromBytes)
                 .encoder(SyncSoulsPacket::toBytes)
@@ -36,22 +33,7 @@ public final class Network {
                     channel.reply(new LoginPacket.Reply(), ctx.get());
                 }))
                 .add();
-//        channel.messageBuilder(SyncChaosBuffsPacket.class, 3)
-//                .loginIndex(LoginPacket::getLoginIndex, LoginPacket::setLoginIndex)
-//                .decoder(SyncChaosBuffsPacket::fromBytes)
-//                .encoder(SyncChaosBuffsPacket::toBytes)
-//                .markAsLoginPacket()
-//                .consumer(FMLHandshakeHandler.biConsumerFor((hh, msg, ctx) -> {
-//                    ChaosBuffManager.handlePacket(msg, ctx);
-//                    channel.reply(new LoginPacket.Reply(), ctx.get());
-//                }))
-//                .add();
-        channel.messageBuilder(SpawnEntityPacket.class, 4)
-                .decoder(SpawnEntityPacket::decode)
-                .encoder(SpawnEntityPacket::encode)
-                .consumer(SpawnEntityPacket::handle)
-                .add();
-        channel.messageBuilder(LoginPacket.Reply.class, 5)
+        channel.messageBuilder(LoginPacket.Reply.class, 2)
                 .loginIndex(LoginPacket::getLoginIndex, LoginPacket::setLoginIndex)
                 .decoder(buffer -> new LoginPacket.Reply())
                 .encoder((msg, buffer) -> {})
