@@ -17,7 +17,6 @@ import net.minecraft.world.item.SpawnEggItem;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 import net.minecraftforge.fmllegacy.network.NetworkEvent;
 import net.minecraftforge.fmlserverevents.FMLServerStartingEvent;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -56,7 +55,7 @@ public final class Soul {
 
         SpawnEggItem egg = getSpawnEggForType(entityType);
         if (egg != null) {
-            this.colors = new Tuple<>(getEggPrimaryColor(egg), getEggSecondaryColor(egg));
+            this.colors = new Tuple<>(egg.backgroundColor, egg.highlightColor);
         } else {
             this.colors = new Tuple<>(random.nextInt(0x1000000), random.nextInt(0x1000000));
             GemsBase.LOGGER.debug("No spawn egg for {}, setting colors to {} and {}",
@@ -174,16 +173,6 @@ public final class Soul {
             }
         }
         return null;
-    }
-
-    private static int getEggPrimaryColor(SpawnEggItem egg) {
-        Integer i = ObfuscationReflectionHelper.getPrivateValue(SpawnEggItem.class, egg, "backgroundColor");
-        return i != null ? i : 0xFF00FF;
-    }
-
-    private static int getEggSecondaryColor(SpawnEggItem egg) {
-        Integer i = ObfuscationReflectionHelper.getPrivateValue(SpawnEggItem.class, egg, "highlightColor");
-        return i != null ? i : 0x0;
     }
 
     public static boolean canHaveSoulGem(EntityType<?> type) {
