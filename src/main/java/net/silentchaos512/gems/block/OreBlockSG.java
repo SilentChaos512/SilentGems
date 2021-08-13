@@ -52,11 +52,6 @@ public abstract class OreBlockSG extends OreBlock {
     }
 
     @Override
-    public int getHarvestLevel(BlockState state) {
-        return this.harvestLevel;
-    }
-
-    @Override
     public void appendHoverText(ItemStack stack, @Nullable BlockGetter worldIn, List<Component> tooltip, TooltipFlag flagIn) {
         Component itemName = this.getDroppedItem().asItem().getDescription();
         tooltip.add(new TranslatableComponent("misc.silentgems.dropFromOre", itemName)

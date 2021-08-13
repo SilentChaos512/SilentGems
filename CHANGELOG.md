@@ -3,6 +3,10 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.1.2] - 2021-08-12
+### Fixed
+- Updated for Forge 37.0.31+ (required)
+
 ## [4.1.1] - 2021-08-12
 ### Fixed
 - Crash when trying to get soul gem colors [#545]

@@ -2,6 +2,7 @@ package net.silentchaos512.gems.data;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.BlockTagsProvider;
+import net.minecraft.tags.BlockTags;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.silentchaos512.gems.GemsBase;
@@ -29,9 +30,26 @@ public class GemsBlockTagsProvider extends BlockTagsProvider {
             tag(GemsTags.Blocks.GLOWROSES).addTag(gem.getGlowroseTag());
             tag(Tags.Blocks.ORES).addTag(gem.getOreTag());
             tag(Tags.Blocks.STORAGE_BLOCKS).add(gem.getBlock());
+
+            // Harvesting
+            tag(BlockTags.NEEDS_IRON_TOOL)
+                    .add(gem.getOre(), gem.getDeepslateOre());
+            tag(BlockTags.NEEDS_DIAMOND_TOOL)
+                    .add(gem.getNetherOre());
+            tag(Tags.Blocks.NEEDS_NETHERITE_TOOL)
+                    .add(gem.getEndOre());
+            tag(BlockTags.MINEABLE_WITH_PICKAXE)
+                    .addTag(gem.getModOresTag())
+                    .add(gem.getBlock())
+                    .add(gem.getBricks());
         }
 
         tag(GemsTags.Blocks.ORES_SILVER).add(GemsBlocks.SILVER_ORE.get(), GemsBlocks.DEEPSLATE_SILVER_ORE.get());
         tag(Tags.Blocks.ORES).addTag(GemsTags.Blocks.ORES_SILVER);
+
+        // Harvesting
+        tag(BlockTags.MINEABLE_WITH_PICKAXE)
+                .addTag(GemsTags.Blocks.ORES_SILVER)
+                .add(GemsBlocks.SILVER_BLOCK.get());
     }
 }

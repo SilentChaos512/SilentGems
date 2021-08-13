@@ -29,7 +29,6 @@ import net.minecraft.world.level.levelgen.placement.ChanceDecoratorConfiguration
 import net.minecraft.world.level.levelgen.placement.FeatureDecorator;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.common.ToolType;
 import net.silentchaos512.gems.GemsBase;
 import net.silentchaos512.gems.block.*;
 import net.silentchaos512.gems.config.GemsConfig;
@@ -416,7 +415,6 @@ public enum Gems {
             gem.ore = registerBlock(gem.getName() + "_ore", () ->
                     new GemOreBlock(gem, 2, "gem_ore", BlockBehaviour.Properties.of(Material.STONE)
                             .strength(3f)
-                            .harvestTool(ToolType.PICKAXE)
                             .requiresCorrectToolForDrops()
                             .sound(SoundType.STONE)));
 

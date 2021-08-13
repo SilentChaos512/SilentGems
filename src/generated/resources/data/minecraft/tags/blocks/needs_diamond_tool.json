@@ -1,0 +1,21 @@
+{
+  "replace": false,
+  "values": [
+    "silentgems:ruby_nether_ore",
+    "silentgems:carnelian_nether_ore",
+    "silentgems:topaz_nether_ore",
+    "silentgems:citrine_nether_ore",
+    "silentgems:heliodor_nether_ore",
+    "silentgems:moldavite_nether_ore",
+    "silentgems:peridot_nether_ore",
+    "silentgems:turquoise_nether_ore",
+    "silentgems:kyanite_nether_ore",
+    "silentgems:sapphire_nether_ore",
+    "silentgems:iolite_nether_ore",
+    "silentgems:alexandrite_nether_ore",
+    "silentgems:ammolite_nether_ore",
+    "silentgems:rose_quartz_nether_ore",
+    "silentgems:black_diamond_nether_ore",
+    "silentgems:white_diamond_nether_ore"
+  ]
+}

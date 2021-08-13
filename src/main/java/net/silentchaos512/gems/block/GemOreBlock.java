@@ -28,7 +28,7 @@ public class GemOreBlock extends OreBlockSG implements IGemBlock {
     private final String translationKey;
 
     public GemOreBlock(Gems gem, int harvestLevelIn, String translationKey, Properties properties) {
-        super(gem::getItem, harvestLevelIn, properties.harvestLevel(harvestLevelIn));
+        super(gem::getItem, harvestLevelIn, properties);
         this.gem = gem;
         this.translationKey = translationKey;
     }
