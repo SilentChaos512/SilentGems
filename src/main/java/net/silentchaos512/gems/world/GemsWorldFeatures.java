@@ -1,9 +1,10 @@
 package net.silentchaos512.gems.world;
 
 import com.google.common.collect.ImmutableList;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.core.Registry;
 import net.minecraft.data.BuiltinRegistries;
+import net.minecraft.data.worldgen.features.OreFeatures;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.levelgen.GenerationStep;
@@ -11,8 +12,7 @@ import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
-import net.minecraft.world.level.levelgen.placement.ChanceDecoratorConfiguration;
-import net.minecraft.world.level.levelgen.placement.FeatureDecorator;
+import net.minecraft.world.level.levelgen.placement.*;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest;
 import net.minecraftforge.common.Tags;
@@ -26,6 +26,7 @@ import net.silentchaos512.gems.setup.GemsBlocks;
 import net.silentchaos512.gems.util.Gems;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 @Mod.EventBusSubscriber(modid = GemsBase.MOD_ID)
@@ -47,7 +48,7 @@ public final class GemsWorldFeatures {
         } else {
             addGemOreFeatures(biome, Level.OVERWORLD);
             biome.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES,
-                    GemsConfig.Common.silverOres.getConfiguredFeature());
+                    GemsConfig.Common.silverOres.getPlacedFeature());
         }
     }
 
@@ -65,17 +66,23 @@ public final class GemsWorldFeatures {
             registerConfiguredFeature(gem.getName() + "_end_glowrose", gem.getGlowroseConfiguredFeature(Level.END));
         }
 
-        registerConfiguredFeature("silver", GemsConfig.Common.silverOres.createConfiguredFeature(config -> {
-            ImmutableList<OreConfiguration.TargetBlockState> targetList = ImmutableList.of(
-                    OreConfiguration.target(OreConfiguration.Predicates.STONE_ORE_REPLACEABLES, GemsBlocks.SILVER_ORE.get().defaultBlockState()),
-                    OreConfiguration.target(OreConfiguration.Predicates.DEEPSLATE_ORE_REPLACEABLES, GemsBlocks.DEEPSLATE_SILVER_ORE.get().defaultBlockState()));
-            return Feature.ORE
-                    .configured(new OreConfiguration(targetList, config.getSize()))
-                    .rangeUniform(VerticalAnchor.aboveBottom(config.getMinHeight()), VerticalAnchor.absolute(config.getMaxHeight()))
-                    .decorated(FeatureDecorator.CHANCE.configured(new ChanceDecoratorConfiguration(config.getRarity())))
-                    .squared()
-                    .count(config.getCount());
-        }));
+        registerConfiguredFeature("silver", GemsConfig.Common.silverOres.createConfiguredFeature(
+                config -> {
+                    ImmutableList<OreConfiguration.TargetBlockState> targetList = ImmutableList.of(
+                            OreConfiguration.target(OreFeatures.STONE_ORE_REPLACEABLES, GemsBlocks.SILVER_ORE.get().defaultBlockState()),
+                            OreConfiguration.target(OreFeatures.DEEPSLATE_ORE_REPLACEABLES, GemsBlocks.DEEPSLATE_SILVER_ORE.get().defaultBlockState()));
+                    return Feature.ORE.configured(new OreConfiguration(targetList, config.getSize(), config.getDiscardChanceOnAirExposure()));
+                },
+                (config, feature) -> {
+                    return feature.placed(List.of(
+                            CountPlacement.of(config.getCount()),
+                            RarityFilter.onAverageOnceEvery(config.getRarity()),
+                            HeightRangePlacement.triangle(VerticalAnchor.absolute(config.getMinHeight()), VerticalAnchor.absolute(config.getMaxHeight())),
+                            InSquarePlacement.spread(),
+                            BiomeFilter.biome()
+                    ));
+                }
+        ));
 
         logOreConfigs();
     }
@@ -85,18 +92,16 @@ public final class GemsWorldFeatures {
         Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, GemsBase.getId(name), configuredFeature);
     }
 
-    private static void addGemOreFeatures(BiomeLoadingEvent biome, ResourceKey<Level> world) {
+    private static void addGemOreFeatures(BiomeLoadingEvent biome, ResourceKey<Level> level) {
         for (Gems gem : Gems.values()) {
-            ConfiguredFeature<?, ?> feature = gem.getOreConfiguredFeature(world);
-            biome.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, feature);
+            biome.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, gem.getOrePlacedFeature(level));
         }
-        addGlowroseFeatures(biome, world);
+        addGlowroseFeatures(biome, level);
     }
 
-    private static void addGlowroseFeatures(BiomeLoadingEvent biome, ResourceKey<Level> world) {
+    private static void addGlowroseFeatures(BiomeLoadingEvent biome, ResourceKey<Level> level) {
         for (Gems gem : Gems.values()) {
-            ConfiguredFeature<?, ?> feature = gem.getGlowroseConfiguredFeature(world);
-            biome.getGeneration().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, feature);
+            biome.getGeneration().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, gem.getGlowrosePlacedFeature(level));
         }
     }
 

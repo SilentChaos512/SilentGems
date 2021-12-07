@@ -139,13 +139,13 @@ public class SoulGemItem extends Item {
     }
 
     @Override
-    public double getDurabilityForDisplay(ItemStack stack) {
+    public int getBarWidth(ItemStack stack) {
         int value = getSoulValue(stack);
-        return 1f - (float) value / Soul.MAX_VALUE;
+        return Math.round(13f - 13f * value / Soul.MAX_VALUE);
     }
 
     @Override
-    public boolean showDurabilityBar(ItemStack stack) {
+    public boolean isBarVisible(ItemStack stack) {
         int value = getSoulValue(stack);
         return value > 0 && value < Soul.MAX_VALUE;
     }

@@ -46,7 +46,7 @@ public final class GemsConfig {
             {
                 builder.comment("World generation settings. You must restart your game after changing these.",
                         "Changes will not be reflected in chunks that have already generated, only new ones.");
-                builder.push("world");
+                builder.push("world.18");
 
                 {
                     builder.comment("Settings for ores. Setting either vein count or vein size to zero (0) will stop that ore from generating.",
@@ -57,7 +57,7 @@ public final class GemsConfig {
                     Gems.buildOreConfigs(builder);
 
                     silverOres = new OreConfig(builder, "silver",
-                            OreConfig.defaults(1, 7, 1, 0, 35));
+                            OreConfig.defaults(2, 7, 1, -64, 36));
 
                     builder.pop();
                 }

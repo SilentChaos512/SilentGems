@@ -1,6 +1,9 @@
 package net.silentchaos512.gems.util;
 
 import com.google.common.collect.ImmutableList;
+import net.minecraft.data.worldgen.features.FeatureUtils;
+import net.minecraft.data.worldgen.features.OreFeatures;
+import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceKey;
@@ -20,13 +23,11 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.blockplacers.SimpleBlockPlacer;
-import net.minecraft.world.level.levelgen.feature.configurations.CountConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.RandomPatchConfiguration;
-import net.minecraft.world.level.levelgen.feature.stateproviders.SimpleStateProvider;
-import net.minecraft.world.level.levelgen.placement.ChanceDecoratorConfiguration;
-import net.minecraft.world.level.levelgen.placement.FeatureDecorator;
+import net.minecraft.world.level.levelgen.feature.configurations.SimpleBlockConfiguration;
+import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
+import net.minecraft.world.level.levelgen.placement.*;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.silentchaos512.gems.GemsBase;
@@ -39,15 +40,10 @@ import net.silentchaos512.gems.setup.Registration;
 import net.silentchaos512.gems.world.GemsWorldFeatures;
 import net.silentchaos512.lib.registry.BlockRegistryObject;
 import net.silentchaos512.lib.registry.ItemRegistryObject;
-import net.silentchaos512.lib.world.placement.DimensionFilterConfig;
-import net.silentchaos512.lib.world.placement.LibPlacements;
 import net.silentchaos512.utils.Color;
 import net.silentchaos512.utils.Lazy;
 
-import java.util.EnumMap;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -55,7 +51,7 @@ import java.util.function.Supplier;
 public enum Gems {
     RUBY(0xE61D1D, //hue=0
             Rarity.COMMON,
-            OreConfig.defaults(3, 8, 2, 5, 40),
+            OreConfig.defaults(4, 8, 2, -64, 32, 0.2f),
             OreConfig.empty(),
             OreConfig.empty()),
     CARNELIAN(0xE04D1D, //15
@@ -65,7 +61,7 @@ public enum Gems {
             OreConfig.empty()),
     TOPAZ(0xE6711D, //25
             Rarity.COMMON,
-            OreConfig.defaults(3, 8, 2, 15, 50),
+            OreConfig.defaults(4, 8, 2, -56, 40, 0.2f),
             OreConfig.empty(),
             OreConfig.empty()),
     CITRINE(0xC78B03, //40
@@ -75,7 +71,7 @@ public enum Gems {
             OreConfig.empty()),
     HELIODOR(0xE6C51D, //50
             Rarity.COMMON,
-            OreConfig.defaults(1, 6, 6, 0, 15),
+            OreConfig.defaults(1, 6, 4, -80, -32, 0.8f),
             OreConfig.empty(),
             OreConfig.defaults(2, 9, 1, 16, 72)),
     MOLDAVITE(0xA6D923, //75
@@ -85,12 +81,12 @@ public enum Gems {
             OreConfig.empty()),
     PERIDOT(0x29DB18, //115
             Rarity.COMMON,
-            OreConfig.defaults(3, 8, 2, 15, 50),
+            OreConfig.defaults(4, 8, 2, -56, 40, 0.2f),
             OreConfig.empty(),
             OreConfig.empty()),
     TURQUOISE(0x3DF4BD, //160
             Rarity.RARE,
-            OreConfig.defaults(1, 6, 6, 0, 15),
+            OreConfig.defaults(1, 6, 4, -80, -32, 0.8f),
             OreConfig.empty(),
             OreConfig.defaults(2, 9, 1, 16, 72)),
     KYANITE(0x41C4F3, //195 (-165)
@@ -100,17 +96,17 @@ public enum Gems {
             OreConfig.defaults(2, 9, 1, 16, 72)),
     SAPPHIRE(0x1D60E5, //220 (-140)
             Rarity.COMMON,
-            OreConfig.defaults(3, 8, 2, 5, 40),
+            OreConfig.defaults(4, 8, 2, -80, 32, 0.2f),
             OreConfig.empty(),
             OreConfig.empty()),
     IOLITE(0x7543F5, //260 (-100)
             Rarity.UNCOMMON,
-            OreConfig.defaults(1, 6, 6, 0, 15),
+            OreConfig.defaults(1, 6, 4, -80, -32, 0.8f),
             OreConfig.defaults(2, 8, 1, 20, 80),
             OreConfig.empty()),
     ALEXANDRITE(0xAB37E5, //280 (-80)
             Rarity.UNCOMMON,
-            OreConfig.defaults(1, 6, 6, 0, 15),
+            OreConfig.defaults(1, 6, 4, -80, -32, 0.8f),
             OreConfig.defaults(2, 8, 1, 20, 80),
             OreConfig.empty()),
     AMMOLITE(0xDB2BFF, //290 (-70)
@@ -126,13 +122,13 @@ public enum Gems {
     BLACK_DIAMOND(0x5F524C, //20, Sat=20,Lit=-36
             Rarity.EPIC,
             OreConfig.empty(),
-            OreConfig.defaults(2, 8, 3, 10, 50),
+            OreConfig.defaults(3, 8, 3, -10, 60),
             OreConfig.empty()),
     WHITE_DIAMOND(0xD5C1D2, //310 (-50), Sat=10, B+50,C+30
             Rarity.EPIC,
             OreConfig.empty(),
             OreConfig.empty(),
-            OreConfig.defaults(2, 8, 3, 10, 50));
+            OreConfig.defaults(3, 8, 3, -10, 60));
 
     private final Color color;
     private final Rarity rarity;
@@ -141,7 +137,9 @@ public enum Gems {
     private final Map<ResourceKey<Level>, OreConfig.Defaults> oreConfigDefaults = new HashMap<>();
     private final Map<ResourceKey<Level>, OreConfig> oreConfigs = new HashMap<>();
     private final Map<ResourceKey<Level>, Lazy<ConfiguredFeature<?, ?>>> oreConfiguredFeatures = new HashMap<>();
+    private final Map<ResourceKey<Level>, Lazy<PlacedFeature>> orePlacedFeatures = new HashMap<>();
     private final Map<ResourceKey<Level>, Lazy<ConfiguredFeature<?, ?>>> glowroseConfiguredFeatures = new HashMap<>();
+    private final Map<ResourceKey<Level>, Lazy<PlacedFeature>> glowrosePlacedFeatures = new HashMap<>();
 
     // Blocks
     BlockRegistryObject<GemOreBlock> ore;
@@ -179,19 +177,12 @@ public enum Gems {
         this.oreConfigDefaults.put(Level.NETHER, netherOres);
         this.oreConfigDefaults.put(Level.END, endOres);
 
-        this.oreConfiguredFeatures.put(Level.OVERWORLD, Lazy.of(() ->
-                createOreConfiguredFeature(Level.OVERWORLD)));
-        this.oreConfiguredFeatures.put(Level.NETHER, Lazy.of(() ->
-                createOreConfiguredFeature(Level.NETHER)));
-        this.oreConfiguredFeatures.put(Level.END, Lazy.of(() ->
-                createOreConfiguredFeature(Level.END)));
-
-        this.glowroseConfiguredFeatures.put(Level.OVERWORLD, Lazy.of(() ->
-                createGlowroseConfiguredFeature(Level.OVERWORLD)));
-        this.glowroseConfiguredFeatures.put(Level.NETHER, Lazy.of(() ->
-                createGlowroseConfiguredFeature(Level.NETHER)));
-        this.glowroseConfiguredFeatures.put(Level.END, Lazy.of(() ->
-                createGlowroseConfiguredFeature(Level.END)));
+        for (ResourceKey<Level> level : List.of(Level.OVERWORLD, Level.NETHER, Level.END)) {
+            this.oreConfiguredFeatures.put(level, Lazy.of(() -> createOreConfiguredFeature(level)));
+            this.orePlacedFeatures.put(level, Lazy.of(() -> createOrePlacedFeature(level)));
+            this.glowroseConfiguredFeatures.put(level, Lazy.of(() -> createGlowroseConfiguredFeature(level)));
+            this.glowrosePlacedFeatures.put(level, Lazy.of(() -> createGlowrosePlacedFeature(level)));
+        }
 
         String name = this.getName();
         this.blockTag = makeBlockTag(forgeId("storage_blocks/" + name));
@@ -204,7 +195,6 @@ public enum Gems {
         this.oreItemTag = makeItemTag(forgeId("ores/" + name));
         this.modOresItemTag = makeItemTag(GemsBase.getId("ores/" + name));
         this.itemTag = makeItemTag(forgeId("gems/" + name));
-//        this.shardTag = ItemTags.makeWrapperTag(new ResourceLocation("forge", "nuggets/" + this.getName()).toString());
     }
 
     private static Tag.Named<Block> makeBlockTag(ResourceLocation name) {
@@ -241,20 +231,28 @@ public enum Gems {
 
     //region World generation
 
-    public ConfiguredFeature<?, ?> getOreConfiguredFeature(ResourceKey<Level> world) {
-        return this.oreConfiguredFeatures.getOrDefault(world, this.oreConfiguredFeatures.get(Level.OVERWORLD)).get();
+    public ConfiguredFeature<?, ?> getOreConfiguredFeature(ResourceKey<Level> level) {
+        return this.oreConfiguredFeatures.getOrDefault(level, this.oreConfiguredFeatures.get(Level.OVERWORLD)).get();
     }
 
-    public ConfiguredFeature<?, ?> getGlowroseConfiguredFeature(ResourceKey<Level> world) {
-        return this.glowroseConfiguredFeatures.getOrDefault(world, this.glowroseConfiguredFeatures.get(Level.OVERWORLD)).get();
+    public PlacedFeature getOrePlacedFeature(ResourceKey<Level> level) {
+        return this.orePlacedFeatures.getOrDefault(level, this.orePlacedFeatures.get(Level.OVERWORLD)).get();
     }
 
-    public OreConfig getOreConfig(ResourceKey<Level> world) {
-        return this.oreConfigs.getOrDefault(world, this.oreConfigs.get(Level.OVERWORLD));
+    public ConfiguredFeature<?, ?> getGlowroseConfiguredFeature(ResourceKey<Level> level) {
+        return this.glowroseConfiguredFeatures.getOrDefault(level, this.glowroseConfiguredFeatures.get(Level.OVERWORLD)).get();
     }
 
-    public OreConfig.Defaults getOreConfigDefaults(ResourceKey<Level> world) {
-        return this.oreConfigDefaults.getOrDefault(world, this.oreConfigDefaults.get(Level.OVERWORLD));
+    public PlacedFeature getGlowrosePlacedFeature(ResourceKey<Level> level) {
+        return this.glowrosePlacedFeatures.getOrDefault(level, this.glowrosePlacedFeatures.get(Level.OVERWORLD)).get();
+    }
+
+    public OreConfig getOreConfig(ResourceKey<Level> level) {
+        return this.oreConfigs.getOrDefault(level, this.oreConfigs.get(Level.OVERWORLD));
+    }
+
+    public OreConfig.Defaults getOreConfigDefaults(ResourceKey<Level> level) {
+        return this.oreConfigDefaults.getOrDefault(level, this.oreConfigDefaults.get(Level.OVERWORLD));
     }
 
     public static void buildOreConfigs(ForgeConfigSpec.Builder builder) {
@@ -271,52 +269,56 @@ public enum Gems {
         }
     }
 
-    private ConfiguredFeature<?, ?> createOreConfiguredFeature(ResourceKey<Level> world) {
-        OreConfig config = this.getOreConfig(world);
+    private ConfiguredFeature<?, ?> createOreConfiguredFeature(ResourceKey<Level> level) {
+        OreConfig config = this.getOreConfig(level);
 
         OreConfiguration oreConfiguration;
-        if (world == Level.NETHER) {
-            oreConfiguration = new OreConfiguration(OreConfiguration.Predicates.NETHERRACK, netherOre.get().defaultBlockState(), config.getSize());
-        } else if (world == Level.END) {
-            oreConfiguration = new OreConfiguration(GemsWorldFeatures.BASE_STONE_END, endOre.get().defaultBlockState(), config.getSize());
+        if (level == Level.NETHER) {
+            oreConfiguration = new OreConfiguration(OreFeatures.NETHERRACK, netherOre.get().defaultBlockState(), config.getSize(), config.getDiscardChanceOnAirExposure());
+        } else if (level == Level.END) {
+            oreConfiguration = new OreConfiguration(GemsWorldFeatures.BASE_STONE_END, endOre.get().defaultBlockState(), config.getSize(), config.getDiscardChanceOnAirExposure());
         } else {
             ImmutableList<OreConfiguration.TargetBlockState> targetList = ImmutableList.of(
-                    OreConfiguration.target(OreConfiguration.Predicates.STONE_ORE_REPLACEABLES, ore.get().defaultBlockState()),
-                    OreConfiguration.target(OreConfiguration.Predicates.DEEPSLATE_ORE_REPLACEABLES, deepslateOre.get().defaultBlockState()));
-            oreConfiguration = new OreConfiguration(targetList, config.getSize());
+                    OreConfiguration.target(OreFeatures.STONE_ORE_REPLACEABLES, ore.get().defaultBlockState()),
+                    OreConfiguration.target(OreFeatures.DEEPSLATE_ORE_REPLACEABLES, deepslateOre.get().defaultBlockState()));
+            oreConfiguration = new OreConfiguration(targetList, config.getSize(), config.getDiscardChanceOnAirExposure());
         }
 
-        return Feature.ORE
-                .configured(oreConfiguration)
-                .rangeUniform(VerticalAnchor.aboveBottom(config.getMinHeight()), VerticalAnchor.absolute(config.getMaxHeight()))
-                .decorated(FeatureDecorator.CHANCE.configured(new ChanceDecoratorConfiguration(config.getRarity())))
-                .squared()
-                .count(config.getCount());
+        return Feature.ORE.configured(oreConfiguration);
     }
 
-    private ConfiguredFeature<?, ?> createGlowroseConfiguredFeature(ResourceKey<Level> world) {
-        OreConfig config = this.getOreConfig(world);
+    private PlacedFeature createOrePlacedFeature(ResourceKey<Level> level) {
+        OreConfig config = getOreConfig(level);
+        ConfiguredFeature<?, ?> configuredFeature = getOreConfiguredFeature(level);
+
+        return configuredFeature.placed(List.of(
+                CountPlacement.of(config.getCount()),
+                RarityFilter.onAverageOnceEvery(config.getRarity()),
+                InSquarePlacement.spread(),
+                HeightRangePlacement.triangle(VerticalAnchor.absolute(config.getMinHeight()), VerticalAnchor.absolute(config.getMaxHeight())),
+                BiomeFilter.biome()
+        ));
+    }
+
+    private ConfiguredFeature<?, ?> createGlowroseConfiguredFeature(ResourceKey<Level> level) {
+        OreConfig config = this.getOreConfig(level);
         int baseSpread = config.isEnabled() ? 2 : 0;
-        int rarity = 32 * config.getRarity();
 
-        int tryCount;
-        if (world == Level.END) {
-            tryCount = 6;
-        } else if (world == Level.NETHER) {
-            tryCount = 12;
-        } else {
-            tryCount = 8;
-        }
+        return Feature.FLOWER.configured(grassPatch(BlockStateProvider.simple(getGlowrose().defaultBlockState()), baseSpread));
+    }
 
-        return Feature.FLOWER
-                .configured(new RandomPatchConfiguration.GrassConfigurationBuilder(
-                        new SimpleStateProvider(this.getGlowrose().defaultBlockState()), SimpleBlockPlacer.INSTANCE)
-                        .tries(tryCount)
-                        .build())
-                .decorated(FeatureDecorator.COUNT_MULTILAYER.configured(new CountConfiguration(baseSpread)))
-                .decorated(LibPlacements.DIMENSION_FILTER.configured(DimensionFilterConfig.whitelist(Level.OVERWORLD)))
-                .decorated(FeatureDecorator.CHANCE.configured(new ChanceDecoratorConfiguration(rarity)))
-                .rangeUniform(VerticalAnchor.bottom(), VerticalAnchor.absolute(128));
+    private static RandomPatchConfiguration grassPatch(BlockStateProvider p_195203_, int p_195204_) {
+        return FeatureUtils.simpleRandomPatchConfiguration(p_195204_, Feature.SIMPLE_BLOCK.configured(new SimpleBlockConfiguration(p_195203_)).onlyWhenEmpty());
+    }
+
+    private PlacedFeature createGlowrosePlacedFeature(ResourceKey<Level> level) {
+        OreConfig config = getOreConfig(level);
+        return getGlowroseConfiguredFeature(level).placed(List.of(
+                RarityFilter.onAverageOnceEvery(32 * config.getRarity()),
+                InSquarePlacement.spread(),
+                PlacementUtils.HEIGHTMAP,
+                BiomeFilter.biome()
+        ));
     }
 
     //endregion

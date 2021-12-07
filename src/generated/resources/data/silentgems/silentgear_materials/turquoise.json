@@ -1,4 +1,6 @@
 {
+  "type": "silentgear:standard",
+  "simple": true,
   "availability": {
     "tier": 4,
     "categories": [
@@ -55,6 +57,54 @@
       {
         "name": "silentgems:leaping",
         "level": 3
+      }
+    ]
+  },
+  "model": {
+    "main/all": [
+      {
+        "texture": "silentgear:main_generic_hc",
+        "color": "#FF3DF4BD"
+      },
+      {
+        "texture": "silentgear:_highlight"
+      }
+    ],
+    "main/fragment": [
+      {
+        "texture": "silentgear:metal",
+        "color": "#FF3DF4BD"
+      }
+    ],
+    "rod/all": [
+      {
+        "texture": "silentgear:rod_generic_hc",
+        "color": "#FF3DF4BD"
+      }
+    ],
+    "rod/part": [
+      {
+        "texture": "silentgear:rod",
+        "color": "#FF3DF4BD"
+      }
+    ],
+    "adornment/all": [
+      {
+        "texture": "silentgear:adornment_generic",
+        "color": "#FF3DF4BD"
+      },
+      {
+        "texture": "silentgear:adornment_highlight",
+        "color": "#FF3DF4BD"
+      }
+    ],
+    "adornment/part": [
+      {
+        "texture": "silentgear:adornment",
+        "color": "#FF3DF4BD"
+      },
+      {
+        "texture": "silentgear:adornment_highlight"
       }
     ]
   }

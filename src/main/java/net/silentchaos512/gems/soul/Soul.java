@@ -15,10 +15,10 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SpawnEggItem;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fmllegacy.network.NetworkEvent;
-import net.minecraftforge.fmlserverevents.FMLServerStartingEvent;
+import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.gems.GemsBase;
 import net.silentchaos512.gems.item.SoulGemItem;
@@ -197,7 +197,7 @@ public final class Soul {
         private Events() {}
 
         @SubscribeEvent
-        public static void onServerAboutToStart(FMLServerStartingEvent event) {
+        public static void onServerAboutToStart(ServerStartingEvent event) {
             MAP.clear();
             for (EntityType<?> entityType : ForgeRegistries.ENTITIES.getValues()) {
                 if (canHaveSoulGem(entityType)) {

@@ -1,4 +1,6 @@
 {
+  "type": "silentgear:standard",
+  "simple": true,
   "availability": {
     "tier": 4,
     "categories": [
@@ -49,6 +51,54 @@
       {
         "name": "silentgear:brittle",
         "level": 3
+      }
+    ]
+  },
+  "model": {
+    "main/all": [
+      {
+        "texture": "silentgear:main_generic_hc",
+        "color": "#FFFF4EAB"
+      },
+      {
+        "texture": "silentgear:_highlight"
+      }
+    ],
+    "main/fragment": [
+      {
+        "texture": "silentgear:metal",
+        "color": "#FFFF4EAB"
+      }
+    ],
+    "rod/all": [
+      {
+        "texture": "silentgear:rod_generic_hc",
+        "color": "#FFFF4EAB"
+      }
+    ],
+    "rod/part": [
+      {
+        "texture": "silentgear:rod",
+        "color": "#FFFF4EAB"
+      }
+    ],
+    "adornment/all": [
+      {
+        "texture": "silentgear:adornment_generic",
+        "color": "#FFFF4EAB"
+      },
+      {
+        "texture": "silentgear:adornment_highlight",
+        "color": "#FFFF4EAB"
+      }
+    ],
+    "adornment/part": [
+      {
+        "texture": "silentgear:adornment",
+        "color": "#FFFF4EAB"
+      },
+      {
+        "texture": "silentgear:adornment_highlight"
       }
     ]
   }

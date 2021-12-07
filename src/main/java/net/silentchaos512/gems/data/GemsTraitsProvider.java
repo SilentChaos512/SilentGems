@@ -1,14 +1,14 @@
 package net.silentchaos512.gems.data;
 
 import net.minecraft.data.DataGenerator;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.effect.MobEffects;
 import net.silentchaos512.gear.api.item.GearType;
 import net.silentchaos512.gear.api.stats.ItemStats;
 import net.silentchaos512.gear.api.traits.ITrait;
 import net.silentchaos512.gear.data.trait.*;
-import net.silentchaos512.gear.gear.trait.PotionEffectTrait;
+import net.silentchaos512.gear.gear.trait.WielderEffectTrait;
 import net.silentchaos512.gear.util.DataResource;
 import net.silentchaos512.gems.gear.trait.CriticalStrikeTrait;
 import net.silentchaos512.gems.setup.GemsTraits;
@@ -30,12 +30,12 @@ public class GemsTraitsProvider extends TraitsProvider {
         );
 
         ret.add(new PotionTraitBuilder(GemsTraits.BOOSTER, 5)
-                .addEffect(GearType.CURIO, PotionEffectTrait.LevelType.TRAIT_LEVEL, MobEffects.MOVEMENT_SPEED, 1, 2, 3, 4, 5)
+                .addEffect(GearType.CURIO, WielderEffectTrait.LevelType.TRAIT_LEVEL, MobEffects.MOVEMENT_SPEED, 1, 2, 3, 4, 5)
         );
 
         ret.add(new PotionTraitBuilder(GemsTraits.CLOAKING, 1)
-                .addEffect(GearType.CURIO, PotionEffectTrait.LevelType.TRAIT_LEVEL, MobEffects.INVISIBILITY, 1)
-                .addEffect(GearType.CURIO, PotionEffectTrait.LevelType.TRAIT_LEVEL, MobEffects.HUNGER, 2)
+                .addEffect(GearType.CURIO, WielderEffectTrait.LevelType.TRAIT_LEVEL, MobEffects.INVISIBILITY, 1)
+                .addEffect(GearType.CURIO, WielderEffectTrait.LevelType.TRAIT_LEVEL, MobEffects.HUNGER, 2)
         );
 
         ret.add(criticalStrike(GemsTraits.CRITICAL_STRIKE, 1, 0.5f, 0.25f));
@@ -50,8 +50,8 @@ public class GemsTraitsProvider extends TraitsProvider {
         );
 
         ret.add(new PotionTraitBuilder(GemsTraits.LEAPING, 5)
-                .addEffect(GearType.CURIO, PotionEffectTrait.LevelType.TRAIT_LEVEL, MobEffects.JUMP, 1, 2, 3, 4, 5)
-                .addEffect(GearType.CURIO, PotionEffectTrait.LevelType.TRAIT_LEVEL, MobEffects.SLOW_FALLING, 1, 1, 1, 1, 1)
+                .addEffect(GearType.CURIO, WielderEffectTrait.LevelType.TRAIT_LEVEL, MobEffects.JUMP, 1, 2, 3, 4, 5)
+                .addEffect(GearType.CURIO, WielderEffectTrait.LevelType.TRAIT_LEVEL, MobEffects.SLOW_FALLING, 1, 1, 1, 1, 1)
         );
 
         return ret;

@@ -8,7 +8,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.fmllegacy.RegistryObject;
+import net.minecraftforge.registries.RegistryObject;
 import net.silentchaos512.gems.GemsBase;
 import net.silentchaos512.gems.block.GlowroseBlock;
 import net.silentchaos512.gems.setup.GemsItems;
