@@ -32,10 +32,10 @@ public class OreConfig {
                 .defineInRange(this.name + ".rarity", defaults.rarity, 0, Integer.MAX_VALUE);
         this.minHeight = builder
                 .comment("Minimum Y-coordinate (base height) of veins")
-                .defineInRange(this.name + ".minHeight", defaults.minHeight, 0, 255);
+                .defineInRange(this.name + ".minHeight", defaults.minHeight, Integer.MIN_VALUE, Integer.MAX_VALUE);
         this.maxHeight = builder
                 .comment("Maximum Y-coordinate (highest level) of veins")
-                .defineInRange(this.name + ".maxHeight", defaults.maxHeight, 0, 255);
+                .defineInRange(this.name + ".maxHeight", defaults.maxHeight, Integer.MIN_VALUE, Integer.MAX_VALUE);
         this.discardChanceOnAirExposure = builder
                 .comment("The chance (out of 1) that the ore will not generate if exposed to air.")
                 .defineInRange(this.name + ".discardChanceOnAirExposure", defaults.discardChanceOnAirExposure, 0f, 1f);
