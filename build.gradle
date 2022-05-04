@@ -142,7 +142,7 @@ dependencies {
     if (project.hasProperty("sgear_version")) {
         implementation fg.deobf("net.silentchaos512:silent-gear:${project.sgear_version}") {
             exclude module: 'forge'
-            exclude module: 'jei-1.18'
+            exclude module: 'jei-1.18.2'
             exclude module: 'silent-lib'
             exclude module: 'curios-forge'
             exclude module: 'World-Stripper'
@@ -154,12 +154,12 @@ dependencies {
     if (project.hasProperty('token_enchanter_version')) {
         compileOnly fg.deobf("net.silentchaos512:token-enchanter:${project.token_enchanter_version}:api") {
             exclude module: 'forge'
-            exclude module: 'jei-1.18'
+            exclude module: 'jei-1.18.2'
             exclude module: 'silent-lib'
         }
         runtimeOnly fg.deobf("net.silentchaos512:token-enchanter:${project.token_enchanter_version}") {
             exclude module: 'forge'
-            exclude module: 'jei-1.18'
+            exclude module: 'jei-1.18.2'
             exclude module: 'silent-lib'
         }
     }

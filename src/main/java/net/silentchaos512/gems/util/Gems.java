@@ -1,6 +1,7 @@
 package net.silentchaos512.gems.util;
 
 import com.google.common.collect.ImmutableList;
+import net.minecraft.core.Holder;
 import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.data.worldgen.features.OreFeatures;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
@@ -10,7 +11,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
@@ -41,7 +42,6 @@ import net.silentchaos512.gems.world.GemsWorldFeatures;
 import net.silentchaos512.lib.registry.BlockRegistryObject;
 import net.silentchaos512.lib.registry.ItemRegistryObject;
 import net.silentchaos512.utils.Color;
-import net.silentchaos512.utils.Lazy;
 
 import java.util.*;
 import java.util.function.Function;
@@ -136,10 +136,10 @@ public enum Gems {
     // World/ore generation
     private final Map<ResourceKey<Level>, OreConfig.Defaults> oreConfigDefaults = new HashMap<>();
     private final Map<ResourceKey<Level>, OreConfig> oreConfigs = new HashMap<>();
-    private final Map<ResourceKey<Level>, Lazy<ConfiguredFeature<?, ?>>> oreConfiguredFeatures = new HashMap<>();
-    private final Map<ResourceKey<Level>, Lazy<PlacedFeature>> orePlacedFeatures = new HashMap<>();
-    private final Map<ResourceKey<Level>, Lazy<ConfiguredFeature<?, ?>>> glowroseConfiguredFeatures = new HashMap<>();
-    private final Map<ResourceKey<Level>, Lazy<PlacedFeature>> glowrosePlacedFeatures = new HashMap<>();
+    private final Map<ResourceKey<Level>, Holder<ConfiguredFeature<OreConfiguration, ?>>> oreConfiguredFeatures = new HashMap<>();
+    private final Map<ResourceKey<Level>, Holder<PlacedFeature>> orePlacedFeatures = new HashMap<>();
+    private final Map<ResourceKey<Level>, Holder<ConfiguredFeature<RandomPatchConfiguration, ?>>> glowroseConfiguredFeatures = new HashMap<>();
+    private final Map<ResourceKey<Level>, Holder<PlacedFeature>> glowrosePlacedFeatures = new HashMap<>();
 
     // Blocks
     BlockRegistryObject<GemOreBlock> ore;
@@ -158,15 +158,15 @@ public enum Gems {
     ItemRegistryObject<GemItem> shard;
 
     // Tags
-    final Tag.Named<Block> blockTag;
-    final Tag.Named<Block> glowroseTag;
-    final Tag.Named<Block> oreTag;
-    final Tag.Named<Block> modOresTag;
-    final Tag.Named<Item> blockItemTag;
-    final Tag.Named<Item> glowroseItemTag;
-    final Tag.Named<Item> oreItemTag;
-    final Tag.Named<Item> modOresItemTag;
-    final Tag.Named<Item> itemTag;
+    final TagKey<Block> blockTag;
+    final TagKey<Block> glowroseTag;
+    final TagKey<Block> oreTag;
+    final TagKey<Block> modOresTag;
+    final TagKey<Item> blockItemTag;
+    final TagKey<Item> glowroseItemTag;
+    final TagKey<Item> oreItemTag;
+    final TagKey<Item> modOresItemTag;
+    final TagKey<Item> itemTag;
 //    final ITag.INamedTag<Item> shardTag;
 
     Gems(int colorIn, Rarity rarity, OreConfig.Defaults overworldOres, OreConfig.Defaults netherOres, OreConfig.Defaults endOres) {
@@ -178,10 +178,10 @@ public enum Gems {
         this.oreConfigDefaults.put(Level.END, endOres);
 
         for (ResourceKey<Level> level : List.of(Level.OVERWORLD, Level.NETHER, Level.END)) {
-            this.oreConfiguredFeatures.put(level, Lazy.of(() -> createOreConfiguredFeature(level)));
-            this.orePlacedFeatures.put(level, Lazy.of(() -> createOrePlacedFeature(level)));
-            this.glowroseConfiguredFeatures.put(level, Lazy.of(() -> createGlowroseConfiguredFeature(level)));
-            this.glowrosePlacedFeatures.put(level, Lazy.of(() -> createGlowrosePlacedFeature(level)));
+            this.oreConfiguredFeatures.put(level, createOreConfiguredFeature(level));
+            this.orePlacedFeatures.put(level, createOrePlacedFeature(level));
+            this.glowroseConfiguredFeatures.put(level, createGlowroseConfiguredFeature(level));
+            this.glowrosePlacedFeatures.put(level, createGlowrosePlacedFeature(level));
         }
 
         String name = this.getName();
@@ -197,12 +197,12 @@ public enum Gems {
         this.itemTag = makeItemTag(forgeId("gems/" + name));
     }
 
-    private static Tag.Named<Block> makeBlockTag(ResourceLocation name) {
-        return BlockTags.bind(name.toString());
+    private static TagKey<Block> makeBlockTag(ResourceLocation name) {
+        return BlockTags.create(name);
     }
 
-    private static Tag.Named<Item> makeItemTag(ResourceLocation name) {
-        return ItemTags.bind(name.toString());
+    private static TagKey<Item> makeItemTag(ResourceLocation name) {
+        return ItemTags.create(name);
     }
 
     private static ResourceLocation forgeId(String path) {
@@ -231,20 +231,20 @@ public enum Gems {
 
     //region World generation
 
-    public ConfiguredFeature<?, ?> getOreConfiguredFeature(ResourceKey<Level> level) {
-        return this.oreConfiguredFeatures.getOrDefault(level, this.oreConfiguredFeatures.get(Level.OVERWORLD)).get();
+    public Holder<ConfiguredFeature<OreConfiguration, ?>> getOreConfiguredFeature(ResourceKey<Level> level) {
+        return this.oreConfiguredFeatures.getOrDefault(level, this.oreConfiguredFeatures.get(Level.OVERWORLD));
     }
 
-    public PlacedFeature getOrePlacedFeature(ResourceKey<Level> level) {
-        return this.orePlacedFeatures.getOrDefault(level, this.orePlacedFeatures.get(Level.OVERWORLD)).get();
+    public Holder<PlacedFeature> getOrePlacedFeature(ResourceKey<Level> level) {
+        return this.orePlacedFeatures.getOrDefault(level, this.orePlacedFeatures.get(Level.OVERWORLD));
     }
 
-    public ConfiguredFeature<?, ?> getGlowroseConfiguredFeature(ResourceKey<Level> level) {
-        return this.glowroseConfiguredFeatures.getOrDefault(level, this.glowroseConfiguredFeatures.get(Level.OVERWORLD)).get();
+    public Holder<ConfiguredFeature<RandomPatchConfiguration, ?>> getGlowroseConfiguredFeature(ResourceKey<Level> level) {
+        return this.glowroseConfiguredFeatures.getOrDefault(level, this.glowroseConfiguredFeatures.get(Level.OVERWORLD));
     }
 
-    public PlacedFeature getGlowrosePlacedFeature(ResourceKey<Level> level) {
-        return this.glowrosePlacedFeatures.getOrDefault(level, this.glowrosePlacedFeatures.get(Level.OVERWORLD)).get();
+    public Holder<PlacedFeature> getGlowrosePlacedFeature(ResourceKey<Level> level) {
+        return this.glowrosePlacedFeatures.getOrDefault(level, this.glowrosePlacedFeatures.get(Level.OVERWORLD));
     }
 
     public OreConfig getOreConfig(ResourceKey<Level> level) {
@@ -269,7 +269,7 @@ public enum Gems {
         }
     }
 
-    private ConfiguredFeature<?, ?> createOreConfiguredFeature(ResourceKey<Level> level) {
+    private Holder<ConfiguredFeature<OreConfiguration, ?>> createOreConfiguredFeature(ResourceKey<Level> level) {
         OreConfig config = this.getOreConfig(level);
 
         OreConfiguration oreConfiguration;
@@ -284,14 +284,14 @@ public enum Gems {
             oreConfiguration = new OreConfiguration(targetList, config.getSize(), config.getDiscardChanceOnAirExposure());
         }
 
-        return Feature.ORE.configured(oreConfiguration);
+        return FeatureUtils.register(GemsBase.MOD_ID + ":" + getName() + "_ore", Feature.ORE, oreConfiguration);
     }
 
-    private PlacedFeature createOrePlacedFeature(ResourceKey<Level> level) {
+    private Holder<PlacedFeature> createOrePlacedFeature(ResourceKey<Level> level) {
         OreConfig config = getOreConfig(level);
-        ConfiguredFeature<?, ?> configuredFeature = getOreConfiguredFeature(level);
+        Holder<ConfiguredFeature<OreConfiguration, ?>> configuredFeature = getOreConfiguredFeature(level);
 
-        return configuredFeature.placed(List.of(
+        return PlacementUtils.register(GemsBase.MOD_ID + ":" + getName() + "_ore", configuredFeature, List.of(
                 CountPlacement.of(config.getCount()),
                 RarityFilter.onAverageOnceEvery(config.getRarity()),
                 InSquarePlacement.spread(),
@@ -300,20 +300,18 @@ public enum Gems {
         ));
     }
 
-    private ConfiguredFeature<?, ?> createGlowroseConfiguredFeature(ResourceKey<Level> level) {
+    private Holder<ConfiguredFeature<RandomPatchConfiguration, ?>> createGlowroseConfiguredFeature(ResourceKey<Level> level) {
         OreConfig config = this.getOreConfig(level);
         int baseSpread = config.isEnabled() ? 2 : 0;
 
-        return Feature.FLOWER.configured(grassPatch(BlockStateProvider.simple(getGlowrose().defaultBlockState()), baseSpread));
+        RandomPatchConfiguration featureConfig = FeatureUtils.simplePatchConfiguration(Feature.SIMPLE_BLOCK,
+                new SimpleBlockConfiguration(BlockStateProvider.simple(getGlowrose())));
+        return FeatureUtils.register(GemsBase.MOD_ID + ":" + getName() + "_glowrose", Feature.FLOWER, featureConfig);
     }
 
-    private static RandomPatchConfiguration grassPatch(BlockStateProvider p_195203_, int p_195204_) {
-        return FeatureUtils.simpleRandomPatchConfiguration(p_195204_, Feature.SIMPLE_BLOCK.configured(new SimpleBlockConfiguration(p_195203_)).onlyWhenEmpty());
-    }
-
-    private PlacedFeature createGlowrosePlacedFeature(ResourceKey<Level> level) {
+    private Holder<PlacedFeature> createGlowrosePlacedFeature(ResourceKey<Level> level) {
         OreConfig config = getOreConfig(level);
-        return getGlowroseConfiguredFeature(level).placed(List.of(
+        return PlacementUtils.register(GemsBase.MOD_ID + ":" + getName() + "_glowrose", getGlowroseConfiguredFeature(level), List.of(
                 RarityFilter.onAverageOnceEvery(32 * config.getRarity()),
                 InSquarePlacement.spread(),
                 PlacementUtils.HEIGHTMAP,
@@ -374,39 +372,39 @@ public enum Gems {
         return shard.get();
     }
 
-    public Tag.Named<Block> getOreTag() {
+    public TagKey<Block> getOreTag() {
         return oreTag;
     }
 
-    public Tag.Named<Block> getModOresTag() {
+    public TagKey<Block> getModOresTag() {
         return modOresTag;
     }
 
-    public Tag.Named<Block> getBlockTag() {
+    public TagKey<Block> getBlockTag() {
         return blockTag;
     }
 
-    public Tag.Named<Block> getGlowroseTag() {
+    public TagKey<Block> getGlowroseTag() {
         return glowroseTag;
     }
 
-    public Tag.Named<Item> getOreItemTag() {
+    public TagKey<Item> getOreItemTag() {
         return oreItemTag;
     }
 
-    public Tag.Named<Item> getModOresItemTag() {
+    public TagKey<Item> getModOresItemTag() {
         return modOresItemTag;
     }
 
-    public Tag.Named<Item> getBlockItemTag() {
+    public TagKey<Item> getBlockItemTag() {
         return blockItemTag;
     }
 
-    public Tag.Named<Item> getGlowroseItemTag() {
+    public TagKey<Item> getGlowroseItemTag() {
         return glowroseItemTag;
     }
 
-    public Tag.Named<Item> getItemTag() {
+    public TagKey<Item> getItemTag() {
         return itemTag;
     }
 

@@ -1,9 +1,12 @@
 package net.silentchaos512.gems.world;
 
 import com.google.common.collect.ImmutableList;
+import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.data.BuiltinRegistries;
+import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.data.worldgen.features.OreFeatures;
+import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
@@ -11,6 +14,7 @@ import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
 import net.minecraft.world.level.levelgen.placement.*;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
@@ -71,10 +75,10 @@ public final class GemsWorldFeatures {
                     ImmutableList<OreConfiguration.TargetBlockState> targetList = ImmutableList.of(
                             OreConfiguration.target(OreFeatures.STONE_ORE_REPLACEABLES, GemsBlocks.SILVER_ORE.get().defaultBlockState()),
                             OreConfiguration.target(OreFeatures.DEEPSLATE_ORE_REPLACEABLES, GemsBlocks.DEEPSLATE_SILVER_ORE.get().defaultBlockState()));
-                    return Feature.ORE.configured(new OreConfiguration(targetList, config.getSize(), config.getDiscardChanceOnAirExposure()));
+                    return FeatureUtils.register(GemsBase.MOD_ID + ":silver_ore", Feature.ORE, new OreConfiguration(targetList, config.getSize(), config.getDiscardChanceOnAirExposure()));
                 },
                 (config, feature) -> {
-                    return feature.placed(List.of(
+                    return PlacementUtils.register(GemsBase.MOD_ID + ":silver_ore", feature, List.of(
                             CountPlacement.of(config.getCount()),
                             RarityFilter.onAverageOnceEvery(config.getRarity()),
                             HeightRangePlacement.triangle(VerticalAnchor.absolute(config.getMinHeight()), VerticalAnchor.absolute(config.getMaxHeight())),
@@ -87,9 +91,9 @@ public final class GemsWorldFeatures {
         logOreConfigs();
     }
 
-    private static void registerConfiguredFeature(String name, ConfiguredFeature<?, ?> configuredFeature) {
+    private static <FC extends FeatureConfiguration> void registerConfiguredFeature(String name, Holder<ConfiguredFeature<FC, ?>> configuredFeature) {
         GemsBase.LOGGER.debug("register configured feature '{}'", name);
-        Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, GemsBase.getId(name), configuredFeature);
+        Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, GemsBase.getId(name), configuredFeature.value());
     }
 
     private static void addGemOreFeatures(BiomeLoadingEvent biome, ResourceKey<Level> level) {

@@ -1,6 +1,8 @@
 package net.silentchaos512.gems.config;
 
+import net.minecraft.core.Holder;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraftforge.common.ForgeConfigSpec;
 
@@ -16,8 +18,8 @@ public class OreConfig {
     private final ForgeConfigSpec.IntValue maxHeight;
     private final ForgeConfigSpec.DoubleValue discardChanceOnAirExposure;
 
-    private ConfiguredFeature<?, ?> configuredFeature = null;
-    private PlacedFeature placedFeature = null;
+    private Holder<ConfiguredFeature<OreConfiguration, ?>> configuredFeature = null;
+    private Holder<PlacedFeature> placedFeature = null;
 
     public OreConfig(ForgeConfigSpec.Builder builder, String nameIn, Defaults defaults) {
         this.name = nameIn;
@@ -69,21 +71,21 @@ public class OreConfig {
         return discardChanceOnAirExposure.get().floatValue();
     }
 
-    public ConfiguredFeature<?, ?> createConfiguredFeature(Function<OreConfig, ConfiguredFeature<?, ?>> configuredFeatureSupplier,
-                                                           BiFunction<OreConfig, ConfiguredFeature<?, ?>, PlacedFeature> placedFeatureFactory) {
+    public Holder<ConfiguredFeature<OreConfiguration, ?>> createConfiguredFeature(Function<OreConfig, Holder<ConfiguredFeature<OreConfiguration, ?>>> configuredFeatureSupplier,
+                                                                                  BiFunction<OreConfig, Holder<ConfiguredFeature<OreConfiguration, ?>>, Holder<PlacedFeature>> placedFeatureFactory) {
         configuredFeature = configuredFeatureSupplier.apply(this);
         placedFeature = placedFeatureFactory.apply(this, configuredFeature);
         return configuredFeature;
     }
 
-    public ConfiguredFeature<?, ?> getConfiguredFeature() {
+    public Holder<ConfiguredFeature<OreConfiguration, ?>> getConfiguredFeature() {
         if (configuredFeature == null) {
             throw new NullPointerException("Configured feature for ore " + name + " has not been created!");
         }
         return configuredFeature;
     }
 
-    public PlacedFeature getPlacedFeature() {
+    public Holder<PlacedFeature> getPlacedFeature() {
         if (placedFeature == null) {
             throw new NullPointerException("Placed feature for ore " + name + " has not been created!");
         }
