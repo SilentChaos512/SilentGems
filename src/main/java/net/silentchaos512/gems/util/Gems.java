@@ -31,6 +31,7 @@ import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvi
 import net.minecraft.world.level.levelgen.placement.*;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.common.ForgeConfigSpec;
+import net.minecraftforge.common.util.Lazy;
 import net.silentchaos512.gems.GemsBase;
 import net.silentchaos512.gems.block.*;
 import net.silentchaos512.gems.config.GemsConfig;
@@ -136,10 +137,10 @@ public enum Gems {
     // World/ore generation
     private final Map<ResourceKey<Level>, OreConfig.Defaults> oreConfigDefaults = new HashMap<>();
     private final Map<ResourceKey<Level>, OreConfig> oreConfigs = new HashMap<>();
-    private final Map<ResourceKey<Level>, Holder<ConfiguredFeature<OreConfiguration, ?>>> oreConfiguredFeatures = new HashMap<>();
-    private final Map<ResourceKey<Level>, Holder<PlacedFeature>> orePlacedFeatures = new HashMap<>();
-    private final Map<ResourceKey<Level>, Holder<ConfiguredFeature<RandomPatchConfiguration, ?>>> glowroseConfiguredFeatures = new HashMap<>();
-    private final Map<ResourceKey<Level>, Holder<PlacedFeature>> glowrosePlacedFeatures = new HashMap<>();
+    private final Map<ResourceKey<Level>, Lazy<Holder<ConfiguredFeature<OreConfiguration, ?>>>> oreConfiguredFeatures = new HashMap<>();
+    private final Map<ResourceKey<Level>, Lazy<Holder<PlacedFeature>>> orePlacedFeatures = new HashMap<>();
+    private final Map<ResourceKey<Level>, Lazy<Holder<ConfiguredFeature<RandomPatchConfiguration, ?>>>> glowroseConfiguredFeatures = new HashMap<>();
+    private final Map<ResourceKey<Level>, Lazy<Holder<PlacedFeature>>> glowrosePlacedFeatures = new HashMap<>();
 
     // Blocks
     BlockRegistryObject<GemOreBlock> ore;
@@ -178,10 +179,10 @@ public enum Gems {
         this.oreConfigDefaults.put(Level.END, endOres);
 
         for (ResourceKey<Level> level : List.of(Level.OVERWORLD, Level.NETHER, Level.END)) {
-            this.oreConfiguredFeatures.put(level, createOreConfiguredFeature(level));
-            this.orePlacedFeatures.put(level, createOrePlacedFeature(level));
-            this.glowroseConfiguredFeatures.put(level, createGlowroseConfiguredFeature(level));
-            this.glowrosePlacedFeatures.put(level, createGlowrosePlacedFeature(level));
+            this.oreConfiguredFeatures.put(level, Lazy.of(() -> createOreConfiguredFeature(level)));
+            this.orePlacedFeatures.put(level, Lazy.of(() -> createOrePlacedFeature(level)));
+            this.glowroseConfiguredFeatures.put(level, Lazy.of(() -> createGlowroseConfiguredFeature(level)));
+            this.glowrosePlacedFeatures.put(level, Lazy.of(() -> createGlowrosePlacedFeature(level)));
         }
 
         String name = this.getName();
@@ -232,19 +233,19 @@ public enum Gems {
     //region World generation
 
     public Holder<ConfiguredFeature<OreConfiguration, ?>> getOreConfiguredFeature(ResourceKey<Level> level) {
-        return this.oreConfiguredFeatures.getOrDefault(level, this.oreConfiguredFeatures.get(Level.OVERWORLD));
+        return this.oreConfiguredFeatures.getOrDefault(level, this.oreConfiguredFeatures.get(Level.OVERWORLD)).get();
     }
 
     public Holder<PlacedFeature> getOrePlacedFeature(ResourceKey<Level> level) {
-        return this.orePlacedFeatures.getOrDefault(level, this.orePlacedFeatures.get(Level.OVERWORLD));
+        return this.orePlacedFeatures.getOrDefault(level, this.orePlacedFeatures.get(Level.OVERWORLD)).get();
     }
 
     public Holder<ConfiguredFeature<RandomPatchConfiguration, ?>> getGlowroseConfiguredFeature(ResourceKey<Level> level) {
-        return this.glowroseConfiguredFeatures.getOrDefault(level, this.glowroseConfiguredFeatures.get(Level.OVERWORLD));
+        return this.glowroseConfiguredFeatures.getOrDefault(level, this.glowroseConfiguredFeatures.get(Level.OVERWORLD)).get();
     }
 
     public Holder<PlacedFeature> getGlowrosePlacedFeature(ResourceKey<Level> level) {
-        return this.glowrosePlacedFeatures.getOrDefault(level, this.glowrosePlacedFeatures.get(Level.OVERWORLD));
+        return this.glowrosePlacedFeatures.getOrDefault(level, this.glowrosePlacedFeatures.get(Level.OVERWORLD)).get();
     }
 
     public OreConfig getOreConfig(ResourceKey<Level> level) {
@@ -271,27 +272,40 @@ public enum Gems {
 
     private Holder<ConfiguredFeature<OreConfiguration, ?>> createOreConfiguredFeature(ResourceKey<Level> level) {
         OreConfig config = this.getOreConfig(level);
+        String configName;
 
         OreConfiguration oreConfiguration;
         if (level == Level.NETHER) {
             oreConfiguration = new OreConfiguration(OreFeatures.NETHERRACK, netherOre.get().defaultBlockState(), config.getSize(), config.getDiscardChanceOnAirExposure());
+            configName = getName() + "_nether_ore";
         } else if (level == Level.END) {
             oreConfiguration = new OreConfiguration(GemsWorldFeatures.BASE_STONE_END, endOre.get().defaultBlockState(), config.getSize(), config.getDiscardChanceOnAirExposure());
+            configName = getName() + "_end_ore";
         } else {
             ImmutableList<OreConfiguration.TargetBlockState> targetList = ImmutableList.of(
                     OreConfiguration.target(OreFeatures.STONE_ORE_REPLACEABLES, ore.get().defaultBlockState()),
                     OreConfiguration.target(OreFeatures.DEEPSLATE_ORE_REPLACEABLES, deepslateOre.get().defaultBlockState()));
             oreConfiguration = new OreConfiguration(targetList, config.getSize(), config.getDiscardChanceOnAirExposure());
+            configName = getName() + "_ore";
         }
 
-        return FeatureUtils.register(GemsBase.MOD_ID + ":" + getName() + "_ore", Feature.ORE, oreConfiguration);
+        return FeatureUtils.register(GemsBase.MOD_ID + ":" + configName, Feature.ORE, oreConfiguration);
     }
 
     private Holder<PlacedFeature> createOrePlacedFeature(ResourceKey<Level> level) {
         OreConfig config = getOreConfig(level);
         Holder<ConfiguredFeature<OreConfiguration, ?>> configuredFeature = getOreConfiguredFeature(level);
 
-        return PlacementUtils.register(GemsBase.MOD_ID + ":" + getName() + "_ore", configuredFeature, List.of(
+        String configName;
+        if (level == Level.NETHER) {
+            configName = getName() + "_nether_ore";
+        } else if (level == Level.END) {
+            configName = getName() + "_end_ore";
+        } else {
+            configName = getName() + "_ore";
+        }
+
+        return PlacementUtils.register(GemsBase.MOD_ID + ":" + configName, configuredFeature, List.of(
                 CountPlacement.of(config.getCount()),
                 RarityFilter.onAverageOnceEvery(config.getRarity()),
                 InSquarePlacement.spread(),
@@ -304,15 +318,34 @@ public enum Gems {
         OreConfig config = this.getOreConfig(level);
         int baseSpread = config.isEnabled() ? 2 : 0;
 
+        String configName;
+        if (level == Level.NETHER) {
+            configName = getName() + "_nether_glowrose";
+        } else if (level == Level.END) {
+            configName = getName() + "_end_glowrose";
+        } else {
+            configName = getName() + "_glowrose";
+        }
+
         RandomPatchConfiguration featureConfig = FeatureUtils.simplePatchConfiguration(Feature.SIMPLE_BLOCK,
                 new SimpleBlockConfiguration(BlockStateProvider.simple(getGlowrose())));
-        return FeatureUtils.register(GemsBase.MOD_ID + ":" + getName() + "_glowrose", Feature.FLOWER, featureConfig);
+        return FeatureUtils.register(GemsBase.MOD_ID + ":" + configName, Feature.FLOWER, featureConfig);
     }
 
     private Holder<PlacedFeature> createGlowrosePlacedFeature(ResourceKey<Level> level) {
         OreConfig config = getOreConfig(level);
-        return PlacementUtils.register(GemsBase.MOD_ID + ":" + getName() + "_glowrose", getGlowroseConfiguredFeature(level), List.of(
-                RarityFilter.onAverageOnceEvery(32 * config.getRarity()),
+
+        String configName;
+        if (level == Level.NETHER) {
+            configName = getName() + "_nether_glowrose";
+        } else if (level == Level.END) {
+            configName = getName() + "_end_glowrose";
+        } else {
+            configName = getName() + "_glowrose";
+        }
+
+        return PlacementUtils.register(GemsBase.MOD_ID + ":" + configName, getGlowroseConfiguredFeature(level), List.of(
+                RarityFilter.onAverageOnceEvery(128 * config.getRarity()),
                 InSquarePlacement.spread(),
                 PlacementUtils.HEIGHTMAP,
                 BiomeFilter.biome()
