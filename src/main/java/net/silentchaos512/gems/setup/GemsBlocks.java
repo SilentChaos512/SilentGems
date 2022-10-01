@@ -1,5 +1,6 @@
 package net.silentchaos512.gems.setup;
 
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
@@ -67,7 +68,7 @@ public final class GemsBlocks {
     private static OreBlockSG getSilverOre(final BlockBehaviour.Properties properties) {
         return new OreBlockSG(GemsItems.RAW_SILVER, 2, properties) {
             @Override
-            public int getExpRandom() {
+            public int getExpRandom(RandomSource random) {
                 return 0;
             }
         };

@@ -19,7 +19,7 @@ public final class ContainerItemEvents {
     public static void onItemPickup(EntityItemPickupEvent event) {
         ItemStack itemOnGround = event.getItem().getItem();
         int initialCount = itemOnGround.getCount();
-        Player player = event.getPlayer();
+        Player player = event.getEntity();
 
         for (int i = 0; i < player.getInventory().getContainerSize(); ++i) {
             ItemStack stack = player.getInventory().getItem(i);

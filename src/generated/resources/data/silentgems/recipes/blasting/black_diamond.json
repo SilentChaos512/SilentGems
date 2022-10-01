@@ -1,9 +1,9 @@
 {
   "type": "minecraft:blasting",
+  "cookingtime": 100,
+  "experience": 1.0,
   "ingredient": {
     "tag": "silentgems:ores/black_diamond"
   },
-  "result": "silentgems:black_diamond",
-  "experience": 1.0,
-  "cookingtime": 100
+  "result": "silentgems:black_diamond"
 }

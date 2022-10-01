@@ -2,7 +2,6 @@ package net.silentchaos512.gems.soul;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.util.Tuple;
@@ -45,7 +44,7 @@ public final class Soul {
 
     private Soul(EntityType<?> entityType) {
         this.entityType = entityType;
-        this.id = NameUtils.from(entityType);
+        this.id = NameUtils.fromEntityType(entityType);
         GemsBase.LOGGER.debug("creating soul for {}", this.id);
         Random random = new Random(this.id.hashCode());
 
@@ -124,7 +123,7 @@ public final class Soul {
     }
 
     public Component getEntityName() {
-        return new TranslatableComponent("entity." + this.id.getNamespace() + "." + this.id.getPath());
+        return Component.translatable("entity." + this.id.getNamespace() + "." + this.id.getPath());
     }
 
     //endregion
@@ -135,7 +134,7 @@ public final class Soul {
         this.id = buffer.readResourceLocation();
         this.elements = new Tuple<>(SoulElement.read(buffer), SoulElement.read(buffer));
         this.colors = new Tuple<>(buffer.readVarInt(), buffer.readVarInt());
-        this.entityType = ForgeRegistries.ENTITIES.getValue(this.id);
+        this.entityType = ForgeRegistries.ENTITY_TYPES.getValue(this.id);
     }
 
     public static Soul read(FriendlyByteBuf buffer) {
@@ -199,11 +198,11 @@ public final class Soul {
         @SubscribeEvent
         public static void onServerAboutToStart(ServerStartingEvent event) {
             MAP.clear();
-            for (EntityType<?> entityType : ForgeRegistries.ENTITIES.getValues()) {
+            for (EntityType<?> entityType : ForgeRegistries.ENTITY_TYPES.getValues()) {
                 if (canHaveSoulGem(entityType)) {
                     Soul soul = new Soul(entityType);
                     MAP.put(entityType, soul);
-                    ResourceLocation id = Objects.requireNonNull(entityType.getRegistryName());
+                    ResourceLocation id = NameUtils.fromEntityType(entityType);
                     MAP_BY_ID.put(id.toString(), soul);
                 }
             }
@@ -215,7 +214,7 @@ public final class Soul {
 
             if (killer instanceof Player) {
                 Player player = (Player) killer;
-                LivingEntity entity = event.getEntityLiving();
+                LivingEntity entity = event.getEntity();
                 Soul soul = from(entity);
 
                 if (soul != null) {

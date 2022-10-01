@@ -1,7 +1,7 @@
 package net.silentchaos512.gems.block;
 
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.level.block.Block;
 import net.silentchaos512.gems.util.Gems;
 
@@ -22,7 +22,7 @@ public class GemBlock extends Block implements IGemBlock {
 
     @Override
     public MutableComponent getGemBlockName() {
-        return new TranslatableComponent("block.silentgems." + this.translationKey, this.gem.getDisplayName());
+        return Component.translatable("block.silentgems." + this.translationKey, this.gem.getDisplayName());
     }
 
     @Override

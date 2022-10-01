@@ -2,11 +2,10 @@ package net.silentchaos512.gems.util;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextColor;
-import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.world.item.Item;
-import net.minecraftforge.registries.IForgeRegistryEntry;
+import net.minecraft.world.level.ItemLike;
 import net.silentchaos512.lib.util.NameUtils;
 
 public final class TextUtil {
@@ -18,17 +17,17 @@ public final class TextUtil {
 
     public MutableComponent translate(String prefix, String suffix, Object... params) {
         String key = String.format("%s.%s.%s", prefix, this.modId, suffix);
-        return new TranslatableComponent(key, params);
+        return Component.translatable(key, params);
     }
 
     public MutableComponent misc(String suffix, Object... params) {
         String key = String.format("misc.%s.%s", this.modId, suffix);
-        return new TranslatableComponent(key, params);
+        return Component.translatable(key, params);
     }
 
-    public static MutableComponent itemSub(IForgeRegistryEntry<Item> item, String suffix, Object... params) {
-        String key = Util.makeDescriptionId("item", NameUtils.from(item));
-        return new TranslatableComponent(key + "." + suffix, params);
+    public static MutableComponent itemSub(ItemLike item, String suffix, Object... params) {
+        String key = Util.makeDescriptionId("item", NameUtils.fromItem(item));
+        return Component.translatable(key + "." + suffix, params);
     }
 
     public static MutableComponent withColor(MutableComponent text, int color) {

@@ -1,17 +1,17 @@
 {
   "type": "minecraft:crafting_shaped",
+  "key": {
+    "/": {
+      "tag": "forge:rods/wooden"
+    },
+    "p": {
+      "item": "minecraft:baked_potato"
+    }
+  },
   "pattern": [
     " p",
     "/ "
   ],
-  "key": {
-    "p": {
-      "item": "minecraft:baked_potato"
-    },
-    "/": {
-      "tag": "forge:rods/wooden"
-    }
-  },
   "result": {
     "item": "silentgems:potato_on_a_stick"
   }

@@ -1,19 +1,14 @@
 {
   "parent": "minecraft:recipes/root",
-  "rewards": {
-    "recipes": [
-      "silentgems:blasting/kyanite"
-    ]
-  },
   "criteria": {
-    "impossible": {
-      "trigger": "minecraft:impossible"
-    },
     "has_the_recipe": {
-      "trigger": "minecraft:recipe_unlocked",
       "conditions": {
         "recipe": "silentgems:blasting/kyanite"
-      }
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "impossible": {
+      "trigger": "minecraft:impossible"
     }
   },
   "requirements": [
@@ -21,5 +16,10 @@
       "impossible",
       "has_the_recipe"
     ]
-  ]
+  ],
+  "rewards": {
+    "recipes": [
+      "silentgems:blasting/kyanite"
+    ]
+  }
 }

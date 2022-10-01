@@ -1,10 +1,5 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "###",
-    "#o#",
-    "###"
-  ],
   "key": {
     "#": {
       "tag": "minecraft:stone_bricks"
@@ -13,8 +8,13 @@
       "tag": "forge:gems/topaz"
     }
   },
+  "pattern": [
+    "###",
+    "#o#",
+    "###"
+  ],
   "result": {
-    "item": "silentgems:topaz_bricks",
-    "count": 12
+    "count": 12,
+    "item": "silentgems:topaz_bricks"
   }
 }

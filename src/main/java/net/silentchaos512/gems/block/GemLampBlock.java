@@ -3,14 +3,13 @@ package net.silentchaos512.gems.block;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.silentchaos512.gems.util.Gems;
-
-import java.util.Random;
 
 public class GemLampBlock extends GemBlock {
     public enum State {
@@ -81,7 +80,7 @@ public class GemLampBlock extends GemBlock {
 
     @SuppressWarnings("deprecation")
     @Override
-    public void tick(BlockState state, ServerLevel world, BlockPos pos, Random random) {
+    public void tick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
         checkAndUpdateState(world, pos);
     }
 

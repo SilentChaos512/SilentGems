@@ -4,7 +4,6 @@ import io.netty.buffer.Unpooled;
 import net.minecraft.Util;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
@@ -15,6 +14,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+import net.silentchaos512.lib.util.NameUtils;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -24,14 +24,14 @@ public abstract class GemContainerItem extends Item implements IContainerItem {
 
     public GemContainerItem(String containerName, Properties properties) {
         super(properties);
-        this.containerName = new TranslatableComponent("container.silentgems." + containerName);
+        this.containerName = Component.translatable("container.silentgems." + containerName);
     }
 
     protected abstract MenuType<? extends GemContainer> getContainerType();
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
-        tooltip.add(new TranslatableComponent(Util.makeDescriptionId("item", this.getRegistryName()) + ".desc"));
+        tooltip.add(Component.translatable(Util.makeDescriptionId("item", NameUtils.fromItem(this)) + ".desc"));
     }
 
     @Override

@@ -38,7 +38,7 @@ public class GemsBlockStateProvider extends BlockStateProvider {
             simpleBlock(gem.getGlowrose(), models()
                     .cross(glowroseName, modLoc("block/" + glowroseName)));
             simpleBlock(gem.getPottedGlowrose(), models()
-                    .withExistingParent(NameUtils.from(gem.getPottedGlowrose()).getPath(), flowerPotCross)
+                    .withExistingParent(NameUtils.fromBlock(gem.getPottedGlowrose()).getPath(), flowerPotCross)
                     .texture("plant", modLoc("block/" + glowroseName)));
         }
 
@@ -56,7 +56,7 @@ public class GemsBlockStateProvider extends BlockStateProvider {
     }
 
     private void simpleBlock(Block block, String texture) {
-        String name = NameUtils.from(block).getPath();
+        String name = NameUtils.fromBlock(block).getPath();
         simpleBlock(block, models().cubeAll(name, modLoc(texture)));
     }
 }

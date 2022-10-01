@@ -1,8 +1,8 @@
 package net.silentchaos512.gems.block;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.StainedGlassBlock;
@@ -26,7 +26,7 @@ public class GemGlassBlock extends StainedGlassBlock implements IGemBlock {
 
     @Override
     public MutableComponent getGemBlockName() {
-        return new TranslatableComponent("block.silentgems.gem_glass", this.gem.getDisplayName());
+        return Component.translatable("block.silentgems.gem_glass", this.gem.getDisplayName());
     }
 
     @Override

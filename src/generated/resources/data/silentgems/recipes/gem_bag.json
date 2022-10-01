@@ -1,24 +1,24 @@
 {
   "type": "minecraft:crafting_shaped",
+  "key": {
+    "#": {
+      "tag": "minecraft:wool"
+    },
+    "/": {
+      "tag": "forge:nuggets/gold"
+    },
+    "g": {
+      "tag": "forge:gems"
+    },
+    "~": {
+      "tag": "forge:string"
+    }
+  },
   "pattern": [
     "/~/",
     "#g#",
     "###"
   ],
-  "key": {
-    "~": {
-      "tag": "forge:string"
-    },
-    "/": {
-      "tag": "forge:nuggets/gold"
-    },
-    "#": {
-      "tag": "minecraft:wool"
-    },
-    "g": {
-      "tag": "forge:gems"
-    }
-  },
   "result": {
     "item": "silentgems:gem_bag"
   }

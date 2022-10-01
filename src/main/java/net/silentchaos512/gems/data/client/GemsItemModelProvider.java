@@ -50,7 +50,7 @@ public class GemsItemModelProvider extends ItemModelProvider {
     }
 
     private void blockBuilder(Block block) {
-        String name = NameUtils.from(block).getPath();
+        String name = NameUtils.fromBlock(block).getPath();
         if (!blockBuilderExceptions(block, name)) {
             withExistingParent(name, modLoc("block/" + name));
         }

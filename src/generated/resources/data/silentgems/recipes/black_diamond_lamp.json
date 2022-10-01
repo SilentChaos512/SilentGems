@@ -1,21 +1,21 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "rgr",
-    "gog",
-    "rgr"
-  ],
   "key": {
-    "r": {
-      "tag": "forge:dusts/redstone"
-    },
     "g": {
       "tag": "forge:dusts/glowstone"
     },
     "o": {
       "tag": "forge:gems/black_diamond"
+    },
+    "r": {
+      "tag": "forge:dusts/redstone"
     }
   },
+  "pattern": [
+    "rgr",
+    "gog",
+    "rgr"
+  ],
   "result": {
     "item": "silentgems:black_diamond_lamp"
   }

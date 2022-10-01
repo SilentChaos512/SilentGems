@@ -1,21 +1,21 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "|f|",
-    "|g|",
-    "|f|"
-  ],
   "key": {
-    "|": {
-      "tag": "forge:string"
-    },
     "f": {
       "tag": "silentgems:stew_fish"
     },
     "g": {
       "tag": "silentgems:gems"
+    },
+    "|": {
+      "tag": "forge:string"
     }
   },
+  "pattern": [
+    "|f|",
+    "|g|",
+    "|f|"
+  ],
   "result": {
     "item": "silentgems:summon_kitty"
   }

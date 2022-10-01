@@ -2,9 +2,10 @@ package net.silentchaos512.gems.data;
 
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
 import net.silentchaos512.gems.GemsBase;
 import net.silentchaos512.gems.data.client.GemsBlockStateProvider;
 import net.silentchaos512.gems.data.client.GemsItemModelProvider;
@@ -20,16 +21,21 @@ public final class DataGenerators {
         ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
 
         GemsBlockTagsProvider blockTags = new GemsBlockTagsProvider(gen, existingFileHelper);
-        gen.addProvider(blockTags);
-        gen.addProvider(new GemsItemTagsProvider(gen, blockTags, existingFileHelper));
-        gen.addProvider(new GemsRecipeProvider(gen));
-        gen.addProvider(new GemsLootTableProvider(gen));
+        gen.addProvider(true, blockTags);
+        gen.addProvider(true, new GemsItemTagsProvider(gen, blockTags, existingFileHelper));
+        gen.addProvider(true, new GemsRecipeProvider(gen));
+        gen.addProvider(true, new GemsLootTableProvider(gen));
 //        gen.addProvider(new GemsAdvancementProvider(gen));
 
-        gen.addProvider(new GemsTraitsProvider(gen));
-        gen.addProvider(new GemsMaterialsProvider(gen));
+        boolean gearIsLoaded = ModList.get().isLoaded("silentgear");
+        if (gearIsLoaded) {
+            gen.addProvider(true, new GemsTraitsProvider(gen));
+            gen.addProvider(true, new GemsMaterialsProvider(gen));
+        }
 
-        gen.addProvider(new GemsBlockStateProvider(gen, existingFileHelper));
-        gen.addProvider(new GemsItemModelProvider(gen, existingFileHelper));
+        gen.addProvider(true, new GemsBlockStateProvider(gen, existingFileHelper));
+        gen.addProvider(true, new GemsItemModelProvider(gen, existingFileHelper));
+
+        GemsWorldGen.init(gen, existingFileHelper);
     }
 }

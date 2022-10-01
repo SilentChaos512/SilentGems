@@ -1,10 +1,5 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "###",
-    "#o#",
-    "###"
-  ],
   "key": {
     "#": {
       "tag": "forge:glass/colorless"
@@ -13,8 +8,13 @@
       "tag": "forge:gems/turquoise"
     }
   },
+  "pattern": [
+    "###",
+    "#o#",
+    "###"
+  ],
   "result": {
-    "item": "silentgems:turquoise_glass",
-    "count": 12
+    "count": 12,
+    "item": "silentgems:turquoise_glass"
   }
 }

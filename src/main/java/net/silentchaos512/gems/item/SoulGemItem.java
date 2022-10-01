@@ -3,8 +3,6 @@ package net.silentchaos512.gems.item;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.CreativeModeTab;
@@ -98,7 +96,7 @@ public class SoulGemItem extends Item {
         Soul soul = getSoul(stack);
         if (soul != null) {
             Component entityName = soul.getEntityName();
-            return new TranslatableComponent(this.getDescriptionId(), entityName.copy().append(" "));
+            return Component.translatable(this.getDescriptionId(), entityName.copy().append(" "));
         }
         return super.getName(stack);
     }
@@ -108,7 +106,7 @@ public class SoulGemItem extends Item {
         Soul soul = getSoul(stack);
         if (soul != null) {
             if (flagIn.isAdvanced()) {
-                tooltip.add(new TextComponent("Soul ID: " + soul.getId()).withStyle(ChatFormatting.DARK_GRAY));
+                tooltip.add(Component.literal("Soul ID: " + soul.getId()).withStyle(ChatFormatting.DARK_GRAY));
             }
 
             // Elements
@@ -121,7 +119,7 @@ public class SoulGemItem extends Item {
             // Stored value
             int soulValue = getSoulValue(stack);
             Component valueText = soulValue < Soul.MAX_VALUE
-                    ? new TextComponent(String.format("%d", soulValue))
+                    ? Component.literal(String.format("%d", soulValue))
                     : TextUtil.itemSub(this, "full");
             tooltip.add(TextUtil.itemSub(this, "value", valueText));
         }
@@ -129,7 +127,7 @@ public class SoulGemItem extends Item {
 
     @Override
     public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
-        if (allowdedIn(group)) {
+        if (allowedIn(group)) {
             items.add(new ItemStack(this));
 
             for (Soul soul : Soul.getValues()) {

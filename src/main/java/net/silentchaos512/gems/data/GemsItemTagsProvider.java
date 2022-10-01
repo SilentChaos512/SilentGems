@@ -3,6 +3,7 @@ package net.silentchaos512.gems.data;
 import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.tags.ItemTagsProvider;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.Items;
 import net.minecraft.tags.ItemTags;
 import net.minecraftforge.common.Tags;
@@ -52,5 +53,7 @@ public class GemsItemTagsProvider extends ItemTagsProvider {
 
         tag(GemsTags.Items.STEW_FISH).add(Items.COD, Items.SALMON);
         tag(GemsTags.Items.STEW_MEAT).add(Items.BEEF, Items.CHICKEN, Items.MUTTON, Items.PORKCHOP, Items.RABBIT);
+
+        copy(BlockTags.FLOWERS, ItemTags.FLOWERS);
     }
 }

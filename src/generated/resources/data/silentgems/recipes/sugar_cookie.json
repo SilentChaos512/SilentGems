@@ -1,20 +1,20 @@
 {
   "type": "minecraft:crafting_shaped",
+  "key": {
+    "/": {
+      "item": "minecraft:wheat"
+    },
+    "S": {
+      "item": "minecraft:sugar"
+    }
+  },
   "pattern": [
     " S ",
     "///",
     " S "
   ],
-  "key": {
-    "S": {
-      "item": "minecraft:sugar"
-    },
-    "/": {
-      "item": "minecraft:wheat"
-    }
-  },
   "result": {
-    "item": "silentgems:sugar_cookie",
-    "count": 8
+    "count": 8,
+    "item": "silentgems:sugar_cookie"
   }
 }

@@ -134,15 +134,18 @@ dependencies {
 
     // JEI
     if (project.hasProperty('jei_version')) {
-        compileOnly fg.deobf("mezz.jei:jei-${project.jei_version}:api")
-        runtimeOnly fg.deobf("mezz.jei:jei-${project.jei_version}")
+        // compile against the JEI API but do not include it at runtime
+        compileOnly(fg.deobf("mezz.jei:jei-${mc_version}-common-api:${jei_version}"))
+        compileOnly(fg.deobf("mezz.jei:jei-${mc_version}-forge-api:${jei_version}"))
+        // at runtime, use the full JEI jar for Forge
+        runtimeOnly(fg.deobf("mezz.jei:jei-${mc_version}-forge:${jei_version}"))
     }
 
     // Silent Gear
     if (project.hasProperty("sgear_version")) {
         implementation fg.deobf("net.silentchaos512:silent-gear:${project.sgear_version}") {
             exclude module: 'forge'
-            exclude module: 'jei-1.18.2'
+            exclude module: 'jei-1.19.2-forge'
             exclude module: 'silent-lib'
             exclude module: 'curios-forge'
             exclude module: 'World-Stripper'
@@ -154,12 +157,12 @@ dependencies {
     if (project.hasProperty('token_enchanter_version')) {
         compileOnly fg.deobf("net.silentchaos512:token-enchanter:${project.token_enchanter_version}:api") {
             exclude module: 'forge'
-            exclude module: 'jei-1.18.2'
+            exclude module: 'jei-1.19.2-forge'
             exclude module: 'silent-lib'
         }
         runtimeOnly fg.deobf("net.silentchaos512:token-enchanter:${project.token_enchanter_version}") {
             exclude module: 'forge'
-            exclude module: 'jei-1.18.2'
+            exclude module: 'jei-1.19.2-forge'
             exclude module: 'silent-lib'
         }
     }
@@ -211,6 +214,8 @@ curseforge {
             changelog = file(project.cf_changelog_filename)
             releaseType = project.cf_release_type
             addGameVersion(mc_version)
+            addGameVersion('1.19.1')
+            addGameVersion('1.19')
             mainArtifact(jar) {
                 relations {
                     requiredDependency 'silent-lib'
@@ -341,7 +346,7 @@ def writeUpdateJson() {
 
     // TODO: Maybe add something to create an abbreviated changelog? May not be useful...
     if (!json[project.mc_version].containsKey(version.toString()))
-        json[project.mc_version][version.toString()] = 'https://github.com/SilentChaos512/SilentGems/blob/1.18.x/CHANGELOG.md'
+        json[project.mc_version][version.toString()] = 'https://github.com/SilentChaos512/SilentGems/blob/1.19.x/CHANGELOG.md'
     json[project.mc_version] = json[project.mc_version].sort([compare: { a, b -> b.compareTo(a) }] as Comparator)
     json['promos']["${project.mc_version}-latest"] = version
     json['promos']["${project.mc_version}-recommended"] = version

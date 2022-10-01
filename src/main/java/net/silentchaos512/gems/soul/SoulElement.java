@@ -2,7 +2,6 @@ package net.silentchaos512.gems.soul;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.silentchaos512.gems.util.TextUtil;
 import net.silentchaos512.utils.Color;
 import net.silentchaos512.utils.MathUtils;
@@ -73,7 +72,7 @@ public enum SoulElement {
 
     public Component getDisplayName() {
         String translationKey = "soul.silentgems.element." + this.name().toLowerCase(Locale.ROOT);
-        return TextUtil.withColor(new TranslatableComponent(translationKey), this.color);
+        return TextUtil.withColor(Component.translatable(translationKey), this.color);
     }
 
     public static SoulElement selectRandom(Random random) {

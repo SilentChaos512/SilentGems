@@ -2,6 +2,7 @@ package net.silentchaos512.gems.item;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Registry;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionResult;
@@ -15,6 +16,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+import net.silentchaos512.gems.GemsBase;
 import net.silentchaos512.gems.util.TextUtil;
 
 import javax.annotation.Nullable;
@@ -87,7 +89,8 @@ public class PetSummonerItem extends Item {
 
     public static Cat getCat(Level world) {
         Cat cat = new Cat(EntityType.CAT, world);
-        cat.setCatType( world.random.nextInt(11));
+        Registry.CAT_VARIANT.getRandom(GemsBase.RANDOM_SOURCE).ifPresent(variant ->
+                cat.setCatVariant(variant.get()));
         return cat;
     }
 

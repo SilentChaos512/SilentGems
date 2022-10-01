@@ -31,6 +31,8 @@ public class GemsBlockTagsProvider extends BlockTagsProvider {
             tag(Tags.Blocks.ORES).addTag(gem.getOreTag());
             tag(Tags.Blocks.STORAGE_BLOCKS).add(gem.getBlock());
 
+            tag(BlockTags.FLOWERS).addTag(gem.getGlowroseTag());
+
             // Harvesting
             tag(BlockTags.NEEDS_IRON_TOOL)
                     .add(gem.getOre(), gem.getDeepslateOre());

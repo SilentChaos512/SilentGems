@@ -1,21 +1,21 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "/#/",
-    "#p#",
-    "/#/"
-  ],
   "key": {
-    "/": {
-      "tag": "forge:gems"
-    },
     "#": {
       "tag": "forge:storage_blocks/iron"
+    },
+    "/": {
+      "tag": "forge:gems"
     },
     "p": {
       "item": "minecraft:potato"
     }
   },
+  "pattern": [
+    "/#/",
+    "#p#",
+    "/#/"
+  ],
   "result": {
     "item": "silentgems:iron_potato"
   }
