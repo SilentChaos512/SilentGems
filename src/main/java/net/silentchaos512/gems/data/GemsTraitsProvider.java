@@ -4,38 +4,38 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.silentchaos512.gear.api.data.trait.*;
 import net.silentchaos512.gear.api.item.GearType;
 import net.silentchaos512.gear.api.stats.ItemStats;
 import net.silentchaos512.gear.api.traits.ITrait;
-import net.silentchaos512.gear.data.trait.*;
-import net.silentchaos512.gear.gear.trait.WielderEffectTrait;
-import net.silentchaos512.gear.util.DataResource;
+import net.silentchaos512.gear.api.util.DataResource;
+import net.silentchaos512.gems.GemsBase;
 import net.silentchaos512.gems.gear.trait.CriticalStrikeTrait;
 import net.silentchaos512.gems.setup.GemsTraits;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class GemsTraitsProvider extends TraitsProvider {
+public class GemsTraitsProvider extends TraitsProviderBase {
     public GemsTraitsProvider(DataGenerator generator) {
-        super(generator);
+        super(generator, GemsBase.MOD_ID);
     }
 
     @Override
-    protected Collection<TraitBuilder> getTraits() {
+    public Collection<TraitBuilder> getTraits() {
         Collection<TraitBuilder> ret = new ArrayList<>();
 
         ret.add(new StatModifierTraitBuilder(GemsTraits.BARRIER_JACKET, 5)
                 .addStatMod(ItemStats.MAGIC_ARMOR, -0.1f, true, true)
         );
 
-        ret.add(new PotionTraitBuilder(GemsTraits.BOOSTER, 5)
-                .addEffect(GearType.CURIO, WielderEffectTrait.LevelType.TRAIT_LEVEL, MobEffects.MOVEMENT_SPEED, 1, 2, 3, 4, 5)
+        ret.add(new WielderEffectTraitBuilder(GemsTraits.BOOSTER, 5)
+                .addEffect(GearType.CURIO, WielderEffectTraitBuilder.LevelType.TRAIT_LEVEL, MobEffects.MOVEMENT_SPEED, 1, 2, 3, 4, 5)
         );
 
-        ret.add(new PotionTraitBuilder(GemsTraits.CLOAKING, 1)
-                .addEffect(GearType.CURIO, WielderEffectTrait.LevelType.TRAIT_LEVEL, MobEffects.INVISIBILITY, 1)
-                .addEffect(GearType.CURIO, WielderEffectTrait.LevelType.TRAIT_LEVEL, MobEffects.HUNGER, 2)
+        ret.add(new WielderEffectTraitBuilder(GemsTraits.CLOAKING, 1)
+                .addEffect(GearType.CURIO, WielderEffectTraitBuilder.LevelType.TRAIT_LEVEL, MobEffects.INVISIBILITY, 1)
+                .addEffect(GearType.CURIO, WielderEffectTraitBuilder.LevelType.TRAIT_LEVEL, MobEffects.HUNGER, 2)
         );
 
         ret.add(criticalStrike(GemsTraits.CRITICAL_STRIKE, 1, 0.5f, 0.25f));
@@ -49,16 +49,16 @@ public class GemsTraitsProvider extends TraitsProvider {
                 .addModifier(GearType.CURIO, "", Attributes.MAX_HEALTH, AttributeModifier.Operation.ADDITION, 1, 2, 3, 4, 5, 6)
         );
 
-        ret.add(new PotionTraitBuilder(GemsTraits.LEAPING, 5)
-                .addEffect(GearType.CURIO, WielderEffectTrait.LevelType.TRAIT_LEVEL, MobEffects.JUMP, 1, 2, 3, 4, 5)
-                .addEffect(GearType.CURIO, WielderEffectTrait.LevelType.TRAIT_LEVEL, MobEffects.SLOW_FALLING, 1, 1, 1, 1, 1)
+        ret.add(new WielderEffectTraitBuilder(GemsTraits.LEAPING, 5)
+                .addEffect(GearType.CURIO, WielderEffectTraitBuilder.LevelType.TRAIT_LEVEL, MobEffects.JUMP, 1, 2, 3, 4, 5)
+                .addEffect(GearType.CURIO, WielderEffectTraitBuilder.LevelType.TRAIT_LEVEL, MobEffects.SLOW_FALLING, 1, 1, 1, 1, 1)
         );
 
         return ret;
     }
 
     private TraitBuilder criticalStrike(DataResource<ITrait> trait, int maxLevel, float damageMulti, float activationChance) {
-        return new TraitBuilder(trait, maxLevel, CriticalStrikeTrait.SERIALIZER)
+        return new TraitBuilder(trait, maxLevel, CriticalStrikeTrait.SERIALIZER.getName())
                 .extraData(json -> CriticalStrikeTrait.serialize(json, damageMulti, activationChance));
     }
 }

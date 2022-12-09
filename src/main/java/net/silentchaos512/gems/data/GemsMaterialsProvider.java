@@ -1,9 +1,9 @@
 package net.silentchaos512.gems.data;
 
 import net.minecraft.data.DataGenerator;
+import net.silentchaos512.gear.api.data.material.MaterialBuilder;
+import net.silentchaos512.gear.api.data.material.MaterialsProviderBase;
 import net.silentchaos512.gear.api.part.PartType;
-import net.silentchaos512.gear.data.material.MaterialBuilder;
-import net.silentchaos512.gear.data.material.MaterialsProvider;
 import net.silentchaos512.gear.gear.material.MaterialCategories;
 import net.silentchaos512.gear.gear.part.PartTextureSet;
 import net.silentchaos512.gear.gear.trait.condition.MaterialRatioTraitCondition;
@@ -15,7 +15,7 @@ import net.silentchaos512.gems.util.Gems;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class GemsMaterialsProvider extends MaterialsProvider {
+public class GemsMaterialsProvider extends MaterialsProviderBase {
     public GemsMaterialsProvider(DataGenerator generator) {
         super(generator, GemsBase.MOD_ID);
     }

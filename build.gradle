@@ -143,7 +143,15 @@ dependencies {
 
     // Silent Gear
     if (project.hasProperty("sgear_version")) {
-        implementation fg.deobf("net.silentchaos512:silent-gear:${project.sgear_version}") {
+        compileOnly fg.deobf("net.silentchaos512:silent-gear:${project.sgear_version}") {
+            exclude module: 'forge'
+            exclude module: 'jei-1.19.2-forge'
+            exclude module: 'silent-lib'
+            exclude module: 'curios-forge'
+            exclude module: 'World-Stripper'
+            exclude module: 'Patchouli'
+        }
+        runtimeOnly fg.deobf("net.silentchaos512:silent-gear:${project.sgear_version}") {
             exclude module: 'forge'
             exclude module: 'jei-1.19.2-forge'
             exclude module: 'silent-lib'

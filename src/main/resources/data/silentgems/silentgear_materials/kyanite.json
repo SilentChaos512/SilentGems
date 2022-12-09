@@ -12,32 +12,32 @@
   },
   "crafting_items": {
     "main": {
-      "tag": "forge:gems/white_diamond"
+      "tag": "forge:gems/kyanite"
     }
   },
   "name": {
-    "translate": "gem.silentgems.white_diamond"
+    "translate": "gem.silentgems.kyanite"
   },
   "stats": {
     "main": {
-      "durability": 2048.0,
-      "armor_durability": 44.0,
-      "enchantability": 14.0,
-      "rarity": 70.0,
-      "chargeability": 1.0,
+      "durability": 1280.0,
+      "armor_durability": 38.0,
+      "enchantment_value": 17.0,
+      "rarity": 60.0,
+      "charging_value": 1.4,
       "harvest_level": 4.0,
       "harvest_speed": 12.0,
-      "melee_damage": 5.0,
+      "melee_damage": 4.0,
       "attack_speed": 0.0,
-      "ranged_damage": 3.0,
+      "ranged_damage": 2.0,
       "ranged_speed": 0.0,
-      "armor": 24.0,
-      "armor/helmet": 4.0,
-      "armor/chestplate": 9.0,
-      "armor/leggings": 7.0,
-      "armor/boots": 4.0,
-      "armor_toughness": 16.0,
-      "magic_armor": 20.0
+      "armor": 20.0,
+      "armor/helmet": 3.0,
+      "armor/chestplate": 8.0,
+      "armor/leggings": 6.0,
+      "armor/boots": 3.0,
+      "armor_toughness": 8.0,
+      "magic_armor": 14.0
     },
     "rod": {},
     "adornment": {}
@@ -45,23 +45,11 @@
   "traits": {
     "main": [
       {
-        "name": "silentgear:void_ward",
-        "level": 1,
-        "conditions": [
-          {
-            "type": "silentgear:material_ratio",
-            "ratio": 0.7
-          }
-        ]
+        "name": "silentgear:chilled",
+        "level": 4
       },
       {
-        "name": "silentgear:sturdy",
-        "level": 2
-      }
-    ],
-    "adornment": [
-      {
-        "name": "silentgear:moonwalker",
+        "name": "silentgear:stellar",
         "level": 2
       }
     ]
@@ -70,7 +58,7 @@
     "main/all": [
       {
         "texture": "silentgear:main_generic_hc",
-        "color": "#FFD5C1D2"
+        "color": "#FF41C4F3"
       },
       {
         "texture": "silentgear:_highlight"
@@ -79,35 +67,35 @@
     "main/fragment": [
       {
         "texture": "silentgear:metal",
-        "color": "#FFD5C1D2"
+        "color": "#FF41C4F3"
       }
     ],
     "rod/all": [
       {
         "texture": "silentgear:rod_generic_hc",
-        "color": "#FFD5C1D2"
+        "color": "#FF41C4F3"
       }
     ],
     "rod/part": [
       {
         "texture": "silentgear:rod",
-        "color": "#FFD5C1D2"
+        "color": "#FF41C4F3"
       }
     ],
     "adornment/all": [
       {
         "texture": "silentgear:adornment_generic",
-        "color": "#FFD5C1D2"
+        "color": "#FF41C4F3"
       },
       {
         "texture": "silentgear:adornment_highlight",
-        "color": "#FFD5C1D2"
+        "color": "#FF41C4F3"
       }
     ],
     "adornment/part": [
       {
         "texture": "silentgear:adornment",
-        "color": "#FFD5C1D2"
+        "color": "#FF41C4F3"
       },
       {
         "texture": "silentgear:adornment_highlight"

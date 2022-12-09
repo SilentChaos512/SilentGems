@@ -22,9 +22,9 @@
     "main": {
       "durability": 512.0,
       "armor_durability": 21.0,
-      "enchantability": 12.0,
+      "enchantment_value": 12.0,
       "rarity": 30.0,
-      "chargeability": 1.3,
+      "charging_value": 1.3,
       "harvest_level": 2.0,
       "harvest_speed": 8.0,
       "melee_damage": 2.0,

@@ -2,7 +2,7 @@ package net.silentchaos512.gems.setup;
 
 import net.silentchaos512.gear.api.GearApi;
 import net.silentchaos512.gear.api.traits.ITrait;
-import net.silentchaos512.gear.util.DataResource;
+import net.silentchaos512.gear.api.util.DataResource;
 import net.silentchaos512.gems.GemsBase;
 import net.silentchaos512.gems.gear.trait.CriticalStrikeTrait;
 
