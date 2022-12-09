@@ -5,6 +5,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [4.4.1] - 2022-12-09
 ### Fixed
+- Updated description of Cloaking trait to mention the hunger effect [#567]
 - Updated materials to include the renamed "enchantment value" and "charging value" stats
 
 ## [4.4.0] - 2022-09-30

@@ -69,7 +69,7 @@
   "trait.silentgems.booster": "Booster",
   "trait.silentgems.booster.desc": "Gives a speed boost",
   "trait.silentgems.cloaking": "Cloaking",
-  "trait.silentgems.cloaking.desc": "Grants invisibility",
+  "trait.silentgems.cloaking.desc": "Grants invisibility at the cost of hunger",
   "trait.silentgems.critical_strike": "Critical Strike",
   "trait.silentgems.critical_strike.desc": "Sometimes deals significantly more damage than normal",
   "trait.silentgems.fractal": "Fractal",
