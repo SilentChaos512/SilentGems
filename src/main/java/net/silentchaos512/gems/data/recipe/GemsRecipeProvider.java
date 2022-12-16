@@ -1,12 +1,13 @@
 package net.silentchaos512.gems.data.recipe;
 
-import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
+import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.tags.ItemTags;
+import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.common.Tags;
 import net.silentchaos512.gems.GemsBase;
 import net.silentchaos512.gems.block.GemLampBlock;
@@ -15,6 +16,7 @@ import net.silentchaos512.gems.setup.GemsItems;
 import net.silentchaos512.gems.setup.GemsTags;
 import net.silentchaos512.gems.util.Gems;
 import net.silentchaos512.lib.data.recipe.LibRecipeProvider;
+import net.silentchaos512.lib.util.NameUtils;
 
 import java.util.function.Consumer;
 
@@ -72,6 +74,31 @@ public class GemsRecipeProvider extends LibRecipeProvider {
                     .addCriterion("has_item", has(gem.getItemTag()))
                     .build(consumer);
         }
+
+        glowroseToDye(consumer, Gems.RUBY, Items.RED_DYE);
+        glowroseToDye(consumer, Gems.CARNELIAN, Items.RED_DYE);
+        glowroseToDye(consumer, Gems.TOPAZ, Items.ORANGE_DYE);
+        glowroseToDye(consumer, Gems.CITRINE, Items.YELLOW_DYE);
+        glowroseToDye(consumer, Gems.HELIODOR, Items.YELLOW_DYE);
+        glowroseToDye(consumer, Gems.MOLDAVITE, Items.LIME_DYE);
+        glowroseToDye(consumer, Gems.PERIDOT, Items.GREEN_DYE);
+        glowroseToDye(consumer, Gems.TURQUOISE, Items.CYAN_DYE);
+        glowroseToDye(consumer, Gems.KYANITE, Items.LIGHT_BLUE_DYE);
+        glowroseToDye(consumer, Gems.SAPPHIRE, Items.BLUE_DYE);
+        glowroseToDye(consumer, Gems.IOLITE, Items.PURPLE_DYE);
+        glowroseToDye(consumer, Gems.ALEXANDRITE, Items.PURPLE_DYE);
+        glowroseToDye(consumer, Gems.AMMOLITE, Items.MAGENTA_DYE);
+        glowroseToDye(consumer, Gems.ROSE_QUARTZ, Items.PINK_DYE);
+        glowroseToDye(consumer, Gems.BLACK_DIAMOND, Items.BLACK_DYE);
+        glowroseToDye(consumer, Gems.WHITE_DIAMOND, Items.WHITE_DYE);
+    }
+
+    private void glowroseToDye(Consumer<FinishedRecipe> consumer, Gems gem, ItemLike dye) {
+        String dyeName = NameUtils.fromItem(dye).getPath();
+        String glowroseName = NameUtils.fromItem(gem.getGlowrose()).getPath();
+        shapelessBuilder(dye, 1)
+                .addIngredient(gem.getGlowroseItemTag())
+                .build(consumer, modId(dyeName + "_from_" + glowroseName));
     }
 
     private void registerMetals(Consumer<FinishedRecipe> consumer) {

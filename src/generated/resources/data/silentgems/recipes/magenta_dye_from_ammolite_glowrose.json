@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "tag": "silentgems:glowroses/ammolite"
+    }
+  ],
+  "result": {
+    "item": "minecraft:magenta_dye"
+  }
+}

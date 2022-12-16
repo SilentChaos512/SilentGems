@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "tag": "silentgems:glowroses/moldavite"
+    }
+  ],
+  "result": {
+    "item": "minecraft:lime_dye"
+  }
+}

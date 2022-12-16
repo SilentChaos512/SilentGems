@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "tag": "silentgems:glowroses/black_diamond"
+    }
+  ],
+  "result": {
+    "item": "minecraft:black_dye"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "tag": "silentgems:glowroses/white_diamond"
+    }
+  ],
+  "result": {
+    "item": "minecraft:white_dye"
+  }
+}

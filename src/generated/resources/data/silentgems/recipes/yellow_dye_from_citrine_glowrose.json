@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "tag": "silentgems:glowroses/citrine"
+    }
+  ],
+  "result": {
+    "item": "minecraft:yellow_dye"
+  }
+}
