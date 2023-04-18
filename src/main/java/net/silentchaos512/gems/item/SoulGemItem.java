@@ -1,11 +1,9 @@
 package net.silentchaos512.gems.item;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -122,17 +120,6 @@ public class SoulGemItem extends Item {
                     ? Component.literal(String.format("%d", soulValue))
                     : TextUtil.itemSub(this, "full");
             tooltip.add(TextUtil.itemSub(this, "value", valueText));
-        }
-    }
-
-    @Override
-    public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
-        if (allowedIn(group)) {
-            items.add(new ItemStack(this));
-
-            for (Soul soul : Soul.getValues()) {
-                items.add(getStack(soul, Soul.MAX_VALUE));
-            }
         }
     }
 

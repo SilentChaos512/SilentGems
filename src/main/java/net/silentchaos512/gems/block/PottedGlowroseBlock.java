@@ -1,10 +1,7 @@
 package net.silentchaos512.gems.block;
 
-import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FlowerPotBlock;
 import net.silentchaos512.gems.util.Gems;
@@ -22,10 +19,5 @@ public class PottedGlowroseBlock extends FlowerPotBlock {
     @Override
     public MutableComponent getName() {
         return Component.translatable("block.silentgems.potted_glowrose", this.gem.getDisplayName());
-    }
-
-    @Override
-    public void fillItemCategory(CreativeModeTab group, NonNullList<ItemStack> items) {
-        // Do not show
     }
 }

@@ -14,7 +14,7 @@ import net.silentchaos512.lib.util.NameUtils;
 
 public class GemsBlockStateProvider extends BlockStateProvider {
     public GemsBlockStateProvider(DataGenerator gen, ExistingFileHelper exFileHelper) {
-        super(gen, GemsBase.MOD_ID, exFileHelper);
+        super(gen.getPackOutput(), GemsBase.MOD_ID, exFileHelper);
     }
 
     @Override

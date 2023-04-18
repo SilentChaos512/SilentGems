@@ -1,12 +1,11 @@
 package net.silentchaos512.gems.setup;
 
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.level.ItemLike;
-import net.silentchaos512.gems.GemsBase;
 import net.silentchaos512.gems.item.GemsFoodItem;
 import net.silentchaos512.gems.item.PetSummonerItem;
 import net.silentchaos512.gems.item.SoulGemItem;
@@ -107,7 +106,7 @@ public final class GemsItems {
     }
 
     private static Item.Properties baseProps() {
-        return new Item.Properties().tab(GemsBase.ITEM_GROUP);
+        return new Item.Properties();
     }
 
     private static Item.Properties unstackableProps() {

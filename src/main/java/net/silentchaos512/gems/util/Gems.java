@@ -1,10 +1,5 @@
 package net.silentchaos512.gems.util;
 
-import com.google.common.collect.ImmutableList;
-import net.minecraft.core.Holder;
-import net.minecraft.data.worldgen.features.FeatureUtils;
-import net.minecraft.data.worldgen.features.OreFeatures;
-import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -20,19 +15,10 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.levelgen.VerticalAnchor;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
-import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
-import net.minecraft.world.level.levelgen.feature.configurations.RandomPatchConfiguration;
-import net.minecraft.world.level.levelgen.feature.configurations.SimpleBlockConfiguration;
-import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
-import net.minecraft.world.level.levelgen.placement.*;
 import net.minecraft.world.level.material.Material;
 import net.silentchaos512.gems.GemsBase;
 import net.silentchaos512.gems.block.*;
 import net.silentchaos512.gems.config.GemsConfig;
-import net.silentchaos512.gems.data.GemsWorldGen;
 import net.silentchaos512.gems.item.GemBlockItem;
 import net.silentchaos512.gems.item.GemItem;
 import net.silentchaos512.gems.setup.Registration;
@@ -41,7 +27,10 @@ import net.silentchaos512.lib.registry.BlockRegistryObject;
 import net.silentchaos512.lib.registry.ItemRegistryObject;
 import net.silentchaos512.utils.Color;
 
-import java.util.*;
+import java.util.EnumMap;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -221,7 +210,7 @@ public enum Gems {
         return this.oreConfigDefaults.getOrDefault(level, this.oreConfigDefaults.get(Level.OVERWORLD));
     }
 
-    public ConfiguredFeature<OreConfiguration, ?> createOreConfiguredFeature(ResourceKey<Level> level) {
+    /*public ConfiguredFeature<OreConfiguration, ?> createOreConfiguredFeature(ResourceKey<Level> level) {
         OreConfigDefaults config = this.getOreConfigDefaults(level);
         String configName;
 
@@ -302,7 +291,7 @@ public enum Gems {
                 PlacementUtils.HEIGHTMAP,
                 BiomeFilter.biome()
         ));
-    }
+    }*/
 
     //endregion
 
@@ -473,7 +462,7 @@ public enum Gems {
     public static void registerItems() {
         for (Gems gem : values())
             gem.item = registerItem(gem.getName(), () ->
-                    new GemItem(gem, "gem", new Item.Properties().tab(GemsBase.ITEM_GROUP)));
+                    new GemItem(gem, "gem", new Item.Properties()));
 
 //        for (Gems gem : values())
 //            gem.shard = registerItem(gem.getName() + "_shard", () ->
@@ -510,6 +499,6 @@ public enum Gems {
     }
 
     private static Supplier<BlockItem> defaultBlockItem(BlockRegistryObject<?> block) {
-        return () -> new GemBlockItem(block.get(), new Item.Properties().tab(GemsBase.ITEM_GROUP));
+        return () -> new GemBlockItem(block.get(), new Item.Properties());
     }
 }

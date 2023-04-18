@@ -20,9 +20,9 @@ public final class DataGenerators {
         DataGenerator gen = event.getGenerator();
         ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
 
-        GemsBlockTagsProvider blockTags = new GemsBlockTagsProvider(gen, existingFileHelper);
+        GemsBlockTagsProvider blockTags = new GemsBlockTagsProvider(event);
         gen.addProvider(true, blockTags);
-        gen.addProvider(true, new GemsItemTagsProvider(gen, blockTags, existingFileHelper));
+        gen.addProvider(true, new GemsItemTagsProvider(event, blockTags));
         gen.addProvider(true, new GemsRecipeProvider(gen));
         gen.addProvider(true, new GemsLootTableProvider(gen));
 //        gen.addProvider(new GemsAdvancementProvider(gen));
@@ -36,6 +36,6 @@ public final class DataGenerators {
         gen.addProvider(true, new GemsBlockStateProvider(gen, existingFileHelper));
         gen.addProvider(true, new GemsItemModelProvider(gen, existingFileHelper));
 
-        GemsWorldGen.init(gen, existingFileHelper);
+//        GemsWorldGen.init(gen, existingFileHelper);
     }
 }

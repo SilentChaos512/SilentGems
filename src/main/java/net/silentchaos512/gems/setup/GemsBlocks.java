@@ -1,18 +1,17 @@
 package net.silentchaos512.gems.setup;
 
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.material.Material;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.silentchaos512.gems.GemsBase;
 import net.silentchaos512.gems.block.OreBlockSG;
 import net.silentchaos512.gems.util.Gems;
 import net.silentchaos512.lib.registry.BlockRegistryObject;
@@ -62,7 +61,7 @@ public final class GemsBlocks {
     }
 
     private static <T extends Block> Supplier<BlockItem> defaultItem(BlockRegistryObject<T> block) {
-        return () -> new BlockItem(block.get(), new Item.Properties().tab(GemsBase.ITEM_GROUP));
+        return () -> new BlockItem(block.get(), new Item.Properties());
     }
 
     private static OreBlockSG getSilverOre(final BlockBehaviour.Properties properties) {

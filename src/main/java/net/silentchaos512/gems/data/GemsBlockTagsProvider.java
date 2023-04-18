@@ -1,24 +1,22 @@
 package net.silentchaos512.gems.data;
 
-import net.minecraft.data.DataGenerator;
-import net.minecraft.data.tags.BlockTagsProvider;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.tags.BlockTags;
 import net.minecraftforge.common.Tags;
-import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.common.data.BlockTagsProvider;
+import net.minecraftforge.data.event.GatherDataEvent;
 import net.silentchaos512.gems.GemsBase;
 import net.silentchaos512.gems.setup.GemsBlocks;
 import net.silentchaos512.gems.setup.GemsTags;
 import net.silentchaos512.gems.util.Gems;
 
-import javax.annotation.Nullable;
-
 public class GemsBlockTagsProvider extends BlockTagsProvider {
-    public GemsBlockTagsProvider(DataGenerator generatorIn, @Nullable ExistingFileHelper existingFileHelper) {
-        super(generatorIn, GemsBase.MOD_ID, existingFileHelper);
+    public GemsBlockTagsProvider(GatherDataEvent event) {
+        super(event.getGenerator().getPackOutput(), event.getLookupProvider(), GemsBase.MOD_ID, event.getExistingFileHelper());
     }
 
     @Override
-    protected void addTags() {
+    protected void addTags(HolderLookup.Provider provider) {
         for (Gems gem : Gems.values()) {
             tag(gem.getModOresTag()).add(gem.getOre(), gem.getDeepslateOre(), gem.getNetherOre(), gem.getEndOre());
             tag(gem.getOreTag()).addTag(gem.getModOresTag());

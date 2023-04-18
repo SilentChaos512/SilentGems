@@ -19,7 +19,7 @@ import net.silentchaos512.lib.util.NameUtils;
 
 public class GemsItemModelProvider extends ItemModelProvider {
     public GemsItemModelProvider(DataGenerator generator, ExistingFileHelper existingFileHelper) {
-        super(generator, GemsBase.MOD_ID, existingFileHelper);
+        super(generator.getPackOutput(), GemsBase.MOD_ID, existingFileHelper);
     }
 
     @Override

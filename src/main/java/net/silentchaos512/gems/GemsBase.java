@@ -1,12 +1,14 @@
 package net.silentchaos512.gems;
 
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.fml.ModContainer;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.network.Network;
 import net.silentchaos512.gems.setup.Registration;
@@ -27,11 +29,15 @@ public class GemsBase {
     public static final RandomSource RANDOM_SOURCE = RandomSource.create();
     public static final Logger LOGGER = LogManager.getLogger("Silent's Gems: Base");
     public static final TextUtil TEXT = new TextUtil(MOD_ID);
+    @Nullable
+    private static CreativeModeTab creativeModeTab;
 
     public GemsBase() {
         Registration.register();
         Network.init();
         GemsConfig.init();
+
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(GemsBase::onRegisterCreativeTab);
     }
 
     public static String getVersion() {
@@ -65,10 +71,15 @@ public class GemsBase {
         return id.toString();
     }
 
-    public static final CreativeModeTab ITEM_GROUP = new CreativeModeTab(MOD_ID) {
-        @Override
-        public ItemStack makeIcon() {
-            return new ItemStack(Gems.RUBY.getItem());
-        }
-    };
+    private static void onRegisterCreativeTab(CreativeModeTabEvent.Register event) {
+        creativeModeTab = event.registerCreativeModeTab(GemsBase.getId("tab"), b -> b
+                .icon(() -> Gems.RUBY.getItem().getDefaultInstance())
+                .title(Component.translatable("itemGroup.silentgems"))
+                .displayItems((flagSet, output, bool) -> {
+                    // TODO: What about sub items?
+                    Registration.ITEMS.getEntries().forEach(ro -> output.accept(ro.get()));
+                })
+                .build()
+        );
+    }
 }

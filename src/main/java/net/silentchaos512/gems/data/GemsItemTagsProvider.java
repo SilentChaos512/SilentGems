@@ -1,27 +1,25 @@
 package net.silentchaos512.gems.data;
 
-import net.minecraft.data.tags.BlockTagsProvider;
-import net.minecraft.data.DataGenerator;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.world.item.Items;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.world.item.Items;
 import net.minecraftforge.common.Tags;
-import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.common.data.BlockTagsProvider;
+import net.minecraftforge.data.event.GatherDataEvent;
 import net.silentchaos512.gems.GemsBase;
 import net.silentchaos512.gems.setup.GemsItems;
 import net.silentchaos512.gems.setup.GemsTags;
 import net.silentchaos512.gems.util.Gems;
 
-import javax.annotation.Nullable;
-
 public class GemsItemTagsProvider extends ItemTagsProvider {
-    public GemsItemTagsProvider(DataGenerator dataGenerator, BlockTagsProvider blockTagProvider, @Nullable ExistingFileHelper existingFileHelper) {
-        super(dataGenerator, blockTagProvider, GemsBase.MOD_ID, existingFileHelper);
+    public GemsItemTagsProvider(GatherDataEvent event, BlockTagsProvider blocks) {
+        super(event.getGenerator().getPackOutput(), event.getLookupProvider(), blocks, GemsBase.MOD_ID, event.getExistingFileHelper());
     }
 
     @Override
-    protected void addTags() {
+    protected void addTags(HolderLookup.Provider provider) {
         for (Gems gem : Gems.values()) {
             // Block copies
             copy(gem.getModOresTag(), gem.getModOresItemTag());

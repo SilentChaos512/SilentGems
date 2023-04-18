@@ -1,16 +1,17 @@
 package net.silentchaos512.gems.data;
 
 import com.google.common.collect.ImmutableList;
-import com.mojang.datafixers.util.Pair;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.data.loot.LootTableProvider;
+import net.minecraft.data.loot.packs.VanillaLootTableProvider;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.LootTables;
 import net.minecraft.world.level.storage.loot.ValidationContext;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParamSet;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraftforge.registries.RegistryObject;
 import net.silentchaos512.gems.block.GemLampBlock;
@@ -19,22 +20,20 @@ import net.silentchaos512.gems.setup.GemsItems;
 import net.silentchaos512.gems.setup.Registration;
 import net.silentchaos512.gems.util.Gems;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public class GemsLootTableProvider extends LootTableProvider {
-    public GemsLootTableProvider(DataGenerator dataGeneratorIn) {
-        super(dataGeneratorIn);
+    public GemsLootTableProvider(DataGenerator gen) {
+        super(gen.getPackOutput(), Collections.emptySet(), VanillaLootTableProvider.create(gen.getPackOutput()).getTables());
     }
 
     @Override
-    protected List<Pair<Supplier<Consumer<BiConsumer<ResourceLocation, LootTable.Builder>>>, LootContextParamSet>> getTables() {
+    public List<SubProviderEntry> getTables() {
         return ImmutableList.of(
-                Pair.of(BlockLootTables::new, LootContextParamSets.BLOCK)
+                new SubProviderEntry(BlockLootTables::new, LootContextParamSets.BLOCK)
         );
     }
 
@@ -43,9 +42,13 @@ public class GemsLootTableProvider extends LootTableProvider {
         map.forEach((p_218436_2_, p_218436_3_) -> LootTables.validate(validationtracker, p_218436_2_, p_218436_3_));
     }
 
-    private static final class BlockLootTables extends net.minecraft.data.loot.BlockLoot {
+    private static final class BlockLootTables extends BlockLootSubProvider {
+        protected BlockLootTables() {
+            super(Collections.emptySet(), FeatureFlags.REGISTRY.allFlags());
+        }
+
         @Override
-        protected void addTables() {
+        protected void generate() {
             for (Gems gem : Gems.values()) {
                 registerFortuneDrops(gem.getOre(), gem.getItem());
                 registerFortuneDrops(gem.getDeepslateOre(), gem.getItem());
