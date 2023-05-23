@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[44,)"
+loaderVersion="[45,)"
 license="MIT"
 issueTrackerURL="https://github.com/SilentChaos512/SilentGems/issues"
 displayURL="https://www.curseforge.com/minecraft/mc-mods/silents-gems"
@@ -11,10 +11,10 @@ authors="SilentChaos512"
     modId="silentgems"
     version="${file.jarVersion}"
     displayName="Silent's Gems: Base"
-    updateJSONURL="https://raw.githubusercontent.com/SilentChaos512/SilentGems/1.19.x/update.json"
+    updateJSONURL="https://raw.githubusercontent.com/SilentChaos512/SilentGems/1.19.4/update.json"
     description='''
     Downloads: https://www.curseforge.com/minecraft/mc-mods/silents-gems (I do not upload anywhere else)
-    Changelog: https://github.com/SilentChaos512/SilentGems/blob/1.19.x/CHANGELOG.md
+    Changelog: https://github.com/SilentChaos512/SilentGems/blob/1.19.4/CHANGELOG.md
     Source: https://github.com/SilentChaos512/SilentGems/
     Issues: https://github.com/SilentChaos512/SilentGems/issues
     '''
@@ -22,13 +22,13 @@ authors="SilentChaos512"
 [[dependencies.silentgems]]
     modId="forge"
     mandatory=true
-    versionRange="[44,)"
+    versionRange="[45,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.silentgems]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.19.3,1.20)"
+    versionRange="[1.19.4,1.20)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.silentgems]]

@@ -145,7 +145,7 @@ dependencies {
     if (project.hasProperty("sgear_version")) {
         compileOnly fg.deobf("net.silentchaos512:silent-gear:${project.sgear_version}") {
             exclude module: 'forge'
-            exclude module: 'jei-1.19.3-forge'
+            exclude module: 'jei-1.19.4-forge'
             exclude module: 'silent-lib'
             exclude module: 'curios-forge'
             exclude module: 'World-Stripper'
@@ -153,7 +153,7 @@ dependencies {
         }
         /*runtimeOnly fg.deobf("net.silentchaos512:silent-gear:${project.sgear_version}") {
             exclude module: 'forge'
-            exclude module: 'jei-1.19.3-forge'
+            exclude module: 'jei-1.19.4-forge'
             exclude module: 'silent-lib'
             exclude module: 'curios-forge'
             exclude module: 'World-Stripper'
@@ -165,12 +165,12 @@ dependencies {
     if (project.hasProperty('token_enchanter_version')) {
         compileOnly fg.deobf("net.silentchaos512:token-enchanter:${project.token_enchanter_version}:api") {
             exclude module: 'forge'
-            exclude module: 'jei-1.19.3-forge'
+            exclude module: 'jei-1.19.4-forge'
             exclude module: 'silent-lib'
         }
         runtimeOnly fg.deobf("net.silentchaos512:token-enchanter:${project.token_enchanter_version}") {
             exclude module: 'forge'
-            exclude module: 'jei-1.19.3-forge'
+            exclude module: 'jei-1.19.4-forge'
             exclude module: 'silent-lib'
         }
     }
@@ -352,7 +352,7 @@ def writeUpdateJson() {
 
     // TODO: Maybe add something to create an abbreviated changelog? May not be useful...
     if (!json[project.mc_version].containsKey(version.toString()))
-        json[project.mc_version][version.toString()] = 'https://github.com/SilentChaos512/SilentGems/blob/1.19.3/CHANGELOG.md'
+        json[project.mc_version][version.toString()] = 'https://github.com/SilentChaos512/SilentGems/blob/1.19.4/CHANGELOG.md'
     json[project.mc_version] = json[project.mc_version].sort([compare: { a, b -> b.compareTo(a) }] as Comparator)
     json['promos']["${project.mc_version}-latest"] = version
     json['promos']["${project.mc_version}-recommended"] = version

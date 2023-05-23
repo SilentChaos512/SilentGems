@@ -15,7 +15,7 @@ import net.silentchaos512.gems.util.Gems;
 
 public class GemsItemTagsProvider extends ItemTagsProvider {
     public GemsItemTagsProvider(GatherDataEvent event, BlockTagsProvider blocks) {
-        super(event.getGenerator().getPackOutput(), event.getLookupProvider(), blocks, GemsBase.MOD_ID, event.getExistingFileHelper());
+        super(event.getGenerator().getPackOutput(), event.getLookupProvider(), blocks.contentsGetter(), GemsBase.MOD_ID, event.getExistingFileHelper());
     }
 
     @Override

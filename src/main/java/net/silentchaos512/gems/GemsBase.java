@@ -75,7 +75,7 @@ public class GemsBase {
         creativeModeTab = event.registerCreativeModeTab(GemsBase.getId("tab"), b -> b
                 .icon(() -> Gems.RUBY.getItem().getDefaultInstance())
                 .title(Component.translatable("itemGroup.silentgems"))
-                .displayItems((flagSet, output, bool) -> {
+                .displayItems((itemDisplayParameters, output) -> {
                     // TODO: What about sub items?
                     Registration.ITEMS.getEntries().forEach(ro -> output.accept(ro.get()));
                 })
