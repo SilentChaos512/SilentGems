@@ -28,6 +28,11 @@ public class GemsBlockStateProvider extends BlockStateProvider {
             simpleBlock(gem.getEndOre());
             simpleBlock(gem.getBlock());
             simpleBlock(gem.getBricks());
+            simpleBlock(gem.getTiles());
+            simpleBlock(gem.getSmallBricks());
+            simpleBlock(gem.getPolishedStone());
+            simpleBlock(gem.getSmoothStone());
+            simpleBlock(gem.getChiseledStone());
             simpleBlock(gem.getGlass());
 
             for (GemLampBlock.State state : GemLampBlock.State.values()) {

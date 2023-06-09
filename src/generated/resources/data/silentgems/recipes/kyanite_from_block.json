@@ -13,5 +13,6 @@
   ],
   "result": {
     "item": "silentgems:kyanite_block"
-  }
+  },
+  "show_notification": true
 }

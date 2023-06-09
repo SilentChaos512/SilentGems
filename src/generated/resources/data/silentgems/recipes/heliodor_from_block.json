@@ -13,5 +13,6 @@
   ],
   "result": {
     "item": "silentgems:heliodor_block"
-  }
+  },
+  "show_notification": true
 }

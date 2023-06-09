@@ -130,6 +130,11 @@ public enum Gems {
     BlockRegistryObject<GemOreBlock> endOre;
     BlockRegistryObject<GemBlock> block;
     BlockRegistryObject<GemBlock> bricks;
+    BlockRegistryObject<GemBlock> tiles;
+    BlockRegistryObject<GemBlock> smallBricks;
+    BlockRegistryObject<GemBlock> polishedStone;
+    BlockRegistryObject<GemBlock> smoothStone;
+    BlockRegistryObject<GemBlock> chiseledStone;
     BlockRegistryObject<GemGlassBlock> glass;
     BlockRegistryObject<GlowroseBlock> glowrose;
     BlockRegistryObject<FlowerPotBlock> pottedGlowrose;
@@ -321,6 +326,26 @@ public enum Gems {
         return bricks.get();
     }
 
+    public GemBlock getTiles() {
+        return tiles.get();
+    }
+
+    public GemBlock getSmallBricks() {
+        return smallBricks.get();
+    }
+
+    public GemBlock getPolishedStone() {
+        return polishedStone.get();
+    }
+
+    public GemBlock getSmoothStone() {
+        return smoothStone.get();
+    }
+
+    public GemBlock getChiseledStone() {
+        return chiseledStone.get();
+    }
+
     public GemGlassBlock getGlass() {
         return glass.get();
     }
@@ -418,6 +443,31 @@ public enum Gems {
         for (Gems gem : values())
             gem.bricks = registerBlock(gem.getName() + "_bricks", () ->
                     new GemBlock(gem, "gem_bricks", BlockBehaviour.Properties.of(Material.STONE)
+                            .strength(2f, 8f)));
+
+        for (Gems gem : values())
+            gem.tiles = registerBlock(gem.getName() + "_tiles", () ->
+                    new GemBlock(gem, "gem_tiles", BlockBehaviour.Properties.of(Material.STONE)
+                            .strength(2f, 8f)));
+
+        for (Gems gem : values())
+            gem.smallBricks = registerBlock(gem.getName() + "_small_bricks", () ->
+                    new GemBlock(gem, "gem_small_bricks", BlockBehaviour.Properties.of(Material.STONE)
+                            .strength(2f, 8f)));
+
+        for (Gems gem : values())
+            gem.polishedStone = registerBlock("polished_" + gem.getName(), () ->
+                    new GemBlock(gem, "polished_gem_stone", BlockBehaviour.Properties.of(Material.STONE)
+                            .strength(2f, 8f)));
+
+        for (Gems gem : values())
+            gem.smoothStone = registerBlock("smooth_" + gem.getName(), () ->
+                    new GemBlock(gem, "smooth_gem_stone", BlockBehaviour.Properties.of(Material.STONE)
+                            .strength(2f, 8f)));
+
+        for (Gems gem : values())
+            gem.chiseledStone = registerBlock("chiseled_" + gem.getName(), () ->
+                    new GemBlock(gem, "chiseled_gem_stone", BlockBehaviour.Properties.of(Material.STONE)
                             .strength(2f, 8f)));
 
         BlockBehaviour.StatePredicate isNotSolid = (state, world, pos) -> false;

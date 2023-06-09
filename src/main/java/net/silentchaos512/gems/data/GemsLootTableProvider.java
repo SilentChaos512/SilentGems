@@ -56,6 +56,11 @@ public class GemsLootTableProvider extends LootTableProvider {
                 registerFortuneDrops(gem.getEndOre(), gem.getItem());
                 dropSelf(gem.getBlock());
                 dropSelf(gem.getBricks());
+                dropSelf(gem.getTiles());
+                dropSelf(gem.getSmallBricks());
+                dropSelf(gem.getPolishedStone());
+                dropSelf(gem.getSmoothStone());
+                dropSelf(gem.getChiseledStone());
                 dropSelf(gem.getGlass());
                 for (GemLampBlock.State state : GemLampBlock.State.values()) {
                     // Always drop the unpowered version of the lamp, as the others don't have items
