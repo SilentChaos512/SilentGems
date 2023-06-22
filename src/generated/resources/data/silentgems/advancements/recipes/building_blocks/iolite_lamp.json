@@ -28,5 +28,6 @@
     "recipes": [
       "silentgems:iolite_lamp"
     ]
-  }
+  },
+  "sends_telemetry_event": true
 }

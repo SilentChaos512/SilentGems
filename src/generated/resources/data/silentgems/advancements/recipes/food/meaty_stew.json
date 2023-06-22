@@ -28,5 +28,6 @@
     "recipes": [
       "silentgems:meaty_stew"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

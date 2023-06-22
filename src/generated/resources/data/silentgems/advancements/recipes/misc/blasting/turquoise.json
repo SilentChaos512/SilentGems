@@ -21,5 +21,6 @@
     "recipes": [
       "silentgems:blasting/turquoise"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

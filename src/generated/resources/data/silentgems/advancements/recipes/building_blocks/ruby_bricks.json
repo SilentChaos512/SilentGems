@@ -28,5 +28,6 @@
     "recipes": [
       "silentgems:ruby_bricks"
     ]
-  }
+  },
+  "sends_telemetry_event": true
 }

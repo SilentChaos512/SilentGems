@@ -21,5 +21,6 @@
     "recipes": [
       "silentgems:blasting/white_diamond"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

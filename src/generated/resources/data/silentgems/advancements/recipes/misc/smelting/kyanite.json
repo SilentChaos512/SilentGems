@@ -21,5 +21,6 @@
     "recipes": [
       "silentgems:smelting/kyanite"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

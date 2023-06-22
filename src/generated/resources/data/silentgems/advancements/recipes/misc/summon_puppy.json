@@ -28,5 +28,6 @@
     "recipes": [
       "silentgems:summon_puppy"
     ]
-  }
+  },
+  "sends_telemetry_event": true
 }

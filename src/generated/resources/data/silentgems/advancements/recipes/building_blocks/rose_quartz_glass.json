@@ -28,5 +28,6 @@
     "recipes": [
       "silentgems:rose_quartz_glass"
     ]
-  }
+  },
+  "sends_telemetry_event": true
 }

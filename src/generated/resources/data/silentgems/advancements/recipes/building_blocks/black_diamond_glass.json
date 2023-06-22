@@ -28,5 +28,6 @@
     "recipes": [
       "silentgems:black_diamond_glass"
     ]
-  }
+  },
+  "sends_telemetry_event": true
 }

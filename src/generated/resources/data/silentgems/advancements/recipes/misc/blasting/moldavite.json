@@ -21,5 +21,6 @@
     "recipes": [
       "silentgems:blasting/moldavite"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

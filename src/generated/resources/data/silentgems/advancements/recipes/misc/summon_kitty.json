@@ -28,5 +28,6 @@
     "recipes": [
       "silentgems:summon_kitty"
     ]
-  }
+  },
+  "sends_telemetry_event": true
 }

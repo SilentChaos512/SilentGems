@@ -28,5 +28,6 @@
     "recipes": [
       "silentgems:black_diamond_bricks"
     ]
-  }
+  },
+  "sends_telemetry_event": true
 }

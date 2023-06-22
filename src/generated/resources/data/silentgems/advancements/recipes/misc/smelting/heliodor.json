@@ -21,5 +21,6 @@
     "recipes": [
       "silentgems:smelting/heliodor"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

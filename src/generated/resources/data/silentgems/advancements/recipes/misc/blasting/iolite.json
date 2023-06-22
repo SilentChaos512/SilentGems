@@ -21,5 +21,6 @@
     "recipes": [
       "silentgems:blasting/iolite"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

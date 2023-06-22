@@ -28,5 +28,6 @@
     "recipes": [
       "silentgems:sapphire_glass"
     ]
-  }
+  },
+  "sends_telemetry_event": true
 }

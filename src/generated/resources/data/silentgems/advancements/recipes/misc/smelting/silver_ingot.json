@@ -21,5 +21,6 @@
     "recipes": [
       "silentgems:smelting/silver_ingot"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

@@ -21,5 +21,6 @@
     "recipes": [
       "silentgems:blasting/citrine"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

@@ -28,5 +28,6 @@
     "recipes": [
       "silentgems:uncooked_fishy_stew"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

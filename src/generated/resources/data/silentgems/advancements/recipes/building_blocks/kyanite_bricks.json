@@ -28,5 +28,6 @@
     "recipes": [
       "silentgems:kyanite_bricks"
     ]
-  }
+  },
+  "sends_telemetry_event": true
 }

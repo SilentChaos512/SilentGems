@@ -21,5 +21,6 @@
     "recipes": [
       "silentgems:smelting/ammolite"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

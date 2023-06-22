@@ -30,5 +30,6 @@
     "recipes": [
       "silentgems:heliodor_from_block"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

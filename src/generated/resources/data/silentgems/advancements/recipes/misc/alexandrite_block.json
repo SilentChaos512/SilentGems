@@ -30,5 +30,6 @@
     "recipes": [
       "silentgems:alexandrite_block"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

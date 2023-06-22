@@ -30,5 +30,6 @@
     "recipes": [
       "silentgems:sapphire_block"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

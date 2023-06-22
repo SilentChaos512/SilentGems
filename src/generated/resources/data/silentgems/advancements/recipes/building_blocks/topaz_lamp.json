@@ -28,5 +28,6 @@
     "recipes": [
       "silentgems:topaz_lamp"
     ]
-  }
+  },
+  "sends_telemetry_event": true
 }

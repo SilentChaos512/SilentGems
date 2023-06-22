@@ -21,5 +21,6 @@
     "recipes": [
       "silentgems:smelting/ruby"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

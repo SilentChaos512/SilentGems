@@ -30,5 +30,6 @@
     "recipes": [
       "silentgems:iron_potato"
     ]
-  }
+  },
+  "sends_telemetry_event": true
 }

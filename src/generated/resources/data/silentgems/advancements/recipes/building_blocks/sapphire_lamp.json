@@ -28,5 +28,6 @@
     "recipes": [
       "silentgems:sapphire_lamp"
     ]
-  }
+  },
+  "sends_telemetry_event": true
 }

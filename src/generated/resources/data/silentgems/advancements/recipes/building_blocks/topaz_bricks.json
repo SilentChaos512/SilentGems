@@ -28,5 +28,6 @@
     "recipes": [
       "silentgems:topaz_bricks"
     ]
-  }
+  },
+  "sends_telemetry_event": true
 }

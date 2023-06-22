@@ -21,5 +21,6 @@
     "recipes": [
       "silentgems:smelting/iolite"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

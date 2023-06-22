@@ -28,5 +28,6 @@
     "recipes": [
       "silentgems:ruby_glass"
     ]
-  }
+  },
+  "sends_telemetry_event": true
 }

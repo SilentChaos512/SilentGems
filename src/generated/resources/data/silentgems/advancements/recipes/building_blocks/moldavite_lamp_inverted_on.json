@@ -28,5 +28,6 @@
     "recipes": [
       "silentgems:moldavite_lamp_inverted_on"
     ]
-  }
+  },
+  "sends_telemetry_event": true
 }

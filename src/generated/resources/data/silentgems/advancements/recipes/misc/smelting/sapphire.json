@@ -21,5 +21,6 @@
     "recipes": [
       "silentgems:smelting/sapphire"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

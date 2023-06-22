@@ -28,5 +28,6 @@
     "recipes": [
       "silentgems:carnelian_bricks"
     ]
-  }
+  },
+  "sends_telemetry_event": true
 }

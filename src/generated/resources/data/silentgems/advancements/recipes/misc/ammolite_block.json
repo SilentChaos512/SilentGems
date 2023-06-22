@@ -30,5 +30,6 @@
     "recipes": [
       "silentgems:ammolite_block"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }

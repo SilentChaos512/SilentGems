@@ -21,5 +21,6 @@
     "recipes": [
       "silentgems:blasting/topaz"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }
