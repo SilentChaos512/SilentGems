@@ -15,7 +15,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.material.Material;
 import net.silentchaos512.gems.GemsBase;
 import net.silentchaos512.gems.block.*;
 import net.silentchaos512.gems.config.GemsConfig;
@@ -412,7 +411,7 @@ public enum Gems {
     public static void registerBlocks() {
         for (Gems gem : values())
             gem.ore = registerBlock(gem.getName() + "_ore", () ->
-                    new GemOreBlock(gem, 2, "gem_ore", BlockBehaviour.Properties.of(Material.STONE)
+                    new GemOreBlock(gem, 2, "gem_ore", BlockBehaviour.Properties.of()
                             .strength(3f)
                             .requiresCorrectToolForDrops()
                             .sound(SoundType.STONE)));
@@ -436,44 +435,44 @@ public enum Gems {
 
         for (Gems gem : values())
             gem.block = registerBlock(gem.getName() + "_block", () ->
-                    new GemBlock(gem, "gem_block", BlockBehaviour.Properties.of(Material.METAL)
+                    new GemBlock(gem, "gem_block", BlockBehaviour.Properties.of()
                             .strength(4, 30)
                             .sound(SoundType.METAL)));
 
         for (Gems gem : values())
             gem.bricks = registerBlock(gem.getName() + "_bricks", () ->
-                    new GemBlock(gem, "gem_bricks", BlockBehaviour.Properties.of(Material.STONE)
+                    new GemBlock(gem, "gem_bricks", BlockBehaviour.Properties.of()
                             .strength(2f, 8f)));
 
         for (Gems gem : values())
             gem.tiles = registerBlock(gem.getName() + "_tiles", () ->
-                    new GemBlock(gem, "gem_tiles", BlockBehaviour.Properties.of(Material.STONE)
+                    new GemBlock(gem, "gem_tiles", BlockBehaviour.Properties.of()
                             .strength(2f, 8f)));
 
         for (Gems gem : values())
             gem.smallBricks = registerBlock(gem.getName() + "_small_bricks", () ->
-                    new GemBlock(gem, "gem_small_bricks", BlockBehaviour.Properties.of(Material.STONE)
+                    new GemBlock(gem, "gem_small_bricks", BlockBehaviour.Properties.of()
                             .strength(2f, 8f)));
 
         for (Gems gem : values())
             gem.polishedStone = registerBlock("polished_" + gem.getName(), () ->
-                    new GemBlock(gem, "polished_gem_stone", BlockBehaviour.Properties.of(Material.STONE)
+                    new GemBlock(gem, "polished_gem_stone", BlockBehaviour.Properties.of()
                             .strength(2f, 8f)));
 
         for (Gems gem : values())
             gem.smoothStone = registerBlock("smooth_" + gem.getName(), () ->
-                    new GemBlock(gem, "smooth_gem_stone", BlockBehaviour.Properties.of(Material.STONE)
+                    new GemBlock(gem, "smooth_gem_stone", BlockBehaviour.Properties.of()
                             .strength(2f, 8f)));
 
         for (Gems gem : values())
             gem.chiseledStone = registerBlock("chiseled_" + gem.getName(), () ->
-                    new GemBlock(gem, "chiseled_gem_stone", BlockBehaviour.Properties.of(Material.STONE)
+                    new GemBlock(gem, "chiseled_gem_stone", BlockBehaviour.Properties.of()
                             .strength(2f, 8f)));
 
         BlockBehaviour.StatePredicate isNotSolid = (state, world, pos) -> false;
         for (Gems gem : values())
             gem.glass = registerBlock(gem.getName() + "_glass", () ->
-                    new GemGlassBlock(gem, BlockBehaviour.Properties.of(Material.GLASS)
+                    new GemGlassBlock(gem, BlockBehaviour.Properties.of()
                             .strength(1f, 5f)
                             .sound(SoundType.GLASS)
                             .noOcclusion()
@@ -493,7 +492,7 @@ public enum Gems {
 
         for (Gems gem : values())
             gem.glowrose = registerBlock(gem.getName() + "_glowrose", () ->
-                    new GlowroseBlock(gem, BlockBehaviour.Properties.of(Material.PLANT)
+                    new GlowroseBlock(gem, BlockBehaviour.Properties.of()
                             .sound(SoundType.GRASS)
                             .lightLevel(state -> GemsConfig.Common.isLoaded() ? GemsConfig.Common.glowroseNormalLight.get() : 10)
                             .strength(0)
@@ -502,7 +501,7 @@ public enum Gems {
         for (Gems gem : values()) {
             gem.pottedGlowrose = registerBlockNoItem("potted_" + gem.getName() + "_glowrose", () ->
                     new PottedGlowroseBlock(gem, gem.glowrose, BlockBehaviour.Properties
-                            .of(Material.DECORATION)
+                            .of()
                             .lightLevel(state -> GemsConfig.Common.isLoaded() ? GemsConfig.Common.glowrosePottedLight.get() : 15)
                             .strength(0)));
             ((FlowerPotBlock) Blocks.FLOWER_POT).addPlant(GemsBase.getId(gem.getName() + "_glowrose"), gem.pottedGlowrose);
@@ -538,7 +537,7 @@ public enum Gems {
     private static BlockRegistryObject<GemLampBlock> registerLamp(Gems gem, GemLampBlock.State state) {
         String name = gem.getName() + "_lamp" + (state.inverted() ? "_inverted" : "") + (state.lit() ? "_on" : "");
         return registerBlock(name,
-                () -> new GemLampBlock(gem, state, Block.Properties.of(Material.BUILDABLE_GLASS)
+                () -> new GemLampBlock(gem, state, Block.Properties.of()
                         .strength(0.3f, 15)
                         .lightLevel(s -> state.lit() ? 15 : 0)),
                 state.hasItem() ? Gems::defaultBlockItem : null);

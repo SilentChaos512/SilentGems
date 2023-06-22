@@ -26,6 +26,7 @@ public class Registration {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         BLOCKS.register(modEventBus);
         CONTAINERS.register(modEventBus);
+        GemsCreativeTabs.CREATIVE_TABS.register(modEventBus);
         ITEMS.register(modEventBus);
         SOUND_EVENTS.register(modEventBus);
 

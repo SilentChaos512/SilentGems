@@ -8,7 +8,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.material.Material;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -25,13 +24,13 @@ public final class GemsBlocks {
     }
 
     public static final BlockRegistryObject<Block> SILVER_ORE = register("silver_ore", () ->
-            getSilverOre(BlockBehaviour.Properties.of(Material.STONE).strength(3)));
+            getSilverOre(BlockBehaviour.Properties.of().strength(3)));
 
     public static final BlockRegistryObject<Block> DEEPSLATE_SILVER_ORE = register("deepslate_silver_ore", () ->
             getSilverOre(BlockBehaviour.Properties.copy(SILVER_ORE.get()).strength(4.5f, 3f).sound(SoundType.DEEPSLATE)));
 
     public static final BlockRegistryObject<Block> SILVER_BLOCK = register("silver_block", () ->
-            new Block(BlockBehaviour.Properties.of(Material.METAL).strength(4, 30).sound(SoundType.METAL)));
+            new Block(BlockBehaviour.Properties.of().strength(4, 30).sound(SoundType.METAL)));
 
     private GemsBlocks() {}
 

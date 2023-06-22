@@ -28,7 +28,7 @@ public final class Network {
                 .decoder(SyncSoulsPacket::fromBytes)
                 .encoder(SyncSoulsPacket::toBytes)
                 .markAsLoginPacket()
-                .consumer(HandshakeHandler.biConsumerFor((hh, msg, ctx) -> {
+                .consumerMainThread(HandshakeHandler.biConsumerFor((hh, msg, ctx) -> {
                     Soul.handleSyncPacket(msg, ctx);
                     channel.reply(new LoginPacket.Reply(), ctx.get());
                 }))
@@ -37,7 +37,7 @@ public final class Network {
                 .loginIndex(LoginPacket::getLoginIndex, LoginPacket::setLoginIndex)
                 .decoder(buffer -> new LoginPacket.Reply())
                 .encoder((msg, buffer) -> {})
-                .consumer(HandshakeHandler.indexFirst((hh, msg, ctx) -> msg.handle(ctx)))
+                .consumerMainThread(HandshakeHandler.indexFirst((hh, msg, ctx) -> msg.handle(ctx)))
                 .add();
     }
 

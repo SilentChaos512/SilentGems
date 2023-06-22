@@ -1,18 +1,14 @@
 package net.silentchaos512.gems;
 
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.CreativeModeTab;
-import net.minecraftforge.event.CreativeModeTabEvent;
 import net.minecraftforge.fml.ModContainer;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.network.Network;
 import net.silentchaos512.gems.setup.Registration;
-import net.silentchaos512.gems.util.Gems;
 import net.silentchaos512.gems.util.TextUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -36,8 +32,6 @@ public class GemsBase {
         Registration.register();
         Network.init();
         GemsConfig.init();
-
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(GemsBase::onRegisterCreativeTab);
     }
 
     public static String getVersion() {
@@ -69,17 +63,5 @@ public class GemsBase {
         if (MOD_ID.equals(id.getNamespace()))
             return id.getPath();
         return id.toString();
-    }
-
-    private static void onRegisterCreativeTab(CreativeModeTabEvent.Register event) {
-        creativeModeTab = event.registerCreativeModeTab(GemsBase.getId("tab"), b -> b
-                .icon(() -> Gems.RUBY.getItem().getDefaultInstance())
-                .title(Component.translatable("itemGroup.silentgems"))
-                .displayItems((itemDisplayParameters, output) -> {
-                    // TODO: What about sub items?
-                    Registration.ITEMS.getEntries().forEach(ro -> output.accept(ro.get()));
-                })
-                .build()
-        );
     }
 }

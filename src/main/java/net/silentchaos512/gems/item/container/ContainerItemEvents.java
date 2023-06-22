@@ -5,6 +5,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -38,8 +39,9 @@ public final class ContainerItemEvents {
         }
 
         if (itemOnGround.getCount() != initialCount) {
-            float pitch = ((player.level.random.nextFloat() - player.level.random.nextFloat()) * 0.7F + 1.0F) * 2.0F;
-            player.level.playSound(null, player.getX(), player.getY() + 0.5, player.getZ(),
+            Level level = player.level();
+            float pitch = ((level.random.nextFloat() - level.random.nextFloat()) * 0.7F + 1.0F) * 2.0F;
+            level.playSound(null, player.getX(), player.getY() + 0.5, player.getZ(),
                     SoundEvents.ITEM_PICKUP, SoundSource.PLAYERS, 0.2F, pitch);
         }
     }

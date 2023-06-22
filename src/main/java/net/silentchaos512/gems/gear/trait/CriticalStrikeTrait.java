@@ -42,7 +42,7 @@ public class CriticalStrikeTrait extends SimpleTrait {
     @Override
     public float onAttackEntity(TraitActionContext context, LivingEntity target, float baseValue) {
         if (GemsBase.RANDOM.nextFloat() < this.activationChance) {
-            target.level.playSound(null, target.blockPosition(), SoundEvents.PLAYER_ATTACK_CRIT, SoundSource.PLAYERS, 1.0f, 1.5f);
+            target.level().playSound(null, target.blockPosition(), SoundEvents.PLAYER_ATTACK_CRIT, SoundSource.PLAYERS, 1.0f, 1.5f);
             return baseValue * (1f + this.damageMulti) * context.getTraitLevel();
         }
         return baseValue;
