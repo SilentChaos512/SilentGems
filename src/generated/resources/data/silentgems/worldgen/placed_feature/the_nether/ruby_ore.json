@@ -1,0 +1,27 @@
+{
+  "feature": "silentgems:the_nether/ruby_ore",
+  "placement": [
+    {
+      "type": "minecraft:height_range",
+      "height": {
+        "type": "minecraft:uniform",
+        "max_inclusive": {
+          "absolute": 128
+        },
+        "min_inclusive": {
+          "absolute": 0
+        }
+      }
+    },
+    {
+      "type": "minecraft:in_square"
+    },
+    {
+      "type": "minecraft:count",
+      "count": 0
+    },
+    {
+      "type": "minecraft:biome"
+    }
+  ]
+}
