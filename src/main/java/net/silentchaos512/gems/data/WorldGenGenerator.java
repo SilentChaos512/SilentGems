@@ -1,7 +1,6 @@
 package net.silentchaos512.gems.data;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.RegistrySetBuilder;
@@ -16,10 +15,15 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.levelgen.GenerationStep;
+import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
+import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
+import net.minecraft.world.level.levelgen.feature.configurations.RandomPatchConfiguration;
+import net.minecraft.world.level.levelgen.feature.configurations.SimpleBlockConfiguration;
+import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import net.minecraft.world.level.levelgen.placement.*;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest;
@@ -33,6 +37,7 @@ import net.silentchaos512.gems.GemsBase;
 import net.silentchaos512.gems.setup.GemsBlocks;
 import net.silentchaos512.gems.util.Gems;
 import net.silentchaos512.gems.world.OreConfigDefaults;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.function.Function;
@@ -92,6 +97,12 @@ public class WorldGenGenerator extends DatapackBuiltinEntriesProvider {
         );
     });
 
+    private static final Map<Gems, ConfiguredFeature<?, ?>> overworldFlowerFeatures = makeMap(WorldGenGenerator::glowroses);
+
+    private static final Map<Gems, ConfiguredFeature<?, ?>> netherFlowerFeatures = makeMap(WorldGenGenerator::glowroses);
+
+    private static final Map<Gems, ConfiguredFeature<?, ?>> endFlowerFeatures = makeMap(WorldGenGenerator::glowroses);
+
     private static final RegistrySetBuilder BUILDER = new RegistrySetBuilder()
             .add(Registries.CONFIGURED_FEATURE, ctx -> {
                 ctx.register(configuredFeature(GemsBase.getId("overworld/silver_ore")), silverOre);
@@ -99,6 +110,10 @@ public class WorldGenGenerator extends DatapackBuiltinEntriesProvider {
                 overworldOreFeatures.forEach((gem, feature) -> ctx.register(getOreFeatureKey(gem, Level.OVERWORLD), feature));
                 netherOreFeatures.forEach((gem, feature) -> ctx.register(getOreFeatureKey(gem, Level.NETHER), feature));
                 endOreFeatures.forEach((gem, feature) -> ctx.register(getOreFeatureKey(gem, Level.END), feature));
+
+                overworldFlowerFeatures.forEach((gem, feature) -> ctx.register(getGlowroseFeatureKey(gem, Level.OVERWORLD), feature));
+                netherFlowerFeatures.forEach((gem, feature) -> ctx.register(getGlowroseFeatureKey(gem, Level.NETHER), feature));
+                endFlowerFeatures.forEach((gem, feature) -> ctx.register(getGlowroseFeatureKey(gem, Level.END), feature));
             })
             .add(Registries.PLACED_FEATURE, ctx -> {
                 ResourceKey<ConfiguredFeature<?, ?>> silverOreKey = configuredFeature(GemsBase.getId("overworld/silver_ore"));
@@ -107,12 +122,25 @@ public class WorldGenGenerator extends DatapackBuiltinEntriesProvider {
                 overworldOreFeatures.forEach((gem, feature) -> makePlacedFeature(ctx, gem, Level.OVERWORLD));
                 netherOreFeatures.forEach((gem, feature) -> makePlacedFeature(ctx, gem, Level.NETHER));
                 endOreFeatures.forEach((gem, feature) -> makePlacedFeature(ctx, gem, Level.END));
+
+                overworldFlowerFeatures.forEach((gem, feature) -> makePlacedGlowroseFeature(ctx, gem, Level.OVERWORLD));
+                netherFlowerFeatures.forEach((gem, feature) -> makePlacedGlowroseFeature(ctx, gem, Level.NETHER));
+                endFlowerFeatures.forEach((gem, feature) -> makePlacedGlowroseFeature(ctx, gem, Level.END));
             })
             .add(ForgeRegistries.Keys.BIOME_MODIFIERS, ctx -> {
+                List<ResourceKey<ConfiguredFeature<?, ?>>> overworldOthers = new ArrayList<>();
                 ResourceKey<ConfiguredFeature<?, ?>> silverOreKey = configuredFeature(GemsBase.getId("overworld/silver_ore"));
-                registerOreBiomeModifiers(ctx, Level.OVERWORLD, BiomeTags.IS_OVERWORLD, overworldOreFeatures, "overworld_ores", Lists.newArrayList(silverOreKey));
-                registerOreBiomeModifiers(ctx, Level.NETHER, BiomeTags.IS_NETHER, netherOreFeatures, "nether_ores", Collections.emptyList());
-                registerOreBiomeModifiers(ctx, Level.END, BiomeTags.IS_END, endOreFeatures, "end_ores", Collections.emptyList());
+                overworldOthers.add(silverOreKey);
+                overworldFlowerFeatures.forEach((gem, feature) -> overworldOthers.add(getGlowroseFeatureKey(gem, Level.OVERWORLD)));
+                registerOreBiomeModifiers(ctx, Level.OVERWORLD, BiomeTags.IS_OVERWORLD, overworldOreFeatures, "overworld_features", overworldOthers);
+
+                List<ResourceKey<ConfiguredFeature<?, ?>>> netherOthers = new ArrayList<>();
+                netherFlowerFeatures.forEach((gem, feature) -> netherOthers.add(getGlowroseFeatureKey(gem, Level.NETHER)));
+                registerOreBiomeModifiers(ctx, Level.NETHER, BiomeTags.IS_NETHER, netherOreFeatures, "nether_features", netherOthers);
+
+                List<ResourceKey<ConfiguredFeature<?, ?>>> endOthers = new ArrayList<>();
+                endFlowerFeatures.forEach((gem, feature) -> endOthers.add(getGlowroseFeatureKey(gem, Level.END)));
+                registerOreBiomeModifiers(ctx, Level.END, BiomeTags.IS_END, endOreFeatures, "end_features", endOthers);
             });
 
     public WorldGenGenerator(GatherDataEvent event) {
@@ -131,10 +159,27 @@ public class WorldGenGenerator extends DatapackBuiltinEntriesProvider {
         return configuredFeature(GemsBase.getId(level.location().getPath() + "/" + gem.getName() + "_ore"));
     }
 
+    private static ResourceKey<ConfiguredFeature<?, ?>> getGlowroseFeatureKey(Gems gem, ResourceKey<Level> level) {
+        return configuredFeature(GemsBase.getId(level.location().getPath() + "/" + gem.getName() + "_glowrose"));
+    }
+
     private static void makePlacedFeature(BootstapContext<PlacedFeature> ctx, Gems gem, ResourceKey<Level> level) {
         ResourceKey<ConfiguredFeature<?, ?>> key = getOreFeatureKey(gem, level);
         OreConfigDefaults config = gem.getOreConfigDefaults(level);
         PlacedFeature placed = placed(holderFeature(ctx, key), config.minHeight(), config.maxHeight(), config.count());
+        ctx.register(placedFeature(key.location()), placed);
+    }
+
+    private static void makePlacedGlowroseFeature(BootstapContext<PlacedFeature> ctx, Gems gem, ResourceKey<Level> level) {
+        ResourceKey<ConfiguredFeature<?, ?>> key = getGlowroseFeatureKey(gem, level);
+        PlacedFeature placed = new PlacedFeature(ctx.lookup(Registries.CONFIGURED_FEATURE).getOrThrow(key),
+                ImmutableList.of(
+                        RarityFilter.onAverageOnceEvery(256),
+                        InSquarePlacement.spread(),
+                        HeightmapPlacement.onHeightmap(Heightmap.Types.MOTION_BLOCKING),
+                        BiomeFilter.biome()
+                )
+        );
         ctx.register(placedFeature(key.location()), placed);
     }
 
@@ -157,6 +202,22 @@ public class WorldGenGenerator extends DatapackBuiltinEntriesProvider {
 
         ctx.register(biomeModifier(GemsBase.getId(modifierName)), oresMod);
 
+    }
+
+    @NotNull
+    private static ConfiguredFeature<RandomPatchConfiguration, Feature<RandomPatchConfiguration>> glowroses(Gems g) {
+        return new ConfiguredFeature<>(Feature.FLOWER,
+                new RandomPatchConfiguration(32, 7, 3,
+                        Holder.direct(new PlacedFeature(
+                                Holder.direct(new ConfiguredFeature<>(Feature.SIMPLE_BLOCK,
+                                        new SimpleBlockConfiguration(BlockStateProvider.simple(g.getGlowrose()))
+                                )),
+                                ImmutableList.of(
+                                        BlockPredicateFilter.forPredicate(BlockPredicate.ONLY_IN_AIR_PREDICATE)
+                                )
+                        ))
+                )
+        );
     }
 
     public static ConfiguredFeature<?, ?> ore(Block block, RuleTest replacing, int size) {
