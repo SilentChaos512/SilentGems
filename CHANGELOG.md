@@ -3,7 +3,10 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.20.1-4.6.0] - 2023-06-21
+## [1.20.1-4.6.0] - 2023-06-23
+- Updated to 1.20.1
+### Fixed
+- World generation not working since 1.19.4
 
 ## [1.19.4-4.5.0] - 2023-06-09
 ### Added
