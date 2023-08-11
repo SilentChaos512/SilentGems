@@ -3,6 +3,10 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.19.4-4.5.1] - 2023-08-11
+### Fixed
+- World generation not working at all [#577, #578]
+
 ## [1.19.4-4.5.0] - 2023-06-09
 ### Added
 - New decorative gem blocks: tiles, small bricks, chiseled stone, polished stone, and smooth stone
