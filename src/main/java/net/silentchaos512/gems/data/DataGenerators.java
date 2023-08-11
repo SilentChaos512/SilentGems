@@ -36,6 +36,6 @@ public final class DataGenerators {
         gen.addProvider(true, new GemsBlockStateProvider(gen, existingFileHelper));
         gen.addProvider(true, new GemsItemModelProvider(gen, existingFileHelper));
 
-//        GemsWorldGen.init(gen, existingFileHelper);
+        gen.addProvider(true, new WorldGenGenerator(event));
     }
 }
