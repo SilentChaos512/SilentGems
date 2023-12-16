@@ -21,9 +21,13 @@ Major version updates intentionally break compatibility with older versions to r
 - 2.x - Older than dinosaurs (1.9 - 1.12.2)
 - 1.x - Older than dirt (1.6 - 1.8.9)
 
-## Links and Downloads
+## Downloads
 
 - [CurseForge](https://minecraft.curseforge.com/projects/silents-gems) (downloads and more information)
+- [Modrinth](https://modrinth.com/mod/silents-gems)
+
+## Links
+
 - [Wiki](https://github.com/SilentChaos512/SilentGems/wiki) (tends to be out-of-date...)
 - [GitHub repository](https://github.com/SilentChaos512/SilentGems) (source code)
 - [Issue Tracker on GitHub](https://github.com/SilentChaos512/SilentGems/issues) (bug reports and feature requests)
