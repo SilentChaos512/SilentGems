@@ -20,6 +20,6 @@ public final class GemsClientProxy {
 
     @SubscribeEvent
     public static void onItemColors(RegisterColorHandlersEvent.Item event) {
-        event.getItemColors().register(SoulGemItem::getColor, GemsItems.SOUL_GEM);
+        event.register(SoulGemItem::getColor, GemsItems.SOUL_GEM);
     }
 }

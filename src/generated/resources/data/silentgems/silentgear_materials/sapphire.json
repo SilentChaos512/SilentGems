@@ -1,6 +1,7 @@
 {
   "type": "silentgear:standard",
   "simple": true,
+  "harvest_tier": "minecraft:iron",
   "availability": {
     "tier": 3,
     "categories": [
@@ -12,32 +13,31 @@
   },
   "crafting_items": {
     "main": {
-      "tag": "forge:gems/iolite"
+      "tag": "forge:gems/sapphire"
     }
   },
   "name": {
-    "translate": "gem.silentgems.iolite"
+    "translate": "gem.silentgems.sapphire"
   },
   "stats": {
     "main": {
-      "durability": 768.0,
-      "armor_durability": 32.0,
-      "enchantment_value": 10.0,
-      "rarity": 45.0,
-      "charging_value": 1.2,
-      "harvest_level": 2.0,
-      "harvest_speed": 7.0,
-      "melee_damage": 3.0,
+      "durability": 512.0,
+      "armor_durability": 28.0,
+      "enchantment_value": 12.0,
+      "rarity": 30.0,
+      "charging_value": 1.3,
+      "harvest_speed": 6.0,
+      "melee_damage": 2.0,
       "attack_speed": 0.0,
-      "ranged_damage": 2.0,
+      "ranged_damage": 1.0,
       "ranged_speed": 0.0,
-      "armor": 20.0,
+      "armor": 18.0,
       "armor/helmet": 3.0,
       "armor/chestplate": 8.0,
-      "armor/leggings": 6.0,
-      "armor/boots": 3.0,
+      "armor/leggings": 5.0,
+      "armor/boots": 2.0,
       "armor_toughness": 6.0,
-      "magic_armor": 14.0
+      "magic_armor": 10.0
     },
     "rod": {},
     "adornment": {}
@@ -45,18 +45,12 @@
   "traits": {
     "main": [
       {
-        "name": "silentgear:crushing",
-        "level": 3
+        "name": "silentgear:aquatic",
+        "level": 2
       },
       {
         "name": "silentgear:brittle",
         "level": 2
-      }
-    ],
-    "adornment": [
-      {
-        "name": "silentgear:cure_poison",
-        "level": 1
       }
     ]
   },
@@ -64,7 +58,7 @@
     "main/all": [
       {
         "texture": "silentgear:main_generic_hc",
-        "color": "#FF7543F5"
+        "color": "#FF1D60E5"
       },
       {
         "texture": "silentgear:_highlight"
@@ -73,35 +67,35 @@
     "main/fragment": [
       {
         "texture": "silentgear:metal",
-        "color": "#FF7543F5"
+        "color": "#FF1D60E5"
       }
     ],
     "rod/all": [
       {
         "texture": "silentgear:rod_generic_hc",
-        "color": "#FF7543F5"
+        "color": "#FF1D60E5"
       }
     ],
     "rod/part": [
       {
         "texture": "silentgear:rod",
-        "color": "#FF7543F5"
+        "color": "#FF1D60E5"
       }
     ],
     "adornment/all": [
       {
         "texture": "silentgear:adornment_generic",
-        "color": "#FF7543F5"
+        "color": "#FF1D60E5"
       },
       {
         "texture": "silentgear:adornment_highlight",
-        "color": "#FF7543F5"
+        "color": "#FF1D60E5"
       }
     ],
     "adornment/part": [
       {
         "texture": "silentgear:adornment",
-        "color": "#FF7543F5"
+        "color": "#FF1D60E5"
       },
       {
         "texture": "silentgear:adornment_highlight"
