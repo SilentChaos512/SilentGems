@@ -6,6 +6,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.world.level.ItemLike;
+import net.silentchaos512.lib.util.Color;
 import net.silentchaos512.lib.util.NameUtils;
 
 public final class TextUtil {
@@ -34,7 +35,7 @@ public final class TextUtil {
         return text.withStyle(text.getStyle().withColor(TextColor.fromRgb(color & 16777215)));
     }
 
-    public static MutableComponent withColor(MutableComponent text, net.silentchaos512.utils.Color color) {
+    public static MutableComponent withColor(MutableComponent text, Color color) {
         return withColor(text, color.getColor());
     }
 

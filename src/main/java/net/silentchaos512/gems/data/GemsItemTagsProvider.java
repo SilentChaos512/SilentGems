@@ -5,9 +5,9 @@ import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
-import net.minecraftforge.common.Tags;
-import net.minecraftforge.common.data.BlockTagsProvider;
-import net.minecraftforge.data.event.GatherDataEvent;
+import net.neoforged.neoforge.common.Tags;
+import net.neoforged.neoforge.common.data.BlockTagsProvider;
+import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.silentchaos512.gems.GemsBase;
 import net.silentchaos512.gems.setup.GemsItems;
 import net.silentchaos512.gems.setup.GemsTags;
@@ -29,14 +29,16 @@ public class GemsItemTagsProvider extends ItemTagsProvider {
 
             // Items
             tag(gem.getItemTag()).add(gem.getItem());
-//            getOrCreateBuilder(gem.getShardTag()).add(gem.getShard());
+
+            // Gem bag and flower basket accepted items
+            tag(GemsTags.Items.FLOWER_BASKET_CAN_STORE).addTag(ItemTags.FLOWERS);
+            tag(GemsTags.Items.GEM_BAG_CAN_STORE).addTag(Tags.Items.GEMS);
 
             // Groups
             tag(GemsTags.Items.GEM_ORES).addTag(gem.getModOresItemTag());
             tag(GemsTags.Items.GEMS).addTag(gem.getItemTag());
             tag(GemsTags.Items.GLOWROSES).addTag(gem.getGlowroseItemTag());
             tag(Tags.Items.GEMS).add(gem.getItem());
-//            getOrCreateBuilder(Tags.Items.NUGGETS).add(gem.getShard());
 
             // Others
             tag(ItemTags.BEACON_PAYMENT_ITEMS).add(gem.getItem());

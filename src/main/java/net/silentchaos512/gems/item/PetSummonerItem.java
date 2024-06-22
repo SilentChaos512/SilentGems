@@ -90,7 +90,7 @@ public class PetSummonerItem extends Item {
     public static Cat getCat(Level world) {
         Cat cat = new Cat(EntityType.CAT, world);
         BuiltInRegistries.CAT_VARIANT.getRandom(GemsBase.RANDOM_SOURCE).ifPresent(variant ->
-                cat.setVariant(variant.get()));
+                cat.setVariant(variant.value()));
         return cat;
     }
 

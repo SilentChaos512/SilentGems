@@ -27,12 +27,12 @@ import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvi
 import net.minecraft.world.level.levelgen.placement.*;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest;
-import net.minecraftforge.common.Tags;
-import net.minecraftforge.common.data.DatapackBuiltinEntriesProvider;
-import net.minecraftforge.common.world.BiomeModifier;
-import net.minecraftforge.common.world.ForgeBiomeModifiers;
-import net.minecraftforge.data.event.GatherDataEvent;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.common.Tags;
+import net.neoforged.neoforge.common.data.DatapackBuiltinEntriesProvider;
+import net.neoforged.neoforge.common.world.BiomeModifier;
+import net.neoforged.neoforge.common.world.BiomeModifiers;
+import net.neoforged.neoforge.data.event.GatherDataEvent;
+import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import net.silentchaos512.gems.GemsBase;
 import net.silentchaos512.gems.setup.GemsBlocks;
 import net.silentchaos512.gems.util.Gems;
@@ -51,8 +51,8 @@ public class WorldGenGenerator extends DatapackBuiltinEntriesProvider {
     private static final ConfiguredFeature<?, ?> silverOre = new ConfiguredFeature<>(Feature.ORE,
             new OreConfiguration(
                     ImmutableList.of(
-                            OreConfiguration.target(replaceStone, GemsBlocks.SILVER_ORE.asBlockState()),
-                            OreConfiguration.target(replaceDeepslate, GemsBlocks.DEEPSLATE_SILVER_ORE.asBlockState())
+                            OreConfiguration.target(replaceStone, GemsBlocks.SILVER_ORE.get().defaultBlockState()),
+                            OreConfiguration.target(replaceDeepslate, GemsBlocks.DEEPSLATE_SILVER_ORE.get().defaultBlockState())
                     ),
                     8,
                     0.2f
@@ -127,7 +127,7 @@ public class WorldGenGenerator extends DatapackBuiltinEntriesProvider {
                 netherFlowerFeatures.forEach((gem, feature) -> makePlacedGlowroseFeature(ctx, gem, Level.NETHER));
                 endFlowerFeatures.forEach((gem, feature) -> makePlacedGlowroseFeature(ctx, gem, Level.END));
             })
-            .add(ForgeRegistries.Keys.BIOME_MODIFIERS, ctx -> {
+            .add(NeoForgeRegistries.Keys.BIOME_MODIFIERS, ctx -> {
                 List<ResourceKey<ConfiguredFeature<?, ?>>> overworldOthers = new ArrayList<>();
                 ResourceKey<ConfiguredFeature<?, ?>> silverOreKey = configuredFeature(GemsBase.getId("overworld/silver_ore"));
                 overworldOthers.add(silverOreKey);
@@ -194,7 +194,7 @@ public class WorldGenGenerator extends DatapackBuiltinEntriesProvider {
 
         others.forEach(o -> list.add(holderPlaced(ctx, o.location())));
 
-        BiomeModifier oresMod = new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
+        BiomeModifier oresMod = new BiomeModifiers.AddFeaturesBiomeModifier(
                 biomeTagSet,
                 HolderSet.direct(list),
                 GenerationStep.Decoration.UNDERGROUND_ORES
@@ -233,7 +233,7 @@ public class WorldGenGenerator extends DatapackBuiltinEntriesProvider {
     }
 
     protected static ResourceKey<BiomeModifier> biomeModifier(ResourceLocation name) {
-        return ResourceKey.create(ForgeRegistries.Keys.BIOME_MODIFIERS, name);
+        return ResourceKey.create(NeoForgeRegistries.Keys.BIOME_MODIFIERS, name);
     }
 
     public static PlacedFeature placed(Holder<ConfiguredFeature<?, ?>> feature, int minHeight, int maxHeight, int count) {

@@ -41,6 +41,9 @@ public class GemsTags {
         public static final TagKey<Item> STEW_FISH = gems("stew_fish");
         public static final TagKey<Item> STEW_MEAT = gems("stew_meat");
 
+        public static final TagKey<Item> FLOWER_BASKET_CAN_STORE = gems("flower_basket_can_store");
+        public static final TagKey<Item> GEM_BAG_CAN_STORE = gems("gem_bag_can_store");
+
         private Items() {}
 
         private static TagKey<Item> forge(String path) {

@@ -15,16 +15,16 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.neoforged.neoforge.registries.DeferredBlock;
+import net.neoforged.neoforge.registries.DeferredItem;
 import net.silentchaos512.gems.GemsBase;
 import net.silentchaos512.gems.block.*;
-import net.silentchaos512.gems.config.GemsConfig;
 import net.silentchaos512.gems.item.GemBlockItem;
 import net.silentchaos512.gems.item.GemItem;
-import net.silentchaos512.gems.setup.Registration;
+import net.silentchaos512.gems.setup.GemsBlocks;
+import net.silentchaos512.gems.setup.GemsItems;
 import net.silentchaos512.gems.world.OreConfigDefaults;
-import net.silentchaos512.lib.registry.BlockRegistryObject;
-import net.silentchaos512.lib.registry.ItemRegistryObject;
-import net.silentchaos512.utils.Color;
+import net.silentchaos512.lib.util.Color;
 
 import java.util.EnumMap;
 import java.util.HashMap;
@@ -123,25 +123,25 @@ public enum Gems {
     private final Map<ResourceKey<Level>, OreConfigDefaults> oreConfigDefaults = new HashMap<>();
 
     // Blocks
-    BlockRegistryObject<GemOreBlock> ore;
-    BlockRegistryObject<GemOreBlock> deepslateOre;
-    BlockRegistryObject<GemOreBlock> netherOre;
-    BlockRegistryObject<GemOreBlock> endOre;
-    BlockRegistryObject<GemBlock> block;
-    BlockRegistryObject<GemBlock> bricks;
-    BlockRegistryObject<GemBlock> tiles;
-    BlockRegistryObject<GemBlock> smallBricks;
-    BlockRegistryObject<GemBlock> polishedStone;
-    BlockRegistryObject<GemBlock> smoothStone;
-    BlockRegistryObject<GemBlock> chiseledStone;
-    BlockRegistryObject<GemGlassBlock> glass;
-    BlockRegistryObject<GlowroseBlock> glowrose;
-    BlockRegistryObject<FlowerPotBlock> pottedGlowrose;
-    Map<GemLampBlock.State, BlockRegistryObject<GemLampBlock>> lamps = new EnumMap<>(GemLampBlock.State.class);
+    DeferredBlock<GemOreBlock> ore;
+    DeferredBlock<GemOreBlock> deepslateOre;
+    DeferredBlock<GemOreBlock> netherOre;
+    DeferredBlock<GemOreBlock> endOre;
+    DeferredBlock<GemBlock> block;
+    DeferredBlock<GemBlock> bricks;
+    DeferredBlock<GemBlock> tiles;
+    DeferredBlock<GemBlock> smallBricks;
+    DeferredBlock<GemBlock> polishedStone;
+    DeferredBlock<GemBlock> smoothStone;
+    DeferredBlock<GemBlock> chiseledStone;
+    DeferredBlock<GemGlassBlock> glass;
+    DeferredBlock<GlowroseBlock> glowrose;
+    DeferredBlock<FlowerPotBlock> pottedGlowrose;
+    Map<GemLampBlock.State, DeferredBlock<GemLampBlock>> lamps = new EnumMap<>(GemLampBlock.State.class);
 
     // Items
-    ItemRegistryObject<GemItem> item;
-    ItemRegistryObject<GemItem> shard;
+    DeferredItem<GemItem> item;
+    DeferredItem<GemItem> shard;
 
     // Tags
     final TagKey<Block> blockTag;
@@ -153,7 +153,6 @@ public enum Gems {
     final TagKey<Item> oreItemTag;
     final TagKey<Item> modOresItemTag;
     final TagKey<Item> itemTag;
-//    final ITag.INamedTag<Item> shardTag;
 
     Gems(int colorIn, Rarity rarity, OreConfigDefaults overworldOres, OreConfigDefaults netherOres, OreConfigDefaults endOres) {
         this.color = new Color(colorIn);
@@ -213,90 +212,6 @@ public enum Gems {
     public OreConfigDefaults getOreConfigDefaults(ResourceKey<Level> level) {
         return this.oreConfigDefaults.getOrDefault(level, this.oreConfigDefaults.get(Level.OVERWORLD));
     }
-
-    /*public ConfiguredFeature<OreConfiguration, ?> createOreConfiguredFeature(ResourceKey<Level> level) {
-        OreConfigDefaults config = this.getOreConfigDefaults(level);
-        String configName;
-
-        OreConfiguration oreConfiguration;
-        if (level == Level.NETHER) {
-            oreConfiguration = new OreConfiguration(OreFeatures.NETHERRACK, netherOre.get().defaultBlockState(), config.size(), config.discardChanceOnAirExposure());
-            configName = getName() + "_nether_ore";
-        } else if (level == Level.END) {
-            oreConfiguration = new OreConfiguration(GemsWorldGen.BASE_STONE_END, endOre.get().defaultBlockState(), config.size(), config.discardChanceOnAirExposure());
-            configName = getName() + "_end_ore";
-        } else {
-            ImmutableList<OreConfiguration.TargetBlockState> targetList = ImmutableList.of(
-                    OreConfiguration.target(OreFeatures.STONE_ORE_REPLACEABLES, ore.get().defaultBlockState()),
-                    OreConfiguration.target(OreFeatures.DEEPSLATE_ORE_REPLACEABLES, deepslateOre.get().defaultBlockState()));
-            oreConfiguration = new OreConfiguration(targetList, config.size(), config.discardChanceOnAirExposure());
-            configName = getName() + "_ore";
-        }
-
-        return new ConfiguredFeature<>(Feature.ORE, oreConfiguration);
-    }
-
-    public PlacedFeature createOrePlacedFeature(ResourceKey<Level> level, Holder<ConfiguredFeature<?, ?>> configuredFeature) {
-        OreConfigDefaults config = getOreConfigDefaults(level);
-
-        String configName;
-        if (level == Level.NETHER) {
-            configName = getName() + "_nether_ore";
-        } else if (level == Level.END) {
-            configName = getName() + "_end_ore";
-        } else {
-            configName = getName() + "_ore";
-        }
-
-        return new PlacedFeature(configuredFeature, List.of(
-                CountPlacement.of(config.count()),
-                RarityFilter.onAverageOnceEvery(config.rarity()),
-                InSquarePlacement.spread(),
-                HeightRangePlacement.triangle(VerticalAnchor.absolute(config.minHeight()), VerticalAnchor.absolute(config.maxHeight())),
-                BiomeFilter.biome()
-        ));
-    }
-
-    public ConfiguredFeature<RandomPatchConfiguration, ?> createGlowroseConfiguredFeature(ResourceKey<Level> level) {
-        OreConfigDefaults config = this.getOreConfigDefaults(level);
-        int baseSpread = config.isEnabled() ? 2 : 0;
-
-        String configName;
-        if (level == Level.NETHER) {
-            configName = getName() + "_nether_glowrose";
-        } else if (level == Level.END) {
-            configName = getName() + "_end_glowrose";
-        } else {
-            configName = getName() + "_glowrose";
-        }
-
-        RandomPatchConfiguration featureConfig = FeatureUtils.simplePatchConfiguration(Feature.SIMPLE_BLOCK,
-                new SimpleBlockConfiguration(BlockStateProvider.simple(getGlowrose())),
-                List.of(),
-                32);
-        return new ConfiguredFeature<>(Feature.FLOWER, featureConfig);
-    }
-
-    public PlacedFeature createGlowrosePlacedFeature(ResourceKey<Level> level, Holder<ConfiguredFeature<?, ?>> configuredFeature) {
-        OreConfigDefaults config = getOreConfigDefaults(level);
-
-        String configName;
-        if (level == Level.NETHER) {
-            configName = getName() + "_nether_glowrose";
-        } else if (level == Level.END) {
-            configName = getName() + "_end_glowrose";
-        } else {
-            configName = getName() + "_glowrose";
-        }
-
-        return new PlacedFeature(configuredFeature, List.of(
-                RarityFilter.onAverageOnceEvery(128 * config.rarity()),
-                InSquarePlacement.spread(),
-                PlacementUtils.HEIGHTMAP,
-                BiomeFilter.biome()
-        ));
-    }*/
-
     //endregion
 
     //region Block, Item, and Tag getters
@@ -418,19 +333,19 @@ public enum Gems {
 
         for (Gems gem : values())
             gem.deepslateOre = registerBlock("deepslate_" + gem.getName() + "_ore", () ->
-                    new GemOreBlock(gem, 2, "deepslate_gem_ore", BlockBehaviour.Properties.copy(gem.ore.get())
+                    new GemOreBlock(gem, 2, "deepslate_gem_ore", BlockBehaviour.Properties.ofFullCopy(gem.ore.get())
                             .strength(4.5f, 3f)
                             .sound(SoundType.DEEPSLATE)));
 
         for (Gems gem : values())
             gem.netherOre = registerBlock(gem.getName() + "_nether_ore", () ->
-                    new GemOreBlock(gem, 3, "gem_nether_ore", BlockBehaviour.Properties.copy(gem.ore.get())
+                    new GemOreBlock(gem, 3, "gem_nether_ore", BlockBehaviour.Properties.ofFullCopy(gem.ore.get())
                             .strength(4f)
                             .sound(SoundType.NETHER_ORE)));
 
         for (Gems gem : values())
             gem.endOre = registerBlock(gem.getName() + "_end_ore", () ->
-                    new GemOreBlock(gem, 4, "gem_end_ore", BlockBehaviour.Properties.copy(gem.ore.get())
+                    new GemOreBlock(gem, 4, "gem_end_ore", BlockBehaviour.Properties.ofFullCopy(gem.ore.get())
                             .strength(6f)));
 
         for (Gems gem : values())
@@ -494,15 +409,13 @@ public enum Gems {
             gem.glowrose = registerBlock(gem.getName() + "_glowrose", () ->
                     new GlowroseBlock(gem, BlockBehaviour.Properties.of()
                             .sound(SoundType.GRASS)
-                            .lightLevel(state -> GemsConfig.Common.isLoaded() ? GemsConfig.Common.glowroseNormalLight.get() : 10)
                             .strength(0)
                             .noCollission()));
 
         for (Gems gem : values()) {
             gem.pottedGlowrose = registerBlockNoItem("potted_" + gem.getName() + "_glowrose", () ->
-                    new PottedGlowroseBlock(gem, gem.glowrose, BlockBehaviour.Properties
+                    new PottedGlowroseBlock(gem, () -> gem.glowrose.get(), BlockBehaviour.Properties
                             .of()
-                            .lightLevel(state -> GemsConfig.Common.isLoaded() ? GemsConfig.Common.glowrosePottedLight.get() : 15)
                             .strength(0)));
             ((FlowerPotBlock) Blocks.FLOWER_POT).addPlant(GemsBase.getId(gem.getName() + "_glowrose"), gem.pottedGlowrose);
         }
@@ -518,23 +431,23 @@ public enum Gems {
 //                    new GemItem(gem, "gem_shard", new Item.Properties().group(GemsBase.ITEM_GROUP)));
     }
 
-    private static <T extends Block> BlockRegistryObject<T> registerBlockNoItem(String name, Supplier<T> block) {
-        return new BlockRegistryObject<>(Registration.BLOCKS.register(name, block));
+    private static <T extends Block> DeferredBlock<T> registerBlockNoItem(String name, Supplier<T> block) {
+        return GemsBlocks.BLOCKS.register(name, block);
     }
 
-    private static <T extends Block> BlockRegistryObject<T> registerBlock(String name, Supplier<T> block) {
+    private static <T extends Block> DeferredBlock<T> registerBlock(String name, Supplier<T> block) {
         return registerBlock(name, block, Gems::defaultBlockItem);
     }
 
-    private static <T extends Block> BlockRegistryObject<T> registerBlock(String name, Supplier<T> block, Function<BlockRegistryObject<T>, Supplier<BlockItem>> item) {
-        BlockRegistryObject<T> ret = registerBlockNoItem(name, block);
+    private static <T extends Block> DeferredBlock<T> registerBlock(String name, Supplier<T> block, Function<DeferredBlock<T>, Supplier<BlockItem>> item) {
+        DeferredBlock<T> ret = registerBlockNoItem(name, block);
         if (item != null) {
-            Registration.ITEMS.register(name, item.apply(ret));
+            GemsItems.ITEMS.register(name, item.apply(ret));
         }
         return ret;
     }
 
-    private static BlockRegistryObject<GemLampBlock> registerLamp(Gems gem, GemLampBlock.State state) {
+    private static DeferredBlock<GemLampBlock> registerLamp(Gems gem, GemLampBlock.State state) {
         String name = gem.getName() + "_lamp" + (state.inverted() ? "_inverted" : "") + (state.lit() ? "_on" : "");
         return registerBlock(name,
                 () -> new GemLampBlock(gem, state, Block.Properties.of()
@@ -543,11 +456,11 @@ public enum Gems {
                 state.hasItem() ? Gems::defaultBlockItem : null);
     }
 
-    private static <T extends Item> ItemRegistryObject<T> registerItem(String name, Supplier<T> item) {
-        return new ItemRegistryObject<>(Registration.ITEMS.register(name, item));
+    private static <T extends Item> DeferredItem<T> registerItem(String name, Supplier<T> item) {
+        return GemsItems.ITEMS.register(name, item);
     }
 
-    private static Supplier<BlockItem> defaultBlockItem(BlockRegistryObject<?> block) {
+    private static Supplier<BlockItem> defaultBlockItem(DeferredBlock<?> block) {
         return () -> new GemBlockItem(block.get(), new Item.Properties());
     }
 }

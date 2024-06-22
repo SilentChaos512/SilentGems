@@ -1,5 +1,6 @@
 package net.silentchaos512.gems.soul;
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -13,22 +14,18 @@ import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SpawnEggItem;
-import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.event.server.ServerStartingEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.network.NetworkEvent;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
+import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import net.silentchaos512.gems.GemsBase;
 import net.silentchaos512.gems.item.SoulGemItem;
-import net.silentchaos512.gems.network.SyncSoulsPacket;
+import net.silentchaos512.lib.util.Color;
 import net.silentchaos512.lib.util.NameUtils;
 import net.silentchaos512.lib.util.PlayerUtils;
-import net.silentchaos512.utils.Color;
 
 import javax.annotation.Nullable;
 import java.util.*;
-import java.util.function.Supplier;
 
 public final class Soul {
     public static final int MAX_VALUE = 1000;
@@ -54,7 +51,7 @@ public final class Soul {
 
         SpawnEggItem egg = getSpawnEggForType(entityType);
         if (egg != null) {
-            this.colors = new Tuple<>(egg.backgroundColor, egg.highlightColor);
+            this.colors = new Tuple<>(egg.getColor(0), egg.getColor(1));
         } else {
             this.colors = new Tuple<>(random.nextInt(0x1000000), random.nextInt(0x1000000));
             GemsBase.LOGGER.debug("No spawn egg for {}, setting colors to {} and {}",
@@ -114,8 +111,7 @@ public final class Soul {
         if (!entity.canChangeDimensions()) {
             return MAX_VALUE;
         }
-        if (entity instanceof Slime) {
-            Slime slimeEntity = (Slime) entity;
+        if (entity instanceof Slime slimeEntity) {
             int size = Mth.clamp(slimeEntity.getSize(), 1, 4);
             return STANDARD_KILL_VALUE / (6 - size);
         }
@@ -134,7 +130,7 @@ public final class Soul {
         this.id = buffer.readResourceLocation();
         this.elements = new Tuple<>(SoulElement.read(buffer), SoulElement.read(buffer));
         this.colors = new Tuple<>(buffer.readVarInt(), buffer.readVarInt());
-        this.entityType = ForgeRegistries.ENTITY_TYPES.getValue(this.id);
+        this.entityType = BuiltInRegistries.ENTITY_TYPE.get(this.id);
     }
 
     public static Soul read(FriendlyByteBuf buffer) {
@@ -149,7 +145,8 @@ public final class Soul {
         buffer.writeVarInt(this.colors.getB());
     }
 
-    public static void handleSyncPacket(SyncSoulsPacket packet, Supplier<NetworkEvent.Context> context) {
+    // TODO: Fix it when Gear Souls are actually back in the mod
+    /*public static void handleSyncPacket(SyncSoulsPacket packet, Supplier<NetworkEvent.Context> context) {
         MAP.clear();
         MAP_BY_ID.clear();
 
@@ -160,7 +157,7 @@ public final class Soul {
 
         GemsBase.LOGGER.info("Received {} soul info objects from server", MAP.size());
         context.get().setPacketHandled(true);
-    }
+    }*/
 
     //endregion
 
@@ -198,14 +195,14 @@ public final class Soul {
         @SubscribeEvent
         public static void onServerAboutToStart(ServerStartingEvent event) {
             MAP.clear();
-            for (EntityType<?> entityType : ForgeRegistries.ENTITY_TYPES.getValues()) {
+            BuiltInRegistries.ENTITY_TYPE.stream().forEach(entityType -> {
                 if (canHaveSoulGem(entityType)) {
                     Soul soul = new Soul(entityType);
                     MAP.put(entityType, soul);
                     ResourceLocation id = NameUtils.fromEntityType(entityType);
                     MAP_BY_ID.put(id.toString(), soul);
                 }
-            }
+            });
         }
 
         @SubscribeEvent

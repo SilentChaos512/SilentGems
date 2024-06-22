@@ -13,14 +13,13 @@
   },
   "requirements": [
     [
-      "impossible",
-      "has_the_recipe"
+      "has_the_recipe",
+      "impossible"
     ]
   ],
   "rewards": {
     "recipes": [
       "silentgems:smelting/black_diamond"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

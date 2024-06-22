@@ -3,8 +3,8 @@ package net.silentchaos512.gems.data.client;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.client.model.generators.BlockStateProvider;
-import net.minecraftforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.silentchaos512.gems.GemsBase;
 import net.silentchaos512.gems.block.GemLampBlock;
 import net.silentchaos512.gems.setup.GemsBlocks;
@@ -33,23 +33,34 @@ public class GemsBlockStateProvider extends BlockStateProvider {
             simpleBlock(gem.getPolishedStone());
             simpleBlock(gem.getSmoothStone());
             simpleBlock(gem.getChiseledStone());
-            simpleBlock(gem.getGlass());
+            var glass = gem.getName() + "_glass";
+            simpleBlock(gem.getGlass(),
+                    models()
+                            .cubeAll(glass, modLoc("block/" + glass))
+                            .renderType("translucent")
+            );
 
             for (GemLampBlock.State state : GemLampBlock.State.values()) {
                 simpleBlock(gem.getLamp(state), "block/" + gem.getName() + "_lamp" + (state.lit() ? "_on" : ""));
             }
 
             String glowroseName = gem.getName() + "_glowrose";
-            simpleBlock(gem.getGlowrose(), models()
-                    .cross(glowroseName, modLoc("block/" + glowroseName)));
-            simpleBlock(gem.getPottedGlowrose(), models()
-                    .withExistingParent(NameUtils.fromBlock(gem.getPottedGlowrose()).getPath(), flowerPotCross)
-                    .texture("plant", modLoc("block/" + glowroseName)));
+            simpleBlock(gem.getGlowrose(),
+                    models()
+                            .cross(glowroseName, modLoc("block/" + glowroseName))
+                            .renderType("cutout")
+            );
+            simpleBlock(gem.getPottedGlowrose(),
+                    models()
+                            .withExistingParent(NameUtils.fromBlock(gem.getPottedGlowrose()).getPath(), flowerPotCross)
+                            .texture("plant", modLoc("block/" + glowroseName))
+                            .renderType("cutout")
+            );
         }
 
-        simpleBlock(GemsBlocks.SILVER_BLOCK);
-        simpleBlock(GemsBlocks.DEEPSLATE_SILVER_ORE);
-        simpleBlock(GemsBlocks.SILVER_ORE);
+        simpleBlock(GemsBlocks.SILVER_BLOCK.get());
+        simpleBlock(GemsBlocks.DEEPSLATE_SILVER_ORE.get());
+        simpleBlock(GemsBlocks.SILVER_ORE.get());
     }
 
     private void simpleBlock(IBlockProvider block) {

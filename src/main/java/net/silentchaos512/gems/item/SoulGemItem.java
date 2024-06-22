@@ -12,7 +12,7 @@ import net.silentchaos512.gems.setup.GemsItems;
 import net.silentchaos512.gems.soul.Soul;
 import net.silentchaos512.gems.soul.SoulElement;
 import net.silentchaos512.gems.util.TextUtil;
-import net.silentchaos512.utils.Color;
+import net.silentchaos512.lib.util.Color;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -34,7 +34,7 @@ public class SoulGemItem extends Item {
      * @return A stack of a soul gem with the given soul and kill value
      */
     public static ItemStack getStack(Soul soul, int value) {
-        ItemStack result = new ItemStack(GemsItems.SOUL_GEM);
+        ItemStack result = GemsItems.SOUL_GEM.toStack();
         setSoul(result, soul);
         setSoulValue(result, value);
         return result;
@@ -48,7 +48,7 @@ public class SoulGemItem extends Item {
      * @return A stack of a single soul gem with the given soul
      */
     public static ItemStack getStack(ResourceLocation soulId) {
-        ItemStack result = new ItemStack(GemsItems.SOUL_GEM);
+        ItemStack result = GemsItems.SOUL_GEM.toStack();
         result.getOrCreateTag().putString(NBT_SOUL, soulId.toString());
         return result;
     }

@@ -14,11 +14,10 @@ import net.minecraft.world.level.storage.loot.LootDataType;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.ValidationContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import net.silentchaos512.gems.block.GemLampBlock;
 import net.silentchaos512.gems.setup.GemsBlocks;
 import net.silentchaos512.gems.setup.GemsItems;
-import net.silentchaos512.gems.setup.Registration;
 import net.silentchaos512.gems.util.Gems;
 
 import java.util.Collections;
@@ -80,7 +79,7 @@ public class GemsLootTableProvider extends LootTableProvider {
 
         @Override
         protected Iterable<Block> getKnownBlocks() {
-            return Registration.BLOCKS.getEntries().stream().map(RegistryObject::get).collect(Collectors.toList());
+            return GemsBlocks.BLOCKS.getEntries().stream().map(DeferredHolder::get).collect(Collectors.toList());
         }
 
         private void registerFortuneDrops(Block block, Item item) {

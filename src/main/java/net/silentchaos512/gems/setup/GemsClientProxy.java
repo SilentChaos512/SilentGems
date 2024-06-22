@@ -1,10 +1,9 @@
 package net.silentchaos512.gems.setup;
 
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RegisterColorHandlersEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.silentchaos512.gems.GemsBase;
 import net.silentchaos512.gems.item.SoulGemItem;
 
@@ -13,13 +12,7 @@ public final class GemsClientProxy {
     private GemsClientProxy() {}
 
     @SubscribeEvent
-    public static void clientSetup(FMLClientSetupEvent event) {
-        GemsBlocks.registerRenderTypes(event);
-        GemsContainers.registerScreens(event);
-    }
-
-    @SubscribeEvent
     public static void onItemColors(RegisterColorHandlersEvent.Item event) {
-        event.register(SoulGemItem::getColor, GemsItems.SOUL_GEM);
+        event.register(SoulGemItem::getColor, () -> GemsItems.SOUL_GEM.get());
     }
 }

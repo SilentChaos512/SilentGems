@@ -3,8 +3,8 @@ package net.silentchaos512.gems.soul;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.silentchaos512.gems.util.TextUtil;
-import net.silentchaos512.utils.Color;
-import net.silentchaos512.utils.MathUtils;
+import net.silentchaos512.lib.util.Color;
+import net.silentchaos512.lib.util.MathUtils;
 
 import java.util.LinkedHashMap;
 import java.util.Locale;

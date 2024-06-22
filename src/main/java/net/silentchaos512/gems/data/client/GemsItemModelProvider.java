@@ -5,14 +5,14 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.client.model.generators.ItemModelProvider;
-import net.minecraftforge.client.model.generators.ModelFile;
-import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
+import net.neoforged.neoforge.client.model.generators.ModelFile;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import net.silentchaos512.gems.GemsBase;
 import net.silentchaos512.gems.block.GlowroseBlock;
+import net.silentchaos512.gems.setup.GemsBlocks;
 import net.silentchaos512.gems.setup.GemsItems;
-import net.silentchaos512.gems.setup.Registration;
 import net.silentchaos512.gems.util.Gems;
 import net.silentchaos512.lib.block.IBlockProvider;
 import net.silentchaos512.lib.util.NameUtils;
@@ -26,8 +26,8 @@ public class GemsItemModelProvider extends ItemModelProvider {
     protected void registerModels() {
         ModelFile itemGenerated = getExistingFile(new ResourceLocation("item/generated"));
 
-        Registration.BLOCKS.getEntries().stream()
-                .map(RegistryObject::get)
+        GemsBlocks.BLOCKS.getEntries().stream()
+                .map(DeferredHolder::get)
                 .filter(block -> block.asItem() != Items.AIR)
                 .forEach(this::blockBuilder);
 

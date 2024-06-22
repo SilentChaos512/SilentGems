@@ -9,14 +9,15 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FlowerBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.Tags;
+import net.neoforged.neoforge.common.Tags;
+import net.silentchaos512.gems.GemsConfig;
 import net.silentchaos512.gems.util.Gems;
 
 public class GlowroseBlock extends FlowerBlock implements IGemBlock {
     private final Gems gem;
 
     public GlowroseBlock(Gems gem, Properties properties) {
-        super(MobEffects.GLOWING, 8, properties);
+        super(makeEffectList(MobEffects.GLOWING, 8), properties);
         this.gem = gem;
     }
 
@@ -42,5 +43,10 @@ public class GlowroseBlock extends FlowerBlock implements IGemBlock {
     @Override
     public MutableComponent getGemBlockName() {
         return Component.translatable("block.silentgems.glowrose", this.gem.getDisplayName());
+    }
+
+    @Override
+    public int getLightEmission(BlockState state, BlockGetter level, BlockPos pos) {
+        return GemsConfig.Common.glowroseNormalLight;
     }
 }

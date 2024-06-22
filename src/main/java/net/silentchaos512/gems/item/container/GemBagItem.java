@@ -2,8 +2,8 @@ package net.silentchaos512.gems.item.container;
 
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.Tags;
 import net.silentchaos512.gems.setup.GemsContainers;
+import net.silentchaos512.gems.setup.GemsTags;
 
 public class GemBagItem extends GemContainerItem {
     public GemBagItem(Properties properties) {
@@ -17,7 +17,7 @@ public class GemBagItem extends GemContainerItem {
 
     @Override
     public boolean canStore(ItemStack stack) {
-        return stack.is(Tags.Items.GEMS);
+        return stack.is(GemsTags.Items.GEM_BAG_CAN_STORE);
     }
 
     @Override

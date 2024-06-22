@@ -3,11 +3,12 @@ package net.silentchaos512.gems;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.CreativeModeTab;
-import net.minecraftforge.fml.ModContainer;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.common.Mod;
-import net.silentchaos512.gems.config.GemsConfig;
-import net.silentchaos512.gems.network.Network;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.ModList;
+import net.neoforged.fml.ModLoadingContext;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.config.ModConfig;
 import net.silentchaos512.gems.setup.Registration;
 import net.silentchaos512.gems.util.TextUtil;
 import org.apache.logging.log4j.LogManager;
@@ -28,10 +29,10 @@ public class GemsBase {
     @Nullable
     private static CreativeModeTab creativeModeTab;
 
-    public GemsBase() {
-        Registration.register();
-        Network.init();
-        GemsConfig.init();
+    public GemsBase(IEventBus modEventBus) {
+        Registration.register(modEventBus);
+        //Network.init();
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, GemsConfig.Common.SPEC);
     }
 
     public static String getVersion() {

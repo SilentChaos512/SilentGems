@@ -22,14 +22,13 @@
   },
   "requirements": [
     [
-      "has_item",
-      "has_the_recipe"
+      "has_the_recipe",
+      "has_item"
     ]
   ],
   "rewards": {
     "recipes": [
       "silentgems:potato_on_a_stick"
     ]
-  },
-  "sends_telemetry_event": true
+  }
 }
