@@ -3,6 +3,15 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.21.1-5.0.0] - 2024-09-21
+- Updated to 1.21.1 (NeoForge, 1.21 compatible)
+- No Silent Gear compatibility at this time, since Silent Gear is not yet updated
+- I have some rough plans to start adding new features, and re-introducing some old ones...
+### Added
+- Chaos ore, chaos essence, blocks of chaos essence (no other uses at this time)
+- Cups of coffee are back
+- Add a new entity type tag, `silentgems:coffee_producers` so the mobs that produce coffee can be customized
+
 ## [1.20.4-4.8.0] - 2024-06-22
 - Updated to 1.20.4 (NeoForge)
 

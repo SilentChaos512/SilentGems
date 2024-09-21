@@ -104,6 +104,8 @@ public class GemsRecipeProvider extends LibRecipeProvider {
     private void registerMetals(RecipeOutput consumer) {
         smeltingAndBlastingRecipes(consumer, "silver_ingot", GemsItems.RAW_SILVER.get(), GemsItems.SILVER_INGOT.get(), 1.0f);
         compressionRecipes(consumer, GemsBlocks.SILVER_BLOCK.get(), GemsItems.SILVER_INGOT.get(), GemsItems.SILVER_NUGGET.get());
+
+        compressionRecipes(consumer, GemsBlocks.CHAOS_ESSENCE_BLOCK.get(), GemsItems.CHAOS_ESSENCE.get(), null);
     }
 
     private void registerFoods(RecipeOutput consumer) {
