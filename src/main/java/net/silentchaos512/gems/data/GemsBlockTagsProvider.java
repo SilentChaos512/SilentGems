@@ -5,14 +5,14 @@ import net.minecraft.tags.BlockTags;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
-import net.silentchaos512.gems.GemsBase;
+import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.setup.GemsBlocks;
 import net.silentchaos512.gems.setup.GemsTags;
 import net.silentchaos512.gems.util.Gems;
 
 public class GemsBlockTagsProvider extends BlockTagsProvider {
     public GemsBlockTagsProvider(GatherDataEvent event) {
-        super(event.getGenerator().getPackOutput(), event.getLookupProvider(), GemsBase.MOD_ID, event.getExistingFileHelper());
+        super(event.getGenerator().getPackOutput(), event.getLookupProvider(), SilentGems.MOD_ID, event.getExistingFileHelper());
     }
 
     @Override
@@ -44,12 +44,23 @@ public class GemsBlockTagsProvider extends BlockTagsProvider {
                     .add(gem.getBricks());
         }
 
+        tag(GemsTags.Blocks.ORES_CHAOS).add(GemsBlocks.CHAOS_ORE.get(), GemsBlocks.DEEPSLATE_CHAOS_ORE.get());
         tag(GemsTags.Blocks.ORES_SILVER).add(GemsBlocks.SILVER_ORE.get(), GemsBlocks.DEEPSLATE_SILVER_ORE.get());
-        tag(Tags.Blocks.ORES).addTag(GemsTags.Blocks.ORES_SILVER);
+        tag(Tags.Blocks.ORES)
+                .addTag(GemsTags.Blocks.ORES_CHAOS)
+                .addTag(GemsTags.Blocks.ORES_SILVER);
 
         // Harvesting
+
         tag(BlockTags.MINEABLE_WITH_PICKAXE)
+                .addTag(GemsTags.Blocks.ORES_CHAOS)
                 .addTag(GemsTags.Blocks.ORES_SILVER)
+                .add(GemsBlocks.CHAOS_ESSENCE_BLOCK.get())
                 .add(GemsBlocks.SILVER_BLOCK.get());
+
+        tag(BlockTags.NEEDS_DIAMOND_TOOL)
+                .addTag(GemsTags.Blocks.ORES_CHAOS);
+        tag(BlockTags.NEEDS_IRON_TOOL)
+                .addTag(GemsTags.Blocks.ORES_SILVER);
     }
 }

@@ -1,3 +1,4 @@
+/*
 package net.silentchaos512.gems.data;
 
 import net.minecraft.data.DataGenerator;
@@ -62,3 +63,4 @@ public class GemsTraitsProvider extends TraitsProviderBase {
                 .extraData(json -> CriticalStrikeTrait.serialize(json, damageMulti, activationChance));
     }
 }
+*/

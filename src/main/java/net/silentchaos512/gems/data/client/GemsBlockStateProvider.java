@@ -5,7 +5,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
-import net.silentchaos512.gems.GemsBase;
+import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.GemLampBlock;
 import net.silentchaos512.gems.setup.GemsBlocks;
 import net.silentchaos512.gems.util.Gems;
@@ -14,7 +14,7 @@ import net.silentchaos512.lib.util.NameUtils;
 
 public class GemsBlockStateProvider extends BlockStateProvider {
     public GemsBlockStateProvider(DataGenerator gen, ExistingFileHelper exFileHelper) {
-        super(gen.getPackOutput(), GemsBase.MOD_ID, exFileHelper);
+        super(gen.getPackOutput(), SilentGems.MOD_ID, exFileHelper);
     }
 
     @Override
@@ -58,6 +58,9 @@ public class GemsBlockStateProvider extends BlockStateProvider {
             );
         }
 
+        simpleBlock(GemsBlocks.CHAOS_ESSENCE_BLOCK.get());
+        simpleBlock(GemsBlocks.CHAOS_ORE.get());
+        simpleBlock(GemsBlocks.DEEPSLATE_CHAOS_ORE.get());
         simpleBlock(GemsBlocks.SILVER_BLOCK.get());
         simpleBlock(GemsBlocks.DEEPSLATE_SILVER_ORE.get());
         simpleBlock(GemsBlocks.SILVER_ORE.get());

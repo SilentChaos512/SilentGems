@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "tag": "c:storage_blocks/iron"
+    },
+    "/": {
+      "tag": "c:gems"
+    },
+    "p": {
+      "item": "minecraft:potato"
+    }
+  },
+  "pattern": [
+    "/#/",
+    "#p#",
+    "/#/"
+  ],
+  "result": {
+    "count": 1,
+    "id": "silentgems:iron_potato"
+  }
+}

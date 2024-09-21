@@ -3,7 +3,6 @@ package net.silentchaos512.gems.item;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Rarity;
 import net.silentchaos512.gems.util.Gems;
 import net.silentchaos512.gems.util.IGem;
 
@@ -30,10 +29,5 @@ public class GemItem extends Item implements IGem {
     @Override
     public Component getDescription() {
         return Component.translatable("item.silentgems." + this.translationKey, this.gem.getDisplayName());
-    }
-
-    @Override
-    public Rarity getRarity(ItemStack stack) {
-        return gem.getRarity();
     }
 }

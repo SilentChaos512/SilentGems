@@ -8,12 +8,9 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
-import net.silentchaos512.gems.GemsBase;
+import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.item.GemsFoodItem;
 import net.silentchaos512.gems.item.PetSummonerItem;
-import net.silentchaos512.gems.item.SoulGemItem;
-import net.silentchaos512.gems.item.container.FlowerBasketItem;
-import net.silentchaos512.gems.item.container.GemBagItem;
 import net.silentchaos512.gems.util.Gems;
 
 import javax.annotation.Nullable;
@@ -23,7 +20,7 @@ import java.util.Collections;
 import java.util.function.Supplier;
 
 public final class GemsItems {
-    public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(GemsBase.MOD_ID);
+    public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(SilentGems.MOD_ID);
     private static final Collection<DeferredItem<? extends Item>> SIMPLE_MODEL_ITEMS = new ArrayList<>();
 
     static {
@@ -34,13 +31,7 @@ public final class GemsItems {
     public static final DeferredItem<Item> SILVER_INGOT = registerCraftingItem("silver_ingot");
     public static final DeferredItem<Item> SILVER_NUGGET = registerCraftingItem("silver_nugget");
 
-    public static final DeferredItem<SoulGemItem> SOUL_GEM = register("soul_gem", () ->
-            new SoulGemItem(unstackableProps()));
-
-    public static final DeferredItem<GemBagItem> GEM_BAG = register("gem_bag", () ->
-            new GemBagItem(unstackableProps()));
-    public static final DeferredItem<FlowerBasketItem> FLOWER_BASKET = register("flower_basket", () ->
-            new FlowerBasketItem(unstackableProps()));
+    public static final DeferredItem<Item> CHAOS_ESSENCE = registerCraftingItem("chaos_essence");
 
     public static final DeferredItem<PetSummonerItem> SUMMON_KITTY = registerSimpleModel("summon_kitty", () ->
             new PetSummonerItem(PetSummonerItem::getCat, baseProps()));
@@ -49,29 +40,29 @@ public final class GemsItems {
 
     public static final DeferredItem<Item> POTATO_ON_A_STICK = registerFood("potato_on_a_stick", Items.STICK, new FoodProperties.Builder()
             .nutrition(6)
-            .saturationMod(0.7f));
+            .saturationModifier(0.7f));
     public static final DeferredItem<Item> SUGAR_COOKIE = registerFood("sugar_cookie", null, new FoodProperties.Builder()
             .nutrition(2)
-            .saturationMod(0.4f)
-            .alwaysEat()
+            .saturationModifier(0.4f)
+            .alwaysEdible()
             .effect(() -> new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 600), 1f)
             .effect(() -> new MobEffectInstance(MobEffects.DIG_SPEED, 400), 1f));
     public static final DeferredItem<Item> UNCOOKED_MEATY_STEW = registerFood("uncooked_meaty_stew", Items.BOWL, new FoodProperties.Builder()
             .nutrition(4)
-            .saturationMod(0.6f));
+            .saturationModifier(0.6f));
     public static final DeferredItem<Item> MEATY_STEW = registerFood("meaty_stew", Items.BOWL, new FoodProperties.Builder()
             .nutrition(12)
-            .saturationMod(1.6f));
+            .saturationModifier(1.6f));
     public static final DeferredItem<Item> UNCOOKED_FISHY_STEW = registerFood("uncooked_fishy_stew", Items.BOWL, new FoodProperties.Builder()
             .nutrition(4)
-            .saturationMod(0.5f));
+            .saturationModifier(0.5f));
     public static final DeferredItem<Item> FISHY_STEW = registerFood("fishy_stew", Items.BOWL, new FoodProperties.Builder()
             .nutrition(10)
-            .saturationMod(1.2f));
+            .saturationModifier(1.2f));
     public static final DeferredItem<Item> IRON_POTATO = registerFood("iron_potato", null, new FoodProperties.Builder()
             .nutrition(9)
-            .saturationMod(0.9f)
-            .alwaysEat()
+            .saturationModifier(0.9f)
+            .alwaysEdible()
             .effect(() -> new MobEffectInstance(MobEffects.ABSORPTION, 10 * 60 * 20, 4), 1f)
             .effect(() -> new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 5 * 60 * 20, 0), 1f)
             .effect(() -> new MobEffectInstance(MobEffects.DAMAGE_BOOST, 5 * 60 * 20, 1), 1f)

@@ -6,34 +6,36 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
-import net.silentchaos512.gems.GemsBase;
+import net.silentchaos512.gems.SilentGems;
 
 public class GemsTags {
     public static final class Blocks {
-        public static final TagKey<Block> ORES_SILVER = forge("ores/silver");
+        public static final TagKey<Block> ORES_CHAOS = common("ores/chaos");
+        public static final TagKey<Block> ORES_SILVER = common("ores/silver");
 
         public static final TagKey<Block> GEM_ORES = gems("ores");
         public static final TagKey<Block> GLOWROSES = gems("glowroses");
 
         private Blocks() {}
 
-        private static TagKey<Block> forge(String path) {
-            return tag("forge", path);
+        private static TagKey<Block> common(String path) {
+            return tag("c", path);
         }
 
         private static TagKey<Block> gems(String path) {
-            return tag(GemsBase.MOD_ID, path);
+            return tag(SilentGems.MOD_ID, path);
         }
 
         private static TagKey<Block> tag(String namespace, String name) {
-            return BlockTags.create(new ResourceLocation(namespace, name));
+            return BlockTags.create(ResourceLocation.fromNamespaceAndPath(namespace, name));
         }
     }
 
     public static final class Items {
-        public static final TagKey<Item> INGOTS_SILVER = forge("ingots/silver");
-        public static final TagKey<Item> ORES_SILVER = forge("ores/silver");
-        public static final TagKey<Item> NUGGETS_SILVER = forge("nuggets/silver");
+        public static final TagKey<Item> INGOTS_SILVER = common("ingots/silver");
+        public static final TagKey<Item> ORES_CHAOS = common("ores/chaos");
+        public static final TagKey<Item> ORES_SILVER = common("ores/silver");
+        public static final TagKey<Item> NUGGETS_SILVER = common("nuggets/silver");
 
         public static final TagKey<Item> GEM_ORES = gems("ores");
         public static final TagKey<Item> GEMS = gems("gems");
@@ -46,16 +48,16 @@ public class GemsTags {
 
         private Items() {}
 
-        private static TagKey<Item> forge(String path) {
-            return tag("forge", path);
+        private static TagKey<Item> common(String path) {
+            return tag("c", path);
         }
 
         private static TagKey<Item> gems(String path) {
-            return tag(GemsBase.MOD_ID, path);
+            return tag(SilentGems.MOD_ID, path);
         }
 
         private static TagKey<Item> tag(String namespace, String name) {
-            return ItemTags.create(new ResourceLocation(namespace, name));
+            return ItemTags.create(ResourceLocation.fromNamespaceAndPath(namespace, name));
         }
     }
 }

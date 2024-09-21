@@ -3,7 +3,7 @@ plugins {
     id 'eclipse'
     id 'idea'
     id 'maven-publish'
-    id 'net.neoforged.gradle.userdev' version '7.0.97'
+    id 'net.neoforged.gradle.userdev' version '7.0.145'
     id "com.matthewprenger.cursegradle" version "1.4.0"
     id "com.modrinth.minotaur" version "2.+"
 }
@@ -28,8 +28,8 @@ repositories {
     mavenLocal()
 }
 
-// Mojang ships Java 17 to end users in 1.18+, so your mod should target Java 17.
-java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+// Mojang ships Java 21 to end users starting in 1.20.5, so mods should target Java 21.
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
 runs {
     // applies to all the run configs below
@@ -108,15 +108,20 @@ repositories {
         name = "ModMaven"
         url = "https://modmaven.dev"
     }
+    maven {
+        // EMI
+        name = "TerraformersMC"
+        url = "https://maven.terraformersmc.com/"
+    }
 }
 
 dependencies {
     implementation "net.neoforged:neoforge:${neo_version}"
 
-    implementation("net.silentchaos512:silent-lib-${minecraft_version}-neoforge:${project.silentlib_version}")
+    implementation("net.silentchaos512:silent-lib-1.21-neoforge:${project.silentlib_version}")
 
     // Silent Gear
-    implementation("net.silentchaos512:silent-gear-${minecraft_version}-neoforge:${project.silentgear_version}")
+    //implementation("net.silentchaos512:silent-gear-${minecraft_version}-neoforge:${project.silentgear_version}")
 
     // JEI
     if (project.hasProperty("jei_version")) {
@@ -125,6 +130,12 @@ dependencies {
         compileOnly("mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}")
         // at runtime, use the full JEI jar for NeoForge
         runtimeOnly("mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}")
+    }
+
+    // EMI
+    if (project.hasProperty("emi_version")) {
+        compileOnly("dev.emi:emi-neoforge:${emi_version}:api")
+//        runtimeOnly("dev.emi:emi-neoforge:${emi_version}")
     }
 }
 
@@ -152,7 +163,7 @@ tasks.withType(ProcessResources).configureEach {
     ]
     inputs.properties replaceProperties
 
-    filesMatching(['META-INF/mods.toml']) {
+    filesMatching(['META-INF/neoforge.mods.toml']) {
         expand replaceProperties + [project: project]
     }
 }

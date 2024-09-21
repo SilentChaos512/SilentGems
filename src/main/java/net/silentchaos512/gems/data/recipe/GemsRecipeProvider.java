@@ -1,13 +1,14 @@
 package net.silentchaos512.gems.data.recipe;
 
-import net.minecraft.data.DataGenerator;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.neoforged.neoforge.common.Tags;
-import net.silentchaos512.gems.GemsBase;
+import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.GemLampBlock;
 import net.silentchaos512.gems.setup.GemsBlocks;
 import net.silentchaos512.gems.setup.GemsItems;
@@ -16,9 +17,11 @@ import net.silentchaos512.gems.util.Gems;
 import net.silentchaos512.lib.data.recipe.LibRecipeProvider;
 import net.silentchaos512.lib.util.NameUtils;
 
+import java.util.concurrent.CompletableFuture;
+
 public class GemsRecipeProvider extends LibRecipeProvider {
-    public GemsRecipeProvider(DataGenerator generatorIn) {
-        super(generatorIn, GemsBase.MOD_ID);
+    public GemsRecipeProvider(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> provider) {
+        super(packOutput, provider, SilentGems.MOD_ID);
     }
 
     @Override
@@ -49,7 +52,7 @@ public class GemsRecipeProvider extends LibRecipeProvider {
                     .pattern("###")
                     .pattern("#o#")
                     .pattern("###")
-                    .define('#', Tags.Items.GLASS_COLORLESS)
+                    .define('#', Tags.Items.GLASS_BLOCKS_COLORLESS)
                     .define('o', gem.getItemTag())
                     .unlockedBy("has_item", has(gem.getItemTag()))
                     .save(consumer);
@@ -153,44 +156,11 @@ public class GemsRecipeProvider extends LibRecipeProvider {
     }
 
     private void registerMisc(RecipeOutput consumer) {
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, GemsItems.GEM_BAG)
-                .pattern("/~/")
-                .pattern("#g#")
-                .pattern("###")
-                .define('~', Tags.Items.STRING)
-                .define('/', Tags.Items.NUGGETS_GOLD)
-                .define('#', ItemTags.WOOL)
-                .define('g', Tags.Items.GEMS)
-                .unlockedBy("has_item", has(GemsTags.Items.GEMS))
-                .save(consumer);
-
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, GemsItems.FLOWER_BASKET)
-                .pattern("/~/")
-                .pattern("#g#")
-                .pattern("###")
-                .define('~', Tags.Items.STRING)
-                .define('/', Tags.Items.NUGGETS_GOLD)
-                .define('#', Ingredient.of(Items.SUGAR_CANE, Items.BAMBOO))
-                .define('g', GemsTags.Items.GLOWROSES)
-                .unlockedBy("has_item", has(GemsTags.Items.GLOWROSES))
-                .save(consumer);
-
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, GemsItems.SOUL_GEM)
-                .pattern(" g ")
-                .pattern("#d#")
-                .pattern(" o ")
-                .define('d', Tags.Items.GEMS_DIAMOND)
-                .define('o', Items.CHORUS_FRUIT)
-                .define('g', GemsTags.Items.GEMS)
-                .define('#', GemsTags.Items.INGOTS_SILVER)
-                .unlockedBy("has_item", has(Items.CHORUS_FRUIT))
-                .save(consumer);
-
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, GemsItems.SUMMON_KITTY)
                 .pattern("|f|")
                 .pattern("|g|")
                 .pattern("|f|")
-                .define('|', Tags.Items.STRING)
+                .define('|', Tags.Items.STRINGS)
                 .define('f', GemsTags.Items.STEW_FISH)
                 .define('g', GemsTags.Items.GEMS)
                 .unlockedBy("has_item", has(GemsTags.Items.GEMS))
@@ -201,7 +171,7 @@ public class GemsRecipeProvider extends LibRecipeProvider {
                 .pattern("#g#")
                 .pattern(" m ")
                 .define('m', GemsTags.Items.STEW_FISH)
-                .define('#', Tags.Items.LEATHER)
+                .define('#', Tags.Items.LEATHERS)
                 .define('g', GemsTags.Items.GEMS)
                 .unlockedBy("has_item", has(GemsTags.Items.GEMS))
                 .save(consumer);

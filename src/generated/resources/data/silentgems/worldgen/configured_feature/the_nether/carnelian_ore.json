@@ -6,11 +6,11 @@
     "targets": [
       {
         "state": {
-          "Name": "silentgems:carnelian_nether_ore"
+          "Name": "silentgems:nether_carnelian_ore"
         },
         "target": {
           "predicate_type": "minecraft:tag_match",
-          "tag": "forge:netherrack"
+          "tag": "c:netherracks"
         }
       }
     ]

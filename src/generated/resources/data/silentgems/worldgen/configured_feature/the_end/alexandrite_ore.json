@@ -6,11 +6,11 @@
     "targets": [
       {
         "state": {
-          "Name": "silentgems:alexandrite_end_ore"
+          "Name": "silentgems:end_alexandrite_ore"
         },
         "target": {
           "predicate_type": "minecraft:tag_match",
-          "tag": "forge:end_stones"
+          "tag": "c:end_stones"
         }
       }
     ]

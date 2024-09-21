@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "silentgems:white_diamond_block"
+    }
+  ],
+  "result": {
+    "count": 9,
+    "id": "silentgems:white_diamond"
+  }
+}

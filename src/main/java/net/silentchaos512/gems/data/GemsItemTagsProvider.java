@@ -8,14 +8,15 @@ import net.minecraft.world.item.Items;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
-import net.silentchaos512.gems.GemsBase;
+import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.setup.GemsBlocks;
 import net.silentchaos512.gems.setup.GemsItems;
 import net.silentchaos512.gems.setup.GemsTags;
 import net.silentchaos512.gems.util.Gems;
 
 public class GemsItemTagsProvider extends ItemTagsProvider {
     public GemsItemTagsProvider(GatherDataEvent event, BlockTagsProvider blocks) {
-        super(event.getGenerator().getPackOutput(), event.getLookupProvider(), blocks.contentsGetter(), GemsBase.MOD_ID, event.getExistingFileHelper());
+        super(event.getGenerator().getPackOutput(), event.getLookupProvider(), blocks.contentsGetter(), SilentGems.MOD_ID, event.getExistingFileHelper());
     }
 
     @Override
@@ -45,8 +46,10 @@ public class GemsItemTagsProvider extends ItemTagsProvider {
         }
 
         copy(Tags.Blocks.ORES, Tags.Items.ORES);
+        copy(GemsTags.Blocks.ORES_CHAOS, GemsTags.Items.ORES_CHAOS);
+        tag(GemsTags.Items.ORES_CHAOS).add(GemsBlocks.CHAOS_ORE.asItem(), GemsBlocks.DEEPSLATE_CHAOS_ORE.asItem());
         copy(GemsTags.Blocks.ORES_SILVER, GemsTags.Items.ORES_SILVER);
-        tag(GemsTags.Items.ORES_SILVER).add(GemsItems.RAW_SILVER.get());
+        tag(GemsTags.Items.ORES_SILVER).add(GemsBlocks.SILVER_ORE.asItem(), GemsBlocks.DEEPSLATE_SILVER_ORE.asItem());
 
         tag(GemsTags.Items.INGOTS_SILVER).add(GemsItems.SILVER_INGOT.get());
         tag(GemsTags.Items.NUGGETS_SILVER).add(GemsItems.SILVER_NUGGET.get());

@@ -1,3 +1,4 @@
+/*
 package net.silentchaos512.gems.data;
 
 import net.minecraft.data.DataGenerator;
@@ -223,3 +224,4 @@ public class GemsMaterialsProvider extends MaterialsProviderBase {
                 .displayAdornment(PartTextureSet.HIGH_CONTRAST_WITH_HIGHLIGHT, color);
     }
 }
+*/

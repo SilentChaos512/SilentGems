@@ -1,3 +1,4 @@
+/*
 package net.silentchaos512.gems.gear.trait;
 
 import com.google.gson.JsonObject;
@@ -60,3 +61,4 @@ public class CriticalStrikeTrait extends SimpleTrait {
         json.addProperty("activation_chance", activationChance);
     }
 }
+*/

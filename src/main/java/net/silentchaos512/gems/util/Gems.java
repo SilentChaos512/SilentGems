@@ -17,7 +17,7 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredItem;
-import net.silentchaos512.gems.GemsBase;
+import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.*;
 import net.silentchaos512.gems.item.GemBlockItem;
 import net.silentchaos512.gems.item.GemItem;
@@ -163,16 +163,16 @@ public enum Gems {
         this.oreConfigDefaults.put(Level.END, endOres);
 
         String name = this.getName();
-        this.blockTag = makeBlockTag(forgeId("storage_blocks/" + name));
-        this.glowroseTag = makeBlockTag(GemsBase.getId("glowroses/" + this.getName()));
-        this.oreTag = makeBlockTag(forgeId("ores/" + name));
-        this.modOresTag = makeBlockTag(GemsBase.getId("ores/" + name));
+        this.blockTag = makeBlockTag(commonId("storage_blocks/" + name));
+        this.glowroseTag = makeBlockTag(SilentGems.getId("glowroses/" + this.getName()));
+        this.oreTag = makeBlockTag(commonId("ores/" + name));
+        this.modOresTag = makeBlockTag(SilentGems.getId("ores/" + name));
 
-        this.blockItemTag = makeItemTag(forgeId("storage_blocks/" + name));
-        this.glowroseItemTag = makeItemTag(GemsBase.getId("glowroses/" + this.getName()));
-        this.oreItemTag = makeItemTag(forgeId("ores/" + name));
-        this.modOresItemTag = makeItemTag(GemsBase.getId("ores/" + name));
-        this.itemTag = makeItemTag(forgeId("gems/" + name));
+        this.blockItemTag = makeItemTag(commonId("storage_blocks/" + name));
+        this.glowroseItemTag = makeItemTag(SilentGems.getId("glowroses/" + this.getName()));
+        this.oreItemTag = makeItemTag(commonId("ores/" + name));
+        this.modOresItemTag = makeItemTag(SilentGems.getId("ores/" + name));
+        this.itemTag = makeItemTag(commonId("gems/" + name));
     }
 
     private static TagKey<Block> makeBlockTag(ResourceLocation name) {
@@ -183,8 +183,8 @@ public enum Gems {
         return ItemTags.create(name);
     }
 
-    private static ResourceLocation forgeId(String path) {
-        return new ResourceLocation("forge", path);
+    private static ResourceLocation commonId(String path) {
+        return ResourceLocation.fromNamespaceAndPath("c", path);
     }
 
     public String getName() {
@@ -338,13 +338,13 @@ public enum Gems {
                             .sound(SoundType.DEEPSLATE)));
 
         for (Gems gem : values())
-            gem.netherOre = registerBlock(gem.getName() + "_nether_ore", () ->
+            gem.netherOre = registerBlock("nether_" + gem.getName() + "_ore", () ->
                     new GemOreBlock(gem, 3, "gem_nether_ore", BlockBehaviour.Properties.ofFullCopy(gem.ore.get())
                             .strength(4f)
                             .sound(SoundType.NETHER_ORE)));
 
         for (Gems gem : values())
-            gem.endOre = registerBlock(gem.getName() + "_end_ore", () ->
+            gem.endOre = registerBlock("end_" + gem.getName() + "_ore", () ->
                     new GemOreBlock(gem, 4, "gem_end_ore", BlockBehaviour.Properties.ofFullCopy(gem.ore.get())
                             .strength(6f)));
 
@@ -417,7 +417,7 @@ public enum Gems {
                     new PottedGlowroseBlock(gem, () -> gem.glowrose.get(), BlockBehaviour.Properties
                             .of()
                             .strength(0)));
-            ((FlowerPotBlock) Blocks.FLOWER_POT).addPlant(GemsBase.getId(gem.getName() + "_glowrose"), gem.pottedGlowrose);
+            ((FlowerPotBlock) Blocks.FLOWER_POT).addPlant(SilentGems.getId(gem.getName() + "_glowrose"), gem.pottedGlowrose);
         }
     }
 

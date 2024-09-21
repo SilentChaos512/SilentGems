@@ -33,7 +33,7 @@ public class GemGlassBlock extends StainedGlassBlock implements IGemBlock {
     }
 
     @Override
-    public float[] getBeaconColorMultiplier(BlockState state, LevelReader world, BlockPos pos, BlockPos beaconPos) {
-        return this.gem.getColorArray();
+    public Integer getBeaconColorMultiplier(BlockState state, LevelReader world, BlockPos pos, BlockPos beaconPos) {
+        return this.gem.getColor();
     }
 }

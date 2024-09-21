@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "f": {
+      "tag": "silentgems:stew_fish"
+    },
+    "g": {
+      "tag": "silentgems:gems"
+    },
+    "|": {
+      "tag": "c:strings"
+    }
+  },
+  "pattern": [
+    "|f|",
+    "|g|",
+    "|f|"
+  ],
+  "result": {
+    "count": 1,
+    "id": "silentgems:summon_kitty"
+  }
+}

@@ -9,7 +9,7 @@ import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredHolder;
-import net.silentchaos512.gems.GemsBase;
+import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.GlowroseBlock;
 import net.silentchaos512.gems.setup.GemsBlocks;
 import net.silentchaos512.gems.setup.GemsItems;
@@ -19,12 +19,12 @@ import net.silentchaos512.lib.util.NameUtils;
 
 public class GemsItemModelProvider extends ItemModelProvider {
     public GemsItemModelProvider(DataGenerator generator, ExistingFileHelper existingFileHelper) {
-        super(generator.getPackOutput(), GemsBase.MOD_ID, existingFileHelper);
+        super(generator.getPackOutput(), SilentGems.MOD_ID, existingFileHelper);
     }
 
     @Override
     protected void registerModels() {
-        ModelFile itemGenerated = getExistingFile(new ResourceLocation("item/generated"));
+        ModelFile itemGenerated = getExistingFile(ResourceLocation.withDefaultNamespace("item/generated"));
 
         GemsBlocks.BLOCKS.getEntries().stream()
                 .map(DeferredHolder::get)
@@ -36,13 +36,6 @@ public class GemsItemModelProvider extends ItemModelProvider {
         for (Gems gem : Gems.values()) {
             builder(gem.getItem(), itemGenerated);
         }
-
-        builder(GemsItems.GEM_BAG, itemGenerated);
-        builder(GemsItems.FLOWER_BASKET, itemGenerated);
-
-        getBuilder("soul_gem").parent(itemGenerated)
-                .texture("layer0", modLoc("item/soul_gem_back"))
-                .texture("layer1", modLoc("item/soul_gem_front"));
     }
 
     private void blockBuilder(IBlockProvider block) {
@@ -59,7 +52,7 @@ public class GemsItemModelProvider extends ItemModelProvider {
     private boolean blockBuilderExceptions(Block block, String name) {
         // Overrides the default block item models for specific blocks
         if (block instanceof GlowroseBlock) {
-            getBuilder(name).parent(getExistingFile(new ResourceLocation("item/generated")))
+            getBuilder(name).parent(getExistingFile(ResourceLocation.withDefaultNamespace("item/generated")))
                     .texture("layer0", modLoc("block/" + name));
             return true;
         }

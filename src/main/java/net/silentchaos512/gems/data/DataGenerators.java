@@ -1,41 +1,41 @@
 package net.silentchaos512.gems.data;
 
-import net.minecraft.data.DataGenerator;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModList;
-import net.neoforged.fml.common.Mod;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
-import net.silentchaos512.gems.GemsBase;
+import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.data.client.GemsBlockStateProvider;
 import net.silentchaos512.gems.data.client.GemsItemModelProvider;
 import net.silentchaos512.gems.data.recipe.GemsRecipeProvider;
 
-@Mod.EventBusSubscriber(modid = GemsBase.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = SilentGems.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
 public final class DataGenerators {
     private DataGenerators() {}
 
     @SubscribeEvent
     public static void gatherData(GatherDataEvent event) {
-        DataGenerator gen = event.getGenerator();
-        ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
+        var generator = event.getGenerator();
+        var existingFileHelper = event.getExistingFileHelper();
+        var packOutput = generator.getPackOutput();
+        var lookupProvider = event.getLookupProvider();
 
         GemsBlockTagsProvider blockTags = new GemsBlockTagsProvider(event);
-        gen.addProvider(true, blockTags);
-        gen.addProvider(true, new GemsItemTagsProvider(event, blockTags));
-        gen.addProvider(true, new GemsRecipeProvider(gen));
-        gen.addProvider(true, new GemsLootTableProvider(gen));
-//        gen.addProvider(new GemsAdvancementProvider(gen));
+        generator.addProvider(true, blockTags);
+        generator.addProvider(true, new GemsItemTagsProvider(event, blockTags));
+        generator.addProvider(true, new GemsRecipeProvider(packOutput, lookupProvider));
+        generator.addProvider(true, new GemsLootTableProvider(packOutput, lookupProvider));
+//        generator.addProvider(new GemsAdvancementProvider(generator));
 
         boolean gearIsLoaded = ModList.get().isLoaded("silentgear");
-        if (gearIsLoaded) {
-            gen.addProvider(true, new GemsTraitsProvider(gen));
-            gen.addProvider(true, new GemsMaterialsProvider(gen));
-        }
+        /*if (gearIsLoaded) {
+            generator.addProvider(true, new GemsTraitsProvider(generator));
+            generator.addProvider(true, new GemsMaterialsProvider(generator));
+        }*/
 
-        gen.addProvider(true, new GemsBlockStateProvider(gen, existingFileHelper));
-        gen.addProvider(true, new GemsItemModelProvider(gen, existingFileHelper));
+        generator.addProvider(true, new GemsBlockStateProvider(generator, existingFileHelper));
+        generator.addProvider(true, new GemsItemModelProvider(generator, existingFileHelper));
 
-        gen.addProvider(true, new WorldGenGenerator(event));
+        generator.addProvider(true, new WorldGenGenerator(event));
     }
 }

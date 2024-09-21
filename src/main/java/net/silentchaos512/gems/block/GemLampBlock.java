@@ -63,19 +63,16 @@ public class GemLampBlock extends GemBlock {
         }
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public void onPlace(BlockState state, Level worldIn, BlockPos pos, BlockState oldState, boolean p_220082_5_) {
         checkAndUpdateState(worldIn, pos);
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public void neighborChanged(BlockState state, Level worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean p_220069_6_) {
         checkAndUpdateState(worldIn, pos);
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public void tick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
         checkAndUpdateState(world, pos);

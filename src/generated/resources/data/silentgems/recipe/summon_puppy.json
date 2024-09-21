@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "tag": "c:leathers"
+    },
+    "g": {
+      "tag": "silentgems:gems"
+    },
+    "m": {
+      "tag": "silentgems:stew_fish"
+    }
+  },
+  "pattern": [
+    " m ",
+    "#g#",
+    " m "
+  ],
+  "result": {
+    "count": 1,
+    "id": "silentgems:summon_puppy"
+  }
+}

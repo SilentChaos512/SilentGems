@@ -1,5 +1,8 @@
 {
+  "block.silentgems.chaos_essence_block": "Block of Chaos Essence",
+  "block.silentgems.chaos_ore": "Chaos Ore",
   "block.silentgems.chiseled_gem_stone": "Chiseled %s Stone",
+  "block.silentgems.deepslate_chaos_ore": "Deepslate Chaos Ore",
   "block.silentgems.deepslate_gem_ore": "Deepslate %s Ore",
   "block.silentgems.deepslate_silver_ore": "Deepslate Silver Ore",
   "block.silentgems.gem_block": "Block of %s",
@@ -36,6 +39,7 @@
   "gem.silentgems.topaz": "Topaz",
   "gem.silentgems.turquoise": "Turquoise",
   "gem.silentgems.white_diamond": "White Diamond",
+  "item.silentgems.chaos_essence": "Chaos Essence",
   "item.silentgems.fishy_stew": "Fishy Stew",
   "item.silentgems.flower_basket": "Flower Basket",
   "item.silentgems.flower_basket.desc": "Picks up and stores flowers",

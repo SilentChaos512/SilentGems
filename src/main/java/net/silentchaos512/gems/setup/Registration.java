@@ -7,7 +7,7 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
-import net.silentchaos512.gems.GemsBase;
+import net.silentchaos512.gems.SilentGems;
 
 import java.util.Collection;
 import java.util.function.Predicate;
@@ -20,10 +20,11 @@ public class Registration {
         GemsBlocks.BLOCKS.register(modEventBus);
         GemsContainers.CONTAINERS.register(modEventBus);
         GemsCreativeTabs.CREATIVE_TABS.register(modEventBus);
+        GemsDataComponents.REGISTRAR.register(modEventBus);
         GemsItems.ITEMS.register(modEventBus);
 
         if (ModList.get().isLoaded("silentgear")) {
-            GemsTraits.registerSerializers();
+//            GemsTraits.registerSerializers();
         }
     }
 
@@ -53,6 +54,6 @@ public class Registration {
     }
 
     static <T> DeferredRegister<T> create(Registry<T> registry) {
-        return DeferredRegister.create(registry, GemsBase.MOD_ID);
+        return DeferredRegister.create(registry, SilentGems.MOD_ID);
     }
 }

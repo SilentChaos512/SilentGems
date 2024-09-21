@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "/": {
+      "tag": "c:rods/wooden"
+    },
+    "p": {
+      "item": "minecraft:baked_potato"
+    }
+  },
+  "pattern": [
+    " p",
+    "/ "
+  ],
+  "result": {
+    "count": 1,
+    "id": "silentgems:potato_on_a_stick"
+  }
+}

@@ -2,6 +2,7 @@ package net.silentchaos512.gems.item;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
@@ -16,10 +17,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
-import net.silentchaos512.gems.GemsBase;
+import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.util.TextUtil;
 
-import javax.annotation.Nullable;
 import java.util.List;
 import java.util.function.Function;
 
@@ -32,7 +32,7 @@ public class PetSummonerItem extends Item {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
+    public void appendHoverText(ItemStack stack, TooltipContext tooltipContext, List<Component> tooltip, TooltipFlag flagIn) {
         tooltip.add(TextUtil.itemSub(this, "desc"));
     }
 
@@ -67,7 +67,7 @@ public class PetSummonerItem extends Item {
             world.addFreshEntity(pet);
             pet.playAmbientSound();
 
-            if (stack.hasCustomHoverName()) {
+            if (stack.has(DataComponents.CUSTOM_NAME)) {
                 pet.setCustomName(stack.getHoverName());
             }
 
@@ -76,7 +76,7 @@ public class PetSummonerItem extends Item {
             }
 
             // Make it tame and set master.
-            pet.setTame(true);
+            pet.setTame(true, true);
             pet.setOwnerUUID(player.getUUID());
             world.broadcastEntityEvent(pet, (byte) 7);
 
@@ -89,8 +89,8 @@ public class PetSummonerItem extends Item {
 
     public static Cat getCat(Level world) {
         Cat cat = new Cat(EntityType.CAT, world);
-        BuiltInRegistries.CAT_VARIANT.getRandom(GemsBase.RANDOM_SOURCE).ifPresent(variant ->
-                cat.setVariant(variant.value()));
+        BuiltInRegistries.CAT_VARIANT.getRandom(SilentGems.RANDOM_SOURCE)
+                .ifPresent(cat::setVariant);
         return cat;
     }
 
