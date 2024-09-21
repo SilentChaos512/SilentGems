@@ -17,6 +17,7 @@ public class Registration {
     private Registration() {}
 
     public static void register(IEventBus modEventBus) {
+        GemsAttachmentTypes.REGISTRAR.register(modEventBus);
         GemsBlocks.BLOCKS.register(modEventBus);
         GemsContainers.CONTAINERS.register(modEventBus);
         GemsCreativeTabs.CREATIVE_TABS.register(modEventBus);

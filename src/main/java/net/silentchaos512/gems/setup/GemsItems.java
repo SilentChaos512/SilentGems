@@ -40,25 +40,38 @@ public final class GemsItems {
 
     public static final DeferredItem<Item> POTATO_ON_A_STICK = registerFood("potato_on_a_stick", Items.STICK, new FoodProperties.Builder()
             .nutrition(6)
-            .saturationModifier(0.7f));
+            .saturationModifier(0.7f)
+    );
     public static final DeferredItem<Item> SUGAR_COOKIE = registerFood("sugar_cookie", null, new FoodProperties.Builder()
             .nutrition(2)
             .saturationModifier(0.4f)
             .alwaysEdible()
             .effect(() -> new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 600), 1f)
-            .effect(() -> new MobEffectInstance(MobEffects.DIG_SPEED, 400), 1f));
+            .effect(() -> new MobEffectInstance(MobEffects.DIG_SPEED, 400), 1f)
+    );
+    public static final DeferredItem<Item> CUP_OF_COFFEE = registerFood("cup_of_coffee", null, new FoodProperties.Builder()
+            .nutrition(1)
+            .saturationModifier(0.2f)
+            .alwaysEdible()
+            .effect(() -> new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 3600), 1f)
+            .effect(() -> new MobEffectInstance(MobEffects.DIG_SPEED, 1800), 1f)
+    );
     public static final DeferredItem<Item> UNCOOKED_MEATY_STEW = registerFood("uncooked_meaty_stew", Items.BOWL, new FoodProperties.Builder()
             .nutrition(4)
-            .saturationModifier(0.6f));
+            .saturationModifier(0.6f)
+    );
     public static final DeferredItem<Item> MEATY_STEW = registerFood("meaty_stew", Items.BOWL, new FoodProperties.Builder()
             .nutrition(12)
-            .saturationModifier(1.6f));
+            .saturationModifier(1.6f)
+    );
     public static final DeferredItem<Item> UNCOOKED_FISHY_STEW = registerFood("uncooked_fishy_stew", Items.BOWL, new FoodProperties.Builder()
             .nutrition(4)
-            .saturationModifier(0.5f));
+            .saturationModifier(0.5f)
+    );
     public static final DeferredItem<Item> FISHY_STEW = registerFood("fishy_stew", Items.BOWL, new FoodProperties.Builder()
             .nutrition(10)
-            .saturationModifier(1.2f));
+            .saturationModifier(1.2f)
+    );
     public static final DeferredItem<Item> IRON_POTATO = registerFood("iron_potato", null, new FoodProperties.Builder()
             .nutrition(9)
             .saturationModifier(0.9f)
@@ -68,7 +81,8 @@ public final class GemsItems {
             .effect(() -> new MobEffectInstance(MobEffects.DAMAGE_BOOST, 5 * 60 * 20, 1), 1f)
     );
 
-    private GemsItems() {}
+    private GemsItems() {
+    }
 
     public static Collection<DeferredItem<? extends Item>> getSimpleModelItems() {
         return Collections.unmodifiableCollection(SIMPLE_MODEL_ITEMS);

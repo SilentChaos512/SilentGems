@@ -1,9 +1,11 @@
 package net.silentchaos512.gems.setup;
 
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.silentchaos512.gems.SilentGems;
@@ -58,6 +60,18 @@ public class GemsTags {
 
         private static TagKey<Item> tag(String namespace, String name) {
             return ItemTags.create(ResourceLocation.fromNamespaceAndPath(namespace, name));
+        }
+    }
+
+    public static final class EntityTypes {
+        public static final TagKey<EntityType<?>> COFFEE_PRODUCERS = gems("coffee_producers");
+
+        private static TagKey<EntityType<?>> gems(String path) {
+            return tag(SilentGems.MOD_ID, path);
+        }
+
+        private static TagKey<EntityType<?>> tag(String namespace, String path) {
+            return TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(namespace, path));
         }
     }
 }
