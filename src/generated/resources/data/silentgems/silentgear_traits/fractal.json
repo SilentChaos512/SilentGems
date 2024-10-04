@@ -1,0 +1,36 @@
+{
+  "conditions": [],
+  "description": {
+    "translate": "trait.silentgems.fractal.desc"
+  },
+  "effects": [
+    {
+      "type": "silentgear:item_magnet",
+      "affected_items": {
+        "tag": "c:gems"
+      },
+      "affected_items_text_for_wiki": "gems",
+      "effect_range": 4.0,
+      "pull_strength": 0.08
+    },
+    {
+      "type": "silentgear:number_property_modifier",
+      "property_modifiers": {
+        "silentgear:armor_toughness": {
+          "base_multiplier": 0.075,
+          "multiply_damage_ratio": true,
+          "multiply_original_value": true
+        },
+        "silentgear:magic_armor": {
+          "base_multiplier": -0.075,
+          "multiply_damage_ratio": true,
+          "multiply_original_value": true
+        }
+      }
+    }
+  ],
+  "max_level": 5,
+  "name": {
+    "translate": "trait.silentgems.fractal"
+  }
+}

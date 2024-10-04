@@ -1,0 +1,71 @@
+{
+  "type": "silentgear:simple",
+  "parent": "silentgear:empty",
+  "crafting": {
+    "can_salvage": true,
+    "categories": [
+      "gem",
+      "intermediate"
+    ],
+    "gear_type_blacklist": [],
+    "ingredient": {
+      "tag": "c:gems/iolite"
+    },
+    "part_substitutes": {}
+  },
+  "display": {
+    "color": "#FF7543F5",
+    "main_texture_type": "HIGH_CONTRAST",
+    "name": {
+      "translate": "gem.silentgems.iolite"
+    },
+    "name_prefix": ""
+  },
+  "properties": {
+    "silentgear:main": {
+      "armor": 20.0,
+      "armor/boots": 3.0,
+      "armor/chestplate": 8.0,
+      "armor/helmet": 3.0,
+      "armor/leggings": 6.0,
+      "armor_durability": 32.0,
+      "armor_toughness": 6.0,
+      "attack_damage": 3.0,
+      "attack_speed": 0.0,
+      "charging_value": 1.2,
+      "draw_speed": 0.0,
+      "durability": 768.0,
+      "enchantment_value": 10.0,
+      "harvest_speed": 7.0,
+      "harvest_tier": {
+        "incorrect_blocks_for_tool": "silentgems:incorrect_for_iolite_tools",
+        "name": "iolite"
+      },
+      "magic_armor": 14.0,
+      "ranged_damage": 2.0,
+      "rarity": 45.0,
+      "traits": [
+        {
+          "conditions": [],
+          "level": 3,
+          "trait": "silentgear:crushing"
+        },
+        {
+          "conditions": [],
+          "level": 2,
+          "trait": "silentgear:brittle"
+        }
+      ]
+    },
+    "silentgear:rod": {},
+    "silentgear:setting": {
+      "traits": [
+        {
+          "conditions": [],
+          "level": 1,
+          "trait": "silentgear:cure_poison"
+        }
+      ]
+    }
+  }
+}

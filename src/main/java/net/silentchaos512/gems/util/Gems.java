@@ -1,14 +1,13 @@
 package net.silentchaos512.gems.util;
 
+import net.minecraft.data.tags.IntrinsicHolderTagsProvider;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -37,81 +36,97 @@ import java.util.function.Supplier;
 public enum Gems {
     RUBY(0xE61D1D, //hue=0
             Rarity.COMMON,
+            Tiers.IRON,
             OreConfigDefaults.defaults(4, 8, 2, -64, 32, 0.2f),
             OreConfigDefaults.empty(),
             OreConfigDefaults.empty()),
     CARNELIAN(0xE04D1D, //15
             Rarity.UNCOMMON,
+            Tiers.IRON,
             OreConfigDefaults.empty(),
             OreConfigDefaults.defaults(2, 8, 1, 25, 110),
             OreConfigDefaults.empty()),
     TOPAZ(0xE6711D, //25
             Rarity.COMMON,
+            Tiers.IRON,
             OreConfigDefaults.defaults(4, 8, 2, -56, 40, 0.2f),
             OreConfigDefaults.empty(),
             OreConfigDefaults.empty()),
     CITRINE(0xC78B03, //40
             Rarity.UNCOMMON,
+            Tiers.IRON,
             OreConfigDefaults.empty(),
             OreConfigDefaults.defaults(2, 8, 1, 25, 110),
             OreConfigDefaults.empty()),
     HELIODOR(0xE6C51D, //50
             Rarity.COMMON,
+            Tiers.DIAMOND,
             OreConfigDefaults.defaults(1, 6, 4, -80, -32, 0.8f),
             OreConfigDefaults.empty(),
             OreConfigDefaults.defaults(2, 9, 1, 16, 72)),
     MOLDAVITE(0xA6D923, //75
             Rarity.UNCOMMON,
+            Tiers.IRON,
             OreConfigDefaults.empty(),
             OreConfigDefaults.defaults(2, 8, 1, 25, 110),
             OreConfigDefaults.empty()),
     PERIDOT(0x29DB18, //115
             Rarity.COMMON,
+            Tiers.IRON,
             OreConfigDefaults.defaults(4, 8, 2, -56, 40, 0.2f),
             OreConfigDefaults.empty(),
             OreConfigDefaults.empty()),
     TURQUOISE(0x3DF4BD, //160
             Rarity.RARE,
+            Tiers.DIAMOND,
             OreConfigDefaults.defaults(1, 6, 4, -80, -32, 0.8f),
             OreConfigDefaults.empty(),
             OreConfigDefaults.defaults(2, 9, 1, 16, 72)),
     KYANITE(0x41C4F3, //195 (-165)
             Rarity.RARE,
+            Tiers.NETHERITE,
             OreConfigDefaults.empty(),
             OreConfigDefaults.empty(),
             OreConfigDefaults.defaults(2, 9, 1, 16, 72)),
     SAPPHIRE(0x1D60E5, //220 (-140)
             Rarity.COMMON,
+            Tiers.IRON,
             OreConfigDefaults.defaults(4, 8, 2, -80, 32, 0.2f),
             OreConfigDefaults.empty(),
             OreConfigDefaults.empty()),
     IOLITE(0x7543F5, //260 (-100)
             Rarity.UNCOMMON,
+            Tiers.IRON,
             OreConfigDefaults.defaults(1, 6, 4, -80, -32, 0.8f),
             OreConfigDefaults.defaults(2, 8, 1, 20, 80),
             OreConfigDefaults.empty()),
     ALEXANDRITE(0xAB37E5, //280 (-80)
             Rarity.UNCOMMON,
+            Tiers.DIAMOND,
             OreConfigDefaults.defaults(1, 6, 4, -80, -32, 0.8f),
             OreConfigDefaults.defaults(2, 8, 1, 20, 80),
             OreConfigDefaults.empty()),
     AMMOLITE(0xDB2BFF, //290 (-70)
             Rarity.RARE,
+            Tiers.DIAMOND,
             OreConfigDefaults.empty(),
             OreConfigDefaults.empty(),
             OreConfigDefaults.defaults(2, 9, 1, 16, 72)),
     ROSE_QUARTZ(0xFF4EAB, //330 (-30), B+30,C+40
             Rarity.RARE,
+            Tiers.NETHERITE,
             OreConfigDefaults.empty(),
             OreConfigDefaults.empty(),
             OreConfigDefaults.defaults(2, 9, 1, 16, 72)),
     BLACK_DIAMOND(0x5F524C, //20, Sat=20,Lit=-36
             Rarity.EPIC,
+            Tiers.NETHERITE,
             OreConfigDefaults.empty(),
             OreConfigDefaults.defaults(3, 8, 3, -10, 60),
             OreConfigDefaults.empty()),
     WHITE_DIAMOND(0xD5C1D2, //310 (-50), Sat=10, B+50,C+30
             Rarity.EPIC,
+            Tiers.NETHERITE,
             OreConfigDefaults.empty(),
             OreConfigDefaults.empty(),
             OreConfigDefaults.defaults(3, 8, 3, -10, 60));
@@ -144,6 +159,8 @@ public enum Gems {
     DeferredItem<GemItem> shard;
 
     // Tags
+    final TagKey<Block> incorrectForToolTag;
+    final TagKey<Block> equivalentIncorrectForToolTag;
     final TagKey<Block> blockTag;
     final TagKey<Block> glowroseTag;
     final TagKey<Block> oreTag;
@@ -154,7 +171,7 @@ public enum Gems {
     final TagKey<Item> modOresItemTag;
     final TagKey<Item> itemTag;
 
-    Gems(int colorIn, Rarity rarity, OreConfigDefaults overworldOres, OreConfigDefaults netherOres, OreConfigDefaults endOres) {
+    Gems(int colorIn, Rarity rarity, Tier equivalentHarvestTier, OreConfigDefaults overworldOres, OreConfigDefaults netherOres, OreConfigDefaults endOres) {
         this.color = new Color(colorIn);
         this.rarity = rarity;
 
@@ -163,13 +180,15 @@ public enum Gems {
         this.oreConfigDefaults.put(Level.END, endOres);
 
         String name = this.getName();
+        this.incorrectForToolTag = makeBlockTag(SilentGems.getId("incorrect_for_" + name + "_tools"));
+        this.equivalentIncorrectForToolTag = equivalentHarvestTier.getIncorrectBlocksForDrops();
         this.blockTag = makeBlockTag(commonId("storage_blocks/" + name));
-        this.glowroseTag = makeBlockTag(SilentGems.getId("glowroses/" + this.getName()));
+        this.glowroseTag = makeBlockTag(SilentGems.getId("glowroses/" + name));
         this.oreTag = makeBlockTag(commonId("ores/" + name));
         this.modOresTag = makeBlockTag(SilentGems.getId("ores/" + name));
 
         this.blockItemTag = makeItemTag(commonId("storage_blocks/" + name));
-        this.glowroseItemTag = makeItemTag(SilentGems.getId("glowroses/" + this.getName()));
+        this.glowroseItemTag = makeItemTag(SilentGems.getId("glowroses/" + name));
         this.oreItemTag = makeItemTag(commonId("ores/" + name));
         this.modOresItemTag = makeItemTag(SilentGems.getId("ores/" + name));
         this.itemTag = makeItemTag(commonId("gems/" + name));
@@ -205,6 +224,16 @@ public enum Gems {
 
     public Component getDisplayName() {
         return Component.translatable("gem.silentgems." + this.getName());
+    }
+
+    public TagKey<Block> getIncorrectForToolTag() {
+        return incorrectForToolTag;
+    }
+
+    // Used by data generators
+    public void generateIncorrectForToolTag(Function<TagKey<Block>, IntrinsicHolderTagsProvider.IntrinsicTagAppender<Block>> tagProvider) {
+        var intrinsicTagAppender = tagProvider.apply(this.incorrectForToolTag);
+        intrinsicTagAppender.addTag(this.equivalentIncorrectForToolTag);
     }
 
     //region World generation

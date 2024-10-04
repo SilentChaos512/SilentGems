@@ -1,0 +1,43 @@
+{
+  "conditions": [],
+  "description": {
+    "translate": "trait.silentgems.leaping.desc"
+  },
+  "effects": [
+    {
+      "type": "silentgear:wielder_effect",
+      "potion_effects": {
+        "silentgear:curio": [
+          {
+            "type": "trait_level",
+            "duration": 38,
+            "effect": "minecraft:jump_boost",
+            "levels": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          },
+          {
+            "type": "trait_level",
+            "duration": 38,
+            "effect": "minecraft:slow_falling",
+            "levels": [
+              1,
+              1,
+              1,
+              1,
+              1
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "max_level": 5,
+  "name": {
+    "translate": "trait.silentgems.leaping"
+  }
+}

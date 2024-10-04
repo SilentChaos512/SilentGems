@@ -1,0 +1,76 @@
+{
+  "type": "silentgear:simple",
+  "parent": "silentgear:empty",
+  "crafting": {
+    "can_salvage": true,
+    "categories": [
+      "gem",
+      "advanced"
+    ],
+    "gear_type_blacklist": [],
+    "ingredient": {
+      "tag": "c:gems/black_diamond"
+    },
+    "part_substitutes": {}
+  },
+  "display": {
+    "color": "#FF5F524C",
+    "main_texture_type": "HIGH_CONTRAST",
+    "name": {
+      "translate": "gem.silentgems.black_diamond"
+    },
+    "name_prefix": ""
+  },
+  "properties": {
+    "silentgear:main": {
+      "armor": 20.0,
+      "armor/boots": 3.0,
+      "armor/chestplate": 8.0,
+      "armor/helmet": 3.0,
+      "armor/leggings": 6.0,
+      "armor_durability": 39.0,
+      "armor_toughness": 8.0,
+      "attack_damage": 4.0,
+      "attack_speed": 0.0,
+      "charging_value": 1.0,
+      "draw_speed": 0.0,
+      "durability": 1792.0,
+      "enchantment_value": 12.0,
+      "harvest_speed": 9.0,
+      "harvest_tier": {
+        "incorrect_blocks_for_tool": "silentgems:incorrect_for_black_diamond_tools",
+        "name": "black_diamond"
+      },
+      "magic_armor": 10.0,
+      "ranged_damage": 3.0,
+      "rarity": 55.0,
+      "traits": [
+        {
+          "conditions": [
+            {
+              "type": "silentgear:material_ratio",
+              "ratio": 0.7
+            }
+          ],
+          "level": 1,
+          "trait": "silentgear:flame_ward"
+        },
+        {
+          "conditions": [],
+          "level": 2,
+          "trait": "silentgear:sturdy"
+        }
+      ]
+    },
+    "silentgear:rod": {},
+    "silentgear:setting": {
+      "traits": [
+        {
+          "conditions": [],
+          "level": 1,
+          "trait": "silentgear:cure_wither"
+        }
+      ]
+    }
+  }
+}

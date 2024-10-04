@@ -121,7 +121,9 @@ dependencies {
     implementation("net.silentchaos512:silent-lib-1.21-neoforge:${project.silentlib_version}")
 
     // Silent Gear
-    //implementation("net.silentchaos512:silent-gear-${minecraft_version}-neoforge:${project.silentgear_version}")
+    implementation("net.silentchaos512:silent-gear-${minecraft_version}-neoforge:${project.silentgear_version}") {
+        exclude module: 'curios-neoforge'
+    }
 
     // JEI
     if (project.hasProperty("jei_version")) {

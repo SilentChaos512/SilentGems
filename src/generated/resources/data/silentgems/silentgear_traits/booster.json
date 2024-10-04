@@ -1,0 +1,31 @@
+{
+  "conditions": [],
+  "description": {
+    "translate": "trait.silentgems.booster.desc"
+  },
+  "effects": [
+    {
+      "type": "silentgear:wielder_effect",
+      "potion_effects": {
+        "silentgear:curio": [
+          {
+            "type": "trait_level",
+            "duration": 38,
+            "effect": "minecraft:speed",
+            "levels": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "max_level": 5,
+  "name": {
+    "translate": "trait.silentgems.booster"
+  }
+}

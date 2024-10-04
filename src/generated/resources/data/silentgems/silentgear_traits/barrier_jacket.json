@@ -1,0 +1,22 @@
+{
+  "conditions": [],
+  "description": {
+    "translate": "trait.silentgems.barrier_jacket.desc"
+  },
+  "effects": [
+    {
+      "type": "silentgear:number_property_modifier",
+      "property_modifiers": {
+        "silentgear:magic_armor": {
+          "base_multiplier": -0.1,
+          "multiply_damage_ratio": true,
+          "multiply_original_value": true
+        }
+      }
+    }
+  ],
+  "max_level": 5,
+  "name": {
+    "translate": "trait.silentgems.barrier_jacket"
+  }
+}

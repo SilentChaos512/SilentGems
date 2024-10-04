@@ -1,0 +1,76 @@
+{
+  "type": "silentgear:simple",
+  "parent": "silentgear:empty",
+  "crafting": {
+    "can_salvage": true,
+    "categories": [
+      "gem",
+      "advanced"
+    ],
+    "gear_type_blacklist": [],
+    "ingredient": {
+      "tag": "c:gems/white_diamond"
+    },
+    "part_substitutes": {}
+  },
+  "display": {
+    "color": "#FFD5C1D2",
+    "main_texture_type": "HIGH_CONTRAST",
+    "name": {
+      "translate": "gem.silentgems.white_diamond"
+    },
+    "name_prefix": ""
+  },
+  "properties": {
+    "silentgear:main": {
+      "armor": 24.0,
+      "armor/boots": 4.0,
+      "armor/chestplate": 9.0,
+      "armor/helmet": 4.0,
+      "armor/leggings": 7.0,
+      "armor_durability": 44.0,
+      "armor_toughness": 16.0,
+      "attack_damage": 5.0,
+      "attack_speed": 0.0,
+      "charging_value": 1.0,
+      "draw_speed": 0.0,
+      "durability": 2048.0,
+      "enchantment_value": 14.0,
+      "harvest_speed": 12.0,
+      "harvest_tier": {
+        "incorrect_blocks_for_tool": "silentgems:incorrect_for_white_diamond_tools",
+        "name": "white_diamond"
+      },
+      "magic_armor": 20.0,
+      "ranged_damage": 3.0,
+      "rarity": 70.0,
+      "traits": [
+        {
+          "conditions": [
+            {
+              "type": "silentgear:material_ratio",
+              "ratio": 0.7
+            }
+          ],
+          "level": 1,
+          "trait": "silentgear:void_ward"
+        },
+        {
+          "conditions": [],
+          "level": 2,
+          "trait": "silentgear:sturdy"
+        }
+      ]
+    },
+    "silentgear:rod": {},
+    "silentgear:setting": {
+      "traits": [
+        {
+          "conditions": [],
+          "level": 2,
+          "trait": "silentgear:moonwalker"
+        }
+      ]
+    }
+  }
+}

@@ -25,7 +25,7 @@ public class Registration {
         GemsItems.ITEMS.register(modEventBus);
 
         if (ModList.get().isLoaded("silentgear")) {
-//            GemsTraits.registerSerializers();
+            GemsTraits.EffectTypes.REGISTRAR.register(modEventBus);
         }
     }
 

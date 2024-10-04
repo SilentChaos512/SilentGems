@@ -1,0 +1,71 @@
+{
+  "type": "silentgear:simple",
+  "parent": "silentgear:empty",
+  "crafting": {
+    "can_salvage": true,
+    "categories": [
+      "gem",
+      "intermediate"
+    ],
+    "gear_type_blacklist": [],
+    "ingredient": {
+      "tag": "c:gems/peridot"
+    },
+    "part_substitutes": {}
+  },
+  "display": {
+    "color": "#FF29DB18",
+    "main_texture_type": "HIGH_CONTRAST",
+    "name": {
+      "translate": "gem.silentgems.peridot"
+    },
+    "name_prefix": ""
+  },
+  "properties": {
+    "silentgear:main": {
+      "armor": 15.0,
+      "armor/boots": 2.0,
+      "armor/chestplate": 6.0,
+      "armor/helmet": 2.0,
+      "armor/leggings": 5.0,
+      "armor_durability": 21.0,
+      "armor_toughness": 4.0,
+      "attack_damage": 3.0,
+      "attack_speed": 0.0,
+      "charging_value": 1.3,
+      "draw_speed": 0.0,
+      "durability": 512.0,
+      "enchantment_value": 12.0,
+      "harvest_speed": 6.0,
+      "harvest_tier": {
+        "incorrect_blocks_for_tool": "silentgems:incorrect_for_peridot_tools",
+        "name": "peridot"
+      },
+      "magic_armor": 6.0,
+      "ranged_damage": 2.0,
+      "rarity": 30.0,
+      "traits": [
+        {
+          "conditions": [],
+          "level": 2,
+          "trait": "silentgear:jagged"
+        },
+        {
+          "conditions": [],
+          "level": 3,
+          "trait": "silentgear:brittle"
+        }
+      ]
+    },
+    "silentgear:rod": {},
+    "silentgear:setting": {
+      "traits": [
+        {
+          "conditions": [],
+          "level": 2,
+          "trait": "silentgems:hearty"
+        }
+      ]
+    }
+  }
+}

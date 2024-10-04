@@ -1,0 +1,35 @@
+{
+  "conditions": [],
+  "description": {
+    "translate": "trait.silentgems.cloaking.desc"
+  },
+  "effects": [
+    {
+      "type": "silentgear:wielder_effect",
+      "potion_effects": {
+        "silentgear:curio": [
+          {
+            "type": "trait_level",
+            "duration": 38,
+            "effect": "minecraft:invisibility",
+            "levels": [
+              1
+            ]
+          },
+          {
+            "type": "trait_level",
+            "duration": 38,
+            "effect": "minecraft:hunger",
+            "levels": [
+              2
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "max_level": 1,
+  "name": {
+    "translate": "trait.silentgems.cloaking"
+  }
+}

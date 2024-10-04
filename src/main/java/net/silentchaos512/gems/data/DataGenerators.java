@@ -29,10 +29,10 @@ public final class DataGenerators {
 //        generator.addProvider(new GemsAdvancementProvider(generator));
 
         boolean gearIsLoaded = ModList.get().isLoaded("silentgear");
-        /*if (gearIsLoaded) {
+        if (gearIsLoaded) {
             generator.addProvider(true, new GemsTraitsProvider(generator));
             generator.addProvider(true, new GemsMaterialsProvider(generator));
-        }*/
+        }
 
         generator.addProvider(true, new GemsBlockStateProvider(generator, existingFileHelper));
         generator.addProvider(true, new GemsItemModelProvider(generator, existingFileHelper));

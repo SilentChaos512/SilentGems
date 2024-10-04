@@ -42,6 +42,9 @@ public class GemsBlockTagsProvider extends BlockTagsProvider {
                     .addTag(gem.getModOresTag())
                     .add(gem.getBlock())
                     .add(gem.getBricks());
+
+            // Harvest tiers
+            gem.generateIncorrectForToolTag(this::tag);
         }
 
         tag(GemsTags.Blocks.ORES_CHAOS).add(GemsBlocks.CHAOS_ORE.get(), GemsBlocks.DEEPSLATE_CHAOS_ORE.get());
