@@ -47,6 +47,6 @@ public class GlowroseBlock extends FlowerBlock implements IGemBlock {
 
     @Override
     public int getLightEmission(BlockState state, BlockGetter level, BlockPos pos) {
-        return GemsConfig.Common.glowroseNormalLight;
+        return GemsConfig.COMMON.glowroseNormalLight.get();
     }
 }

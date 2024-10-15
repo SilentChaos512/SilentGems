@@ -3,6 +3,12 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.21.1-5.0.2] - 2024-10-15
+### Added
+- A configuration screen
+### Fixed
+- A crash caused by incorrect usage of ModConfigEvent
+
 ## [1.21.1-5.0.1] - 2024-10-03
 ### Added
 - Silent Gear compatibility is back

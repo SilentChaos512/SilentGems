@@ -27,6 +27,6 @@ public class PottedGlowroseBlock extends FlowerPotBlock {
 
     @Override
     public int getLightEmission(BlockState state, BlockGetter level, BlockPos pos) {
-        return GemsConfig.Common.glowrosePottedLight;
+        return GemsConfig.COMMON.glowrosePottedLight.get();
     }
 }
