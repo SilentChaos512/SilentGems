@@ -39,6 +39,7 @@
       "harvest_speed": 9.0,
       "harvest_tier": {
         "incorrect_blocks_for_tool": "silentgems:incorrect_for_alexandrite_tools",
+        "level_hint": "3",
         "name": "alexandrite"
       },
       "magic_armor": 10.0,

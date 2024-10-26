@@ -39,6 +39,7 @@
       "harvest_speed": 10.0,
       "harvest_tier": {
         "incorrect_blocks_for_tool": "silentgems:incorrect_for_citrine_tools",
+        "level_hint": "2",
         "name": "citrine"
       },
       "magic_armor": 8.0,

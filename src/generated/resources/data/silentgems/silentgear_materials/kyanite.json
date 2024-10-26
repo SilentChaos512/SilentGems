@@ -39,6 +39,7 @@
       "harvest_speed": 12.0,
       "harvest_tier": {
         "incorrect_blocks_for_tool": "silentgems:incorrect_for_kyanite_tools",
+        "level_hint": "4",
         "name": "kyanite"
       },
       "magic_armor": 14.0,

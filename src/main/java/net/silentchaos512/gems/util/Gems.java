@@ -161,6 +161,7 @@ public enum Gems {
     // Tags
     final TagKey<Block> incorrectForToolTag;
     final TagKey<Block> equivalentIncorrectForToolTag;
+    final String harvestTierLevelHint;
     final TagKey<Block> blockTag;
     final TagKey<Block> glowroseTag;
     final TagKey<Block> oreTag;
@@ -182,6 +183,11 @@ public enum Gems {
         String name = this.getName();
         this.incorrectForToolTag = makeBlockTag(SilentGems.getId("incorrect_for_" + name + "_tools"));
         this.equivalentIncorrectForToolTag = equivalentHarvestTier.getIncorrectBlocksForDrops();
+        this.harvestTierLevelHint = switch (equivalentHarvestTier) {
+            case Tiers.NETHERITE -> "4";
+            case Tiers.DIAMOND -> "3";
+            default -> "2";
+        };
         this.blockTag = makeBlockTag(commonId("storage_blocks/" + name));
         this.glowroseTag = makeBlockTag(SilentGems.getId("glowroses/" + name));
         this.oreTag = makeBlockTag(commonId("ores/" + name));
@@ -231,9 +237,14 @@ public enum Gems {
     }
 
     // Used by data generators
+
     public void generateIncorrectForToolTag(Function<TagKey<Block>, IntrinsicHolderTagsProvider.IntrinsicTagAppender<Block>> tagProvider) {
         var intrinsicTagAppender = tagProvider.apply(this.incorrectForToolTag);
         intrinsicTagAppender.addTag(this.equivalentIncorrectForToolTag);
+    }
+
+    public String getHarvestTierLevelHint() {
+        return harvestTierLevelHint;
     }
 
     //region World generation

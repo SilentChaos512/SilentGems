@@ -39,6 +39,7 @@
       "harvest_speed": 14.0,
       "harvest_tier": {
         "incorrect_blocks_for_tool": "silentgems:incorrect_for_heliodor_tools",
+        "level_hint": "3",
         "name": "heliodor"
       },
       "magic_armor": 8.0,

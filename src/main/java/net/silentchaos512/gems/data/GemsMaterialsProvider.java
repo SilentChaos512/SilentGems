@@ -19,6 +19,7 @@ import net.silentchaos512.gems.util.Gems;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Optional;
 
 public class GemsMaterialsProvider extends MaterialsProviderBase {
     public GemsMaterialsProvider(DataGenerator generator) {
@@ -233,6 +234,7 @@ public class GemsMaterialsProvider extends MaterialsProviderBase {
     public static HarvestTier harvestTier(Gems gem) {
         return new HarvestTier(
                 gem.getName(),
+                Optional.of(gem.getHarvestTierLevelHint()),
                 TagKey.create(Registries.BLOCK, SilentGems.getId("incorrect_for_" + gem.getName() + "_tools"))
         );
     }

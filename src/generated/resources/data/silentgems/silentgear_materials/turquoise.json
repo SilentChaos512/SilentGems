@@ -39,6 +39,7 @@
       "harvest_speed": 8.0,
       "harvest_tier": {
         "incorrect_blocks_for_tool": "silentgems:incorrect_for_turquoise_tools",
+        "level_hint": "3",
         "name": "turquoise"
       },
       "magic_armor": 20.0,

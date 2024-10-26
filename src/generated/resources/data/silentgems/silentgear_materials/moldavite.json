@@ -39,6 +39,7 @@
       "harvest_speed": 6.0,
       "harvest_tier": {
         "incorrect_blocks_for_tool": "silentgems:incorrect_for_moldavite_tools",
+        "level_hint": "2",
         "name": "moldavite"
       },
       "magic_armor": 8.0,

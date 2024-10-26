@@ -39,6 +39,7 @@
       "harvest_speed": 6.0,
       "harvest_tier": {
         "incorrect_blocks_for_tool": "silentgems:incorrect_for_peridot_tools",
+        "level_hint": "2",
         "name": "peridot"
       },
       "magic_armor": 6.0,

@@ -39,6 +39,7 @@
       "harvest_speed": 8.0,
       "harvest_tier": {
         "incorrect_blocks_for_tool": "silentgems:incorrect_for_topaz_tools",
+        "level_hint": "2",
         "name": "topaz"
       },
       "magic_armor": 6.0,

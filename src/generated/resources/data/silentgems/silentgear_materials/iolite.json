@@ -39,6 +39,7 @@
       "harvest_speed": 7.0,
       "harvest_tier": {
         "incorrect_blocks_for_tool": "silentgems:incorrect_for_iolite_tools",
+        "level_hint": "2",
         "name": "iolite"
       },
       "magic_armor": 14.0,
