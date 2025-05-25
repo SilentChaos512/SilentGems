@@ -1,6 +1,5 @@
 {
   "parent": "silentgems:block/teleporter",
-  "render_type": "minecraft:cutout",
   "textures": {
     "frame": "silentgems:block/teleporter_frame",
     "gem": "silentgems:block/white_diamond_block"

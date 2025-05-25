@@ -1,5 +1,6 @@
 {
   "parent": "silentgems:block/cube_overlay",
+  "render_type": "minecraft:cutout",
   "textures": {
     "down": "#gem",
     "up": "#gem",
@@ -12,6 +13,7 @@
     "north_overlay": "silentgems:block/teleporter_frame_side",
     "south_overlay": "silentgems:block/teleporter_frame_side",
     "east_overlay": "silentgems:block/teleporter_frame_side",
-    "west_overlay": "silentgems:block/teleporter_frame_side"
+    "west_overlay": "silentgems:block/teleporter_frame_side",
+    "particle": "#gem"
   }
 }

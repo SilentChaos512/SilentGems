@@ -91,8 +91,7 @@ public class GemsBlockStateProvider extends BlockStateProvider {
         var model = models()
                 .withExistingParent(NameUtils.fromBlock(teleporterBlock).getPath(), modLoc("block/teleporter"))
                 .texture("gem", modLoc("block/" + gem.getName() + "_block"))
-                .texture("frame", frameTexture)
-                .renderType("cutout");
+                .texture("frame", frameTexture);
         getVariantBuilder(teleporterBlock).forAllStates(state -> {
             Direction facing = state.getValue(GemTeleporterBlock.FACING);
             return ConfiguredModel.builder()
