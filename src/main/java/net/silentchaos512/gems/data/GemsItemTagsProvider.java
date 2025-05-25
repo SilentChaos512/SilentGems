@@ -53,6 +53,7 @@ public class GemsItemTagsProvider extends ItemTagsProvider {
 
         tag(GemsTags.Items.INGOTS_SILVER).add(GemsItems.SILVER_INGOT.get());
         tag(GemsTags.Items.NUGGETS_SILVER).add(GemsItems.SILVER_NUGGET.get());
+        tag(GemsTags.Items.RODS_SILVER).add(GemsItems.SILVER_ROD.get());
 
         tag(GemsTags.Items.STEW_FISH).add(Items.COD, Items.SALMON);
         tag(GemsTags.Items.STEW_MEAT).add(Items.BEEF, Items.CHICKEN, Items.MUTTON, Items.PORKCHOP, Items.RABBIT);

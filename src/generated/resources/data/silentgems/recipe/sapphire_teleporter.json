@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "c": {
+      "item": "silentgems:chaos_essence_block"
+    },
+    "e": {
+      "tag": "c:ender_pearls"
+    },
+    "g": {
+      "tag": "c:gems/sapphire"
+    },
+    "i": {
+      "tag": "c:ingots/gold"
+    }
+  },
+  "pattern": [
+    "igi",
+    "gcg",
+    "iei"
+  ],
+  "result": {
+    "count": 2,
+    "id": "silentgems:sapphire_teleporter"
+  }
+}

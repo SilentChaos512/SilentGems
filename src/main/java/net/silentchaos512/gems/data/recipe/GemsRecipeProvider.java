@@ -72,6 +72,23 @@ public class GemsRecipeProvider extends LibRecipeProvider {
                     .requires(Items.REDSTONE_TORCH)
                     .unlockedBy("has_item", has(gem.getItemTag()))
                     .save(consumer);
+
+            ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, gem.getTeleporter(), 2)
+                    .pattern("igi")
+                    .pattern("gcg")
+                    .pattern("iei")
+                    .define('c', GemsBlocks.CHAOS_ESSENCE_BLOCK)
+                    .define('g', gem.getItemTag())
+                    .define('e', Tags.Items.ENDER_PEARLS)
+                    .define('i', Tags.Items.INGOTS_GOLD)
+                    .unlockedBy("has_item", has(GemsItems.CHAOS_ESSENCE))
+                    .save(consumer);
+
+            ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, gem.getRedstoneTeleporter())
+                    .requires(gem.getTeleporter())
+                    .requires(Tags.Items.DUSTS_REDSTONE)
+                    .unlockedBy("has_item", has(gem.getTeleporter()))
+                    .save(consumer);
         }
 
         glowroseToDye(consumer, Gems.RUBY, Items.RED_DYE);
@@ -104,6 +121,12 @@ public class GemsRecipeProvider extends LibRecipeProvider {
     private void registerMetals(RecipeOutput consumer) {
         smeltingAndBlastingRecipes(consumer, "silver_ingot", GemsItems.RAW_SILVER.get(), GemsItems.SILVER_INGOT.get(), 1.0f);
         compressionRecipes(consumer, GemsBlocks.SILVER_BLOCK.get(), GemsItems.SILVER_INGOT.get(), GemsItems.SILVER_NUGGET.get());
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, GemsItems.SILVER_ROD, 4)
+                .pattern("#")
+                .pattern("#")
+                .define('#', GemsTags.Items.INGOTS_SILVER)
+                .unlockedBy("has_item", has(GemsTags.Items.INGOTS_SILVER))
+                .save(consumer);
 
         compressionRecipes(consumer, GemsBlocks.CHAOS_ESSENCE_BLOCK.get(), GemsItems.CHAOS_ESSENCE.get(), null);
     }
@@ -158,6 +181,14 @@ public class GemsRecipeProvider extends LibRecipeProvider {
     }
 
     private void registerMisc(RecipeOutput consumer) {
+        ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, GemsItems.TELEPORTER_LINKER)
+                .pattern("#")
+                .pattern("/")
+                .define('#', GemsItems.CHAOS_ESSENCE)
+                .define('/', GemsTags.Items.RODS_SILVER)
+                .unlockedBy("has_item", has(GemsItems.CHAOS_ESSENCE))
+                .save(consumer);
+
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, GemsItems.SUMMON_KITTY)
                 .pattern("|f|")
                 .pattern("|g|")

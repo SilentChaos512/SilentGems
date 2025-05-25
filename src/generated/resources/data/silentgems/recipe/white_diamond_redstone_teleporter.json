@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    {
+      "item": "silentgems:white_diamond_teleporter"
+    },
+    {
+      "tag": "c:dusts/redstone"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "silentgems:white_diamond_redstone_teleporter"
+  }
+}

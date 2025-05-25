@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    {
+      "item": "silentgems:heliodor_teleporter"
+    },
+    {
+      "tag": "c:dusts/redstone"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "silentgems:heliodor_redstone_teleporter"
+  }
+}

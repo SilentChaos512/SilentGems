@@ -1,17 +1,32 @@
 {
   "variants": {
-    "facing=east": {
+    "facing=east,triggered=false": {
       "model": "silentgems:block/heliodor_redstone_teleporter",
       "y": 90
     },
-    "facing=north": {
+    "facing=east,triggered=true": {
+      "model": "silentgems:block/heliodor_redstone_teleporter",
+      "y": 90
+    },
+    "facing=north,triggered=false": {
       "model": "silentgems:block/heliodor_redstone_teleporter"
     },
-    "facing=south": {
+    "facing=north,triggered=true": {
+      "model": "silentgems:block/heliodor_redstone_teleporter"
+    },
+    "facing=south,triggered=false": {
       "model": "silentgems:block/heliodor_redstone_teleporter",
       "y": 180
     },
-    "facing=west": {
+    "facing=south,triggered=true": {
+      "model": "silentgems:block/heliodor_redstone_teleporter",
+      "y": 180
+    },
+    "facing=west,triggered=false": {
+      "model": "silentgems:block/heliodor_redstone_teleporter",
+      "y": 270
+    },
+    "facing=west,triggered=true": {
       "model": "silentgems:block/heliodor_redstone_teleporter",
       "y": 270
     }

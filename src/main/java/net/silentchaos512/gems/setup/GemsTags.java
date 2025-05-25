@@ -38,6 +38,7 @@ public class GemsTags {
         public static final TagKey<Item> ORES_CHAOS = common("ores/chaos");
         public static final TagKey<Item> ORES_SILVER = common("ores/silver");
         public static final TagKey<Item> NUGGETS_SILVER = common("nuggets/silver");
+        public static final TagKey<Item> RODS_SILVER = common("rods/silver");
 
         public static final TagKey<Item> GEM_ORES = gems("ores");
         public static final TagKey<Item> GEMS = gems("gems");
