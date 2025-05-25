@@ -1,12 +1,15 @@
 package net.silentchaos512.gems.data.client;
 
+import net.minecraft.core.Direction;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
+import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.GemLampBlock;
+import net.silentchaos512.gems.block.teleporter.GemTeleporterBlock;
 import net.silentchaos512.gems.setup.GemsBlocks;
 import net.silentchaos512.gems.util.Gems;
 import net.silentchaos512.lib.block.IBlockProvider;
@@ -56,6 +59,9 @@ public class GemsBlockStateProvider extends BlockStateProvider {
                             .texture("plant", modLoc("block/" + glowroseName))
                             .renderType("cutout")
             );
+
+            teleporterBlock(gem, false);
+            teleporterBlock(gem, true);
         }
 
         simpleBlock(GemsBlocks.CHAOS_ESSENCE_BLOCK.get());
@@ -77,5 +83,22 @@ public class GemsBlockStateProvider extends BlockStateProvider {
     private void simpleBlock(Block block, String texture) {
         String name = NameUtils.fromBlock(block).getPath();
         simpleBlock(block, models().cubeAll(name, modLoc(texture)));
+    }
+
+    private void teleporterBlock(Gems gem, boolean redstone) {
+        var teleporterBlock = redstone ? gem.getRedstoneTeleporter().get() : gem.getTeleporter().get();
+        var frameTexture = modLoc("block/" + (redstone ? "redstone_teleporter_frame" : "teleporter_frame"));
+        var model = models()
+                .withExistingParent(NameUtils.fromBlock(teleporterBlock).getPath(), modLoc("block/teleporter"))
+                .texture("gem", modLoc("block/" + gem.getName() + "_block"))
+                .texture("frame", frameTexture)
+                .renderType("cutout");
+        getVariantBuilder(teleporterBlock).forAllStates(state -> {
+            Direction facing = state.getValue(GemTeleporterBlock.FACING);
+            return ConfiguredModel.builder()
+                    .modelFile(model)
+                    .rotationY((int) facing.getOpposite().toYRot())
+                    .build();
+        });
     }
 }

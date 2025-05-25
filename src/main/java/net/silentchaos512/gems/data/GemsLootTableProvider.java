@@ -72,6 +72,8 @@ public class GemsLootTableProvider extends LootTableProvider {
                 }
                 dropSelf(gem.getGlowrose());
                 dropPottedContents(gem.getPottedGlowrose());
+                dropSelf(gem.getTeleporter().get());
+                dropSelf(gem.getRedstoneTeleporter().get());
             }
 
             add(GemsBlocks.CHAOS_ORE.get(), this::createChaosOreDrops);

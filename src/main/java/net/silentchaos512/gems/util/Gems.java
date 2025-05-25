@@ -18,6 +18,8 @@ import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.*;
+import net.silentchaos512.gems.block.teleporter.GemRedstoneTeleporterBlock;
+import net.silentchaos512.gems.block.teleporter.GemTeleporterBlock;
 import net.silentchaos512.gems.item.GemBlockItem;
 import net.silentchaos512.gems.item.GemItem;
 import net.silentchaos512.gems.setup.GemsBlocks;
@@ -153,6 +155,8 @@ public enum Gems {
     DeferredBlock<GlowroseBlock> glowrose;
     DeferredBlock<FlowerPotBlock> pottedGlowrose;
     Map<GemLampBlock.State, DeferredBlock<GemLampBlock>> lamps = new EnumMap<>(GemLampBlock.State.class);
+    DeferredBlock<GemTeleporterBlock> teleporter;
+    DeferredBlock<GemTeleporterBlock> redstoneTeleporter;
 
     // Items
     DeferredItem<GemItem> item;
@@ -308,6 +312,14 @@ public enum Gems {
         return lamps.get(state).get();
     }
 
+    public DeferredBlock<GemTeleporterBlock> getTeleporter() {
+        return teleporter;
+    }
+
+    public DeferredBlock<GemTeleporterBlock> getRedstoneTeleporter() {
+        return redstoneTeleporter;
+    }
+
     public GlowroseBlock getGlowrose() {
         return glowrose.get();
     }
@@ -444,6 +456,20 @@ public enum Gems {
             gem.lamps.put(GemLampBlock.State.INVERTED_ON, registerLamp(gem, GemLampBlock.State.INVERTED_ON));
         for (Gems gem : values())
             gem.lamps.put(GemLampBlock.State.INVERTED_OFF, registerLamp(gem, GemLampBlock.State.INVERTED_OFF));
+
+        for (Gems gem : values())
+            gem.teleporter = registerBlock(gem.getName() + "_teleporter", () ->
+                    new GemTeleporterBlock(gem, BlockBehaviour.Properties.of()
+                            .sound(SoundType.METAL)
+                            .strength(5)
+                    ));
+
+        for (Gems gem : values())
+            gem.redstoneTeleporter = registerBlock(gem.getName() + "_redstone_teleporter", () ->
+                    new GemRedstoneTeleporterBlock(gem, BlockBehaviour.Properties.of()
+                            .sound(SoundType.METAL)
+                            .strength(5)
+                    ));
 
         for (Gems gem : values())
             gem.glowrose = registerBlock(gem.getName() + "_glowrose", () ->

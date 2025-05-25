@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "silentgems:block/heliodor_teleporter",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "silentgems:block/heliodor_teleporter"
+    },
+    "facing=south": {
+      "model": "silentgems:block/heliodor_teleporter",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "silentgems:block/heliodor_teleporter",
+      "y": 270
+    }
+  }
+}

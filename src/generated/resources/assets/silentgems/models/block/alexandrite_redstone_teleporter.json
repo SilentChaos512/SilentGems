@@ -1,0 +1,8 @@
+{
+  "parent": "silentgems:block/teleporter",
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "frame": "silentgems:block/redstone_teleporter_frame",
+    "gem": "silentgems:block/alexandrite_block"
+  }
+}

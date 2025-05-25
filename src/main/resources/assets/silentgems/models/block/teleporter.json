@@ -1,0 +1,17 @@
+{
+  "parent": "silentgems:block/cube_overlay",
+  "textures": {
+    "down": "#gem",
+    "up": "#gem",
+    "north": "#gem",
+    "south": "#gem",
+    "east": "#gem",
+    "west": "#gem",
+    "down_overlay": "#frame",
+    "up_overlay": "#frame",
+    "north_overlay": "silentgems:block/teleporter_frame_side",
+    "south_overlay": "silentgems:block/teleporter_frame_side",
+    "east_overlay": "silentgems:block/teleporter_frame_side",
+    "west_overlay": "silentgems:block/teleporter_frame_side"
+  }
+}

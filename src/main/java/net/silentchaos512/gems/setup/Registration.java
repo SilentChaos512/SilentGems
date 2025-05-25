@@ -19,9 +19,10 @@ public class Registration {
     public static void register(IEventBus modEventBus) {
         GemsAttachmentTypes.REGISTRAR.register(modEventBus);
         GemsBlocks.BLOCKS.register(modEventBus);
+        GemsBlockEntityTypes.BLOCK_ENTITY_TYPES.register(modEventBus);
         GemsContainers.CONTAINERS.register(modEventBus);
         GemsCreativeTabs.CREATIVE_TABS.register(modEventBus);
-        GemsDataComponents.REGISTRAR.register(modEventBus);
+        GemsDataComponents.DATA_COMPONENTS.register(modEventBus);
         GemsItems.ITEMS.register(modEventBus);
 
         if (ModList.get().isLoaded("silentgear")) {

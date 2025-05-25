@@ -11,6 +11,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.item.GemsFoodItem;
 import net.silentchaos512.gems.item.PetSummonerItem;
+import net.silentchaos512.gems.item.TeleporterLinker;
 import net.silentchaos512.gems.util.Gems;
 
 import javax.annotation.Nullable;
@@ -30,8 +31,12 @@ public final class GemsItems {
     public static final DeferredItem<Item> RAW_SILVER = registerCraftingItem("raw_silver");
     public static final DeferredItem<Item> SILVER_INGOT = registerCraftingItem("silver_ingot");
     public static final DeferredItem<Item> SILVER_NUGGET = registerCraftingItem("silver_nugget");
+    public static final DeferredItem<Item> SILVER_ROD = registerCraftingItem("silver_rod");
 
     public static final DeferredItem<Item> CHAOS_ESSENCE = registerCraftingItem("chaos_essence");
+
+    public static final DeferredItem<TeleporterLinker> TELEPORTER_LINKER = registerSimpleModel("teleporter_linker", () ->
+            new TeleporterLinker(unstackableProps()));
 
     public static final DeferredItem<PetSummonerItem> SUMMON_KITTY = registerSimpleModel("summon_kitty", () ->
             new PetSummonerItem(PetSummonerItem::getCat, baseProps()));
