@@ -9,7 +9,8 @@ import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.GemLampBlock;
-import net.silentchaos512.gems.block.teleporter.GemTeleporterBlock;
+import net.silentchaos512.gems.block.teleporter.AbstractTeleporterBlock;
+import net.silentchaos512.gems.block.teleporter.TeleporterAnchorBlock;
 import net.silentchaos512.gems.setup.GemsBlocks;
 import net.silentchaos512.gems.util.Gems;
 import net.silentchaos512.lib.block.IBlockProvider;
@@ -64,6 +65,8 @@ public class GemsBlockStateProvider extends BlockStateProvider {
             teleporterBlock(gem, true);
         }
 
+        teleporterAnchor(GemsBlocks.TELEPORTER_ANCHOR.get());
+
         simpleBlock(GemsBlocks.CHAOS_ESSENCE_BLOCK.get());
         simpleBlock(GemsBlocks.CHAOS_ORE.get());
         simpleBlock(GemsBlocks.DEEPSLATE_CHAOS_ORE.get());
@@ -93,9 +96,19 @@ public class GemsBlockStateProvider extends BlockStateProvider {
                 .texture("gem", modLoc("block/" + gem.getName() + "_block"))
                 .texture("frame", frameTexture);
         getVariantBuilder(teleporterBlock).forAllStates(state -> {
-            Direction facing = state.getValue(GemTeleporterBlock.FACING);
+            Direction facing = state.getValue(AbstractTeleporterBlock.FACING);
             return ConfiguredModel.builder()
                     .modelFile(model)
+                    .rotationY((int) facing.getOpposite().toYRot())
+                    .build();
+        });
+    }
+
+    private void teleporterAnchor(TeleporterAnchorBlock teleporterAnchorBlock) {
+        getVariantBuilder(teleporterAnchorBlock).forAllStates(state -> {
+            Direction facing = state.getValue(AbstractTeleporterBlock.FACING);
+            return ConfiguredModel.builder()
+                    .modelFile(models().getExistingFile(modLoc("block/teleporter_anchor")))
                     .rotationY((int) facing.getOpposite().toYRot())
                     .build();
         });

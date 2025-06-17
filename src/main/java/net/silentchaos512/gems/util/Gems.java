@@ -458,20 +458,6 @@ public enum Gems {
             gem.lamps.put(GemLampBlock.State.INVERTED_OFF, registerLamp(gem, GemLampBlock.State.INVERTED_OFF));
 
         for (Gems gem : values())
-            gem.teleporter = registerBlock(gem.getName() + "_teleporter", () ->
-                    new GemTeleporterBlock(gem, BlockBehaviour.Properties.of()
-                            .sound(SoundType.METAL)
-                            .strength(5)
-                    ));
-
-        for (Gems gem : values())
-            gem.redstoneTeleporter = registerBlock(gem.getName() + "_redstone_teleporter", () ->
-                    new GemRedstoneTeleporterBlock(gem, BlockBehaviour.Properties.of()
-                            .sound(SoundType.METAL)
-                            .strength(5)
-                    ));
-
-        for (Gems gem : values())
             gem.glowrose = registerBlock(gem.getName() + "_glowrose", () ->
                     new GlowroseBlock(gem, BlockBehaviour.Properties.of()
                             .sound(SoundType.GRASS)
@@ -485,6 +471,20 @@ public enum Gems {
                             .strength(0)));
             ((FlowerPotBlock) Blocks.FLOWER_POT).addPlant(SilentGems.getId(gem.getName() + "_glowrose"), gem.pottedGlowrose);
         }
+
+        for (Gems gem : values())
+            gem.teleporter = registerBlock(gem.getName() + "_teleporter", () ->
+                    new GemTeleporterBlock(gem, BlockBehaviour.Properties.of()
+                            .sound(SoundType.METAL)
+                            .strength(5)
+                    ));
+
+        for (Gems gem : values())
+            gem.redstoneTeleporter = registerBlock(gem.getName() + "_redstone_teleporter", () ->
+                    new GemRedstoneTeleporterBlock(gem, BlockBehaviour.Properties.of()
+                            .sound(SoundType.METAL)
+                            .strength(5)
+                    ));
     }
 
     public static void registerItems() {

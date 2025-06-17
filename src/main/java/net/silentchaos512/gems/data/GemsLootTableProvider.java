@@ -76,6 +76,7 @@ public class GemsLootTableProvider extends LootTableProvider {
                 dropSelf(gem.getRedstoneTeleporter().get());
             }
 
+            dropSelf(GemsBlocks.TELEPORTER_ANCHOR.get());
             add(GemsBlocks.CHAOS_ORE.get(), this::createChaosOreDrops);
             add(GemsBlocks.DEEPSLATE_CHAOS_ORE.get(), this::createChaosOreDrops);
             registerFortuneDrops(GemsBlocks.SILVER_ORE.get(), GemsItems.RAW_SILVER.get());

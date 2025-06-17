@@ -35,7 +35,7 @@ public class GemRedstoneTeleporterBlock extends GemTeleporterBlock {
     }
 
     private void tryTeleportNearbyEntities(Level level, BlockPos pos) {
-        if (!(level.getBlockEntity(pos) instanceof GemTeleporterBlockEntity teleporterBlockEntity)) return;
+        if (!(level.getBlockEntity(pos) instanceof TeleporterBlockEntity teleporterBlockEntity)) return;
 
         var destination = teleporterBlockEntity.getDestination();
         if (destination == null) return;

@@ -3,6 +3,15 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.21.1-5.1.0] - 2025-06-16
+### Added
+- Teleporters, redstone teleporters, and teleporter anchors are back!
+  - They currently cost nothing to use, but some sort of "cost" will be added later
+  - All three types can be linked to each other
+  - Regular teleporters activate when used (right-click)
+  - Redstone teleporters can be activated like regular ones, or with redstone, which moves all nearby entities
+  - Anchors can be linked to, but cannot teleport anything; they are only an "exit point". This can be useful for building something like an elevator shaft.
+
 ## [1.21.1-5.0.3] - 2024-10-25
 ### Added
 - Harvest tier level hints for Silent Gear materials (requires Silent Gear 4.0.8 or higher)

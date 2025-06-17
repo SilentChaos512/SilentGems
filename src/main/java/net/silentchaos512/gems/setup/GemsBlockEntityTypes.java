@@ -8,7 +8,7 @@ import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.block.teleporter.GemTeleporterBlockEntity;
+import net.silentchaos512.gems.block.teleporter.TeleporterBlockEntity;
 import net.silentchaos512.gems.util.Gems;
 
 import java.util.ArrayList;
@@ -18,9 +18,9 @@ import java.util.List;
 public class GemsBlockEntityTypes {
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPES = DeferredRegister.create(Registries.BLOCK_ENTITY_TYPE, SilentGems.MOD_ID);
 
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<GemTeleporterBlockEntity>> TELEPORTER = register(
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<TeleporterBlockEntity>> TELEPORTER = register(
             "teleporter",
-            GemTeleporterBlockEntity::new,
+            TeleporterBlockEntity::new,
             getAllTeleporters().toArray(DeferredBlock[]::new)
     );
 
@@ -38,6 +38,7 @@ public class GemsBlockEntityTypes {
             list.add(gem.getTeleporter());
             list.add(gem.getRedstoneTeleporter());
         }
+        list.add(GemsBlocks.TELEPORTER_ANCHOR);
         return list;
     }
 }

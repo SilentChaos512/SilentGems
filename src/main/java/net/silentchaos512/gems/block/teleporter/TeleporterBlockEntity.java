@@ -11,16 +11,16 @@ import net.silentchaos512.lib.util.DimPos;
 
 import javax.annotation.Nullable;
 
-public class GemTeleporterBlockEntity extends BlockEntity {
+public class TeleporterBlockEntity extends BlockEntity {
     public static final String DESTINATION_TAG = "Destination";
 
     private DimPos destination = null;
 
-    public GemTeleporterBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState blockState) {
+    public TeleporterBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState blockState) {
         super(type, pos, blockState);
     }
 
-    public GemTeleporterBlockEntity(BlockPos pos, BlockState blockState) {
+    public TeleporterBlockEntity(BlockPos pos, BlockState blockState) {
         this(GemsBlockEntityTypes.TELEPORTER.get(), pos, blockState);
     }
 

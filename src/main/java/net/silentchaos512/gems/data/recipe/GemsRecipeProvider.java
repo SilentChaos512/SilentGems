@@ -76,7 +76,7 @@ public class GemsRecipeProvider extends LibRecipeProvider {
             ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, gem.getTeleporter(), 2)
                     .pattern("igi")
                     .pattern("gcg")
-                    .pattern("iei")
+                    .pattern(" e ")
                     .define('c', GemsBlocks.CHAOS_ESSENCE_BLOCK)
                     .define('g', gem.getItemTag())
                     .define('e', Tags.Items.ENDER_PEARLS)
@@ -90,6 +90,18 @@ public class GemsRecipeProvider extends LibRecipeProvider {
                     .unlockedBy("has_item", has(gem.getTeleporter()))
                     .save(consumer);
         }
+
+        // Not a gem thing, but it is related to gem teleporters
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, GemsBlocks.TELEPORTER_ANCHOR, 4)
+                .pattern("igi")
+                .pattern("gcg")
+                .pattern(" e ")
+                .define('c', GemsBlocks.CHAOS_ESSENCE_BLOCK)
+                .define('i', Tags.Items.INGOTS_GOLD)
+                .define('e', Tags.Items.ENDER_PEARLS)
+                .define('g', GemsTags.Items.INGOTS_SILVER)
+                .unlockedBy("has_item", has(GemsItems.CHAOS_ESSENCE))
+                .save(consumer);
 
         glowroseToDye(consumer, Gems.RUBY, Items.RED_DYE);
         glowroseToDye(consumer, Gems.CARNELIAN, Items.RED_DYE);

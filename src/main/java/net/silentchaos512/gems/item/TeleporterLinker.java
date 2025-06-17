@@ -6,8 +6,8 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.context.UseOnContext;
-import net.silentchaos512.gems.block.teleporter.GemTeleporterBlock;
-import net.silentchaos512.gems.block.teleporter.GemTeleporterBlockEntity;
+import net.silentchaos512.gems.block.teleporter.AbstractTeleporterBlock;
+import net.silentchaos512.gems.block.teleporter.TeleporterBlockEntity;
 import net.silentchaos512.gems.setup.GemsDataComponents;
 import net.silentchaos512.lib.util.DimPos;
 
@@ -19,7 +19,7 @@ public class TeleporterLinker extends Item {
     @Override
     public InteractionResult useOn(UseOnContext context) {
         var state = context.getLevel().getBlockState(context.getClickedPos());
-        if (!(state.getBlock() instanceof GemTeleporterBlock)) {
+        if (!(state.getBlock() instanceof AbstractTeleporterBlock)) {
             return super.useOn(context);
         }
 
@@ -51,7 +51,7 @@ public class TeleporterLinker extends Item {
         var level = teleporterPosition.getPosLevel(player.level());
         if (level.isPresent()) {
             var blockEntity = level.get().getBlockEntity(teleporterPosition.getPos());
-            if (blockEntity instanceof GemTeleporterBlockEntity teleporterBlockEntity) {
+            if (blockEntity instanceof TeleporterBlockEntity teleporterBlockEntity) {
                 teleporterBlockEntity.setDestination(newDestination);
             }
         } else if (!player.level().isClientSide) {

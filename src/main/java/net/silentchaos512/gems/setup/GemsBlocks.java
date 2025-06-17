@@ -11,6 +11,7 @@ import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.OreBlockSG;
+import net.silentchaos512.gems.block.teleporter.TeleporterAnchorBlock;
 import net.silentchaos512.gems.util.Gems;
 
 import java.util.function.Function;
@@ -22,6 +23,13 @@ public final class GemsBlocks {
     static {
         Gems.registerBlocks();
     }
+
+    public static final DeferredBlock<TeleporterAnchorBlock> TELEPORTER_ANCHOR = register("teleporter_anchor",
+            () -> new TeleporterAnchorBlock(BlockBehaviour.Properties.of()
+                    .requiresCorrectToolForDrops()
+                    .strength(5f, 3f)
+            )
+    );
 
     public static final DeferredBlock<OreBlockSG> CHAOS_ORE = register("chaos_ore",
             () -> getChaosOre(BlockBehaviour.Properties.of()
