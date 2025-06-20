@@ -228,7 +228,7 @@ public class WorldGenGenerator extends DatapackBuiltinEntriesProvider {
 
     @NotNull
     private static ConfiguredFeature<RandomPatchConfiguration, Feature<RandomPatchConfiguration>> glowroses(Gems g) {
-        return new ConfiguredFeature<>(Feature.FLOWER,
+        return new ConfiguredFeature<>(Feature.NO_BONEMEAL_FLOWER,
                 new RandomPatchConfiguration(32, 7, 3,
                         Holder.direct(new PlacedFeature(
                                 Holder.direct(new ConfiguredFeature<>(Feature.SIMPLE_BLOCK,
