@@ -193,6 +193,12 @@ public class GemsRecipeProvider extends LibRecipeProvider {
     }
 
     private void registerMisc(RecipeOutput consumer) {
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, GemsItems.SPARKLING_BONE_MEAL, 8)
+                .requires(GemsTags.Items.GEMS)
+                .requires(Items.BONE_MEAL, 3)
+                .unlockedBy("has_item", has(GemsTags.Items.GEMS))
+                .save(consumer);
+
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, GemsItems.TELEPORTER_LINKER)
                 .pattern("#")
                 .pattern("/")

@@ -11,6 +11,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.item.GemsFoodItem;
 import net.silentchaos512.gems.item.PetSummonerItem;
+import net.silentchaos512.gems.item.SparklingBoneMealItem;
 import net.silentchaos512.gems.item.TeleporterLinker;
 import net.silentchaos512.gems.util.Gems;
 
@@ -37,6 +38,9 @@ public final class GemsItems {
 
     public static final DeferredItem<TeleporterLinker> TELEPORTER_LINKER = registerSimpleModel("teleporter_linker", () ->
             new TeleporterLinker(unstackableProps()));
+
+    public static final DeferredItem<SparklingBoneMealItem> SPARKLING_BONE_MEAL = registerSimpleModel("sparkling_bone_meal", () ->
+            new SparklingBoneMealItem(baseProps()));
 
     public static final DeferredItem<PetSummonerItem> SUMMON_KITTY = registerSimpleModel("summon_kitty", () ->
             new PetSummonerItem(PetSummonerItem::getCat, baseProps()));

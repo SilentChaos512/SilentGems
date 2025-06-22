@@ -60,6 +60,8 @@
   "item.silentgems.soul_gem": "%sSoul Gem",
   "item.silentgems.soul_gem.full": "Full",
   "item.silentgems.soul_gem.value": "Value: %s",
+  "item.silentgems.sparkling_bone_meal": "Sparkling Bone Meal",
+  "item.silentgems.sparkling_bone_meal.desc": "Grows glowroses when used on grass",
   "item.silentgems.sugar_cookie": "Sugar Cookie",
   "item.silentgems.summon_kitty": "Summon Kitty",
   "item.silentgems.summon_kitty.desc": "A much less annoying way to get cats.",
