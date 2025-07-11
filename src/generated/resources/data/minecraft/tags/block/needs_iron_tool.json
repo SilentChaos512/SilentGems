@@ -32,6 +32,16 @@
     "silentgems:deepslate_black_diamond_ore",
     "silentgems:white_diamond_ore",
     "silentgems:deepslate_white_diamond_ore",
+    "silentgems:garnet_ore",
+    "silentgems:deepslate_garnet_ore",
+    "silentgems:aquamarine_ore",
+    "silentgems:deepslate_aquamarine_ore",
+    "silentgems:tanzanite_ore",
+    "silentgems:deepslate_tanzanite_ore",
+    "silentgems:opal_ore",
+    "silentgems:deepslate_opal_ore",
+    "silentgems:pearl_ore",
+    "silentgems:deepslate_pearl_ore",
     "#c:ores/silver"
   ]
 }

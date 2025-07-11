@@ -15,6 +15,11 @@
     "silentgems:end_ammolite_ore",
     "silentgems:end_rose_quartz_ore",
     "silentgems:end_black_diamond_ore",
-    "silentgems:end_white_diamond_ore"
+    "silentgems:end_white_diamond_ore",
+    "silentgems:end_garnet_ore",
+    "silentgems:end_aquamarine_ore",
+    "silentgems:end_tanzanite_ore",
+    "silentgems:end_opal_ore",
+    "silentgems:end_pearl_ore"
   ]
 }

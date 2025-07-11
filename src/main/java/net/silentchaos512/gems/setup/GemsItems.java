@@ -36,6 +36,9 @@ public final class GemsItems {
 
     public static final DeferredItem<Item> CHAOS_ESSENCE = registerCraftingItem("chaos_essence");
 
+    public static final DeferredItem<Item> REINFORCED_GOLD_ROD = registerCraftingItem("reinforced_gold_rod");
+    public static final DeferredItem<Item> REINFORCED_SILVER_ROD = registerCraftingItem("reinforced_silver_rod");
+
     public static final DeferredItem<TeleporterLinker> TELEPORTER_LINKER = registerSimpleModel("teleporter_linker", () ->
             new TeleporterLinker(unstackableProps()));
 

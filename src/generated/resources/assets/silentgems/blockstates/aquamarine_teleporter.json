@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "facing=east,triggered=false": {
+      "model": "silentgems:block/aquamarine_teleporter",
+      "y": 90
+    },
+    "facing=east,triggered=true": {
+      "model": "silentgems:block/aquamarine_teleporter",
+      "y": 90
+    },
+    "facing=north,triggered=false": {
+      "model": "silentgems:block/aquamarine_teleporter"
+    },
+    "facing=north,triggered=true": {
+      "model": "silentgems:block/aquamarine_teleporter"
+    },
+    "facing=south,triggered=false": {
+      "model": "silentgems:block/aquamarine_teleporter",
+      "y": 180
+    },
+    "facing=south,triggered=true": {
+      "model": "silentgems:block/aquamarine_teleporter",
+      "y": 180
+    },
+    "facing=west,triggered=false": {
+      "model": "silentgems:block/aquamarine_teleporter",
+      "y": 270
+    },
+    "facing=west,triggered=true": {
+      "model": "silentgems:block/aquamarine_teleporter",
+      "y": 270
+    }
+  }
+}

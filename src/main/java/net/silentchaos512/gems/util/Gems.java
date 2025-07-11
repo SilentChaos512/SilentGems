@@ -131,7 +131,39 @@ public enum Gems {
             Tiers.NETHERITE,
             OreConfigDefaults.empty(),
             OreConfigDefaults.empty(),
-            OreConfigDefaults.defaults(3, 8, 3, -10, 60));
+            OreConfigDefaults.defaults(3, 8, 3, -10, 60)),
+    // Gems added by giok3r
+    GARNET(0x970000,
+            Rarity.UNCOMMON,
+            Tiers.IRON,
+            OreConfigDefaults.defaults(2, 8, 2, -64, 32, 0.2f),
+            OreConfigDefaults.empty(),
+            OreConfigDefaults.defaults(1, 8, 2, -10, 60)),
+    AQUAMARINE(0x6EE9F4,
+            Rarity.UNCOMMON,
+            Tiers.IRON,
+            OreConfigDefaults.defaults(2, 8, 2, -64, 32, 0.2f),
+            OreConfigDefaults.empty(),
+            OreConfigDefaults.empty()),
+    TANZANITE(0x3D00B9,
+            Rarity.UNCOMMON,
+            Tiers.IRON,
+            OreConfigDefaults.empty(),
+            OreConfigDefaults.defaults(2, 8, 1, 25, 110),
+            OreConfigDefaults.empty()),
+    OPAL(0xDDFFE4,
+            Rarity.RARE,
+            Tiers.DIAMOND,
+            OreConfigDefaults.defaults(1, 6, 4, -80, 0),
+            OreConfigDefaults.empty(),
+            OreConfigDefaults.defaults(2, 9, 2, 16, 72)),
+    PEARL(0xD3CBBF,
+            Rarity.RARE,
+            Tiers.DIAMOND,
+            OreConfigDefaults.empty(),
+            OreConfigDefaults.defaults(1, 6, 4, 0, 55),
+            OreConfigDefaults.defaults(2, 9, 2, 16, 72))
+    ;
 
     private final Color color;
     private final Rarity rarity;

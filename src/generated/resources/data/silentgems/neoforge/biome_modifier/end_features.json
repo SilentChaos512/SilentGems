@@ -18,6 +18,11 @@
     "silentgems:the_end/rose_quartz_ore",
     "silentgems:the_end/black_diamond_ore",
     "silentgems:the_end/white_diamond_ore",
+    "silentgems:the_end/garnet_ore",
+    "silentgems:the_end/aquamarine_ore",
+    "silentgems:the_end/tanzanite_ore",
+    "silentgems:the_end/opal_ore",
+    "silentgems:the_end/pearl_ore",
     "silentgems:the_end/ruby_glowrose",
     "silentgems:the_end/carnelian_glowrose",
     "silentgems:the_end/topaz_glowrose",
@@ -33,7 +38,12 @@
     "silentgems:the_end/ammolite_glowrose",
     "silentgems:the_end/rose_quartz_glowrose",
     "silentgems:the_end/black_diamond_glowrose",
-    "silentgems:the_end/white_diamond_glowrose"
+    "silentgems:the_end/white_diamond_glowrose",
+    "silentgems:the_end/garnet_glowrose",
+    "silentgems:the_end/aquamarine_glowrose",
+    "silentgems:the_end/tanzanite_glowrose",
+    "silentgems:the_end/opal_glowrose",
+    "silentgems:the_end/pearl_glowrose"
   ],
   "step": "underground_ores"
 }

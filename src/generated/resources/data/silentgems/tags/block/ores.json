@@ -15,6 +15,11 @@
     "#silentgems:ores/ammolite",
     "#silentgems:ores/rose_quartz",
     "#silentgems:ores/black_diamond",
-    "#silentgems:ores/white_diamond"
+    "#silentgems:ores/white_diamond",
+    "#silentgems:ores/garnet",
+    "#silentgems:ores/aquamarine",
+    "#silentgems:ores/tanzanite",
+    "#silentgems:ores/opal",
+    "#silentgems:ores/pearl"
   ]
 }

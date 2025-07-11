@@ -18,6 +18,11 @@
     "silentgems:the_nether/rose_quartz_ore",
     "silentgems:the_nether/black_diamond_ore",
     "silentgems:the_nether/white_diamond_ore",
+    "silentgems:the_nether/garnet_ore",
+    "silentgems:the_nether/aquamarine_ore",
+    "silentgems:the_nether/tanzanite_ore",
+    "silentgems:the_nether/opal_ore",
+    "silentgems:the_nether/pearl_ore",
     "silentgems:the_nether/ruby_glowrose",
     "silentgems:the_nether/carnelian_glowrose",
     "silentgems:the_nether/topaz_glowrose",
@@ -33,7 +38,12 @@
     "silentgems:the_nether/ammolite_glowrose",
     "silentgems:the_nether/rose_quartz_glowrose",
     "silentgems:the_nether/black_diamond_glowrose",
-    "silentgems:the_nether/white_diamond_glowrose"
+    "silentgems:the_nether/white_diamond_glowrose",
+    "silentgems:the_nether/garnet_glowrose",
+    "silentgems:the_nether/aquamarine_glowrose",
+    "silentgems:the_nether/tanzanite_glowrose",
+    "silentgems:the_nether/opal_glowrose",
+    "silentgems:the_nether/pearl_glowrose"
   ],
   "step": "underground_ores"
 }

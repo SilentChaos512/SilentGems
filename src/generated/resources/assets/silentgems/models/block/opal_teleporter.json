@@ -1,0 +1,7 @@
+{
+  "parent": "silentgems:block/teleporter",
+  "textures": {
+    "frame": "silentgems:block/teleporter_frame",
+    "gem": "silentgems:block/opal_block"
+  }
+}

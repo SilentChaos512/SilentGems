@@ -15,6 +15,11 @@
     "silentgems:ammolite_block",
     "silentgems:rose_quartz_block",
     "silentgems:black_diamond_block",
-    "silentgems:white_diamond_block"
+    "silentgems:white_diamond_block",
+    "silentgems:garnet_block",
+    "silentgems:aquamarine_block",
+    "silentgems:tanzanite_block",
+    "silentgems:opal_block",
+    "silentgems:pearl_block"
   ]
 }

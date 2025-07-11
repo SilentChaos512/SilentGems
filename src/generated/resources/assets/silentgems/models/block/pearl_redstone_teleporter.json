@@ -1,0 +1,7 @@
+{
+  "parent": "silentgems:block/teleporter",
+  "textures": {
+    "frame": "silentgems:block/redstone_teleporter_frame",
+    "gem": "silentgems:block/pearl_block"
+  }
+}

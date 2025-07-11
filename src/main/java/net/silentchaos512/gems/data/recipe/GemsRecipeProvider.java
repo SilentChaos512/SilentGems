@@ -119,6 +119,11 @@ public class GemsRecipeProvider extends LibRecipeProvider {
         glowroseToDye(consumer, Gems.ROSE_QUARTZ, Items.PINK_DYE);
         glowroseToDye(consumer, Gems.BLACK_DIAMOND, Items.BLACK_DYE);
         glowroseToDye(consumer, Gems.WHITE_DIAMOND, Items.WHITE_DYE);
+        glowroseToDye(consumer, Gems.AQUAMARINE, Items.LIGHT_BLUE_DYE);
+        glowroseToDye(consumer, Gems.GARNET, Items.RED_DYE);
+        glowroseToDye(consumer, Gems.OPAL, Items.WHITE_DYE);
+        glowroseToDye(consumer, Gems.PEARL, Items.WHITE_DYE);
+        glowroseToDye(consumer, Gems.TANZANITE, Items.PURPLE_DYE);
     }
 
     private void glowroseToDye(RecipeOutput consumer, Gems gem, ItemLike dye) {

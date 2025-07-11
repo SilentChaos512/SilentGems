@@ -18,6 +18,11 @@
     "silentgems:overworld/rose_quartz_ore",
     "silentgems:overworld/black_diamond_ore",
     "silentgems:overworld/white_diamond_ore",
+    "silentgems:overworld/garnet_ore",
+    "silentgems:overworld/aquamarine_ore",
+    "silentgems:overworld/tanzanite_ore",
+    "silentgems:overworld/opal_ore",
+    "silentgems:overworld/pearl_ore",
     "silentgems:overworld/silver_ore",
     "silentgems:overworld/chaos_ore",
     "silentgems:overworld/ruby_glowrose",
@@ -35,7 +40,12 @@
     "silentgems:overworld/ammolite_glowrose",
     "silentgems:overworld/rose_quartz_glowrose",
     "silentgems:overworld/black_diamond_glowrose",
-    "silentgems:overworld/white_diamond_glowrose"
+    "silentgems:overworld/white_diamond_glowrose",
+    "silentgems:overworld/garnet_glowrose",
+    "silentgems:overworld/aquamarine_glowrose",
+    "silentgems:overworld/tanzanite_glowrose",
+    "silentgems:overworld/opal_glowrose",
+    "silentgems:overworld/pearl_glowrose"
   ],
   "step": "underground_ores"
 }

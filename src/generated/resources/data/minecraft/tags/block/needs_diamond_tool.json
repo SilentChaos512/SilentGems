@@ -16,6 +16,11 @@
     "silentgems:nether_rose_quartz_ore",
     "silentgems:nether_black_diamond_ore",
     "silentgems:nether_white_diamond_ore",
+    "silentgems:nether_garnet_ore",
+    "silentgems:nether_aquamarine_ore",
+    "silentgems:nether_tanzanite_ore",
+    "silentgems:nether_opal_ore",
+    "silentgems:nether_pearl_ore",
     "#c:ores/chaos"
   ]
 }
