@@ -8,7 +8,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
+import net.neoforged.neoforge.common.Tags;
 import net.silentchaos512.gems.util.Gems;
+import net.silentchaos512.lib.util.DimPos;
 
 public class GemRedstoneTeleporterBlock extends GemTeleporterBlock {
     public GemRedstoneTeleporterBlock(Gems gem, Properties properties) {
@@ -42,15 +44,24 @@ public class GemRedstoneTeleporterBlock extends GemTeleporterBlock {
 
         final int searchRadius = 5; // TODO: Add config
         var entitiesInArea = level.getEntitiesOfClass(Entity.class, new AABB(pos).inflate(searchRadius));
-        boolean playSound = !entitiesInArea.isEmpty();
+        boolean playSound = false;
 
         for (Entity entity : entitiesInArea) {
-            teleportEntity(level, entity, destination);
+            if (canTeleportEntity(level, entity, destination)) {
+                teleportEntity(level, entity, destination);
+                playSound = true;
+            }
         }
 
         if (playSound) {
             playTeleportSound(level, pos);
             playTeleportSound(level, destination);
         }
+    }
+
+    private boolean canTeleportEntity(Level level, Entity entity, DimPos destination) {
+        // Some entities cannot change dimensions and some mods may forbid teleporting
+        return (entity.canChangeDimensions(level, destination.getPosLevel(level).orElse(level)) || destination.dimension().equals(entity.level().dimension()))
+                && !entity.getType().is(Tags.EntityTypes.TELEPORTING_NOT_SUPPORTED);
     }
 }
