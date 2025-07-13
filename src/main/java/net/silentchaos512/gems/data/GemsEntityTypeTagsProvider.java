@@ -20,5 +20,10 @@ public class GemsEntityTypeTagsProvider extends EntityTypeTagsProvider {
     protected void addTags(HolderLookup.Provider pProvider) {
         tag(GemsTags.EntityTypes.COFFEE_PRODUCERS)
                 .add(EntityType.RABBIT);
+        tag(GemsTags.EntityTypes.END_MONSTERS)
+                .add(EntityType.ENDER_DRAGON)
+                .add(EntityType.ENDERMAN)
+                .add(EntityType.ENDERMITE)
+                .add(EntityType.SHULKER);
     }
 }

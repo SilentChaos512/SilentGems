@@ -1,0 +1,33 @@
+{
+  "conditions": [],
+  "description": {
+    "translate": "trait.silentgems.power.desc"
+  },
+  "effects": [
+    {
+      "type": "silentgear:attribute",
+      "attribute_modifiers": {
+        "curio/any": [
+          {
+            "attribute": "minecraft:generic.attack_damage",
+            "operation": "add_value",
+            "values": [
+              1.0,
+              2.0,
+              3.0,
+              4.0,
+              5.0
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "extra_wiki_lines": [
+    "Increases attack damage slightly when on curios"
+  ],
+  "max_level": 5,
+  "name": {
+    "translate": "trait.silentgems.power"
+  }
+}

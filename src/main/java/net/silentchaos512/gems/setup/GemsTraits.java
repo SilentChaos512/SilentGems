@@ -15,9 +15,16 @@ public final class GemsTraits {
     public static final DataResource<Trait> BOOSTER = trait("booster");
     public static final DataResource<Trait> CLOAKING = trait("cloaking");
     public static final DataResource<Trait> CRITICAL_STRIKE = trait("critical_strike");
+    public static final DataResource<Trait> ENDERBANE = trait("enderbane");
     public static final DataResource<Trait> FRACTAL = trait("fractal");
+    public static final DataResource<Trait> FREEZE_RESISTANT = trait("freeze_resistant");
+    public static final DataResource<Trait> HASTY = trait("hasty");
     public static final DataResource<Trait> HEARTY = trait("hearty");
     public static final DataResource<Trait> LEAPING = trait("leaping");
+    public static final DataResource<Trait> NEPTUNES_BLESSING = trait("neptunes_blessing");
+    public static final DataResource<Trait> POWER = trait("power");
+    public static final DataResource<Trait> STEP_UP = trait("step_up");
+    public static final DataResource<Trait> TWINKLETOES = trait("twinkletoes");
 
     private GemsTraits() {}
 

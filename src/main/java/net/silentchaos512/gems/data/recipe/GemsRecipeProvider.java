@@ -146,6 +146,25 @@ public class GemsRecipeProvider extends LibRecipeProvider {
                 .save(consumer);
 
         compressionRecipes(consumer, GemsBlocks.CHAOS_ESSENCE_BLOCK.get(), GemsItems.CHAOS_ESSENCE.get(), null);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, GemsItems.REINFORCED_GOLD_ROD, 2)
+                .pattern("/")
+                .pattern("i")
+                .pattern("c")
+                .define('/', Tags.Items.INGOTS_GOLD)
+                .define('i', Tags.Items.INGOTS_IRON)
+                .define('c', GemsItems.CHAOS_ESSENCE)
+                .unlockedBy("has_item", has(GemsItems.CHAOS_ESSENCE))
+                .save(consumer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, GemsItems.REINFORCED_SILVER_ROD, 2)
+                .pattern("/")
+                .pattern("i")
+                .pattern("c")
+                .define('/', GemsTags.Items.INGOTS_SILVER)
+                .define('i', Tags.Items.INGOTS_IRON)
+                .define('c', GemsItems.CHAOS_ESSENCE)
+                .unlockedBy("has_item", has(GemsItems.CHAOS_ESSENCE))
+                .save(consumer);
     }
 
     private void registerFoods(RecipeOutput consumer) {

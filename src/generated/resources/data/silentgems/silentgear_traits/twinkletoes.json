@@ -1,0 +1,33 @@
+{
+  "conditions": [],
+  "description": {
+    "translate": "trait.silentgems.twinkletoes.desc"
+  },
+  "effects": [
+    {
+      "type": "silentgear:attribute",
+      "attribute_modifiers": {
+        "curio/any": [
+          {
+            "attribute": "minecraft:player.sneaking_speed",
+            "operation": "add_value",
+            "values": [
+              0.1,
+              0.2,
+              0.3,
+              0.4,
+              0.5
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "extra_wiki_lines": [
+    "Increases sneaking speed when on curios"
+  ],
+  "max_level": 5,
+  "name": {
+    "translate": "trait.silentgems.twinkletoes"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "conditions": [],
+  "description": {
+    "translate": "trait.silentgems.hasty.desc"
+  },
+  "effects": [
+    {
+      "type": "silentgear:attribute",
+      "attribute_modifiers": {
+        "curio/any": [
+          {
+            "attribute": "minecraft:player.mining_efficiency",
+            "operation": "add_value",
+            "values": [
+              2.0,
+              4.0,
+              6.0,
+              8.0,
+              10.0
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "max_level": 5,
+  "name": {
+    "translate": "trait.silentgems.hasty"
+  }
+}

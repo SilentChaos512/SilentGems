@@ -113,6 +113,10 @@ repositories {
         name = "TerraformersMC"
         url = "https://maven.terraformersmc.com/"
     }
+    maven {
+        // Curios
+        url = "https://maven.theillusivec4.top/"
+    }
 }
 
 dependencies {
@@ -138,6 +142,11 @@ dependencies {
     if (project.hasProperty("emi_version")) {
         compileOnly("dev.emi:emi-neoforge:${emi_version}:api")
 //        runtimeOnly("dev.emi:emi-neoforge:${emi_version}")
+    }
+
+    // Curios
+    dependencies {
+        runtimeOnly("top.theillusivec4.curios:curios-neoforge:${curios_version}+${minecraft_version}")
     }
 }
 

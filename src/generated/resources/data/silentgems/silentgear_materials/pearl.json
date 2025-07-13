@@ -1,0 +1,80 @@
+{
+  "type": "silentgear:simple",
+  "parent": "silentgear:empty",
+  "crafting": {
+    "can_salvage": true,
+    "categories": [
+      "gem",
+      "advanced"
+    ],
+    "gear_type_blacklist": [],
+    "ingredient": {
+      "tag": "c:gems/pearl"
+    },
+    "part_substitutes": {}
+  },
+  "display": {
+    "color": "#FFD3CBBF",
+    "main_texture_type": "HIGH_CONTRAST",
+    "name": {
+      "translate": "gem.silentgems.pearl"
+    },
+    "name_prefix": ""
+  },
+  "properties": {
+    "silentgear:main": {
+      "armor": 20.0,
+      "armor/boots": 3.0,
+      "armor/chestplate": 8.0,
+      "armor/helmet": 3.0,
+      "armor/leggings": 6.0,
+      "armor_durability": 44.0,
+      "armor_toughness": 12.0,
+      "attack_damage": 2.0,
+      "attack_speed": 0.0,
+      "charging_value": 1.3,
+      "draw_speed": 0.0,
+      "durability": 1024.0,
+      "enchantment_value": 12.0,
+      "harvest_speed": 8.0,
+      "harvest_tier": {
+        "incorrect_blocks_for_tool": "silentgems:incorrect_for_pearl_tools",
+        "level_hint": "3",
+        "name": "pearl"
+      },
+      "magic_armor": 16.0,
+      "ranged_damage": 2.0,
+      "rarity": 65.0,
+      "traits": [
+        {
+          "conditions": [],
+          "level": 3,
+          "trait": "silentgems:neptunes_blessing"
+        }
+      ]
+    },
+    "silentgear:rod": {
+      "traits": [
+        {
+          "conditions": [],
+          "level": 4,
+          "trait": "silentgear:aquatic"
+        },
+        {
+          "conditions": [],
+          "level": 3,
+          "trait": "silentgear:brittle"
+        }
+      ]
+    },
+    "silentgear:setting": {
+      "traits": [
+        {
+          "conditions": [],
+          "level": 4,
+          "trait": "silentgems:neptunes_blessing"
+        }
+      ]
+    }
+  }
+}

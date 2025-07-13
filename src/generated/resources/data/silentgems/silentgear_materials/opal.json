@@ -1,0 +1,85 @@
+{
+  "type": "silentgear:simple",
+  "parent": "silentgear:empty",
+  "crafting": {
+    "can_salvage": true,
+    "categories": [
+      "gem",
+      "advanced"
+    ],
+    "gear_type_blacklist": [],
+    "ingredient": {
+      "tag": "c:gems/opal"
+    },
+    "part_substitutes": {}
+  },
+  "display": {
+    "color": "#FFDDFFE4",
+    "main_texture_type": "HIGH_CONTRAST",
+    "name": {
+      "translate": "gem.silentgems.opal"
+    },
+    "name_prefix": ""
+  },
+  "properties": {
+    "silentgear:main": {
+      "armor": 18.0,
+      "armor/boots": 2.0,
+      "armor/chestplate": 8.0,
+      "armor/helmet": 3.0,
+      "armor/leggings": 5.0,
+      "armor_durability": 36.0,
+      "armor_toughness": 4.0,
+      "attack_damage": 2.0,
+      "attack_speed": 0.0,
+      "charging_value": 1.3,
+      "draw_speed": 0.0,
+      "durability": 1024.0,
+      "enchantment_value": 10.0,
+      "harvest_speed": 13.0,
+      "harvest_tier": {
+        "incorrect_blocks_for_tool": "silentgems:incorrect_for_opal_tools",
+        "level_hint": "3",
+        "name": "opal"
+      },
+      "magic_armor": 8.0,
+      "ranged_damage": 1.0,
+      "rarity": 60.0,
+      "traits": [
+        {
+          "conditions": [],
+          "level": 4,
+          "trait": "silentgems:freeze_resistant"
+        },
+        {
+          "conditions": [],
+          "level": 2,
+          "trait": "silentgems:enderbane"
+        }
+      ]
+    },
+    "silentgear:rod": {
+      "traits": [
+        {
+          "conditions": [],
+          "level": 3,
+          "trait": "silentgear:brittle"
+        },
+        {
+          "conditions": [],
+          "level": 4,
+          "trait": "silentgems:enderbane"
+        }
+      ]
+    },
+    "silentgear:setting": {
+      "traits": [
+        {
+          "conditions": [],
+          "level": 3,
+          "trait": "silentgems:hasty"
+        }
+      ]
+    }
+  }
+}

@@ -58,7 +58,7 @@ public class CriticalStrikeTraitEffect extends TraitEffect {
     public Collection<String> getExtraWikiLines() {
         return Collections.singleton(
                 String.format(
-                        "Attacks deal %d%% more damage about %d%% of the time",
+                        "Attacks deal %d%% more damage per level about %d%% of the time",
                         (int) (100 * this.damageMultiplier),
                         (int) (100 * this.activationChance)
                 )

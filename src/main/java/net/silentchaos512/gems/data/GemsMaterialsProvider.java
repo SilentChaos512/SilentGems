@@ -3,9 +3,11 @@ package net.silentchaos512.gems.data;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.silentchaos512.gear.api.data.material.MaterialBuilder;
 import net.silentchaos512.gear.api.data.material.MaterialsProviderBase;
 import net.silentchaos512.gear.api.material.IMaterialCategory;
+import net.silentchaos512.gear.api.material.MaterialCraftingData;
 import net.silentchaos512.gear.api.material.TextureType;
 import net.silentchaos512.gear.api.property.HarvestTier;
 import net.silentchaos512.gear.api.util.DataResource;
@@ -14,12 +16,11 @@ import net.silentchaos512.gear.gear.trait.condition.MaterialRatioTraitCondition;
 import net.silentchaos512.gear.setup.gear.PartTypes;
 import net.silentchaos512.gear.util.Const;
 import net.silentchaos512.gems.SilentGems;
+import net.silentchaos512.gems.setup.GemsItems;
 import net.silentchaos512.gems.setup.GemsTraits;
 import net.silentchaos512.gems.util.Gems;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Optional;
+import java.util.*;
 
 public class GemsMaterialsProvider extends MaterialsProviderBase {
     public GemsMaterialsProvider(DataGenerator generator) {
@@ -185,7 +186,7 @@ public class GemsMaterialsProvider extends MaterialsProviderBase {
                 .mainStatsArmor(3, 6, 5, 2, 4, 8) //16
                 .noProperties(PartTypes.ROD)
                 .noProperties(PartTypes.SETTING)
-                .trait(PartTypes.MAIN, GemsTraits.CRITICAL_STRIKE, 1)
+                .trait(PartTypes.MAIN, GemsTraits.CRITICAL_STRIKE, 3)
                 .trait(PartTypes.MAIN, Const.Traits.BRITTLE, 3)
         );
         ret.add(gem(Gems.BLACK_DIAMOND, MaterialCategories.ADVANCED) // super
@@ -213,6 +214,91 @@ public class GemsMaterialsProvider extends MaterialsProviderBase {
                         new MaterialRatioTraitCondition(0.7f))
                 .trait(PartTypes.MAIN, Const.Traits.STURDY, 2)
                 .trait(PartTypes.SETTING, Const.Traits.MOONWALKER, 2)
+        );
+        ret.add(gem(Gems.GARNET, MaterialCategories.INTERMEDIATE) // damage
+                .mainStatsCommon(512, 21, 12, 40, 1.3f)
+                .mainStatsHarvest(harvestTier(Gems.PERIDOT), 6) // iron
+                .mainStatsMelee(3, 0, 0)
+                .mainStatsRanged(2, 0)
+                .mainStatsArmor(2, 6, 5, 2, 4, 6) //15
+                .trait(PartTypes.MAIN, GemsTraits.CRITICAL_STRIKE, 1)
+                .trait(PartTypes.ROD, Const.Traits.JAGGED, 3)
+                .trait(PartTypes.ROD, Const.Traits.BRITTLE, 3)
+                .trait(PartTypes.SETTING, GemsTraits.POWER, 2)
+        );
+        ret.add(gem(Gems.AQUAMARINE, MaterialCategories.INTERMEDIATE) // durability
+                .mainStatsCommon(1024, 34, 12, 40, 1.3f)
+                .mainStatsHarvest(harvestTier(Gems.AQUAMARINE), 6) // iron
+                .mainStatsMelee(2, 0, 0)
+                .mainStatsRanged(1, 0)
+                .mainStatsArmor(2, 6, 5, 2, 4, 6) //15
+                .trait(PartTypes.MAIN, Const.Traits.FORTUNATE, 1)
+                .trait(PartTypes.ROD, Const.Traits.FORTUNATE, 1)
+                .trait(PartTypes.ROD, Const.Traits.BRITTLE, 3)
+                .trait(PartTypes.SETTING, GemsTraits.STEP_UP, 1)
+        );
+        ret.add(gem(Gems.TANZANITE, MaterialCategories.INTERMEDIATE) // all-rounder
+                .mainStatsCommon(768, 28, 15, 50, 1.2f)
+                .mainStatsHarvest(harvestTier(Gems.TANZANITE), 9) // diamond
+                .mainStatsMelee(2, 0, 0)
+                .mainStatsRanged(2, 0)
+                .mainStatsArmor(3, 8, 5, 2, 5, 10) //18
+                .trait(PartTypes.MAIN, Const.Traits.LIGHT, 2)
+                .trait(PartTypes.ROD, Const.Traits.SHARP, 2)
+                .trait(PartTypes.ROD, Const.Traits.BRITTLE, 3)
+                .trait(PartTypes.SETTING, GemsTraits.TWINKLETOES, 4)
+        );
+        ret.add(gem(Gems.OPAL, MaterialCategories.ADVANCED) // speed/armor
+                .mainStatsCommon(1024, 36, 10, 60, 1.3f)
+                .mainStatsHarvest(harvestTier(Gems.OPAL), 13) // diamond
+                .mainStatsMelee(2, 0, 0)
+                .mainStatsRanged(1, 0)
+                .mainStatsArmor(3, 8, 5, 2, 4, 8) //18
+                .trait(PartTypes.MAIN, GemsTraits.FREEZE_RESISTANT, 4)
+                .trait(PartTypes.MAIN, GemsTraits.ENDERBANE, 2)
+                .trait(PartTypes.ROD, Const.Traits.BRITTLE, 3)
+                .trait(PartTypes.ROD, GemsTraits.ENDERBANE, 4)
+                .trait(PartTypes.SETTING, GemsTraits.HASTY, 3)
+        );
+        ret.add(gem(Gems.PEARL, MaterialCategories.ADVANCED) // armor
+                .mainStatsCommon(1024, 44, 12, 65, 1.3f)
+                .mainStatsHarvest(harvestTier(Gems.PEARL), 8) // diamond
+                .mainStatsMelee(2, 0, 0)
+                .mainStatsRanged(2, 0)
+                .mainStatsArmor(3, 8, 6, 3, 12, 16) //20
+                .noProperties(PartTypes.SETTING)
+                .trait(PartTypes.MAIN, GemsTraits.NEPTUNES_BLESSING, 3)
+                .trait(PartTypes.ROD, Const.Traits.AQUATIC, 4)
+                .trait(PartTypes.ROD, Const.Traits.BRITTLE, 3)
+                .trait(PartTypes.SETTING, GemsTraits.NEPTUNES_BLESSING, 4)
+        );
+
+        // Reinforced rods
+        ret.add(MaterialBuilder.simple(DataResource.material(SilentGems.getId("reinforced_gold")))
+                .crafting(
+                        new MaterialCraftingData(
+                                Ingredient.of(),
+                                List.of(MaterialCategories.METAL),
+                                List.of(),
+                                Map.of(PartTypes.ROD.get(), Ingredient.of(GemsItems.REINFORCED_GOLD_ROD)),
+                                true
+                        )
+                )
+                .displayWithDefaultName(0xFDFF70, TextureType.HIGH_CONTRAST)
+                .trait(PartTypes.ROD, Const.Traits.MALLEABLE, 4)
+        );
+        ret.add(MaterialBuilder.simple(DataResource.material(SilentGems.getId("reinforced_silver")))
+                .crafting(
+                        new MaterialCraftingData(
+                                Ingredient.of(),
+                                List.of(MaterialCategories.METAL),
+                                List.of(),
+                                Map.of(PartTypes.ROD.get(), Ingredient.of(GemsItems.REINFORCED_SILVER_ROD)),
+                                true
+                        )
+                )
+                .displayWithDefaultName(0xCBCCEA, TextureType.HIGH_CONTRAST)
+                .trait(PartTypes.ROD, Const.Traits.MALLEABLE, 4)
         );
 
         return ret;

@@ -1,0 +1,80 @@
+{
+  "type": "silentgear:simple",
+  "parent": "silentgear:empty",
+  "crafting": {
+    "can_salvage": true,
+    "categories": [
+      "gem",
+      "intermediate"
+    ],
+    "gear_type_blacklist": [],
+    "ingredient": {
+      "tag": "c:gems/aquamarine"
+    },
+    "part_substitutes": {}
+  },
+  "display": {
+    "color": "#FF6EE9F4",
+    "main_texture_type": "HIGH_CONTRAST",
+    "name": {
+      "translate": "gem.silentgems.aquamarine"
+    },
+    "name_prefix": ""
+  },
+  "properties": {
+    "silentgear:main": {
+      "armor": 15.0,
+      "armor/boots": 2.0,
+      "armor/chestplate": 6.0,
+      "armor/helmet": 2.0,
+      "armor/leggings": 5.0,
+      "armor_durability": 34.0,
+      "armor_toughness": 4.0,
+      "attack_damage": 2.0,
+      "attack_speed": 0.0,
+      "charging_value": 1.3,
+      "draw_speed": 0.0,
+      "durability": 1024.0,
+      "enchantment_value": 12.0,
+      "harvest_speed": 6.0,
+      "harvest_tier": {
+        "incorrect_blocks_for_tool": "silentgems:incorrect_for_aquamarine_tools",
+        "level_hint": "2",
+        "name": "aquamarine"
+      },
+      "magic_armor": 6.0,
+      "ranged_damage": 1.0,
+      "rarity": 40.0,
+      "traits": [
+        {
+          "conditions": [],
+          "level": 1,
+          "trait": "silentgear:fortunate"
+        }
+      ]
+    },
+    "silentgear:rod": {
+      "traits": [
+        {
+          "conditions": [],
+          "level": 1,
+          "trait": "silentgear:fortunate"
+        },
+        {
+          "conditions": [],
+          "level": 3,
+          "trait": "silentgear:brittle"
+        }
+      ]
+    },
+    "silentgear:setting": {
+      "traits": [
+        {
+          "conditions": [],
+          "level": 1,
+          "trait": "silentgems:step_up"
+        }
+      ]
+    }
+  }
+}

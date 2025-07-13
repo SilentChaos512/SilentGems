@@ -1,0 +1,22 @@
+{
+  "conditions": [
+    {
+      "type": "silentgear:gear_type",
+      "gear_type": "silentgear:armor"
+    }
+  ],
+  "description": {
+    "translate": "trait.silentgems.freeze_resistant.desc"
+  },
+  "effects": [
+    {
+      "type": "silentgear:negate_damage",
+      "damage_type_tag": "minecraft:is_freezing",
+      "negated_damage_scale": 0.04
+    }
+  ],
+  "max_level": 5,
+  "name": {
+    "translate": "trait.silentgems.freeze_resistant"
+  }
+}

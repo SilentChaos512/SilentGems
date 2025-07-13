@@ -32,6 +32,7 @@ public final class DataGenerators {
         generator.addProvider(true, blockTags);
         generator.addProvider(true, new GemsItemTagsProvider(event, blockTags));
         generator.addProvider(true, new GemsEntityTypeTagsProvider(packOutput, lookupProvider, existingFileHelper));
+        generator.addProvider(true, new GemsDamageTypeTagsProvider(packOutput, lookupProvider, existingFileHelper));
         generator.addProvider(true, new GemsRecipeProvider(packOutput, lookupProvider));
         generator.addProvider(true, new GemsLootTableProvider(packOutput, lookupProvider));
 //        generator.addProvider(new GemsAdvancementProvider(generator));

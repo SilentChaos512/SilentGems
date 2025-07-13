@@ -1,0 +1,29 @@
+{
+  "conditions": [],
+  "description": {
+    "translate": "trait.silentgems.step_up.desc"
+  },
+  "effects": [
+    {
+      "type": "silentgear:attribute",
+      "attribute_modifiers": {
+        "curio/any": [
+          {
+            "attribute": "minecraft:generic.step_height",
+            "operation": "add_value",
+            "values": [
+              0.5
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "extra_wiki_lines": [
+    "Increases sneaking speed when on curios"
+  ],
+  "max_level": 1,
+  "name": {
+    "translate": "trait.silentgems.step_up"
+  }
+}

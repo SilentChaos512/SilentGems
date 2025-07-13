@@ -48,7 +48,7 @@
       "traits": [
         {
           "conditions": [],
-          "level": 1,
+          "level": 3,
           "trait": "silentgems:critical_strike"
         },
         {

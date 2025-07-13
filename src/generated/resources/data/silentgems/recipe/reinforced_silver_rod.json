@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "/": {
+      "tag": "c:ingots/silver"
+    },
+    "c": {
+      "item": "silentgems:chaos_essence"
+    },
+    "i": {
+      "tag": "c:ingots/iron"
+    }
+  },
+  "pattern": [
+    "/",
+    "i",
+    "c"
+  ],
+  "result": {
+    "count": 2,
+    "id": "silentgems:reinforced_silver_rod"
+  }
+}

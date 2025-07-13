@@ -6,11 +6,11 @@
   "effects": [
     {
       "type": "silentgems:critical_strike",
-      "activation_chance": 0.25,
+      "activation_chance": 0.1,
       "damage_multiplier": 0.5
     }
   ],
-  "max_level": 1,
+  "max_level": 5,
   "name": {
     "translate": "trait.silentgems.critical_strike"
   }

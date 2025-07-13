@@ -1,0 +1,48 @@
+{
+  "conditions": [],
+  "description": {
+    "translate": "trait.silentgems.neptunes_blessing.desc"
+  },
+  "effects": [
+    {
+      "type": "silentgear:negate_damage",
+      "damage_type_tag": "silentgems:neptunes_blessing_protects",
+      "negated_damage_scale": 0.05
+    },
+    {
+      "type": "silentgear:attribute",
+      "attribute_modifiers": {
+        "armor/armor": [
+          {
+            "attribute": "minecraft:generic.oxygen_bonus",
+            "operation": "add_value",
+            "values": [
+              0.25,
+              0.5,
+              0.75,
+              1.0,
+              1.25
+            ]
+          }
+        ],
+        "curio/any": [
+          {
+            "attribute": "minecraft:generic.oxygen_bonus",
+            "operation": "add_value",
+            "values": [
+              1.0,
+              2.0,
+              3.0,
+              4.0,
+              5.0
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "max_level": 5,
+  "name": {
+    "translate": "trait.silentgems.neptunes_blessing"
+  }
+}
