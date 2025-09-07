@@ -16,6 +16,9 @@ public class GemsTags {
         public static final TagKey<Block> ORES_CHAOS = common("ores/chaos");
         public static final TagKey<Block> ORES_SILVER = common("ores/silver");
 
+        public static final TagKey<Block> STORAGE_BLOCKS_CHAOS = common("storage_blocks/chaos");
+        public static final TagKey<Block> STORAGE_BLOCKS_SILVER = common("storage_blocks/silver");
+
         public static final TagKey<Block> GEM_ORES = gems("ores");
         public static final TagKey<Block> GLOWROSES = gems("glowroses");
 
@@ -40,6 +43,8 @@ public class GemsTags {
         public static final TagKey<Item> ORES_SILVER = common("ores/silver");
         public static final TagKey<Item> NUGGETS_SILVER = common("nuggets/silver");
         public static final TagKey<Item> RODS_SILVER = common("rods/silver");
+        public static final TagKey<Item> STORAGE_BLOCKS_CHAOS = common("storage_blocks/chaos");
+        public static final TagKey<Item> STORAGE_BLOCKS_SILVER = common("storage_blocks/silver");
 
         public static final TagKey<Item> GEM_ORES = gems("ores");
         public static final TagKey<Item> GEMS = gems("gems");

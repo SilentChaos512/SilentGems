@@ -53,6 +53,12 @@ public class GemsBlockTagsProvider extends BlockTagsProvider {
                 .addTag(GemsTags.Blocks.ORES_CHAOS)
                 .addTag(GemsTags.Blocks.ORES_SILVER);
 
+        tag(GemsTags.Blocks.STORAGE_BLOCKS_CHAOS).add(GemsBlocks.CHAOS_ESSENCE_BLOCK.get());
+        tag(GemsTags.Blocks.STORAGE_BLOCKS_SILVER).add(GemsBlocks.SILVER_BLOCK.get());
+        tag(Tags.Blocks.STORAGE_BLOCKS)
+                .addTag(GemsTags.Blocks.STORAGE_BLOCKS_CHAOS)
+                .addTag(GemsTags.Blocks.STORAGE_BLOCKS_SILVER);
+
         // Harvesting
 
         tag(BlockTags.MINEABLE_WITH_PICKAXE)

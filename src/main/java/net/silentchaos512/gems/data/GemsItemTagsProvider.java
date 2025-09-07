@@ -51,6 +51,10 @@ public class GemsItemTagsProvider extends ItemTagsProvider {
         copy(GemsTags.Blocks.ORES_SILVER, GemsTags.Items.ORES_SILVER);
         tag(GemsTags.Items.ORES_SILVER).add(GemsBlocks.SILVER_ORE.asItem(), GemsBlocks.DEEPSLATE_SILVER_ORE.asItem());
 
+        copy(GemsTags.Blocks.STORAGE_BLOCKS_CHAOS, GemsTags.Items.STORAGE_BLOCKS_CHAOS);
+        copy(GemsTags.Blocks.STORAGE_BLOCKS_SILVER, GemsTags.Items.STORAGE_BLOCKS_SILVER);
+        copy(Tags.Blocks.STORAGE_BLOCKS, Tags.Items.STORAGE_BLOCKS);
+
         tag(GemsTags.Items.INGOTS_SILVER).add(GemsItems.SILVER_INGOT.get());
         tag(GemsTags.Items.NUGGETS_SILVER).add(GemsItems.SILVER_NUGGET.get());
         tag(GemsTags.Items.RODS_SILVER).add(GemsItems.SILVER_ROD.get());
