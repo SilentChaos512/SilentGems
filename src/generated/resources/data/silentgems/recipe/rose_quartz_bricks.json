@@ -3,7 +3,7 @@
   "category": "building",
   "key": {
     "#": {
-      "tag": "minecraft:stone_bricks"
+      "item": "minecraft:stone_bricks"
     },
     "o": {
       "tag": "c:gems/rose_quartz"

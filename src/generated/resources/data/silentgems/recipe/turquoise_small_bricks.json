@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "#": {
+      "item": "minecraft:bricks"
+    },
+    "o": {
+      "tag": "c:gems/turquoise"
+    }
+  },
+  "pattern": [
+    "###",
+    "#o#",
+    "###"
+  ],
+  "result": {
+    "count": 12,
+    "id": "silentgems:turquoise_small_bricks"
+  }
+}

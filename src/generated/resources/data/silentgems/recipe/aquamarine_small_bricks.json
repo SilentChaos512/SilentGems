@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "#": {
+      "item": "minecraft:bricks"
+    },
+    "o": {
+      "tag": "c:gems/aquamarine"
+    }
+  },
+  "pattern": [
+    "###",
+    "#o#",
+    "###"
+  ],
+  "result": {
+    "count": 12,
+    "id": "silentgems:aquamarine_small_bricks"
+  }
+}

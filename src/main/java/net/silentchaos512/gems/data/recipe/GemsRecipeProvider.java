@@ -3,10 +3,10 @@ package net.silentchaos512.gems.data.recipe;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.common.Tags;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.GemLampBlock;
@@ -43,7 +43,52 @@ public class GemsRecipeProvider extends LibRecipeProvider {
                     .pattern("###")
                     .pattern("#o#")
                     .pattern("###")
-                    .define('#', ItemTags.STONE_BRICKS)
+                    .define('#', Blocks.STONE_BRICKS)
+                    .define('o', gem.getItemTag())
+                    .unlockedBy("has_item", has(gem.getItemTag()))
+                    .save(consumer);
+
+            ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, gem.getTiles(), 12)
+                    .pattern("###")
+                    .pattern("#o#")
+                    .pattern("###")
+                    .define('#', Blocks.DEEPSLATE_TILES)
+                    .define('o', gem.getItemTag())
+                    .unlockedBy("has_item", has(gem.getItemTag()))
+                    .save(consumer);
+
+            ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, gem.getSmallBricks(), 12)
+                    .pattern("###")
+                    .pattern("#o#")
+                    .pattern("###")
+                    .define('#', Blocks.BRICKS)
+                    .define('o', gem.getItemTag())
+                    .unlockedBy("has_item", has(gem.getItemTag()))
+                    .save(consumer);
+
+            ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, gem.getPolishedStone(), 12)
+                    .pattern("###")
+                    .pattern("#o#")
+                    .pattern("###")
+                    .define('#', Blocks.POLISHED_DIORITE)
+                    .define('o', gem.getItemTag())
+                    .unlockedBy("has_item", has(gem.getItemTag()))
+                    .save(consumer);
+
+            ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, gem.getSmoothStone(), 12)
+                    .pattern("###")
+                    .pattern("#o#")
+                    .pattern("###")
+                    .define('#', Blocks.SMOOTH_STONE)
+                    .define('o', gem.getItemTag())
+                    .unlockedBy("has_item", has(gem.getItemTag()))
+                    .save(consumer);
+
+            ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, gem.getChiseledStone(), 12)
+                    .pattern("###")
+                    .pattern("#o#")
+                    .pattern("###")
+                    .define('#', Blocks.CHISELED_STONE_BRICKS)
                     .define('o', gem.getItemTag())
                     .unlockedBy("has_item", has(gem.getItemTag()))
                     .save(consumer);
