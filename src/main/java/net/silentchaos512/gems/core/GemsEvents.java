@@ -6,31 +6,34 @@ import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
+import net.silentchaos512.gems.GemsConfig;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.setup.GemsAttachmentTypes;
 import net.silentchaos512.gems.setup.GemsItems;
 import net.silentchaos512.gems.setup.GemsTags;
-import net.silentchaos512.lib.util.TimeUtils;
 
 @EventBusSubscriber
 public class GemsEvents {
-    public static final int COFFEE_TIMER_DELAY = TimeUtils.ticksFromMinutes(10f);
-
     @SubscribeEvent
     public static void onEntityTick(EntityTickEvent.Post event) {
         handleCoffeeTimerTicks(event);
     }
 
     private static void handleCoffeeTimerTicks(EntityTickEvent.Post event) {
-        if (event.getEntity() instanceof LivingEntity livingEntity && livingEntity.getType().is(GemsTags.EntityTypes.COFFEE_PRODUCERS)) {
+        if (event.getEntity() instanceof LivingEntity livingEntity && isCoffeeProducer(livingEntity)) {
             int coffeeTimer = livingEntity.getData(GemsAttachmentTypes.COFFEE_TIMER);
-            if (coffeeTimer >= COFFEE_TIMER_DELAY) {
+            if (coffeeTimer >= GemsConfig.COMMON.featureRabbitsCoffeeDelay.get()) {
                 spawnCoffeeAtEntity(livingEntity);
                 livingEntity.setData(GemsAttachmentTypes.COFFEE_TIMER, 0);
             } else {
                 livingEntity.setData(GemsAttachmentTypes.COFFEE_TIMER, coffeeTimer + 1);
             }
         }
+    }
+
+    private static boolean isCoffeeProducer(LivingEntity entity) {
+        return entity.getType().is(GemsTags.EntityTypes.COFFEE_PRODUCERS)
+                && GemsConfig.COMMON_SPEC.isLoaded() && GemsConfig.COMMON.featureRabbitsProduceCoffee.get();
     }
 
     private static void spawnCoffeeAtEntity(LivingEntity livingEntity) {
