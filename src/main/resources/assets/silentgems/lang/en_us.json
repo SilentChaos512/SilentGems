@@ -88,7 +88,6 @@
   "silentgems.configuration.normalLight": "Normal Light Value",
   "silentgems.configuration.pottedLight": "Potted Light Value",
   "silentgems.configuration.rabbitsProduceCoffee": "Rabbits Produce Coffee",
-  "silentgems.configuration.rabbitCoffeeDelay": "Rabbit Coffee Delay",
   "trait.silentgems.barrier_jacket": "Barrier Jacket",
   "trait.silentgems.barrier_jacket.desc": "Grants more magic armor at higher durability",
   "trait.silentgems.booster": "Booster",
