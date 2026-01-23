@@ -1,0 +1,67 @@
+{
+  "values": {
+    "#silentgems:glowroses/alexandrite": {
+      "chance": 0.65
+    },
+    "#silentgems:glowroses/ammolite": {
+      "chance": 0.65
+    },
+    "#silentgems:glowroses/aquamarine": {
+      "chance": 0.65
+    },
+    "#silentgems:glowroses/black_diamond": {
+      "chance": 0.65
+    },
+    "#silentgems:glowroses/carnelian": {
+      "chance": 0.65
+    },
+    "#silentgems:glowroses/citrine": {
+      "chance": 0.65
+    },
+    "#silentgems:glowroses/garnet": {
+      "chance": 0.65
+    },
+    "#silentgems:glowroses/heliodor": {
+      "chance": 0.65
+    },
+    "#silentgems:glowroses/iolite": {
+      "chance": 0.65
+    },
+    "#silentgems:glowroses/kyanite": {
+      "chance": 0.65
+    },
+    "#silentgems:glowroses/moldavite": {
+      "chance": 0.65
+    },
+    "#silentgems:glowroses/opal": {
+      "chance": 0.65
+    },
+    "#silentgems:glowroses/pearl": {
+      "chance": 0.65
+    },
+    "#silentgems:glowroses/peridot": {
+      "chance": 0.65
+    },
+    "#silentgems:glowroses/rose_quartz": {
+      "chance": 0.65
+    },
+    "#silentgems:glowroses/ruby": {
+      "chance": 0.65
+    },
+    "#silentgems:glowroses/sapphire": {
+      "chance": 0.65
+    },
+    "#silentgems:glowroses/tanzanite": {
+      "chance": 0.65
+    },
+    "#silentgems:glowroses/topaz": {
+      "chance": 0.65
+    },
+    "#silentgems:glowroses/turquoise": {
+      "chance": 0.65
+    },
+    "#silentgems:glowroses/white_diamond": {
+      "chance": 0.65
+    }
+  }
+}

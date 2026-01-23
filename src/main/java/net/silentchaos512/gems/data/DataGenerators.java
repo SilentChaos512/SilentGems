@@ -28,6 +28,8 @@ public final class DataGenerators {
         var packOutput = generator.getPackOutput();
         var lookupProvider = event.getLookupProvider();
 
+        generator.addProvider(true, new GemsDataMapProvider(packOutput, lookupProvider));
+
         GemsBlockTagsProvider blockTags = new GemsBlockTagsProvider(event);
         generator.addProvider(true, blockTags);
         generator.addProvider(true, new GemsItemTagsProvider(event, blockTags));

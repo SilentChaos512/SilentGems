@@ -3,16 +3,14 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
-### Added
-- Ukrainian translation (Lorp_OOO)
-
-## [Unreleased]
+## [1.21.1-5.1.3] - 2026-01-23
 ### Added
 - Config option to disable coffee drops (the `coffee_producers` tag still exists as well) [#593]
 - Config option to change the delay between coffee drops (defaults to 10 minutes)
 - Japanese localization (Abbage230) [#589]
+- Ukrainian translation (Lorp_OOO)
 ### Changed
+- Glowroses can now be composted [#549]
 - Updated Portuguese localization (PrincessStelllar) [#592] 
 
 ## [1.21.1-5.1.2.1] - 2025-09-07
