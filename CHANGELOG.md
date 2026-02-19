@@ -11,15 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Ukrainian translation (Lorp_OOO)
 ### Changed
 - Glowroses can now be composted [#549]
-- Updated Portuguese localization (PrincessStelllar) [#592] 
-
-## [Unreleased]
-### Added
-- Config option to disable coffee drops (the `coffee_producers` tag still exists as well) [#593]
-- Config option to change the delay between coffee drops (defaults to 10 minutes)
-- Japanese localization (Abbage230) [#589]
-### Changed
-- Updated Portuguese localization (PrincessStelllar) [#592] 
+- Updated Portuguese localization (PrincessStelllar) [#592]
 
 ## [1.21.1-5.1.2.1] - 2025-09-07
 ### Fixed
