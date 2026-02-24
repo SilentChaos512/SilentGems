@@ -1,6 +1,7 @@
 {
   "__comment__": "Inspired by Basic Nether Ores (https://github.com/cScotPlay/BasicNetherOres/blob/1.21/common/src/main/resources/assets/bno/models/block/cube_overlay.json)",
   "parent": "block/block",
+  "render_type": "minecraft:cutout",
   "elements": [
     {
       "from": [ 0, 0, 0 ],

@@ -37,7 +37,7 @@ public final class GemsTraits {
 
         public static final Supplier<TraitEffectType<CriticalStrikeTraitEffect>> CRITICAL_STRIKE = REGISTRAR.register(
                 "critical_strike",
-                () -> new TraitEffectType<>(CriticalStrikeTraitEffect.CODEC, CriticalStrikeTraitEffect.STREAM_CODEC)
+                () -> new TraitEffectType<>(CriticalStrikeTraitEffect.CODEC, CriticalStrikeTraitEffect.STREAM_CODEC, "Gives a chance of dealing extra damage when attacking")
         );
     }
 }

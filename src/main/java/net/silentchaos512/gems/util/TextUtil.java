@@ -1,10 +1,10 @@
 package net.silentchaos512.gems.util;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.Util;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TextColor;
+import net.minecraft.util.Util;
 import net.minecraft.world.level.ItemLike;
 import net.silentchaos512.lib.util.Color;
 import net.silentchaos512.lib.util.NameUtils;

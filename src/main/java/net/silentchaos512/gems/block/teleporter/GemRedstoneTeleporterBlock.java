@@ -7,10 +7,12 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.redstone.Orientation;
 import net.minecraft.world.phys.AABB;
 import net.neoforged.neoforge.common.Tags;
-import net.silentchaos512.gems.util.Gems;
+import net.silentchaos512.gems.setup.Gems;
 import net.silentchaos512.lib.util.DimPos;
+import org.jspecify.annotations.Nullable;
 
 public class GemRedstoneTeleporterBlock extends GemTeleporterBlock {
     public GemRedstoneTeleporterBlock(Gems gem, Properties properties) {
@@ -23,16 +25,16 @@ public class GemRedstoneTeleporterBlock extends GemTeleporterBlock {
     }
 
     @Override
-    protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock, BlockPos neighborPos, boolean movedByPiston) {
-        if (level.isClientSide) return;
+    protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock, @Nullable Orientation orientation, boolean movedByPiston) {
+        if (level.isClientSide()) return;
 
         boolean hasSignal = level.hasNeighborSignal(pos) || level.hasNeighborSignal(pos.above());
         boolean triggered = state.getValue(TRIGGERED);
         if (hasSignal && !triggered) {
             tryTeleportNearbyEntities(level, pos);
-            level.setBlock(pos, state.setValue(TRIGGERED, true), 2);
+            level.setBlock(pos, state.setValue(TRIGGERED, true), UPDATE_CLIENTS);
         } else if (!hasSignal && triggered) {
-            level.setBlock(pos, state.setValue(TRIGGERED, false), 2);
+            level.setBlock(pos, state.setValue(TRIGGERED, false), UPDATE_CLIENTS);
         }
     }
 
@@ -61,7 +63,7 @@ public class GemRedstoneTeleporterBlock extends GemTeleporterBlock {
 
     private boolean canTeleportEntity(Level level, Entity entity, DimPos destination) {
         // Some entities cannot change dimensions and some mods may forbid teleporting
-        return (entity.canChangeDimensions(level, destination.getPosLevel(level).orElse(level)) || destination.dimension().equals(entity.level().dimension()))
+        return (entity.canUsePortal(true) || destination.dimension().equals(entity.level().dimension()))
                 && !entity.getType().is(Tags.EntityTypes.TELEPORTING_NOT_SUPPORTED);
     }
 }

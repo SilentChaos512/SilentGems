@@ -14,7 +14,7 @@ public class GemsAttachmentTypes {
     public static final Supplier<AttachmentType<Integer>> COFFEE_TIMER = REGISTRAR.register(
             "coffee_timer",
             () -> AttachmentType.builder(() -> 0)
-                    .serialize(Codec.INT)
+                    .serialize(Codec.INT.fieldOf("coffee_timer"))
                     .build()
     );
 }

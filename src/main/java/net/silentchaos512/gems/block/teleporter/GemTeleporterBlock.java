@@ -6,7 +6,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.silentchaos512.gems.block.IGemBlock;
-import net.silentchaos512.gems.util.Gems;
+import net.silentchaos512.gems.setup.Gems;
 
 import java.util.function.BiFunction;
 

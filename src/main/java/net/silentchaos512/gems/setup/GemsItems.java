@@ -1,25 +1,20 @@
 package net.silentchaos512.gems.setup;
 
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.item.component.Consumables;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.item.GemsFoodItem;
 import net.silentchaos512.gems.item.PetSummonerItem;
 import net.silentchaos512.gems.item.SparklingBoneMealItem;
 import net.silentchaos512.gems.item.TeleporterLinker;
-import net.silentchaos512.gems.util.Gems;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.function.Supplier;
+import java.util.function.Function;
+import java.util.function.UnaryOperator;
 
 public final class GemsItems {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(SilentGems.MOD_ID);
@@ -39,58 +34,66 @@ public final class GemsItems {
     public static final DeferredItem<Item> REINFORCED_GOLD_ROD = registerCraftingItem("reinforced_gold_rod");
     public static final DeferredItem<Item> REINFORCED_SILVER_ROD = registerCraftingItem("reinforced_silver_rod");
 
-    public static final DeferredItem<TeleporterLinker> TELEPORTER_LINKER = registerSimpleModel("teleporter_linker", () ->
-            new TeleporterLinker(unstackableProps()));
+    public static final DeferredItem<TeleporterLinker> TELEPORTER_LINKER = registerSimpleModel("teleporter_linker",
+            TeleporterLinker::new,
+            properties -> properties.stacksTo(1)
+    );
 
-    public static final DeferredItem<SparklingBoneMealItem> SPARKLING_BONE_MEAL = registerSimpleModel("sparkling_bone_meal", () ->
-            new SparklingBoneMealItem(baseProps()));
+    public static final DeferredItem<SparklingBoneMealItem> SPARKLING_BONE_MEAL = registerSimpleModel("sparkling_bone_meal",
+            SparklingBoneMealItem::new
+    );
 
-    public static final DeferredItem<PetSummonerItem> SUMMON_KITTY = registerSimpleModel("summon_kitty", () ->
-            new PetSummonerItem(PetSummonerItem::getCat, baseProps()));
-    public static final DeferredItem<PetSummonerItem> SUMMON_PUPPY = registerSimpleModel("summon_puppy", () ->
-            new PetSummonerItem(PetSummonerItem::getDog, baseProps()));
+    public static final DeferredItem<PetSummonerItem> SUMMON_KITTY = registerSimpleModel("summon_kitty",
+            properties -> new PetSummonerItem(PetSummonerItem::getCat, properties)
+    );
+    public static final DeferredItem<PetSummonerItem> SUMMON_PUPPY = registerSimpleModel("summon_puppy",
+            properties -> new PetSummonerItem(PetSummonerItem::getDog, properties)
+    );
 
-    public static final DeferredItem<Item> POTATO_ON_A_STICK = registerFood("potato_on_a_stick", Items.STICK, new FoodProperties.Builder()
-            .nutrition(6)
-            .saturationModifier(0.7f)
+    public static final DeferredItem<Item> POTATO_ON_A_STICK = registerSimpleModel("potato_on_a_stick",
+            Item::new,
+            properties -> properties
+                    .food(GemsFoods.POTATO_ON_A_STICK, Consumables.DEFAULT_FOOD)
+                    .usingConvertsTo(Items.STICK)
     );
-    public static final DeferredItem<Item> SUGAR_COOKIE = registerFood("sugar_cookie", null, new FoodProperties.Builder()
-            .nutrition(2)
-            .saturationModifier(0.4f)
-            .alwaysEdible()
-            .effect(() -> new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 600), 1f)
-            .effect(() -> new MobEffectInstance(MobEffects.DIG_SPEED, 400), 1f)
+    public static final DeferredItem<Item> SUGAR_COOKIE = registerSimpleModel("sugar_cookie",
+            Item::new,
+            properties -> properties
+                    .food(GemsFoods.SUGAR_COOKIE, GemsConsumables.SUGAR_COOKIE)
     );
-    public static final DeferredItem<Item> CUP_OF_COFFEE = registerFood("cup_of_coffee", null, new FoodProperties.Builder()
-            .nutrition(1)
-            .saturationModifier(0.2f)
-            .alwaysEdible()
-            .effect(() -> new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 3600), 1f)
-            .effect(() -> new MobEffectInstance(MobEffects.DIG_SPEED, 1800), 1f)
+    public static final DeferredItem<Item> CUP_OF_COFFEE = registerSimpleModel("cup_of_coffee",
+            Item::new,
+            properties -> properties
+                    .food(GemsFoods.CUP_OF_COFFEE, GemsConsumables.CUP_OF_COFFEE)
     );
-    public static final DeferredItem<Item> UNCOOKED_MEATY_STEW = registerFood("uncooked_meaty_stew", Items.BOWL, new FoodProperties.Builder()
-            .nutrition(4)
-            .saturationModifier(0.6f)
+    public static final DeferredItem<Item> UNCOOKED_MEATY_STEW = registerSimpleModel("uncooked_meaty_stew",
+            Item::new,
+            properties -> properties
+                    .food(GemsFoods.UNCOOKED_MEATY_STEW, Consumables.DEFAULT_FOOD)
+                    .usingConvertsTo(Items.BOWL)
     );
-    public static final DeferredItem<Item> MEATY_STEW = registerFood("meaty_stew", Items.BOWL, new FoodProperties.Builder()
-            .nutrition(12)
-            .saturationModifier(1.6f)
+    public static final DeferredItem<Item> MEATY_STEW = registerSimpleModel("meaty_stew",
+            Item::new,
+            properties -> properties
+                    .food(GemsFoods.MEATY_STEW, Consumables.DEFAULT_FOOD)
+                    .usingConvertsTo(Items.BOWL)
     );
-    public static final DeferredItem<Item> UNCOOKED_FISHY_STEW = registerFood("uncooked_fishy_stew", Items.BOWL, new FoodProperties.Builder()
-            .nutrition(4)
-            .saturationModifier(0.5f)
+    public static final DeferredItem<Item> UNCOOKED_FISHY_STEW = registerSimpleModel("uncooked_fishy_stew",
+            Item::new,
+            properties -> properties
+                    .food(GemsFoods.UNCOOKED_FISHY_STEW, Consumables.DEFAULT_FOOD)
+                    .usingConvertsTo(Items.BOWL)
     );
-    public static final DeferredItem<Item> FISHY_STEW = registerFood("fishy_stew", Items.BOWL, new FoodProperties.Builder()
-            .nutrition(10)
-            .saturationModifier(1.2f)
+    public static final DeferredItem<Item> FISHY_STEW = registerSimpleModel("fishy_stew",
+            Item::new,
+            properties -> properties
+                    .food(GemsFoods.FISHY_STEW, Consumables.DEFAULT_FOOD)
+                    .usingConvertsTo(Items.BOWL)
     );
-    public static final DeferredItem<Item> IRON_POTATO = registerFood("iron_potato", null, new FoodProperties.Builder()
-            .nutrition(9)
-            .saturationModifier(0.9f)
-            .alwaysEdible()
-            .effect(() -> new MobEffectInstance(MobEffects.ABSORPTION, 10 * 60 * 20, 4), 1f)
-            .effect(() -> new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 5 * 60 * 20, 0), 1f)
-            .effect(() -> new MobEffectInstance(MobEffects.DAMAGE_BOOST, 5 * 60 * 20, 1), 1f)
+    public static final DeferredItem<Item> IRON_POTATO = registerSimpleModel("iron_potato",
+            Item::new,
+            properties -> properties
+                    .food(GemsFoods.IRON_POTATO, GemsConsumables.IRON_POTATO)
     );
 
     private GemsItems() {
@@ -100,12 +103,20 @@ public final class GemsItems {
         return Collections.unmodifiableCollection(SIMPLE_MODEL_ITEMS);
     }
 
-    private static <T extends Item> DeferredItem<T> register(String name, Supplier<T> item) {
-        return ITEMS.register(name, item);
+    static <T extends Item> DeferredItem<T> register(String name, Function<Item.Properties, T> item) {
+        return ITEMS.registerItem(name, item);
     }
 
-    private static <T extends Item> DeferredItem<T> registerSimpleModel(String name, Supplier<T> item) {
-        DeferredItem<T> ret = register(name, item);
+    static <T extends Item> DeferredItem<T> register(String name, Function<Item.Properties, T> item, UnaryOperator<Item.Properties> properties) {
+        return ITEMS.registerItem(name, item, properties);
+    }
+
+    private static <T extends Item> DeferredItem<T> registerSimpleModel(String name, Function<Item.Properties, T> item) {
+        return registerSimpleModel(name, item, UnaryOperator.identity());
+    }
+
+    private static <T extends Item> DeferredItem<T> registerSimpleModel(String name, Function<Item.Properties, T> item, UnaryOperator<Item.Properties> properties) {
+        DeferredItem<T> ret = register(name, item, properties);
         SIMPLE_MODEL_ITEMS.add(ret);
         return ret;
     }
@@ -113,20 +124,6 @@ public final class GemsItems {
     private static DeferredItem<Item> registerCraftingItem(String name) {
         // Registers a generic, basic item with no special properties. Useful for items that are
         // used primarily for crafting recipes.
-        return registerSimpleModel(name, () -> new Item(baseProps()));
-    }
-
-    private static DeferredItem<Item> registerFood(String name, @Nullable ItemLike returnItem, FoodProperties.Builder foodBuilder) {
-        DeferredItem<Item> ret = register(name, () -> new GemsFoodItem(foodBuilder, returnItem, baseProps()));
-        SIMPLE_MODEL_ITEMS.add(ret);
-        return ret;
-    }
-
-    private static Item.Properties baseProps() {
-        return new Item.Properties();
-    }
-
-    private static Item.Properties unstackableProps() {
-        return baseProps().stacksTo(1);
+        return registerSimpleModel(name, Item::new);
     }
 }

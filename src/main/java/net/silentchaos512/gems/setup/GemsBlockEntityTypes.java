@@ -9,7 +9,6 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.teleporter.TeleporterBlockEntity;
-import net.silentchaos512.gems.util.Gems;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -27,8 +26,7 @@ public class GemsBlockEntityTypes {
     private static <T extends BlockEntity> DeferredHolder<BlockEntityType<?>, BlockEntityType<T>> register(String name, BlockEntityType.BlockEntitySupplier<T> factory, DeferredBlock<?>... blocks) {
         return BLOCK_ENTITY_TYPES.register(name, () -> {
             Block[] validBlocks = Arrays.stream(blocks).map(DeferredBlock::get).toArray(Block[]::new);
-            //noinspection ConstantConditions - null in build
-            return BlockEntityType.Builder.of(factory, validBlocks).build(null);
+            return new BlockEntityType<>(factory, validBlocks);
         });
     }
 

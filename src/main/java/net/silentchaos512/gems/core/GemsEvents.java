@@ -1,5 +1,6 @@
 package net.silentchaos512.gems.core;
 
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.LivingEntity;
@@ -20,10 +21,10 @@ public class GemsEvents {
     }
 
     private static void handleCoffeeTimerTicks(EntityTickEvent.Post event) {
-        if (event.getEntity() instanceof LivingEntity livingEntity && isCoffeeProducer(livingEntity)) {
+        if (event.getEntity() instanceof LivingEntity livingEntity && livingEntity.level() instanceof ServerLevel level && isCoffeeProducer(livingEntity)) {
             int coffeeTimer = livingEntity.getData(GemsAttachmentTypes.COFFEE_TIMER);
             if (coffeeTimer >= GemsConfig.COMMON.featureRabbitsCoffeeDelay.get()) {
-                spawnCoffeeAtEntity(livingEntity);
+                spawnCoffeeAtEntity(level, livingEntity);
                 livingEntity.setData(GemsAttachmentTypes.COFFEE_TIMER, 0);
             } else {
                 livingEntity.setData(GemsAttachmentTypes.COFFEE_TIMER, coffeeTimer + 1);
@@ -36,8 +37,8 @@ public class GemsEvents {
                 && GemsConfig.COMMON_SPEC.isLoaded() && GemsConfig.COMMON.featureRabbitsProduceCoffee.get();
     }
 
-    private static void spawnCoffeeAtEntity(LivingEntity livingEntity) {
-        var itemEntity = livingEntity.spawnAtLocation(GemsItems.CUP_OF_COFFEE);
+    private static void spawnCoffeeAtEntity(ServerLevel level, LivingEntity livingEntity) {
+        var itemEntity = livingEntity.spawnAtLocation(level, GemsItems.CUP_OF_COFFEE);
         if (itemEntity != null) {
             itemEntity.setDeltaMovement(
                     itemEntity.getDeltaMovement()

@@ -7,7 +7,7 @@ import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.StainedGlassBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import net.silentchaos512.gems.util.Gems;
+import net.silentchaos512.gems.setup.Gems;
 
 public class GemGlassBlock extends StainedGlassBlock implements IGemBlock {
     private final Gems gem;

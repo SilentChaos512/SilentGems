@@ -1,13 +1,16 @@
-package net.silentchaos512.gems.util;
+package net.silentchaos512.gems.setup;
 
-import net.minecraft.data.tags.IntrinsicHolderTagsProvider;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.data.tags.TagAppender;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -21,9 +24,6 @@ import net.silentchaos512.gems.block.*;
 import net.silentchaos512.gems.block.teleporter.GemRedstoneTeleporterBlock;
 import net.silentchaos512.gems.block.teleporter.GemTeleporterBlock;
 import net.silentchaos512.gems.item.GemBlockItem;
-import net.silentchaos512.gems.item.GemItem;
-import net.silentchaos512.gems.setup.GemsBlocks;
-import net.silentchaos512.gems.setup.GemsItems;
 import net.silentchaos512.gems.world.OreConfigDefaults;
 import net.silentchaos512.lib.util.Color;
 
@@ -32,138 +32,137 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.function.Function;
-import java.util.function.Supplier;
+import java.util.function.UnaryOperator;
 
 @SuppressWarnings("NonFinalFieldInEnum")
 public enum Gems {
     RUBY(0xE61D1D, //hue=0
             Rarity.COMMON,
-            Tiers.IRON,
+            BlockTags.INCORRECT_FOR_IRON_TOOL, "2",
             OreConfigDefaults.defaults(4, 8, 2, -64, 32, 0.2f),
             OreConfigDefaults.empty(),
             OreConfigDefaults.empty()),
     CARNELIAN(0xE04D1D, //15
             Rarity.UNCOMMON,
-            Tiers.IRON,
+            BlockTags.INCORRECT_FOR_IRON_TOOL, "2",
             OreConfigDefaults.empty(),
             OreConfigDefaults.defaults(2, 8, 1, 25, 110),
             OreConfigDefaults.empty()),
     TOPAZ(0xE6711D, //25
             Rarity.COMMON,
-            Tiers.IRON,
+            BlockTags.INCORRECT_FOR_IRON_TOOL, "2",
             OreConfigDefaults.defaults(4, 8, 2, -56, 40, 0.2f),
             OreConfigDefaults.empty(),
             OreConfigDefaults.empty()),
     CITRINE(0xC78B03, //40
             Rarity.UNCOMMON,
-            Tiers.IRON,
+            BlockTags.INCORRECT_FOR_IRON_TOOL, "2",
             OreConfigDefaults.empty(),
             OreConfigDefaults.defaults(2, 8, 1, 25, 110),
             OreConfigDefaults.empty()),
     HELIODOR(0xE6C51D, //50
             Rarity.COMMON,
-            Tiers.DIAMOND,
+            BlockTags.INCORRECT_FOR_DIAMOND_TOOL, "3",
             OreConfigDefaults.defaults(1, 6, 4, -80, -32, 0.8f),
             OreConfigDefaults.empty(),
             OreConfigDefaults.defaults(2, 9, 1, 16, 72)),
     MOLDAVITE(0xA6D923, //75
             Rarity.UNCOMMON,
-            Tiers.IRON,
+            BlockTags.INCORRECT_FOR_IRON_TOOL, "2",
             OreConfigDefaults.empty(),
             OreConfigDefaults.defaults(2, 8, 1, 25, 110),
             OreConfigDefaults.empty()),
     PERIDOT(0x29DB18, //115
             Rarity.COMMON,
-            Tiers.IRON,
+            BlockTags.INCORRECT_FOR_IRON_TOOL, "2",
             OreConfigDefaults.defaults(4, 8, 2, -56, 40, 0.2f),
             OreConfigDefaults.empty(),
             OreConfigDefaults.empty()),
     TURQUOISE(0x3DF4BD, //160
             Rarity.RARE,
-            Tiers.DIAMOND,
+            BlockTags.INCORRECT_FOR_DIAMOND_TOOL, "3",
             OreConfigDefaults.defaults(1, 6, 4, -80, -32, 0.8f),
             OreConfigDefaults.empty(),
             OreConfigDefaults.defaults(2, 9, 1, 16, 72)),
     KYANITE(0x41C4F3, //195 (-165)
             Rarity.RARE,
-            Tiers.NETHERITE,
+            BlockTags.INCORRECT_FOR_NETHERITE_TOOL, "4",
             OreConfigDefaults.empty(),
             OreConfigDefaults.empty(),
             OreConfigDefaults.defaults(2, 9, 1, 16, 72)),
     SAPPHIRE(0x1D60E5, //220 (-140)
             Rarity.COMMON,
-            Tiers.IRON,
+            BlockTags.INCORRECT_FOR_IRON_TOOL, "2",
             OreConfigDefaults.defaults(4, 8, 2, -80, 32, 0.2f),
             OreConfigDefaults.empty(),
             OreConfigDefaults.empty()),
     IOLITE(0x7543F5, //260 (-100)
             Rarity.UNCOMMON,
-            Tiers.IRON,
+            BlockTags.INCORRECT_FOR_IRON_TOOL, "2",
             OreConfigDefaults.defaults(1, 6, 4, -80, -32, 0.8f),
             OreConfigDefaults.defaults(2, 8, 1, 20, 80),
             OreConfigDefaults.empty()),
     ALEXANDRITE(0xAB37E5, //280 (-80)
             Rarity.UNCOMMON,
-            Tiers.DIAMOND,
+            BlockTags.INCORRECT_FOR_DIAMOND_TOOL, "3",
             OreConfigDefaults.defaults(1, 6, 4, -80, -32, 0.8f),
             OreConfigDefaults.defaults(2, 8, 1, 20, 80),
             OreConfigDefaults.empty()),
     AMMOLITE(0xDB2BFF, //290 (-70)
             Rarity.RARE,
-            Tiers.DIAMOND,
+            BlockTags.INCORRECT_FOR_DIAMOND_TOOL, "3",
             OreConfigDefaults.empty(),
             OreConfigDefaults.empty(),
             OreConfigDefaults.defaults(2, 9, 1, 16, 72)),
     ROSE_QUARTZ(0xFF4EAB, //330 (-30), B+30,C+40
             Rarity.RARE,
-            Tiers.NETHERITE,
+            BlockTags.INCORRECT_FOR_NETHERITE_TOOL, "4",
             OreConfigDefaults.empty(),
             OreConfigDefaults.empty(),
             OreConfigDefaults.defaults(2, 9, 1, 16, 72)),
     BLACK_DIAMOND(0x5F524C, //20, Sat=20,Lit=-36
             Rarity.EPIC,
-            Tiers.NETHERITE,
+            BlockTags.INCORRECT_FOR_NETHERITE_TOOL, "4",
             OreConfigDefaults.empty(),
             OreConfigDefaults.defaults(3, 8, 3, -10, 60),
             OreConfigDefaults.empty()),
     WHITE_DIAMOND(0xD5C1D2, //310 (-50), Sat=10, B+50,C+30
             Rarity.EPIC,
-            Tiers.NETHERITE,
+            BlockTags.INCORRECT_FOR_NETHERITE_TOOL, "4",
             OreConfigDefaults.empty(),
             OreConfigDefaults.empty(),
             OreConfigDefaults.defaults(3, 8, 3, -10, 60)),
     // Gems added by giok3r
     GARNET(0x970000,
             Rarity.UNCOMMON,
-            Tiers.IRON,
+            BlockTags.INCORRECT_FOR_IRON_TOOL, "2",
             OreConfigDefaults.defaults(2, 8, 2, -64, 32, 0.2f),
             OreConfigDefaults.empty(),
             OreConfigDefaults.defaults(1, 8, 2, -10, 60)),
     AQUAMARINE(0x6EE9F4,
             Rarity.UNCOMMON,
-            Tiers.IRON,
+            BlockTags.INCORRECT_FOR_IRON_TOOL, "2",
             OreConfigDefaults.defaults(2, 8, 2, -64, 32, 0.2f),
             OreConfigDefaults.empty(),
             OreConfigDefaults.empty()),
     TANZANITE(0x3D00B9,
             Rarity.UNCOMMON,
-            Tiers.IRON,
+            BlockTags.INCORRECT_FOR_IRON_TOOL, "2",
             OreConfigDefaults.empty(),
             OreConfigDefaults.defaults(2, 8, 1, 25, 110),
             OreConfigDefaults.empty()),
     OPAL(0xDDFFE4,
             Rarity.RARE,
-            Tiers.DIAMOND,
+            BlockTags.INCORRECT_FOR_DIAMOND_TOOL, "3",
             OreConfigDefaults.defaults(1, 6, 4, -80, 0),
             OreConfigDefaults.empty(),
             OreConfigDefaults.defaults(2, 9, 2, 16, 72)),
     PEARL(0xD3CBBF,
             Rarity.RARE,
-            Tiers.DIAMOND,
+            BlockTags.INCORRECT_FOR_DIAMOND_TOOL, "3",
             OreConfigDefaults.empty(),
             OreConfigDefaults.defaults(1, 6, 4, 0, 55),
-            OreConfigDefaults.defaults(2, 9, 2, 16, 72))
-    ;
+            OreConfigDefaults.defaults(2, 9, 2, 16, 72));
 
     private final Color color;
     private final Rarity rarity;
@@ -191,8 +190,7 @@ public enum Gems {
     DeferredBlock<GemTeleporterBlock> redstoneTeleporter;
 
     // Items
-    DeferredItem<GemItem> item;
-    DeferredItem<GemItem> shard;
+    DeferredItem<Item> item;
 
     // Tags
     final TagKey<Block> incorrectForToolTag;
@@ -208,7 +206,7 @@ public enum Gems {
     final TagKey<Item> modOresItemTag;
     final TagKey<Item> itemTag;
 
-    Gems(int colorIn, Rarity rarity, Tier equivalentHarvestTier, OreConfigDefaults overworldOres, OreConfigDefaults netherOres, OreConfigDefaults endOres) {
+    Gems(int colorIn, Rarity rarity, TagKey<Block> equivalentHarvestTierTag, String harvestTierLevelHint, OreConfigDefaults overworldOres, OreConfigDefaults netherOres, OreConfigDefaults endOres) {
         this.color = new Color(colorIn);
         this.rarity = rarity;
 
@@ -218,12 +216,8 @@ public enum Gems {
 
         String name = this.getName();
         this.incorrectForToolTag = makeBlockTag(SilentGems.getId("incorrect_for_" + name + "_tools"));
-        this.equivalentIncorrectForToolTag = equivalentHarvestTier.getIncorrectBlocksForDrops();
-        this.harvestTierLevelHint = switch (equivalentHarvestTier) {
-            case Tiers.NETHERITE -> "4";
-            case Tiers.DIAMOND -> "3";
-            default -> "2";
-        };
+        this.equivalentIncorrectForToolTag = equivalentHarvestTierTag;
+        this.harvestTierLevelHint = harvestTierLevelHint;
         this.blockTag = makeBlockTag(commonId("storage_blocks/" + name));
         this.glowroseTag = makeBlockTag(SilentGems.getId("glowroses/" + name));
         this.oreTag = makeBlockTag(commonId("ores/" + name));
@@ -236,16 +230,16 @@ public enum Gems {
         this.itemTag = makeItemTag(commonId("gems/" + name));
     }
 
-    private static TagKey<Block> makeBlockTag(ResourceLocation name) {
+    private static TagKey<Block> makeBlockTag(Identifier name) {
         return BlockTags.create(name);
     }
 
-    private static TagKey<Item> makeItemTag(ResourceLocation name) {
+    private static TagKey<Item> makeItemTag(Identifier name) {
         return ItemTags.create(name);
     }
 
-    private static ResourceLocation commonId(String path) {
-        return ResourceLocation.fromNamespaceAndPath("c", path);
+    private static Identifier commonId(String path) {
+        return Identifier.fromNamespaceAndPath("c", path);
     }
 
     public String getName() {
@@ -274,7 +268,7 @@ public enum Gems {
 
     // Used by data generators
 
-    public void generateIncorrectForToolTag(Function<TagKey<Block>, IntrinsicHolderTagsProvider.IntrinsicTagAppender<Block>> tagProvider) {
+    public void generateIncorrectForToolTag(Function<TagKey<Block>, TagAppender<Block, Block>> tagProvider) {
         var intrinsicTagAppender = tagProvider.apply(this.incorrectForToolTag);
         intrinsicTagAppender.addTag(this.equivalentIncorrectForToolTag);
     }
@@ -360,13 +354,8 @@ public enum Gems {
         return pottedGlowrose.get();
     }
 
-    public GemItem getItem() {
+    public Item getItem() {
         return item.get();
-    }
-
-    @Deprecated
-    public GemItem getShard() {
-        return shard.get();
     }
 
     public TagKey<Block> getOreTag() {
@@ -409,76 +398,100 @@ public enum Gems {
 
     public static void registerBlocks() {
         for (Gems gem : values())
-            gem.ore = registerBlock(gem.getName() + "_ore", () ->
-                    new GemOreBlock(gem, 2, "gem_ore", BlockBehaviour.Properties.of()
+            gem.ore = GemsBlocks.register(gem.getName() + "_ore",
+                    properties -> new GemOreBlock(gem, 2, "gem_ore", properties),
+                    properties -> properties
                             .strength(3f)
                             .requiresCorrectToolForDrops()
-                            .sound(SoundType.STONE)));
+                            .sound(SoundType.STONE)
+            );
 
         for (Gems gem : values())
-            gem.deepslateOre = registerBlock("deepslate_" + gem.getName() + "_ore", () ->
-                    new GemOreBlock(gem, 2, "deepslate_gem_ore", BlockBehaviour.Properties.ofFullCopy(gem.ore.get())
+            gem.deepslateOre = GemsBlocks.register("deepslate_" + gem.getName() + "_ore",
+                    properties -> new GemOreBlock(gem, 2, "deepslate_gem_ore", properties),
+                    p -> BlockBehaviour.Properties.ofFullCopy(gem.ore.get())
                             .strength(4.5f, 3f)
-                            .sound(SoundType.DEEPSLATE)));
+                            .sound(SoundType.DEEPSLATE)
+            );
 
         for (Gems gem : values())
-            gem.netherOre = registerBlock("nether_" + gem.getName() + "_ore", () ->
-                    new GemOreBlock(gem, 3, "gem_nether_ore", BlockBehaviour.Properties.ofFullCopy(gem.ore.get())
+            gem.netherOre = GemsBlocks.register("nether_" + gem.getName() + "_ore",
+                    properties -> new GemOreBlock(gem, 3, "gem_nether_ore", properties),
+                    p -> BlockBehaviour.Properties.ofFullCopy(gem.ore.get())
                             .strength(4f)
-                            .sound(SoundType.NETHER_ORE)));
+                            .sound(SoundType.NETHER_ORE)
+            );
 
         for (Gems gem : values())
-            gem.endOre = registerBlock("end_" + gem.getName() + "_ore", () ->
-                    new GemOreBlock(gem, 4, "gem_end_ore", BlockBehaviour.Properties.ofFullCopy(gem.ore.get())
-                            .strength(6f)));
+            gem.endOre = GemsBlocks.register("end_" + gem.getName() + "_ore",
+                    properties -> new GemOreBlock(gem, 4, "gem_end_ore", properties),
+                    p -> BlockBehaviour.Properties.ofFullCopy(gem.ore.get())
+                            .strength(6f)
+            );
 
         for (Gems gem : values())
-            gem.block = registerBlock(gem.getName() + "_block", () ->
-                    new GemBlock(gem, "gem_block", BlockBehaviour.Properties.of()
+            gem.block = GemsBlocks.register(gem.getName() + "_block",
+                    properties -> new GemBlock(gem, "gem_block", properties),
+                    properties -> properties
                             .strength(4, 30)
-                            .sound(SoundType.METAL)));
+                            .sound(SoundType.METAL)
+            );
 
         for (Gems gem : values())
-            gem.bricks = registerBlock(gem.getName() + "_bricks", () ->
-                    new GemBlock(gem, "gem_bricks", BlockBehaviour.Properties.of()
-                            .strength(2f, 8f)));
+            gem.bricks = GemsBlocks.register(gem.getName() + "_bricks",
+                    properties -> new GemBlock(gem, "gem_bricks", properties),
+                    properties -> properties
+                            .strength(2f, 8f)
+            );
 
         for (Gems gem : values())
-            gem.tiles = registerBlock(gem.getName() + "_tiles", () ->
-                    new GemBlock(gem, "gem_tiles", BlockBehaviour.Properties.of()
-                            .strength(2f, 8f)));
+            gem.tiles = GemsBlocks.register(gem.getName() + "_tiles",
+                    properties -> new GemBlock(gem, "gem_tiles", properties),
+                    properties -> properties
+                            .strength(2f, 8f)
+            );
 
         for (Gems gem : values())
-            gem.smallBricks = registerBlock(gem.getName() + "_small_bricks", () ->
-                    new GemBlock(gem, "gem_small_bricks", BlockBehaviour.Properties.of()
-                            .strength(2f, 8f)));
+            gem.smallBricks = GemsBlocks.register(gem.getName() + "_small_bricks",
+                    properties -> new GemBlock(gem, "gem_small_bricks", properties),
+                    properties -> properties
+                            .strength(2f, 8f)
+            );
 
         for (Gems gem : values())
-            gem.polishedStone = registerBlock("polished_" + gem.getName(), () ->
-                    new GemBlock(gem, "polished_gem_stone", BlockBehaviour.Properties.of()
-                            .strength(2f, 8f)));
+            gem.polishedStone = GemsBlocks.register("polished_" + gem.getName(),
+                    properties -> new GemBlock(gem, "polished_gem_stone", properties),
+                    properties -> properties
+                            .strength(2f, 8f)
+            );
 
         for (Gems gem : values())
-            gem.smoothStone = registerBlock("smooth_" + gem.getName(), () ->
-                    new GemBlock(gem, "smooth_gem_stone", BlockBehaviour.Properties.of()
-                            .strength(2f, 8f)));
+            gem.smoothStone = GemsBlocks.register("smooth_" + gem.getName(),
+                    properties -> new GemBlock(gem, "smooth_gem_stone", properties),
+                    properties -> properties
+                            .strength(2f, 8f)
+            );
 
         for (Gems gem : values())
-            gem.chiseledStone = registerBlock("chiseled_" + gem.getName(), () ->
-                    new GemBlock(gem, "chiseled_gem_stone", BlockBehaviour.Properties.of()
-                            .strength(2f, 8f)));
+            gem.chiseledStone = GemsBlocks.register("chiseled_" + gem.getName(),
+                    properties -> new GemBlock(gem, "chiseled_gem_stone", properties),
+                    properties -> properties
+                            .strength(2f, 8f)
+            );
 
         BlockBehaviour.StatePredicate isNotSolid = (state, world, pos) -> false;
         for (Gems gem : values())
-            gem.glass = registerBlock(gem.getName() + "_glass", () ->
-                    new GemGlassBlock(gem, BlockBehaviour.Properties.of()
+            gem.glass = GemsBlocks.register(gem.getName() + "_glass",
+                    properties -> new GemGlassBlock(gem, properties),
+                    properties -> properties
                             .strength(1f, 5f)
                             .sound(SoundType.GLASS)
                             .noOcclusion()
                             .isValidSpawn((state, world, pos, entityType) -> false)
                             .isRedstoneConductor(isNotSolid)
                             .isSuffocating(isNotSolid)
-                            .isViewBlocking(isNotSolid)));
+                            .isViewBlocking(isNotSolid)
+            );
 
         for (Gems gem : values())
             gem.lamps.put(GemLampBlock.State.OFF, registerLamp(gem, GemLampBlock.State.OFF));
@@ -490,75 +503,72 @@ public enum Gems {
             gem.lamps.put(GemLampBlock.State.INVERTED_OFF, registerLamp(gem, GemLampBlock.State.INVERTED_OFF));
 
         for (Gems gem : values())
-            gem.glowrose = registerBlock(gem.getName() + "_glowrose", () ->
-                    new GlowroseBlock(gem, BlockBehaviour.Properties.of()
+            gem.glowrose = GemsBlocks.register(gem.getName() + "_glowrose",
+                    properties -> new GlowroseBlock(gem, properties),
+                    properties -> properties
                             .sound(SoundType.GRASS)
                             .strength(0)
-                            .noCollission()));
+                            .noCollision()
+            );
 
         for (Gems gem : values()) {
-            gem.pottedGlowrose = registerBlockNoItem("potted_" + gem.getName() + "_glowrose", () ->
-                    new PottedGlowroseBlock(gem, () -> gem.glowrose.get(), BlockBehaviour.Properties
-                            .of()
-                            .strength(0)));
+            gem.pottedGlowrose = GemsBlocks.registerNoItem("potted_" + gem.getName() + "_glowrose",
+                    properties -> new PottedGlowroseBlock(gem, () -> gem.glowrose.get(), properties),
+                    properties -> properties
+                            .strength(0)
+            );
             ((FlowerPotBlock) Blocks.FLOWER_POT).addPlant(SilentGems.getId(gem.getName() + "_glowrose"), gem.pottedGlowrose);
         }
 
         for (Gems gem : values())
-            gem.teleporter = registerBlock(gem.getName() + "_teleporter", () ->
-                    new GemTeleporterBlock(gem, BlockBehaviour.Properties.of()
+            gem.teleporter = GemsBlocks.register(gem.getName() + "_teleporter",
+                    properties -> new GemTeleporterBlock(gem, properties),
+                    properties -> properties
                             .sound(SoundType.METAL)
                             .strength(5)
-                    ));
+                    );
 
         for (Gems gem : values())
-            gem.redstoneTeleporter = registerBlock(gem.getName() + "_redstone_teleporter", () ->
-                    new GemRedstoneTeleporterBlock(gem, BlockBehaviour.Properties.of()
+            gem.redstoneTeleporter = GemsBlocks.register(gem.getName() + "_redstone_teleporter",
+                    properties -> new GemRedstoneTeleporterBlock(gem, properties),
+                    properties -> properties
                             .sound(SoundType.METAL)
                             .strength(5)
-                    ));
+                    );
     }
 
     public static void registerItems() {
         for (Gems gem : values())
-            gem.item = registerItem(gem.getName(), () ->
-                    new GemItem(gem, "gem", new Item.Properties()));
-
-//        for (Gems gem : values())
-//            gem.shard = registerItem(gem.getName() + "_shard", () ->
-//                    new GemItem(gem, "gem_shard", new Item.Properties().group(GemsBase.ITEM_GROUP)));
-    }
-
-    private static <T extends Block> DeferredBlock<T> registerBlockNoItem(String name, Supplier<T> block) {
-        return GemsBlocks.BLOCKS.register(name, block);
-    }
-
-    private static <T extends Block> DeferredBlock<T> registerBlock(String name, Supplier<T> block) {
-        return registerBlock(name, block, Gems::defaultBlockItem);
-    }
-
-    private static <T extends Block> DeferredBlock<T> registerBlock(String name, Supplier<T> block, Function<DeferredBlock<T>, Supplier<BlockItem>> item) {
-        DeferredBlock<T> ret = registerBlockNoItem(name, block);
-        if (item != null) {
-            GemsItems.ITEMS.register(name, item.apply(ret));
-        }
-        return ret;
+            gem.item = registerItem(
+                    gem.getName(),
+                    Item::new,
+                    properties -> properties
+                            .component(DataComponents.ITEM_NAME, Component.translatable("item.silentgems.gem", gem.getDisplayName()))
+            );
     }
 
     private static DeferredBlock<GemLampBlock> registerLamp(Gems gem, GemLampBlock.State state) {
         String name = gem.getName() + "_lamp" + (state.inverted() ? "_inverted" : "") + (state.lit() ? "_on" : "");
-        return registerBlock(name,
-                () -> new GemLampBlock(gem, state, Block.Properties.of()
-                        .strength(0.3f, 15)
-                        .lightLevel(s -> state.lit() ? 15 : 0)),
-                state.hasItem() ? Gems::defaultBlockItem : null);
+        Function<BlockBehaviour.Properties, GemLampBlock> blockFunction = properties -> new GemLampBlock(gem, state, properties);
+        UnaryOperator<BlockBehaviour.Properties> propertiesFunction = properties -> properties
+                .strength(0.3f, 15)
+                .lightLevel(s -> state.lit() ? 15 : 0);
+        if (state.hasItem()) {
+            return GemsBlocks.register(name, blockFunction, propertiesFunction, Gems::defaultBlockItem);
+        } else {
+            return GemsBlocks.registerNoItem(name, blockFunction, propertiesFunction);
+        }
     }
 
-    private static <T extends Item> DeferredItem<T> registerItem(String name, Supplier<T> item) {
-        return GemsItems.ITEMS.register(name, item);
+    private static <T extends Item> DeferredItem<T> registerItem(String name, Function<Item.Properties, T> item) {
+        return registerItem(name, item, UnaryOperator.identity());
     }
 
-    private static Supplier<BlockItem> defaultBlockItem(DeferredBlock<?> block) {
-        return () -> new GemBlockItem(block.get(), new Item.Properties());
+    private static <T extends Item> DeferredItem<T> registerItem(String name, Function<Item.Properties, T> item, UnaryOperator<Item.Properties> properties) {
+        return GemsItems.ITEMS.registerItem(name, item, properties);
+    }
+
+    private static Function<Item.Properties, BlockItem> defaultBlockItem(DeferredBlock<?> block) {
+        return properties -> new GemBlockItem(block.get(), properties);
     }
 }

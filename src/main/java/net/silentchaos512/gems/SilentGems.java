@@ -1,6 +1,6 @@
 package net.silentchaos512.gems;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.RandomSource;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
@@ -8,7 +8,7 @@ import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
-import net.neoforged.fml.loading.FMLLoader;
+import net.neoforged.fml.loading.FMLEnvironment;
 import net.silentchaos512.gems.client.SilentGemsClient;
 import net.silentchaos512.gems.setup.Registration;
 import net.silentchaos512.gems.util.TextUtil;
@@ -32,7 +32,7 @@ public class SilentGems {
         Registration.register(modEventBus);
         modContainer.registerConfig(ModConfig.Type.COMMON, GemsConfig.COMMON_SPEC);
 
-        if (FMLLoader.getDist() == Dist.CLIENT) {
+        if (FMLEnvironment.getDist() == Dist.CLIENT) {
             new SilentGemsClient(modContainer);
         }
     }
@@ -49,18 +49,18 @@ public class SilentGems {
         return "NONE".equals(getVersion());
     }
 
-    public static ResourceLocation getId(String path) {
-        return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
+    public static Identifier getId(String path) {
+        return Identifier.fromNamespaceAndPath(MOD_ID, path);
     }
 
     @Nullable
-    public static ResourceLocation getIdWithDefaultNamespace(String name) {
+    public static Identifier getIdWithDefaultNamespace(String name) {
         if (name.contains(":"))
-            return ResourceLocation.tryParse(name);
-        return ResourceLocation.tryParse(MOD_ID + ":" + name);
+            return Identifier.tryParse(name);
+        return Identifier.tryParse(MOD_ID + ":" + name);
     }
 
-    public static String shortenId(@Nullable ResourceLocation id) {
+    public static String shortenId(@Nullable Identifier id) {
         if (id == null)
             return "null";
         if (MOD_ID.equals(id.getNamespace()))

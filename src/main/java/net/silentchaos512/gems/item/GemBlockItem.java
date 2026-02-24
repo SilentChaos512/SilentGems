@@ -16,14 +16,9 @@ public class GemBlockItem extends BlockItem {
 
     @Override
     public Component getName(ItemStack stack) {
-        if (block instanceof IGemBlock) {
-            return ((IGemBlock) block).getGemBlockName();
+        if (block instanceof IGemBlock gemBlock) {
+            return gemBlock.getGemBlockName();
         }
         return super.getName(stack);
-    }
-
-    @Override
-    public Component getDescription() {
-        return block.getName();
     }
 }

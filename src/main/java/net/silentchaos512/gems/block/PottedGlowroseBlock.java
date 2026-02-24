@@ -8,7 +8,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.silentchaos512.gems.GemsConfig;
-import net.silentchaos512.gems.util.Gems;
+import net.silentchaos512.gems.setup.Gems;
 
 import java.util.function.Supplier;
 

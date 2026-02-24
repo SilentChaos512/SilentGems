@@ -6,7 +6,9 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.silentchaos512.gems.util.Gems;
+import net.minecraft.world.level.redstone.Orientation;
+import net.silentchaos512.gems.setup.Gems;
+import org.jspecify.annotations.Nullable;
 
 public class GemLampBlock extends GemBlock {
     public enum State {
@@ -52,13 +54,13 @@ public class GemLampBlock extends GemBlock {
     }
 
     private void checkAndUpdateState(Level world, BlockPos pos) {
-        if (!world.isClientSide) {
+        if (!world.isClientSide()) {
             boolean powered = world.hasNeighborSignal(pos);
             State newLampState = this.lampState.withPower(powered);
 
             if (newLampState != this.lampState) {
                 BlockState newState = this.gem.getLamp(newLampState).defaultBlockState();
-                world.setBlock(pos, newState, 2);
+                world.setBlock(pos, newState, UPDATE_CLIENTS);
             }
         }
     }
@@ -69,8 +71,8 @@ public class GemLampBlock extends GemBlock {
     }
 
     @Override
-    public void neighborChanged(BlockState state, Level worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean p_220069_6_) {
-        checkAndUpdateState(worldIn, pos);
+    protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block neighborBlock, @Nullable Orientation orientation, boolean movedByPiston) {
+        checkAndUpdateState(level, pos);
     }
 
     @Override

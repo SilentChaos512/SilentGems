@@ -1,18 +1,20 @@
-package net.silentchaos512.gems.data;
+package net.silentchaos512.gems.data.tags;
 
 import net.minecraft.core.HolderLookup;
+import net.minecraft.data.PackOutput;
 import net.minecraft.tags.BlockTags;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
-import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.setup.GemsBlocks;
 import net.silentchaos512.gems.setup.GemsTags;
-import net.silentchaos512.gems.util.Gems;
+import net.silentchaos512.gems.setup.Gems;
+
+import java.util.concurrent.CompletableFuture;
 
 public class GemsBlockTagsProvider extends BlockTagsProvider {
-    public GemsBlockTagsProvider(GatherDataEvent event) {
-        super(event.getGenerator().getPackOutput(), event.getLookupProvider(), SilentGems.MOD_ID, event.getExistingFileHelper());
+    public GemsBlockTagsProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
+        super(output, lookupProvider, SilentGems.MOD_ID);
     }
 
     @Override

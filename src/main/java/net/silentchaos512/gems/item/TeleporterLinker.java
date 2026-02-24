@@ -54,7 +54,7 @@ public class TeleporterLinker extends Item {
             if (blockEntity instanceof TeleporterBlockEntity teleporterBlockEntity) {
                 teleporterBlockEntity.setDestination(newDestination);
             }
-        } else if (!player.level().isClientSide) {
+        } else if (!player.level().isClientSide()) {
             player.displayClientMessage(Component.literal("Could not link teleporter at " + teleporterPosition), false);
         }
     }

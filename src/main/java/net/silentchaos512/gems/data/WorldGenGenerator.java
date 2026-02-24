@@ -6,8 +6,8 @@ import net.minecraft.core.HolderSet;
 import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
@@ -35,7 +35,7 @@ import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.setup.GemsBlocks;
-import net.silentchaos512.gems.util.Gems;
+import net.silentchaos512.gems.setup.Gems;
 import net.silentchaos512.gems.world.OreConfigDefaults;
 import org.jetbrains.annotations.NotNull;
 
@@ -129,10 +129,10 @@ public class WorldGenGenerator extends DatapackBuiltinEntriesProvider {
             })
             .add(Registries.PLACED_FEATURE, ctx -> {
                 ResourceKey<ConfiguredFeature<?, ?>> silverOreKey = configuredFeature(SilentGems.getId("overworld/silver_ore"));
-                ctx.register(placedFeature(silverOreKey.location()), placed(holderFeature(ctx, silverOreKey), -60, 40, 16));
+                ctx.register(placedFeature(silverOreKey.identifier()), placed(holderFeature(ctx, silverOreKey), -60, 40, 16));
 
                 ResourceKey<ConfiguredFeature<?, ?>> chaosOreKey = configuredFeature(SilentGems.getId("overworld/chaos_ore"));
-                ctx.register(placedFeature(chaosOreKey.location()),
+                ctx.register(placedFeature(chaosOreKey.identifier()),
                         placed(
                                 holderFeature(ctx, chaosOreKey),
                                 -60,
@@ -178,18 +178,18 @@ public class WorldGenGenerator extends DatapackBuiltinEntriesProvider {
     }
 
     private static ResourceKey<ConfiguredFeature<?, ?>> getOreFeatureKey(Gems gem, ResourceKey<Level> level) {
-        return configuredFeature(SilentGems.getId(level.location().getPath() + "/" + gem.getName() + "_ore"));
+        return configuredFeature(SilentGems.getId(level.identifier().getPath() + "/" + gem.getName() + "_ore"));
     }
 
     private static ResourceKey<ConfiguredFeature<?, ?>> getGlowroseFeatureKey(Gems gem, ResourceKey<Level> level) {
-        return configuredFeature(SilentGems.getId(level.location().getPath() + "/" + gem.getName() + "_glowrose"));
+        return configuredFeature(SilentGems.getId(level.identifier().getPath() + "/" + gem.getName() + "_glowrose"));
     }
 
     private static void makePlacedFeature(BootstrapContext<PlacedFeature> ctx, Gems gem, ResourceKey<Level> level) {
         ResourceKey<ConfiguredFeature<?, ?>> key = getOreFeatureKey(gem, level);
         OreConfigDefaults config = gem.getOreConfigDefaults(level);
         PlacedFeature placed = placed(holderFeature(ctx, key), config.minHeight(), config.maxHeight(), config.count());
-        ctx.register(placedFeature(key.location()), placed);
+        ctx.register(placedFeature(key.identifier()), placed);
     }
 
     private static void makePlacedGlowroseFeature(BootstrapContext<PlacedFeature> ctx, Gems gem, ResourceKey<Level> level) {
@@ -202,7 +202,7 @@ public class WorldGenGenerator extends DatapackBuiltinEntriesProvider {
                         BiomeFilter.biome()
                 )
         );
-        ctx.register(placedFeature(key.location()), placed);
+        ctx.register(placedFeature(key.identifier()), placed);
     }
 
     private static void registerOreBiomeModifiers(BootstrapContext<BiomeModifier> ctx, ResourceKey<Level> level, TagKey<Biome> biomes, Map<Gems, ConfiguredFeature<?, ?>> ores, String modifierName, Collection<ResourceKey<ConfiguredFeature<?, ?>>> others) {
@@ -211,10 +211,10 @@ public class WorldGenGenerator extends DatapackBuiltinEntriesProvider {
 
         ores.forEach((gem, feature) -> {
             ResourceKey<ConfiguredFeature<?, ?>> key = getOreFeatureKey(gem, level);
-            list.add(holderPlaced(ctx, key.location()));
+            list.add(holderPlaced(ctx, key.identifier()));
         });
 
-        others.forEach(o -> list.add(holderPlaced(ctx, o.location())));
+        others.forEach(o -> list.add(holderPlaced(ctx, o.identifier())));
 
         BiomeModifier oresMod = new BiomeModifiers.AddFeaturesBiomeModifier(
                 biomeTagSet,
@@ -246,15 +246,15 @@ public class WorldGenGenerator extends DatapackBuiltinEntriesProvider {
         return new ConfiguredFeature<>(Feature.ORE, new OreConfiguration(replacing, block.defaultBlockState(), size));
     }
 
-    public static ResourceKey<ConfiguredFeature<?, ?>> configuredFeature(ResourceLocation name) {
+    public static ResourceKey<ConfiguredFeature<?, ?>> configuredFeature(Identifier name) {
         return ResourceKey.create(Registries.CONFIGURED_FEATURE, name);
     }
 
-    protected static ResourceKey<PlacedFeature> placedFeature(ResourceLocation name) {
+    protected static ResourceKey<PlacedFeature> placedFeature(Identifier name) {
         return ResourceKey.create(Registries.PLACED_FEATURE, name);
     }
 
-    protected static ResourceKey<BiomeModifier> biomeModifier(ResourceLocation name) {
+    protected static ResourceKey<BiomeModifier> biomeModifier(Identifier name) {
         return ResourceKey.create(NeoForgeRegistries.Keys.BIOME_MODIFIERS, name);
     }
 
@@ -275,7 +275,7 @@ public class WorldGenGenerator extends DatapackBuiltinEntriesProvider {
         return ctx.lookup(Registries.CONFIGURED_FEATURE).getOrThrow(location);
     }
 
-    public static Holder<PlacedFeature> holderPlaced(BootstrapContext<BiomeModifier> ctx, ResourceLocation location) {
+    public static Holder<PlacedFeature> holderPlaced(BootstrapContext<BiomeModifier> ctx, Identifier location) {
         return ctx.lookup(Registries.PLACED_FEATURE).getOrThrow(placedFeature(location));
     }
 }

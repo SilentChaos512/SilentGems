@@ -11,7 +11,7 @@ import net.minecraft.world.level.block.FlowerBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.common.Tags;
 import net.silentchaos512.gems.GemsConfig;
-import net.silentchaos512.gems.util.Gems;
+import net.silentchaos512.gems.setup.Gems;
 
 public class GlowroseBlock extends FlowerBlock implements IGemBlock {
     private final Gems gem;

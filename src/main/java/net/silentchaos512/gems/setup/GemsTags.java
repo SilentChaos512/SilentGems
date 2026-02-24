@@ -1,7 +1,7 @@
 package net.silentchaos512.gems.setup;
 
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
@@ -33,7 +33,7 @@ public class GemsTags {
         }
 
         private static TagKey<Block> tag(String namespace, String name) {
-            return BlockTags.create(ResourceLocation.fromNamespaceAndPath(namespace, name));
+            return BlockTags.create(Identifier.fromNamespaceAndPath(namespace, name));
         }
     }
 
@@ -66,7 +66,7 @@ public class GemsTags {
         }
 
         private static TagKey<Item> tag(String namespace, String name) {
-            return ItemTags.create(ResourceLocation.fromNamespaceAndPath(namespace, name));
+            return ItemTags.create(Identifier.fromNamespaceAndPath(namespace, name));
         }
     }
 
@@ -83,7 +83,7 @@ public class GemsTags {
         }
 
         private static TagKey<EntityType<?>> tag(String namespace, String path) {
-            return TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(namespace, path));
+            return TagKey.create(Registries.ENTITY_TYPE, Identifier.fromNamespaceAndPath(namespace, path));
         }
     }
 
@@ -99,7 +99,7 @@ public class GemsTags {
         }
 
         private static TagKey<DamageType> tag(String namespace, String path) {
-            return TagKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(namespace, path));
+            return TagKey.create(Registries.DAMAGE_TYPE, Identifier.fromNamespaceAndPath(namespace, path));
         }
     }
 }

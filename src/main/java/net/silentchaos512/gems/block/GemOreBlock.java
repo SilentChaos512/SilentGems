@@ -3,7 +3,7 @@ package net.silentchaos512.gems.block;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.util.valueproviders.UniformInt;
-import net.silentchaos512.gems.util.Gems;
+import net.silentchaos512.gems.setup.Gems;
 
 public class GemOreBlock extends OreBlockSG implements IGemBlock {
     private final Gems gem;

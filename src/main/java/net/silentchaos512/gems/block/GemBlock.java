@@ -3,7 +3,7 @@ package net.silentchaos512.gems.block;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.level.block.Block;
-import net.silentchaos512.gems.util.Gems;
+import net.silentchaos512.gems.setup.Gems;
 
 public class GemBlock extends Block implements IGemBlock {
     protected final Gems gem;

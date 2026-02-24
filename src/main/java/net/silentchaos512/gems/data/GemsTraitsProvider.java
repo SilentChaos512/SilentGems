@@ -1,12 +1,13 @@
 package net.silentchaos512.gems.data;
 
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.neoforged.neoforge.common.Tags;
 import net.silentchaos512.gear.api.data.trait.TraitBuilder;
 import net.silentchaos512.gear.api.data.trait.TraitsProviderBase;
@@ -20,14 +21,16 @@ import net.silentchaos512.gems.setup.GemsTraits;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.concurrent.CompletableFuture;
 
 public class GemsTraitsProvider extends TraitsProviderBase {
-    public GemsTraitsProvider(DataGenerator generator) {
-        super(generator, SilentGems.MOD_ID);
+    public GemsTraitsProvider(CompletableFuture<HolderLookup.Provider> lookupProvider, DataGenerator generator) {
+        super(lookupProvider, generator, SilentGems.MOD_ID);
     }
 
     @Override
-    public Collection<TraitBuilder> getTraits() {
+    public Collection<TraitBuilder> getTraits(HolderLookup.Provider provider) {
+        var items = provider.lookupOrThrow(Registries.ITEM);
         Collection<TraitBuilder> ret = new ArrayList<>();
 
         ret.add(TraitBuilder.of(GemsTraits.BARRIER_JACKET, 5)
@@ -44,7 +47,7 @@ public class GemsTraitsProvider extends TraitsProviderBase {
                                 .add(
                                         GearTypes.CURIO,
                                         WielderEffectTraitEffect.LevelType.TRAIT_LEVEL,
-                                        MobEffects.MOVEMENT_SPEED,
+                                        MobEffects.SPEED,
                                         1, 2, 3, 4, 5
                                 )
                                 .build()
@@ -87,7 +90,7 @@ public class GemsTraitsProvider extends TraitsProviderBase {
                         new ItemMagnetTraitEffect(
                                 0.08f,
                                 4.0f,
-                                Ingredient.of(Tags.Items.GEMS),
+                                items.getOrThrow(Tags.Items.GEMS),
                                 "gems"
                         ),
                         NumberPropertyModifierTraitEffect.builder()
@@ -138,7 +141,7 @@ public class GemsTraitsProvider extends TraitsProviderBase {
                                 .add(
                                         GearTypes.CURIO,
                                         WielderEffectTraitEffect.LevelType.TRAIT_LEVEL,
-                                        MobEffects.JUMP,
+                                        MobEffects.JUMP_BOOST,
                                         1, 2, 3, 4, 5
                                 )
                                 .add(

@@ -12,7 +12,6 @@ import net.neoforged.neoforge.common.extensions.IMenuTypeExtension;
 import net.neoforged.neoforge.network.IContainerFactory;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
-import net.silentchaos512.gems.SilentGems;
 
 public class GemsContainers {
     public static final DeferredRegister<MenuType<?>> CONTAINERS = Registration.create(BuiltInRegistries.MENU);
@@ -22,7 +21,7 @@ public class GemsContainers {
     }
 
     @OnlyIn(Dist.CLIENT)
-    @EventBusSubscriber(value = Dist.CLIENT, modid = SilentGems.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
+    @EventBusSubscriber(value = Dist.CLIENT)
     public static class Events {
         @SubscribeEvent
         public static void registerScreens(RegisterMenuScreensEvent event) {

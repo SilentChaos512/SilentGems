@@ -9,7 +9,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.GrassBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.util.Gems;
+import net.silentchaos512.gems.setup.Gems;
 
 public class SparklingBoneMealItem extends ItemWithFlavorText {
     public SparklingBoneMealItem(Properties properties) {
