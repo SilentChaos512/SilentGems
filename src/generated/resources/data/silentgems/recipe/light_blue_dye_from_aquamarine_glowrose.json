@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "tag": "silentgems:glowroses/aquamarine"
-    }
+    "#silentgems:glowroses/aquamarine"
   ],
   "result": {
     "count": 1,

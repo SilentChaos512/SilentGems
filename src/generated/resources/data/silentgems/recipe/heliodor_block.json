@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "silentgems:heliodor_block"
-    }
+    "silentgems:heliodor_block"
   ],
   "result": {
     "count": 9,

@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "#": {
-      "tag": "c:glass_blocks/colorless"
-    },
-    "o": {
-      "tag": "c:gems/alexandrite"
-    }
+    "#": "#c:glass_blocks/colorless",
+    "o": "#c:gems/alexandrite"
   },
   "pattern": [
     "###",

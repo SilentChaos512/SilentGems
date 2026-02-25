@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shapeless",
   "category": "building",
   "ingredients": [
-    {
-      "item": "silentgems:pearl_lamp"
-    },
-    {
-      "item": "minecraft:redstone_torch"
-    }
+    "silentgems:pearl_lamp",
+    "minecraft:redstone_torch"
   ],
   "result": {
     "count": 1,

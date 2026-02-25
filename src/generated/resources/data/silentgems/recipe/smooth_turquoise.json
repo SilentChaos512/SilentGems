@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "#": {
-      "item": "minecraft:smooth_stone"
-    },
-    "o": {
-      "tag": "c:gems/turquoise"
-    }
+    "#": "minecraft:smooth_stone",
+    "o": "#c:gems/turquoise"
   },
   "pattern": [
     "###",

@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "/": {
-      "tag": "c:ingots/silver"
-    },
-    "c": {
-      "item": "silentgems:chaos_essence"
-    },
-    "i": {
-      "tag": "c:ingots/iron"
-    }
+    "/": "#c:ingots/silver",
+    "c": "silentgems:chaos_essence",
+    "i": "#c:ingots/iron"
   },
   "pattern": [
     "/",

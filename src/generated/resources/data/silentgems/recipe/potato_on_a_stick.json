@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "/": {
-      "tag": "c:rods/wooden"
-    },
-    "p": {
-      "item": "minecraft:baked_potato"
-    }
+    "/": "#c:rods/wooden",
+    "p": "minecraft:baked_potato"
   },
   "pattern": [
     " p",

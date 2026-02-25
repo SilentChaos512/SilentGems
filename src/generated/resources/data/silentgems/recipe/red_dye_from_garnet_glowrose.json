@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "tag": "silentgems:glowroses/garnet"
-    }
+    "#silentgems:glowroses/garnet"
   ],
   "result": {
     "count": 1,

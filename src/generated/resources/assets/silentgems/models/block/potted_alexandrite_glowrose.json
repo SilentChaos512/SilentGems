@@ -1,6 +1,5 @@
 {
-  "parent": "minecraft:block/flower_pot_cross",
-  "render_type": "minecraft:cutout",
+  "parent": "silentlib:block/flower_pot_cross",
   "textures": {
     "plant": "silentgems:block/alexandrite_glowrose"
   }

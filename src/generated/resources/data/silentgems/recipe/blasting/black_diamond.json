@@ -3,9 +3,7 @@
   "category": "misc",
   "cookingtime": 100,
   "experience": 1.0,
-  "ingredient": {
-    "tag": "silentgems:ores/black_diamond"
-  },
+  "ingredient": "#silentgems:ores/black_diamond",
   "result": {
     "count": 1,
     "id": "silentgems:black_diamond"

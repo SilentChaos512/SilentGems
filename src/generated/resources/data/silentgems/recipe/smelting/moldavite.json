@@ -3,9 +3,7 @@
   "category": "misc",
   "cookingtime": 200,
   "experience": 1.0,
-  "ingredient": {
-    "tag": "silentgems:ores/moldavite"
-  },
+  "ingredient": "#silentgems:ores/moldavite",
   "result": {
     "count": 1,
     "id": "silentgems:moldavite"

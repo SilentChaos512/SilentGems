@@ -3,9 +3,7 @@
   "category": "misc",
   "cookingtime": 100,
   "experience": 1.0,
-  "ingredient": {
-    "tag": "silentgems:ores/carnelian"
-  },
+  "ingredient": "#silentgems:ores/carnelian",
   "result": {
     "count": 1,
     "id": "silentgems:carnelian"

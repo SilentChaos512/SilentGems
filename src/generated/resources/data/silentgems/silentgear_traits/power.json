@@ -9,7 +9,7 @@
       "attribute_modifiers": {
         "curio/any": [
           {
-            "attribute": "minecraft:generic.attack_damage",
+            "attribute": "minecraft:attack_damage",
             "operation": "add_value",
             "values": [
               1.0,

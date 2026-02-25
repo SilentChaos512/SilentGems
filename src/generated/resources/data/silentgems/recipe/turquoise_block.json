@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "silentgems:turquoise_block"
-    }
+    "silentgems:turquoise_block"
   ],
   "result": {
     "count": 9,

@@ -1,32 +1,17 @@
 {
   "variants": {
-    "facing=east,triggered=false": {
+    "facing=east": {
       "model": "silentgems:block/black_diamond_teleporter",
       "y": 90
     },
-    "facing=east,triggered=true": {
-      "model": "silentgems:block/black_diamond_teleporter",
-      "y": 90
-    },
-    "facing=north,triggered=false": {
+    "facing=north": {
       "model": "silentgems:block/black_diamond_teleporter"
     },
-    "facing=north,triggered=true": {
-      "model": "silentgems:block/black_diamond_teleporter"
-    },
-    "facing=south,triggered=false": {
+    "facing=south": {
       "model": "silentgems:block/black_diamond_teleporter",
       "y": 180
     },
-    "facing=south,triggered=true": {
-      "model": "silentgems:block/black_diamond_teleporter",
-      "y": 180
-    },
-    "facing=west,triggered=false": {
-      "model": "silentgems:block/black_diamond_teleporter",
-      "y": 270
-    },
-    "facing=west,triggered=true": {
+    "facing=west": {
       "model": "silentgems:block/black_diamond_teleporter",
       "y": 270
     }

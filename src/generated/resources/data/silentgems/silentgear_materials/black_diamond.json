@@ -8,13 +8,17 @@
       "advanced"
     ],
     "gear_type_blacklist": [],
-    "ingredient": {
-      "tag": "c:gems/black_diamond"
-    },
+    "ingredient": "#c:gems/black_diamond",
     "part_substitutes": {}
   },
   "display": {
     "color": "#FF5F524C",
+    "equippable": {
+      "always_use_tint": true,
+      "asset_id": "silentgear:generic_shiny",
+      "compound_asset_id": "silentgear:generic_shiny",
+      "equip_sound": "minecraft:item.armor.equip_generic"
+    },
     "main_texture_type": "HIGH_CONTRAST",
     "name": {
       "translate": "gem.silentgems.black_diamond"

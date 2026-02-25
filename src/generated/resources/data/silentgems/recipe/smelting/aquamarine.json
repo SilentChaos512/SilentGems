@@ -3,9 +3,7 @@
   "category": "misc",
   "cookingtime": 200,
   "experience": 1.0,
-  "ingredient": {
-    "tag": "silentgems:ores/aquamarine"
-  },
+  "ingredient": "#silentgems:ores/aquamarine",
   "result": {
     "count": 1,
     "id": "silentgems:aquamarine"

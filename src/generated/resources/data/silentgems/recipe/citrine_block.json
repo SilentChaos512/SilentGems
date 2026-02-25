@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "silentgems:citrine_block"
-    }
+    "silentgems:citrine_block"
   ],
   "result": {
     "count": 9,

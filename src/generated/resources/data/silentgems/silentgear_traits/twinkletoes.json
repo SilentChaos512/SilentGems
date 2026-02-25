@@ -9,7 +9,7 @@
       "attribute_modifiers": {
         "curio/any": [
           {
-            "attribute": "minecraft:player.sneaking_speed",
+            "attribute": "minecraft:sneaking_speed",
             "operation": "add_value",
             "values": [
               0.1,

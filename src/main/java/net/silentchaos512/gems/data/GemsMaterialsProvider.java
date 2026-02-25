@@ -281,7 +281,7 @@ public class GemsMaterialsProvider extends MaterialsProviderBase {
         ret.add(MaterialBuilder.simple(DataResource.material(SilentGems.getId("reinforced_gold")))
                 .crafting(
                         new MaterialCraftingData(
-                                Ingredient.of(),
+                                Optional.empty(),
                                 List.of(MaterialCategories.METAL),
                                 List.of(),
                                 Map.of(PartTypes.ROD.get(), Ingredient.of(GemsItems.REINFORCED_GOLD_ROD)),
@@ -294,7 +294,7 @@ public class GemsMaterialsProvider extends MaterialsProviderBase {
         ret.add(MaterialBuilder.simple(DataResource.material(SilentGems.getId("reinforced_silver")))
                 .crafting(
                         new MaterialCraftingData(
-                                Ingredient.of(),
+                                Optional.empty(),
                                 List.of(MaterialCategories.METAL),
                                 List.of(),
                                 Map.of(PartTypes.ROD.get(), Ingredient.of(GemsItems.REINFORCED_SILVER_ROD)),

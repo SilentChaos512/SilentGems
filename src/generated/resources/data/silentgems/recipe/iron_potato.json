@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "#": {
-      "tag": "c:storage_blocks/iron"
-    },
-    "/": {
-      "tag": "c:gems"
-    },
-    "p": {
-      "item": "minecraft:potato"
-    }
+    "#": "#c:storage_blocks/iron",
+    "/": "#c:gems",
+    "p": "minecraft:potato"
   },
   "pattern": [
     "/#/",

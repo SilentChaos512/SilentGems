@@ -3,9 +3,7 @@
   "category": "misc",
   "cookingtime": 100,
   "experience": 1.0,
-  "ingredient": {
-    "tag": "silentgems:ores/heliodor"
-  },
+  "ingredient": "#silentgems:ores/heliodor",
   "result": {
     "count": 1,
     "id": "silentgems:heliodor"

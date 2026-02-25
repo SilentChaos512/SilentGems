@@ -58,8 +58,8 @@ public class GemsBlockTagsProvider extends BlockTagsProvider {
         tag(GemsTags.Blocks.STORAGE_BLOCKS_CHAOS).add(GemsBlocks.CHAOS_ESSENCE_BLOCK.get());
         tag(GemsTags.Blocks.STORAGE_BLOCKS_SILVER).add(GemsBlocks.SILVER_BLOCK.get());
         tag(Tags.Blocks.STORAGE_BLOCKS)
-                .addTag(GemsTags.Blocks.STORAGE_BLOCKS_CHAOS)
-                .addTag(GemsTags.Blocks.STORAGE_BLOCKS_SILVER);
+                .add(GemsBlocks.CHAOS_ESSENCE_BLOCK.get())
+                .add(GemsBlocks.SILVER_BLOCK.get());
 
         // Harvesting
 

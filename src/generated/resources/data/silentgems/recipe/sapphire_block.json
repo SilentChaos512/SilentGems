@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "silentgems:sapphire_block"
-    }
+    "silentgems:sapphire_block"
   ],
   "result": {
     "count": 9,

@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "g": {
-      "tag": "c:dusts/glowstone"
-    },
-    "o": {
-      "tag": "c:gems/pearl"
-    },
-    "r": {
-      "tag": "c:dusts/redstone"
-    }
+    "g": "#c:dusts/glowstone",
+    "o": "#c:gems/pearl",
+    "r": "#c:dusts/redstone"
   },
   "pattern": [
     "rgr",

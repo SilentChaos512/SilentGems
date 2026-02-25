@@ -2,18 +2,10 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "minecraft:bowl"
-    },
-    {
-      "tag": "silentgems:stew_fish"
-    },
-    {
-      "item": "minecraft:dried_kelp"
-    },
-    {
-      "item": "minecraft:brown_mushroom"
-    }
+    "minecraft:bowl",
+    "#silentgems:stew_fish",
+    "minecraft:dried_kelp",
+    "minecraft:brown_mushroom"
   ],
   "result": {
     "count": 1,

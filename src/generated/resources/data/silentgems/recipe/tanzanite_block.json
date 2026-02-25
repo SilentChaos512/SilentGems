@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "silentgems:tanzanite_block"
-    }
+    "silentgems:tanzanite_block"
   ],
   "result": {
     "count": 9,

@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "#": {
-      "tag": "c:leathers"
-    },
-    "g": {
-      "tag": "silentgems:gems"
-    },
-    "m": {
-      "tag": "silentgems:stew_fish"
-    }
+    "#": "#c:leathers",
+    "g": "#silentgems:gems",
+    "m": "#silentgems:stew_fish"
   },
   "pattern": [
     " m ",

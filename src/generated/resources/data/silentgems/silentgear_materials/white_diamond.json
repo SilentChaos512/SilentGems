@@ -8,13 +8,17 @@
       "advanced"
     ],
     "gear_type_blacklist": [],
-    "ingredient": {
-      "tag": "c:gems/white_diamond"
-    },
+    "ingredient": "#c:gems/white_diamond",
     "part_substitutes": {}
   },
   "display": {
     "color": "#FFD5C1D2",
+    "equippable": {
+      "always_use_tint": true,
+      "asset_id": "silentgear:generic_shiny",
+      "compound_asset_id": "silentgear:generic_shiny",
+      "equip_sound": "minecraft:item.armor.equip_generic"
+    },
     "main_texture_type": "HIGH_CONTRAST",
     "name": {
       "translate": "gem.silentgems.white_diamond"

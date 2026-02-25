@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "#": {
-      "item": "minecraft:deepslate_tiles"
-    },
-    "o": {
-      "tag": "c:gems/black_diamond"
-    }
+    "#": "minecraft:deepslate_tiles",
+    "o": "#c:gems/black_diamond"
   },
   "pattern": [
     "###",

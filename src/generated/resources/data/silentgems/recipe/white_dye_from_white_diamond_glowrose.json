@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "tag": "silentgems:glowroses/white_diamond"
-    }
+    "#silentgems:glowroses/white_diamond"
   ],
   "result": {
     "count": 1,

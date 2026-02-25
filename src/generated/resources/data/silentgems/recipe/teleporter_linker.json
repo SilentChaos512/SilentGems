@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "key": {
-    "#": {
-      "item": "silentgems:chaos_essence"
-    },
-    "/": {
-      "tag": "c:rods/silver"
-    }
+    "#": "silentgems:chaos_essence",
+    "/": "#c:rods/silver"
   },
   "pattern": [
     "#",

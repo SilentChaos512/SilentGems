@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shapeless",
   "category": "building",
   "ingredients": [
-    {
-      "item": "silentgems:ammolite_teleporter"
-    },
-    {
-      "tag": "c:dusts/redstone"
-    }
+    "silentgems:ammolite_teleporter",
+    "#c:dusts/redstone"
   ],
   "result": {
     "count": 1,

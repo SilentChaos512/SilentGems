@@ -1,6 +1,5 @@
 package net.silentchaos512.gems.data.client;
 
-import net.minecraft.client.data.models.BlockModelGenerators;
 import net.minecraft.client.data.models.ItemModelOutput;
 import net.minecraft.client.data.models.blockstates.BlockModelDefinitionGenerator;
 import net.minecraft.client.data.models.blockstates.MultiVariantGenerator;
@@ -12,13 +11,14 @@ import net.minecraft.resources.Identifier;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.GemLampBlock;
 import net.silentchaos512.gems.block.teleporter.TeleporterAnchorBlock;
-import net.silentchaos512.gems.setup.GemsBlocks;
 import net.silentchaos512.gems.setup.Gems;
+import net.silentchaos512.gems.setup.GemsBlocks;
+import net.silentchaos512.lib.data.client.LibBlockModelGenerators;
 
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
-public class GemsBlockModelGenerator extends BlockModelGenerators {
+public class GemsBlockModelGenerator extends LibBlockModelGenerators {
     public GemsBlockModelGenerator(Consumer<BlockModelDefinitionGenerator> blockStateOutput, ItemModelOutput itemModelOutput, BiConsumer<Identifier, ModelInstance> modelOutput) {
         super(blockStateOutput, itemModelOutput, modelOutput);
     }
@@ -65,7 +65,7 @@ public class GemsBlockModelGenerator extends BlockModelGenerators {
             );
         }
 
-        createPlantWithDefaultItem(gem.getGlowrose(), gem.getPottedGlowrose(), PlantType.NOT_TINTED);
+        createPlantCutoutWithDefaultItem(gem.getGlowrose(), gem.getPottedGlowrose());
 
         createTeleporter(gem, false);
         createTeleporter(gem, true);
@@ -76,7 +76,7 @@ public class GemsBlockModelGenerator extends BlockModelGenerators {
         var frameTexture = modId("block/" + (redstone ? "redstone_teleporter_frame" : "teleporter_frame"));
         var gemBlockTexture = modId("block/" + gem.getName() + "_block");
         var model = GemsModelTemplates.TELEPORTER.create(
-                gem.getTeleporter().get(),
+                teleporterBlock,
                 new TextureMapping()
                         .put(GemsTextureSlots.FRAME, frameTexture)
                         .put(GemsTextureSlots.GEM, gemBlockTexture),

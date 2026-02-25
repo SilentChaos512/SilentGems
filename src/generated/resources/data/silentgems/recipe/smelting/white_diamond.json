@@ -3,9 +3,7 @@
   "category": "misc",
   "cookingtime": 200,
   "experience": 1.0,
-  "ingredient": {
-    "tag": "silentgems:ores/white_diamond"
-  },
+  "ingredient": "#silentgems:ores/white_diamond",
   "result": {
     "count": 1,
     "id": "silentgems:white_diamond"

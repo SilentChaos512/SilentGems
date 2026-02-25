@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "#": {
-      "item": "minecraft:polished_diorite"
-    },
-    "o": {
-      "tag": "c:gems/sapphire"
-    }
+    "#": "minecraft:polished_diorite",
+    "o": "#c:gems/sapphire"
   },
   "pattern": [
     "###",

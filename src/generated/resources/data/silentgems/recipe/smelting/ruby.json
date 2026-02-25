@@ -3,9 +3,7 @@
   "category": "misc",
   "cookingtime": 200,
   "experience": 1.0,
-  "ingredient": {
-    "tag": "silentgems:ores/ruby"
-  },
+  "ingredient": "#silentgems:ores/ruby",
   "result": {
     "count": 1,
     "id": "silentgems:ruby"

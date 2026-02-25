@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "/": {
-      "item": "minecraft:wheat"
-    },
-    "S": {
-      "item": "minecraft:sugar"
-    }
+    "/": "minecraft:wheat",
+    "S": "minecraft:sugar"
   },
   "pattern": [
     " S ",

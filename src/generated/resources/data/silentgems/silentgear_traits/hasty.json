@@ -9,7 +9,7 @@
       "attribute_modifiers": {
         "curio/any": [
           {
-            "attribute": "minecraft:player.mining_efficiency",
+            "attribute": "minecraft:mining_efficiency",
             "operation": "add_value",
             "values": [
               2.0,

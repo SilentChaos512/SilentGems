@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "#": {
-      "item": "minecraft:bricks"
-    },
-    "o": {
-      "tag": "c:gems/iolite"
-    }
+    "#": "minecraft:bricks",
+    "o": "#c:gems/iolite"
   },
   "pattern": [
     "###",

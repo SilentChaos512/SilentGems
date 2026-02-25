@@ -14,7 +14,7 @@
       "attribute_modifiers": {
         "armor/armor": [
           {
-            "attribute": "minecraft:generic.oxygen_bonus",
+            "attribute": "minecraft:oxygen_bonus",
             "operation": "add_value",
             "values": [
               0.25,
@@ -27,7 +27,7 @@
         ],
         "curio/any": [
           {
-            "attribute": "minecraft:generic.oxygen_bonus",
+            "attribute": "minecraft:oxygen_bonus",
             "operation": "add_value",
             "values": [
               1.0,

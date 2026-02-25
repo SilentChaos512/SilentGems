@@ -27,7 +27,7 @@ public abstract class GemsBlockItemTagsProvider extends LibBlockItemTagsProvider
             tag(GemsTags.Blocks.GEM_ORES, GemsTags.Items.GEM_ORES)
                     .addTag(gem.getModOresTag());
             tag(Tags.Blocks.STORAGE_BLOCKS, Tags.Items.STORAGE_BLOCKS)
-                    .addTag(gem.getBlockTag());
+                    .add(gem.getBlock());
             tag(Tags.Blocks.FLOWERS_SMALL, Tags.Items.FLOWERS_SMALL)
                     .addTag(gem.getGlowroseTag());
             tag(GemsTags.Blocks.GLOWROSES, GemsTags.Items.GLOWROSES)
@@ -38,7 +38,7 @@ public abstract class GemsBlockItemTagsProvider extends LibBlockItemTagsProvider
                 .add(GemsBlocks.CHAOS_ORE.get())
                 .add(GemsBlocks.DEEPSLATE_CHAOS_ORE.get());
         tag(GemsTags.Blocks.ORES_SILVER, GemsTags.Items.ORES_SILVER)
-                .add(GemsBlocks.SILVER_BLOCK.get())
+                .add(GemsBlocks.SILVER_ORE.get())
                 .add(GemsBlocks.DEEPSLATE_SILVER_ORE.get());
 
         tag(Tags.Blocks.ORES, Tags.Items.ORES)
@@ -51,7 +51,7 @@ public abstract class GemsBlockItemTagsProvider extends LibBlockItemTagsProvider
                 .add(GemsBlocks.SILVER_BLOCK.get());
 
         tag(Tags.Blocks.STORAGE_BLOCKS, Tags.Items.STORAGE_BLOCKS)
-                .addTag(GemsTags.Blocks.STORAGE_BLOCKS_CHAOS)
-                .addTag(GemsTags.Blocks.STORAGE_BLOCKS_SILVER);
+                .add(GemsBlocks.CHAOS_ESSENCE_BLOCK.get())
+                .add(GemsBlocks.SILVER_BLOCK.get());
     }
 }

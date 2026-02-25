@@ -3,9 +3,7 @@
   "category": "misc",
   "cookingtime": 200,
   "experience": 1.0,
-  "ingredient": {
-    "tag": "silentgems:ores/pearl"
-  },
+  "ingredient": "#silentgems:ores/pearl",
   "result": {
     "count": 1,
     "id": "silentgems:pearl"

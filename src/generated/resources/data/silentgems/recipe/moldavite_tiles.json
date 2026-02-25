@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "#": {
-      "item": "minecraft:deepslate_tiles"
-    },
-    "o": {
-      "tag": "c:gems/moldavite"
-    }
+    "#": "minecraft:deepslate_tiles",
+    "o": "#c:gems/moldavite"
   },
   "pattern": [
     "###",

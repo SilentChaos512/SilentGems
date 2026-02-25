@@ -3,9 +3,7 @@
   "category": "misc",
   "cookingtime": 100,
   "experience": 1.0,
-  "ingredient": {
-    "tag": "silentgems:ores/ammolite"
-  },
+  "ingredient": "#silentgems:ores/ammolite",
   "result": {
     "count": 1,
     "id": "silentgems:ammolite"

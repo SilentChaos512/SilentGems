@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "#": {
-      "item": "minecraft:chiseled_stone_bricks"
-    },
-    "o": {
-      "tag": "c:gems/tanzanite"
-    }
+    "#": "minecraft:chiseled_stone_bricks",
+    "o": "#c:gems/tanzanite"
   },
   "pattern": [
     "###",

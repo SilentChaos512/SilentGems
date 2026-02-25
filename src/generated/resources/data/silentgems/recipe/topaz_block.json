@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "silentgems:topaz_block"
-    }
+    "silentgems:topaz_block"
   ],
   "result": {
     "count": 9,

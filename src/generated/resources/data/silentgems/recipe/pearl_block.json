@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "silentgems:pearl_block"
-    }
+    "silentgems:pearl_block"
   ],
   "result": {
     "count": 9,

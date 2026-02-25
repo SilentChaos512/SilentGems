@@ -6,9 +6,7 @@
   "effects": [
     {
       "type": "silentgear:item_magnet",
-      "affected_items": {
-        "tag": "c:gems"
-      },
+      "affected_items": "#c:gems",
       "affected_items_text_for_wiki": "gems",
       "effect_range": 4.0,
       "pull_strength": 0.08

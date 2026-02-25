@@ -9,7 +9,7 @@
       "attribute_modifiers": {
         "curio/any": [
           {
-            "attribute": "minecraft:generic.max_health",
+            "attribute": "minecraft:max_health",
             "operation": "add_value",
             "values": [
               1.0,

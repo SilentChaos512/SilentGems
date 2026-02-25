@@ -3,9 +3,7 @@
   "category": "misc",
   "cookingtime": 100,
   "experience": 1.0,
-  "ingredient": {
-    "tag": "silentgems:ores/rose_quartz"
-  },
+  "ingredient": "#silentgems:ores/rose_quartz",
   "result": {
     "count": 1,
     "id": "silentgems:rose_quartz"

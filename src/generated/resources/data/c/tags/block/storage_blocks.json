@@ -21,7 +21,7 @@
     "silentgems:tanzanite_block",
     "silentgems:opal_block",
     "silentgems:pearl_block",
-    "#c:storage_blocks/chaos",
-    "#c:storage_blocks/silver"
+    "silentgems:chaos_essence_block",
+    "silentgems:silver_block"
   ]
 }

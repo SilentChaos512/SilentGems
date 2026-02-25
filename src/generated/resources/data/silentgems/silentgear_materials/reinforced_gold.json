@@ -7,15 +7,18 @@
       "metal"
     ],
     "gear_type_blacklist": [],
-    "ingredient": [],
     "part_substitutes": {
-      "silentgear:rod": {
-        "item": "silentgems:reinforced_gold_rod"
-      }
+      "silentgear:rod": "silentgems:reinforced_gold_rod"
     }
   },
   "display": {
     "color": "#FFFDFF70",
+    "equippable": {
+      "always_use_tint": true,
+      "asset_id": "silentgear:generic_shiny",
+      "compound_asset_id": "silentgear:generic_shiny",
+      "equip_sound": "minecraft:item.armor.equip_generic"
+    },
     "main_texture_type": "HIGH_CONTRAST",
     "name": {
       "translate": "material.silentgems.reinforced_gold"

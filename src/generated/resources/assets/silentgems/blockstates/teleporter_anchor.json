@@ -1,32 +1,17 @@
 {
   "variants": {
-    "facing=east,triggered=false": {
+    "facing=east": {
       "model": "silentgems:block/teleporter_anchor",
       "y": 90
     },
-    "facing=east,triggered=true": {
-      "model": "silentgems:block/teleporter_anchor",
-      "y": 90
-    },
-    "facing=north,triggered=false": {
+    "facing=north": {
       "model": "silentgems:block/teleporter_anchor"
     },
-    "facing=north,triggered=true": {
-      "model": "silentgems:block/teleporter_anchor"
-    },
-    "facing=south,triggered=false": {
+    "facing=south": {
       "model": "silentgems:block/teleporter_anchor",
       "y": 180
     },
-    "facing=south,triggered=true": {
-      "model": "silentgems:block/teleporter_anchor",
-      "y": 180
-    },
-    "facing=west,triggered=false": {
-      "model": "silentgems:block/teleporter_anchor",
-      "y": 270
-    },
-    "facing=west,triggered=true": {
+    "facing=west": {
       "model": "silentgems:block/teleporter_anchor",
       "y": 270
     }

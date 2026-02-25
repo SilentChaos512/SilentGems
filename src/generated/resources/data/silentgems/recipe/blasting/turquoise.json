@@ -3,9 +3,7 @@
   "category": "misc",
   "cookingtime": 100,
   "experience": 1.0,
-  "ingredient": {
-    "tag": "silentgems:ores/turquoise"
-  },
+  "ingredient": "#silentgems:ores/turquoise",
   "result": {
     "count": 1,
     "id": "silentgems:turquoise"

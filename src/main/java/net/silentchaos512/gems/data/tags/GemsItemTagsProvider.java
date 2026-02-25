@@ -36,9 +36,7 @@ public class GemsItemTagsProvider extends LibItemTagsProvider {
             tag(gem.getItemTag()).add(gem.getItem());
 
             // Groups
-            tag(GemsTags.Items.GEM_ORES).addTag(gem.getModOresItemTag());
             tag(GemsTags.Items.GEMS).addTag(gem.getItemTag());
-            tag(GemsTags.Items.GLOWROSES).addTag(gem.getGlowroseItemTag());
             tag(Tags.Items.GEMS).add(gem.getItem());
 
             // Others
