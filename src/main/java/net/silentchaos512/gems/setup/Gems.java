@@ -1,6 +1,5 @@
 package net.silentchaos512.gems.setup;
 
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.data.tags.TagAppender;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -24,6 +23,7 @@ import net.silentchaos512.gems.block.*;
 import net.silentchaos512.gems.block.teleporter.GemRedstoneTeleporterBlock;
 import net.silentchaos512.gems.block.teleporter.GemTeleporterBlock;
 import net.silentchaos512.gems.item.GemBlockItem;
+import net.silentchaos512.gems.item.GemItem;
 import net.silentchaos512.gems.world.OreConfigDefaults;
 import net.silentchaos512.lib.util.Color;
 
@@ -190,7 +190,7 @@ public enum Gems {
     DeferredBlock<GemTeleporterBlock> redstoneTeleporter;
 
     // Items
-    DeferredItem<Item> item;
+    DeferredItem<GemItem> item;
 
     // Tags
     final TagKey<Block> incorrectForToolTag;
@@ -403,7 +403,8 @@ public enum Gems {
                     properties -> properties
                             .strength(3f)
                             .requiresCorrectToolForDrops()
-                            .sound(SoundType.STONE)
+                            .sound(SoundType.STONE),
+                    Gems::defaultBlockItem
             );
 
         for (Gems gem : values())
@@ -411,7 +412,8 @@ public enum Gems {
                     properties -> new GemOreBlock(gem, 2, "deepslate_gem_ore", properties),
                     p -> BlockBehaviour.Properties.ofFullCopy(gem.ore.get())
                             .strength(4.5f, 3f)
-                            .sound(SoundType.DEEPSLATE)
+                            .sound(SoundType.DEEPSLATE),
+                    Gems::defaultBlockItem
             );
 
         for (Gems gem : values())
@@ -419,14 +421,16 @@ public enum Gems {
                     properties -> new GemOreBlock(gem, 3, "gem_nether_ore", properties),
                     p -> BlockBehaviour.Properties.ofFullCopy(gem.ore.get())
                             .strength(4f)
-                            .sound(SoundType.NETHER_ORE)
+                            .sound(SoundType.NETHER_ORE),
+                    Gems::defaultBlockItem
             );
 
         for (Gems gem : values())
             gem.endOre = GemsBlocks.register("end_" + gem.getName() + "_ore",
                     properties -> new GemOreBlock(gem, 4, "gem_end_ore", properties),
                     p -> BlockBehaviour.Properties.ofFullCopy(gem.ore.get())
-                            .strength(6f)
+                            .strength(6f),
+                    Gems::defaultBlockItem
             );
 
         for (Gems gem : values())
@@ -434,49 +438,56 @@ public enum Gems {
                     properties -> new GemBlock(gem, "gem_block", properties),
                     properties -> properties
                             .strength(4, 30)
-                            .sound(SoundType.METAL)
+                            .sound(SoundType.METAL),
+                    Gems::defaultBlockItem
             );
 
         for (Gems gem : values())
             gem.bricks = GemsBlocks.register(gem.getName() + "_bricks",
                     properties -> new GemBlock(gem, "gem_bricks", properties),
                     properties -> properties
-                            .strength(2f, 8f)
+                            .strength(2f, 8f),
+                    Gems::defaultBlockItem
             );
 
         for (Gems gem : values())
             gem.tiles = GemsBlocks.register(gem.getName() + "_tiles",
                     properties -> new GemBlock(gem, "gem_tiles", properties),
                     properties -> properties
-                            .strength(2f, 8f)
+                            .strength(2f, 8f),
+                    Gems::defaultBlockItem
             );
 
         for (Gems gem : values())
             gem.smallBricks = GemsBlocks.register(gem.getName() + "_small_bricks",
                     properties -> new GemBlock(gem, "gem_small_bricks", properties),
                     properties -> properties
-                            .strength(2f, 8f)
+                            .strength(2f, 8f),
+                    Gems::defaultBlockItem
             );
 
         for (Gems gem : values())
             gem.polishedStone = GemsBlocks.register("polished_" + gem.getName(),
                     properties -> new GemBlock(gem, "polished_gem_stone", properties),
                     properties -> properties
-                            .strength(2f, 8f)
+                            .strength(2f, 8f),
+                    Gems::defaultBlockItem
             );
 
         for (Gems gem : values())
             gem.smoothStone = GemsBlocks.register("smooth_" + gem.getName(),
                     properties -> new GemBlock(gem, "smooth_gem_stone", properties),
                     properties -> properties
-                            .strength(2f, 8f)
+                            .strength(2f, 8f),
+                    Gems::defaultBlockItem
             );
 
         for (Gems gem : values())
             gem.chiseledStone = GemsBlocks.register("chiseled_" + gem.getName(),
                     properties -> new GemBlock(gem, "chiseled_gem_stone", properties),
                     properties -> properties
-                            .strength(2f, 8f)
+                            .strength(2f, 8f),
+                    Gems::defaultBlockItem
             );
 
         BlockBehaviour.StatePredicate isNotSolid = (state, world, pos) -> false;
@@ -490,7 +501,8 @@ public enum Gems {
                             .isValidSpawn((state, world, pos, entityType) -> false)
                             .isRedstoneConductor(isNotSolid)
                             .isSuffocating(isNotSolid)
-                            .isViewBlocking(isNotSolid)
+                            .isViewBlocking(isNotSolid),
+                    Gems::defaultBlockItem
             );
 
         for (Gems gem : values())
@@ -508,7 +520,8 @@ public enum Gems {
                     properties -> properties
                             .sound(SoundType.GRASS)
                             .strength(0)
-                            .noCollision()
+                            .noCollision(),
+                    Gems::defaultBlockItem
             );
 
         for (Gems gem : values()) {
@@ -525,25 +538,25 @@ public enum Gems {
                     properties -> new GemTeleporterBlock(gem, properties),
                     properties -> properties
                             .sound(SoundType.METAL)
-                            .strength(5)
-                    );
+                            .strength(5),
+                    Gems::defaultBlockItem
+            );
 
         for (Gems gem : values())
             gem.redstoneTeleporter = GemsBlocks.register(gem.getName() + "_redstone_teleporter",
                     properties -> new GemRedstoneTeleporterBlock(gem, properties),
                     properties -> properties
                             .sound(SoundType.METAL)
-                            .strength(5)
-                    );
+                            .strength(5),
+                    Gems::defaultBlockItem
+            );
     }
 
     public static void registerItems() {
         for (Gems gem : values())
             gem.item = registerItem(
                     gem.getName(),
-                    Item::new,
-                    properties -> properties
-                            .component(DataComponents.ITEM_NAME, Component.translatable("item.silentgems.gem", gem.getDisplayName()))
+                    properties -> new GemItem(gem, "item.silentgems.gem", properties)
             );
     }
 

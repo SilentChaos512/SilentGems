@@ -1,5 +1,5 @@
 {
-  "parent": "silentlib:block/flower_pot_cross",
+  "parent": "silentlib:block/flower_pot_cross_cutout",
   "textures": {
     "plant": "silentgems:block/rose_quartz_glowrose"
   }

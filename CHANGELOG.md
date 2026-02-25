@@ -3,6 +3,9 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.21.11-5.1.3] - 2026-02-25
+- Ported to NeoForge 1.21.11
+
 ## [1.21.1-5.1.3] - 2026-01-23
 ### Added
 - Config option to disable coffee drops (the `coffee_producers` tag still exists as well) [#593]
