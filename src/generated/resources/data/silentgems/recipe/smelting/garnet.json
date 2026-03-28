@@ -5,7 +5,6 @@
   "experience": 1.0,
   "ingredient": "#silentgems:ores/garnet",
   "result": {
-    "count": 1,
     "id": "silentgems:garnet"
   }
 }

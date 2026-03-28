@@ -5,7 +5,6 @@
   "experience": 1.0,
   "ingredient": "#silentgems:ores/topaz",
   "result": {
-    "count": 1,
     "id": "silentgems:topaz"
   }
 }

@@ -7,6 +7,7 @@ import net.minecraft.client.data.models.model.ModelInstance;
 import net.minecraft.client.data.models.model.TextureMapping;
 import net.minecraft.client.data.models.model.TextureSlot;
 import net.minecraft.client.data.models.model.TexturedModel;
+import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.resources.Identifier;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.GemLampBlock;
@@ -51,16 +52,14 @@ public class GemsBlockModelGenerator extends LibBlockModelGenerators {
         createTrivialCube(gem.getPolishedStone());
         createTrivialCube(gem.getSmoothStone());
         createTrivialCube(gem.getChiseledStone());
-        createTrivialBlock(gem.getGlass(),
-                TexturedModel.CUBE.updateTemplate(template ->
-                        template.extend().renderType("minecraft:translucent").build()
-                )
-        );
+        createTrivialBlock(gem.getGlass(), TexturedModel.CUBE.updateTexture(TextureMapping::forceAllTranslucent));
 
         for (GemLampBlock.State state : GemLampBlock.State.values()) {
             createTrivialBlock(gem.getLamp(state),
-                    TexturedModel.CUBE.updateTexture(mapping ->
-                            mapping.put(TextureSlot.ALL, modId("block/" + gem.getName() + "_lamp" + (state.lit() ? "_on" : "")))
+                    TexturedModel.CUBE.updateTexture(mapping -> {
+                                var sprite = modId("block/" + gem.getName() + "_lamp" + (state.lit() ? "_on" : ""));
+                                mapping.put(TextureSlot.ALL, new Material(sprite));
+                            }
                     )
             );
         }
@@ -78,8 +77,8 @@ public class GemsBlockModelGenerator extends LibBlockModelGenerators {
         var model = GemsModelTemplates.TELEPORTER.create(
                 teleporterBlock,
                 new TextureMapping()
-                        .put(GemsTextureSlots.FRAME, frameTexture)
-                        .put(GemsTextureSlots.GEM, gemBlockTexture),
+                        .put(GemsTextureSlots.FRAME, new Material(frameTexture))
+                        .put(GemsTextureSlots.GEM, new Material(gemBlockTexture)),
                 modelOutput
         );
         this.blockStateOutput.accept(
@@ -95,9 +94,9 @@ public class GemsBlockModelGenerator extends LibBlockModelGenerators {
         var model = GemsModelTemplates.TELEPORTER.create(
                 teleporterAnchorBlock,
                 new TextureMapping()
-                        .put(GemsTextureSlots.FRAME, frameTexture)
-                        .put(GemsTextureSlots.GEM, gemBlockTexture)
-                        .put(TextureSlot.PARTICLE, particleTexture),
+                        .put(GemsTextureSlots.FRAME, new Material(frameTexture))
+                        .put(GemsTextureSlots.GEM, new Material(gemBlockTexture))
+                        .put(TextureSlot.PARTICLE, new Material(particleTexture)),
                 modelOutput
         );
         this.blockStateOutput.accept(

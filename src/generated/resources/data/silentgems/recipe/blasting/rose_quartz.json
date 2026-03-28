@@ -5,7 +5,6 @@
   "experience": 1.0,
   "ingredient": "#silentgems:ores/rose_quartz",
   "result": {
-    "count": 1,
     "id": "silentgems:rose_quartz"
   }
 }

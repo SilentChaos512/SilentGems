@@ -34,13 +34,13 @@ public class TeleporterLinker extends Item {
                 tryLinkTeleporter(player, storedDimPos, clickedDimPos.offset(Direction.UP, 1));
                 tryLinkTeleporter(player, clickedDimPos, storedDimPos.offset(Direction.UP, 1));
                 stack.remove(GemsDataComponents.LINKED_POS);
-                player.displayClientMessage(Component.literal("Teleporters linked!"), true);
+                player.sendOverlayMessage(Component.literal("Teleporters linked!"));
             }
         } else {
             // Save position for linking
             stack.set(GemsDataComponents.LINKED_POS, clickedDimPos);
             if (player != null) {
-                player.displayClientMessage(Component.literal("Teleporter position stored!"), true);
+                player.sendOverlayMessage(Component.literal("Teleporter position stored!"));
             }
         }
 
@@ -55,7 +55,7 @@ public class TeleporterLinker extends Item {
                 teleporterBlockEntity.setDestination(newDestination);
             }
         } else if (!player.level().isClientSide()) {
-            player.displayClientMessage(Component.literal("Could not link teleporter at " + teleporterPosition), false);
+            player.sendSystemMessage(Component.literal("Could not link teleporter at " + teleporterPosition));
         }
     }
 }

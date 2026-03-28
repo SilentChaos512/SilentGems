@@ -15,6 +15,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+import net.silentchaos512.gems.SilentGems;
 
 import java.util.function.Function;
 
@@ -50,7 +51,7 @@ public class PetSummonerItem extends ItemWithFlavorText {
 
             // Set position
             pet.snapTo(pos.getX(), pos.getY(), pos.getZ(),
-                    Mth.wrapDegrees(level.random.nextFloat() * 360.0F), 0.0F);
+                    Mth.wrapDegrees(SilentGems.RANDOM.nextFloat() * 360.0F), 0.0F);
             pet.yHeadRot = pet.getYRot();
             pet.yBodyRot = pet.getYRot();
 

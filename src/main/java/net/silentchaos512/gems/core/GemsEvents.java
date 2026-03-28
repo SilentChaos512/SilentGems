@@ -33,7 +33,7 @@ public class GemsEvents {
     }
 
     private static boolean isCoffeeProducer(LivingEntity entity) {
-        return entity.getType().is(GemsTags.EntityTypes.COFFEE_PRODUCERS)
+        return entity.is(GemsTags.EntityTypes.COFFEE_PRODUCERS)
                 && GemsConfig.COMMON_SPEC.isLoaded() && GemsConfig.COMMON.featureRabbitsProduceCoffee.get();
     }
 

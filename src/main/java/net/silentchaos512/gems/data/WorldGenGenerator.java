@@ -6,6 +6,7 @@ import net.minecraft.core.HolderSet;
 import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
+import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.BiomeTags;
@@ -15,13 +16,11 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.levelgen.GenerationStep;
-import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
-import net.minecraft.world.level.levelgen.feature.configurations.RandomPatchConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.SimpleBlockConfiguration;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import net.minecraft.world.level.levelgen.placement.*;
@@ -34,8 +33,8 @@ import net.neoforged.neoforge.common.world.BiomeModifiers;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import net.silentchaos512.gems.SilentGems;
-import net.silentchaos512.gems.setup.GemsBlocks;
 import net.silentchaos512.gems.setup.Gems;
+import net.silentchaos512.gems.setup.GemsBlocks;
 import net.silentchaos512.gems.world.OreConfigDefaults;
 import org.jetbrains.annotations.NotNull;
 
@@ -141,27 +140,27 @@ public class WorldGenGenerator extends DatapackBuiltinEntriesProvider {
                         )
                 );
 
-                overworldOreFeatures.forEach((gem, feature) -> makePlacedFeature(ctx, gem, Level.OVERWORLD));
-                netherOreFeatures.forEach((gem, feature) -> makePlacedFeature(ctx, gem, Level.NETHER));
-                endOreFeatures.forEach((gem, feature) -> makePlacedFeature(ctx, gem, Level.END));
+                overworldOreFeatures.forEach((gem, _) -> makePlacedFeature(ctx, gem, Level.OVERWORLD));
+                netherOreFeatures.forEach((gem, _) -> makePlacedFeature(ctx, gem, Level.NETHER));
+                endOreFeatures.forEach((gem, _) -> makePlacedFeature(ctx, gem, Level.END));
 
-                overworldFlowerFeatures.forEach((gem, feature) -> makePlacedGlowroseFeature(ctx, gem, Level.OVERWORLD));
-                netherFlowerFeatures.forEach((gem, feature) -> makePlacedGlowroseFeature(ctx, gem, Level.NETHER));
-                endFlowerFeatures.forEach((gem, feature) -> makePlacedGlowroseFeature(ctx, gem, Level.END));
+                overworldFlowerFeatures.forEach((gem, _) -> makePlacedGlowroseFeature(ctx, gem, Level.OVERWORLD));
+                netherFlowerFeatures.forEach((gem, _) -> makePlacedGlowroseFeature(ctx, gem, Level.NETHER));
+                endFlowerFeatures.forEach((gem, _) -> makePlacedGlowroseFeature(ctx, gem, Level.END));
             })
             .add(NeoForgeRegistries.Keys.BIOME_MODIFIERS, ctx -> {
                 List<ResourceKey<ConfiguredFeature<?, ?>>> overworldOthers = new ArrayList<>();
                 overworldOthers.add(configuredFeature(SilentGems.getId("overworld/silver_ore")));
                 overworldOthers.add(configuredFeature(SilentGems.getId("overworld/chaos_ore")));
-                overworldFlowerFeatures.forEach((gem, feature) -> overworldOthers.add(getGlowroseFeatureKey(gem, Level.OVERWORLD)));
+                overworldFlowerFeatures.forEach((gem, _) -> overworldOthers.add(getGlowroseFeatureKey(gem, Level.OVERWORLD)));
                 registerOreBiomeModifiers(ctx, Level.OVERWORLD, BiomeTags.IS_OVERWORLD, overworldOreFeatures, "overworld_features", overworldOthers);
 
                 List<ResourceKey<ConfiguredFeature<?, ?>>> netherOthers = new ArrayList<>();
-                netherFlowerFeatures.forEach((gem, feature) -> netherOthers.add(getGlowroseFeatureKey(gem, Level.NETHER)));
+                netherFlowerFeatures.forEach((gem, _) -> netherOthers.add(getGlowroseFeatureKey(gem, Level.NETHER)));
                 registerOreBiomeModifiers(ctx, Level.NETHER, BiomeTags.IS_NETHER, netherOreFeatures, "nether_features", netherOthers);
 
                 List<ResourceKey<ConfiguredFeature<?, ?>>> endOthers = new ArrayList<>();
-                endFlowerFeatures.forEach((gem, feature) -> endOthers.add(getGlowroseFeatureKey(gem, Level.END)));
+                endFlowerFeatures.forEach((gem, _) -> endOthers.add(getGlowroseFeatureKey(gem, Level.END)));
                 registerOreBiomeModifiers(ctx, Level.END, BiomeTags.IS_END, endOreFeatures, "end_features", endOthers);
             });
 
@@ -196,10 +195,13 @@ public class WorldGenGenerator extends DatapackBuiltinEntriesProvider {
         ResourceKey<ConfiguredFeature<?, ?>> key = getGlowroseFeatureKey(gem, level);
         PlacedFeature placed = new PlacedFeature(ctx.lookup(Registries.CONFIGURED_FEATURE).getOrThrow(key),
                 ImmutableList.of(
-                        RarityFilter.onAverageOnceEvery(256),
+                        RarityFilter.onAverageOnceEvery(360),
                         InSquarePlacement.spread(),
-                        HeightmapPlacement.onHeightmap(Heightmap.Types.MOTION_BLOCKING),
-                        BiomeFilter.biome()
+                        PlacementUtils.HEIGHTMAP,
+                        BiomeFilter.biome(),
+                        CountPlacement.of(32),
+                        RandomOffsetPlacement.ofTriangle(7, 3),
+                        BlockPredicateFilter.forPredicate(BlockPredicate.ONLY_IN_AIR_PREDICATE)
                 )
         );
         ctx.register(placedFeature(key.identifier()), placed);
@@ -227,17 +229,10 @@ public class WorldGenGenerator extends DatapackBuiltinEntriesProvider {
     }
 
     @NotNull
-    private static ConfiguredFeature<RandomPatchConfiguration, Feature<RandomPatchConfiguration>> glowroses(Gems g) {
-        return new ConfiguredFeature<>(Feature.NO_BONEMEAL_FLOWER,
-                new RandomPatchConfiguration(32, 7, 3,
-                        Holder.direct(new PlacedFeature(
-                                Holder.direct(new ConfiguredFeature<>(Feature.SIMPLE_BLOCK,
-                                        new SimpleBlockConfiguration(BlockStateProvider.simple(g.getGlowrose()))
-                                )),
-                                ImmutableList.of(
-                                        BlockPredicateFilter.forPredicate(BlockPredicate.ONLY_IN_AIR_PREDICATE)
-                                )
-                        ))
+    private static ConfiguredFeature<SimpleBlockConfiguration, Feature<SimpleBlockConfiguration>> glowroses(Gems g) {
+        return new ConfiguredFeature<>(Feature.SIMPLE_BLOCK,
+                new SimpleBlockConfiguration(
+                        BlockStateProvider.simple(g.getGlowrose())
                 )
         );
     }

@@ -5,7 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": "#silentgems:stew_meat"
+            "items": "silentgems:uncooked_meaty_stew"
           }
         ]
       },
@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:meaty_stew"
+        "recipe": "silentgems:campfire_cooking/meaty_stew"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "silentgems:meaty_stew"
+      "silentgems:campfire_cooking/meaty_stew"
     ]
   }
 }

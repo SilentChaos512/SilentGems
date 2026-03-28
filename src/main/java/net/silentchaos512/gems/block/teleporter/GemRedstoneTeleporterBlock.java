@@ -64,6 +64,6 @@ public class GemRedstoneTeleporterBlock extends GemTeleporterBlock {
     private boolean canTeleportEntity(Level level, Entity entity, DimPos destination) {
         // Some entities cannot change dimensions and some mods may forbid teleporting
         return (entity.canUsePortal(true) || destination.dimension().equals(entity.level().dimension()))
-                && !entity.getType().is(Tags.EntityTypes.TELEPORTING_NOT_SUPPORTED);
+                && !entity.is(Tags.EntityTypes.TELEPORTING_NOT_SUPPORTED);
     }
 }

@@ -3,6 +3,11 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [26.1-5.1.4] - 2026-03-28
+- Ported to NeoForge 26.1
+### Changed
+- Made glowrose patches a little less common
+
 ## [1.21.11-5.1.3] - 2026-02-25
 - Ported to NeoForge 1.21.11
 

@@ -3,18 +3,16 @@ package net.silentchaos512.gems.data.recipe;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
-import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.common.Tags;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.block.GemLampBlock;
+import net.silentchaos512.gems.setup.Gems;
 import net.silentchaos512.gems.setup.GemsBlocks;
 import net.silentchaos512.gems.setup.GemsItems;
 import net.silentchaos512.gems.setup.GemsTags;
-import net.silentchaos512.gems.setup.Gems;
 import net.silentchaos512.lib.data.recipe.LibRecipeProvider;
 import net.silentchaos512.lib.util.NameUtils;
 
@@ -252,12 +250,8 @@ public class GemsRecipeProvider extends LibRecipeProvider {
                 .unlockedBy("has_item", has(GemsTags.Items.STEW_MEAT))
                 .save(this.output);
 
-        SimpleCookingRecipeBuilder.smelting(Ingredient.of(GemsItems.UNCOOKED_FISHY_STEW), RecipeCategory.FOOD, GemsItems.FISHY_STEW, 0.45f, 200)
-                .unlockedBy("has_item", has(GemsTags.Items.STEW_FISH))
-                .save(this.output);
-        SimpleCookingRecipeBuilder.smelting(Ingredient.of(GemsItems.UNCOOKED_MEATY_STEW), RecipeCategory.FOOD, GemsItems.MEATY_STEW, 0.45f, 200)
-                .unlockedBy("has_item", has(GemsTags.Items.STEW_MEAT))
-                .save(this.output);
+        cookingRecipes("fishy_stew", GemsItems.UNCOOKED_FISHY_STEW, GemsItems.FISHY_STEW, 0.45f, 200);
+        cookingRecipes("meaty_stew", GemsItems.UNCOOKED_MEATY_STEW, GemsItems.MEATY_STEW, 0.45f, 200);
     }
 
     private void registerMisc() {
