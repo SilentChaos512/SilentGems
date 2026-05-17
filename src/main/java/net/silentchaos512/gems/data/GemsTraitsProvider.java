@@ -8,6 +8,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.neoforged.neoforge.common.Tags;
 import net.silentchaos512.gear.api.data.trait.TraitBuilder;
 import net.silentchaos512.gear.api.data.trait.TraitsProviderBase;
@@ -21,6 +22,7 @@ import net.silentchaos512.gems.setup.GemsTraits;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 public class GemsTraitsProvider extends TraitsProviderBase {
@@ -90,7 +92,7 @@ public class GemsTraitsProvider extends TraitsProviderBase {
                         new ItemMagnetTraitEffect(
                                 0.08f,
                                 4.0f,
-                                items.getOrThrow(Tags.Items.GEMS),
+                                Optional.of(Ingredient.of(items.getOrThrow(Tags.Items.GEMS))),
                                 "gems"
                         ),
                         NumberPropertyModifierTraitEffect.builder()
