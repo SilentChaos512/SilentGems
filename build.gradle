@@ -3,7 +3,7 @@ plugins {
     id 'eclipse'
     id 'idea'
     id 'maven-publish'
-    id 'net.neoforged.gradle.userdev' version '7.1.21'
+    id 'net.neoforged.gradle.userdev' version '7.1.38'
 }
 
 tasks.named('wrapper', Wrapper).configure {
@@ -44,7 +44,7 @@ repositories {
     mavenLocal()
 }
 
-// Mojang ships Java 25 to end users in 26.1, so mods should target Java 25.
+// Mojang ships Java 25 to end users in 26.2, so mods should target Java 25.
 java.toolchain.languageVersion = JavaLanguageVersion.of(25)
 
 //minecraft.accessTransformers.file rootProject.file('src/main/resources/META-INF/accesstransformer.cfg')
@@ -69,19 +69,19 @@ runs {
 
     client {
         // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
-        systemProperty 'forge.enabledGameTestNamespaces', project.mod_id
+        systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
     }
 
     server {
-        systemProperty 'forge.enabledGameTestNamespaces', project.mod_id
-        //programArgument '--nogui'
+        systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+        argument '--nogui'
     }
 
     // This run config launches GameTestServer and runs all registered gametests, then exits.
     // By default, the server will crash when no gametests are provided.
     // The gametest system is also enabled by default for other run configs under the /test command.
     gameTestServer {
-        systemProperty 'forge.enabledGameTestNamespaces', project.mod_id
+        systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
     }
 
     clientData {
@@ -145,31 +145,40 @@ repositories {
 dependencies {
     implementation "net.neoforged:neoforge:${neo_version}"
 
-    implementation("net.silentchaos512:silent-lib-${minecraft_version}-neoforge:${project.silentlib_version}")
+    if (project.findProperty("use_local_test_mods")?.toBoolean()) {
+        implementation fileTree(dir: "libs", include: [
+                "silent-lib-*.jar",
+                "curios-*.jar"
+        ])
+        implementation fileTree(dir: "libs", include: "silent-gear-*.jar")
+        localRuntime fileTree(dir: "libs", include: "jei-*.jar")
+    } else {
+        implementation("net.silentchaos512:silent-lib-${minecraft_version}-neoforge:${project.silentlib_version}")
 
-    // Silent Gear
-    implementation("net.silentchaos512:silent-gear-${minecraft_version}-neoforge:${project.silentgear_version}") {
-        exclude module: 'curios-neoforge'
-    }
+        // Silent Gear
+        implementation("net.silentchaos512:silent-gear-${minecraft_version}-neoforge:${project.silentgear_version}") {
+            exclude module: 'curios-neoforge'
+        }
 
-    // JEI
-    if (project.hasProperty("jei_version")) {
-        // compile against the JEI API but do not include it at runtime
-        compileOnly("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}")
-        compileOnly("mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}")
-        // at runtime, use the full JEI jar for NeoForge
-        localRuntime("mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}")
-    }
+        // JEI
+        if (project.hasProperty("jei_version")) {
+            // compile against the JEI API but do not include it at runtime
+            compileOnly("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}")
+            compileOnly("mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}")
+            // at runtime, use the full JEI jar for NeoForge
+            localRuntime("mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}")
+        }
 
-    // EMI
-    if (project.hasProperty("emi_version")) {
-        compileOnly("dev.emi:emi-neoforge:${emi_version}:api")
-//        localRuntime("dev.emi:emi-neoforge:${emi_version}")
-    }
+        // EMI
+        if (project.hasProperty("emi_version")) {
+            compileOnly("dev.emi:emi-neoforge:${emi_version}:api")
+//            localRuntime("dev.emi:emi-neoforge:${emi_version}")
+        }
 
-    // Curios
-    if (project.hasProperty("curios_version")) {
-        implementation "top.theillusivec4.curios:curios-neoforge:${curios_version}+${minecraft_version}"
+        // Curios
+        if (project.hasProperty("curios_version")) {
+            implementation "top.theillusivec4.curios:curios-neoforge:${curios_version}+${minecraft_version}"
+        }
     }
 }
 
