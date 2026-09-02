@@ -1,8 +1,11 @@
 package net.silentchaos512.gems.data.tags;
 
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
 import net.silentchaos512.gems.SilentGems;
@@ -15,6 +18,11 @@ import java.util.concurrent.CompletableFuture;
 public class GemsBlockTagsProvider extends BlockTagsProvider {
     public GemsBlockTagsProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
         super(output, lookupProvider, SilentGems.MOD_ID);
+    }
+
+    @Override
+    protected DirectTagAppender<Block> tag(TagKey<Block> tag) {
+        return new DirectTagAppender<>(super.tag(tag), block -> BuiltInRegistries.BLOCK.getResourceKey(block).orElseThrow());
     }
 
     @Override

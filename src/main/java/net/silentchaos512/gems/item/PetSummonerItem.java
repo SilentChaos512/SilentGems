@@ -3,10 +3,13 @@ package net.silentchaos512.gems.item;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EntitySpawnReason;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.entity.animal.feline.Cat;
@@ -81,10 +84,15 @@ public class PetSummonerItem extends ItemWithFlavorText {
     }
 
     public static Cat getCat(Level level) {
-        return new Cat(EntityType.CAT, level);
+        return new Cat(vanillaEntityType("cat"), level);
     }
 
     public static Wolf getDog(Level level) {
-        return new Wolf(EntityType.WOLF, level);
+        return new Wolf(vanillaEntityType("wolf"), level);
+    }
+
+    @SuppressWarnings("unchecked")
+    private static <T extends Entity> EntityType<T> vanillaEntityType(String name) {
+        return (EntityType<T>) BuiltInRegistries.ENTITY_TYPE.get(Identifier.withDefaultNamespace(name)).orElseThrow().value();
     }
 }

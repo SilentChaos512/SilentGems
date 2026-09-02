@@ -1,13 +1,17 @@
 package net.silentchaos512.gems.data.tags;
 
 import net.neoforged.neoforge.common.Tags;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
 import net.silentchaos512.gems.setup.GemsBlocks;
 import net.silentchaos512.gems.setup.GemsTags;
 import net.silentchaos512.gems.setup.Gems;
 import net.silentchaos512.lib.data.tag.LibBlockItemTagsProvider;
 
-public abstract class GemsBlockItemTagsProvider extends LibBlockItemTagsProvider {
-    @Override
+public abstract class GemsBlockItemTagsProvider {
+    protected abstract DirectTagAppender<Block> tag(TagKey<Block> blockTag, TagKey<Item> itemTag);
+
     public void run() {
         for (Gems gem : Gems.values()) {
             tag(gem.getModOresTag(), gem.getModOresItemTag())
