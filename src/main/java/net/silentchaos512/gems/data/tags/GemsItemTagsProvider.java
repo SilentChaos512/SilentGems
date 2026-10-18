@@ -1,8 +1,8 @@
 package net.silentchaos512.gems.data.tags;
 
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.tags.TagAppender;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
@@ -23,11 +23,19 @@ public class GemsItemTagsProvider extends LibItemTagsProvider {
     }
 
     @Override
+    protected DirectTagAppender<Item> tag(TagKey<Item> tag) {
+        return new DirectTagAppender<>(super.tag(tag), item -> BuiltInRegistries.ITEM.getResourceKey(item).orElseThrow());
+    }
+
+    @Override
     protected void addTags(HolderLookup.Provider provider) {
         (new GemsBlockItemTagsProvider() {
             @Override
-            protected TagAppender<Block, Block> tag(TagKey<Block> blockTag, TagKey<Item> itemTag) {
-                return new LibItemTagsProvider.BlockToItemConverter(GemsItemTagsProvider.this.tag(itemTag));
+            protected DirectTagAppender<Block> tag(TagKey<Block> blockTag, TagKey<Item> itemTag) {
+                return new DirectTagAppender<>(
+                        new LibItemTagsProvider.BlockToItemConverter(GemsItemTagsProvider.this.tag(itemTag)),
+                        block -> BuiltInRegistries.BLOCK.getResourceKey(block).orElseThrow()
+                );
             }
         }).run();
 
@@ -44,7 +52,7 @@ public class GemsItemTagsProvider extends LibItemTagsProvider {
         }
 
         // Gem bag and flower basket accepted items
-        tag(GemsTags.Items.FLOWER_BASKET_CAN_STORE).addTag(ItemTags.FLOWERS);
+        tag(GemsTags.Items.FLOWER_BASKET_CAN_STORE).addTag(Tags.Items.FLOWERS);
         tag(GemsTags.Items.GEM_BAG_CAN_STORE).addTag(Tags.Items.GEMS);
 
         tag(GemsTags.Items.INGOTS_SILVER).add(GemsItems.SILVER_INGOT.get());

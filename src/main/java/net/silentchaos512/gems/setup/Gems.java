@@ -268,7 +268,7 @@ public enum Gems {
 
     // Used by data generators
 
-    public void generateIncorrectForToolTag(Function<TagKey<Block>, TagAppender<Block, Block>> tagProvider) {
+    public void generateIncorrectForToolTag(Function<TagKey<Block>, TagAppender<Block>> tagProvider) {
         var intrinsicTagAppender = tagProvider.apply(this.incorrectForToolTag);
         intrinsicTagAppender.addTag(this.equivalentIncorrectForToolTag);
     }

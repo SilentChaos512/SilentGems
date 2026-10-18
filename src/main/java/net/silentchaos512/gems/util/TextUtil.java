@@ -40,7 +40,8 @@ public final class TextUtil {
     }
 
     public static MutableComponent withColor(MutableComponent text, ChatFormatting color) {
-        int colorCode = color.getColor() != null ? color.getColor() : 16777215;
+        TextColor textColor = TextColor.fromLegacyFormat(color);
+        int colorCode = textColor != null ? textColor.getValue() : 16777215;
         return withColor(text, colorCode);
     }
 }

@@ -1,8 +1,11 @@
 package net.silentchaos512.gems.data.recipe;
 
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Blocks;
@@ -145,27 +148,31 @@ public class GemsRecipeProvider extends LibRecipeProvider {
                 .unlockedBy("has_item", has(GemsItems.CHAOS_ESSENCE))
                 .save(this.output);
 
-        glowroseToDye(this.output, Gems.RUBY, Items.RED_DYE);
-        glowroseToDye(this.output, Gems.CARNELIAN, Items.RED_DYE);
-        glowroseToDye(this.output, Gems.TOPAZ, Items.ORANGE_DYE);
-        glowroseToDye(this.output, Gems.CITRINE, Items.YELLOW_DYE);
-        glowroseToDye(this.output, Gems.HELIODOR, Items.YELLOW_DYE);
-        glowroseToDye(this.output, Gems.MOLDAVITE, Items.LIME_DYE);
-        glowroseToDye(this.output, Gems.PERIDOT, Items.GREEN_DYE);
-        glowroseToDye(this.output, Gems.TURQUOISE, Items.CYAN_DYE);
-        glowroseToDye(this.output, Gems.KYANITE, Items.LIGHT_BLUE_DYE);
-        glowroseToDye(this.output, Gems.SAPPHIRE, Items.BLUE_DYE);
-        glowroseToDye(this.output, Gems.IOLITE, Items.PURPLE_DYE);
-        glowroseToDye(this.output, Gems.ALEXANDRITE, Items.PURPLE_DYE);
-        glowroseToDye(this.output, Gems.AMMOLITE, Items.MAGENTA_DYE);
-        glowroseToDye(this.output, Gems.ROSE_QUARTZ, Items.PINK_DYE);
-        glowroseToDye(this.output, Gems.BLACK_DIAMOND, Items.BLACK_DYE);
-        glowroseToDye(this.output, Gems.WHITE_DIAMOND, Items.WHITE_DYE);
-        glowroseToDye(this.output, Gems.AQUAMARINE, Items.LIGHT_BLUE_DYE);
-        glowroseToDye(this.output, Gems.GARNET, Items.RED_DYE);
-        glowroseToDye(this.output, Gems.OPAL, Items.WHITE_DYE);
-        glowroseToDye(this.output, Gems.PEARL, Items.WHITE_DYE);
-        glowroseToDye(this.output, Gems.TANZANITE, Items.PURPLE_DYE);
+        glowroseToDye(this.output, Gems.RUBY, dye("red"));
+        glowroseToDye(this.output, Gems.CARNELIAN, dye("red"));
+        glowroseToDye(this.output, Gems.TOPAZ, dye("orange"));
+        glowroseToDye(this.output, Gems.CITRINE, dye("yellow"));
+        glowroseToDye(this.output, Gems.HELIODOR, dye("yellow"));
+        glowroseToDye(this.output, Gems.MOLDAVITE, dye("lime"));
+        glowroseToDye(this.output, Gems.PERIDOT, dye("green"));
+        glowroseToDye(this.output, Gems.TURQUOISE, dye("cyan"));
+        glowroseToDye(this.output, Gems.KYANITE, dye("light_blue"));
+        glowroseToDye(this.output, Gems.SAPPHIRE, dye("blue"));
+        glowroseToDye(this.output, Gems.IOLITE, dye("purple"));
+        glowroseToDye(this.output, Gems.ALEXANDRITE, dye("purple"));
+        glowroseToDye(this.output, Gems.AMMOLITE, dye("magenta"));
+        glowroseToDye(this.output, Gems.ROSE_QUARTZ, dye("pink"));
+        glowroseToDye(this.output, Gems.BLACK_DIAMOND, dye("black"));
+        glowroseToDye(this.output, Gems.WHITE_DIAMOND, dye("white"));
+        glowroseToDye(this.output, Gems.AQUAMARINE, dye("light_blue"));
+        glowroseToDye(this.output, Gems.GARNET, dye("red"));
+        glowroseToDye(this.output, Gems.OPAL, dye("white"));
+        glowroseToDye(this.output, Gems.PEARL, dye("white"));
+        glowroseToDye(this.output, Gems.TANZANITE, dye("purple"));
+    }
+
+    private static Item dye(String color) {
+        return BuiltInRegistries.ITEM.get(Identifier.withDefaultNamespace(color + "_dye")).orElseThrow().value();
     }
 
     private void glowroseToDye(RecipeOutput consumer, Gems gem, ItemLike dye) {
