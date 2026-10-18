@@ -177,7 +177,7 @@ dependencies {
 
         // Curios
         if (project.hasProperty("curios_version")) {
-            implementation "top.theillusivec4.curios:curios-neoforge:${curios_version}+${minecraft_version}"
+            compileOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}+${minecraft_version}"
         }
     }
 }
