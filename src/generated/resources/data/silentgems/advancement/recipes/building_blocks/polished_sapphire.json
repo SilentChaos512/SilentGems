@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:polished_sapphire"
+        "recipes": "silentgems:polished_sapphire"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

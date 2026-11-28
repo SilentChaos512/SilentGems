@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:sapphire_lamp"
+        "recipes": "silentgems:sapphire_lamp"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

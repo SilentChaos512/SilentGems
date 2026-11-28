@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:lime_dye_from_moldavite_glowrose"
+        "recipes": "silentgems:lime_dye_from_moldavite_glowrose"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:polished_rose_quartz"
+        "recipes": "silentgems:polished_rose_quartz"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

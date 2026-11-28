@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:blue_dye_from_sapphire_glowrose"
+        "recipes": "silentgems:blue_dye_from_sapphire_glowrose"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

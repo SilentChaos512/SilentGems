@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:iolite_tiles"
+        "recipes": "silentgems:iolite_tiles"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

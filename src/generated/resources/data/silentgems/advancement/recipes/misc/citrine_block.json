@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:citrine_block"
+        "recipes": "silentgems:citrine_block"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

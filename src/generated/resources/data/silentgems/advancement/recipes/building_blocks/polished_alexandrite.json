@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:polished_alexandrite"
+        "recipes": "silentgems:polished_alexandrite"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:silver_rod"
+        "recipes": "silentgems:silver_rod"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

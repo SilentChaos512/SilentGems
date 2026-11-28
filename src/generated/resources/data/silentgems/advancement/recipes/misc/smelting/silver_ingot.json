@@ -3,7 +3,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:smelting/silver_ingot"
+        "recipes": "silentgems:smelting/silver_ingot"
       },
       "trigger": "minecraft:recipe_unlocked"
     },

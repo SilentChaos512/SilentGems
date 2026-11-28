@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:opal_bricks"
+        "recipes": "silentgems:opal_bricks"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:red_dye_from_carnelian_glowrose"
+        "recipes": "silentgems:red_dye_from_carnelian_glowrose"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

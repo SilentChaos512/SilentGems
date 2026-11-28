@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:pink_dye_from_rose_quartz_glowrose"
+        "recipes": "silentgems:pink_dye_from_rose_quartz_glowrose"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

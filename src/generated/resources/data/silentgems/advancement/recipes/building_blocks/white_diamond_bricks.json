@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:white_diamond_bricks"
+        "recipes": "silentgems:white_diamond_bricks"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

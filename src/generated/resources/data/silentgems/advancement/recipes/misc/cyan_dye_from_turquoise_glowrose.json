@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:cyan_dye_from_turquoise_glowrose"
+        "recipes": "silentgems:cyan_dye_from_turquoise_glowrose"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

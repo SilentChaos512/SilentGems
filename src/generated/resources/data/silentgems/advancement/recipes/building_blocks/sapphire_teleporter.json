@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:sapphire_teleporter"
+        "recipes": "silentgems:sapphire_teleporter"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

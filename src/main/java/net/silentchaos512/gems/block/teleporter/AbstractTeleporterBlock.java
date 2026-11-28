@@ -1,6 +1,5 @@
 package net.silentchaos512.gems.block.teleporter;
 
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
@@ -25,23 +24,13 @@ import net.silentchaos512.lib.util.DimPos;
 import net.silentchaos512.lib.util.TeleportUtils;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.function.Function;
-
 public abstract class AbstractTeleporterBlock extends BaseEntityBlock {
     public static final EnumProperty<Direction> FACING = HorizontalDirectionalBlock.FACING;
     public static final BooleanProperty TRIGGERED = BlockStateProperties.TRIGGERED;
 
-    private final MapCodec<? extends AbstractTeleporterBlock> codec;
-
-    public AbstractTeleporterBlock(Properties properties, Function<Properties, ? extends AbstractTeleporterBlock> constructor) {
+    public AbstractTeleporterBlock(Properties properties) {
         super(properties);
-        this.codec = simpleCodec(constructor);
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(TRIGGERED, false));
-    }
-
-    @Override
-    protected MapCodec<? extends BaseEntityBlock> codec() {
-        return this.codec;
     }
 
     @Nullable

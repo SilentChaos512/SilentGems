@@ -3,7 +3,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:blasting/citrine"
+        "recipes": "silentgems:blasting/citrine"
       },
       "trigger": "minecraft:recipe_unlocked"
     },

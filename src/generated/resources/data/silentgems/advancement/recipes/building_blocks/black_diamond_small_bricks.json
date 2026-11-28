@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:black_diamond_small_bricks"
+        "recipes": "silentgems:black_diamond_small_bricks"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:citrine_glass"
+        "recipes": "silentgems:citrine_glass"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

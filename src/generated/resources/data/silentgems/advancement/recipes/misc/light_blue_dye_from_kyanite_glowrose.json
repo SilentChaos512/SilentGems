@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:light_blue_dye_from_kyanite_glowrose"
+        "recipes": "silentgems:light_blue_dye_from_kyanite_glowrose"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

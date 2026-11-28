@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:campfire_cooking/fishy_stew"
+        "recipes": "silentgems:campfire_cooking/fishy_stew"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

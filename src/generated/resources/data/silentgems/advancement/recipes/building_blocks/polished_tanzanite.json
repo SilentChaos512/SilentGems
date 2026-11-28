@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:polished_tanzanite"
+        "recipes": "silentgems:polished_tanzanite"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

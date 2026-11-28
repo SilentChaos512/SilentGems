@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:ruby_glass"
+        "recipes": "silentgems:ruby_glass"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

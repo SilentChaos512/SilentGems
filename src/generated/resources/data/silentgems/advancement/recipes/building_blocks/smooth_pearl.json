@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:smooth_pearl"
+        "recipes": "silentgems:smooth_pearl"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

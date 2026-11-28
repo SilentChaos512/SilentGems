@@ -30,7 +30,8 @@ public class SilentGems {
 
     public SilentGems(IEventBus modEventBus, ModContainer modContainer) {
         Registration.register(modEventBus);
-        modContainer.registerConfig(ModConfig.Type.COMMON, GemsConfig.COMMON_SPEC);
+        // COMMON was renamed to LOCAL in FML 12. Keep the old file name so existing configs are still read.
+        modContainer.registerConfig(ModConfig.Type.LOCAL, GemsConfig.COMMON_SPEC, MOD_ID + "-common.toml");
 
         if (FMLEnvironment.getDist() == Dist.CLIENT) {
             new SilentGemsClient(modContainer);

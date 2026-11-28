@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:polished_moldavite"
+        "recipes": "silentgems:polished_moldavite"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

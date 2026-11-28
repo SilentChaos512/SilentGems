@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:black_diamond_teleporter"
+        "recipes": "silentgems:black_diamond_teleporter"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

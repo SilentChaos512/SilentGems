@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:garnet_tiles"
+        "recipes": "silentgems:garnet_tiles"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

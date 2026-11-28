@@ -9,7 +9,7 @@ import net.minecraft.world.phys.BlockHitResult;
 
 public class TeleporterAnchorBlock extends AbstractTeleporterBlock {
     public TeleporterAnchorBlock(Properties properties) {
-        super(properties, TeleporterAnchorBlock::new);
+        super(properties);
     }
 
     @Override

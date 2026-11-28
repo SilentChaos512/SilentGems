@@ -1,12 +1,14 @@
 package net.silentchaos512.gems.data.recipe;
 
-import net.minecraft.core.HolderLookup;
+import net.minecraft.advancements.Advancement;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.common.Tags;
@@ -20,8 +22,8 @@ import net.silentchaos512.lib.data.recipe.LibRecipeProvider;
 import net.silentchaos512.lib.util.NameUtils;
 
 public class GemsRecipeProvider extends LibRecipeProvider {
-    public GemsRecipeProvider(HolderLookup.Provider registries, RecipeOutput recipeOutput) {
-        super(registries, recipeOutput, SilentGems.MOD_ID);
+    public GemsRecipeProvider(BootstrapContext<Recipe<?>> recipeOutput, BootstrapContext<Advancement> advancementOutput) {
+        super(recipeOutput, advancementOutput, SilentGems.MOD_ID);
     }
 
     @Override

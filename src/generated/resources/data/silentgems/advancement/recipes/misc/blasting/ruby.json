@@ -3,7 +3,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:blasting/ruby"
+        "recipes": "silentgems:blasting/ruby"
       },
       "trigger": "minecraft:recipe_unlocked"
     },

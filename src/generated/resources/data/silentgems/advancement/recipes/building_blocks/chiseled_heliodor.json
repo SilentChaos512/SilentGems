@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:chiseled_heliodor"
+        "recipes": "silentgems:chiseled_heliodor"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

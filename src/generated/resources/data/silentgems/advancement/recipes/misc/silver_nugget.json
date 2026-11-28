@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:silver_nugget"
+        "recipes": "silentgems:silver_nugget"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

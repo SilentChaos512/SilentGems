@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:heliodor_glass"
+        "recipes": "silentgems:heliodor_glass"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

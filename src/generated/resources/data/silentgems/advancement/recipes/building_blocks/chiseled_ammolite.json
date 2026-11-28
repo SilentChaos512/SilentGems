@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:chiseled_ammolite"
+        "recipes": "silentgems:chiseled_ammolite"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

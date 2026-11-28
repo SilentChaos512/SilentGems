@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:ammolite_teleporter"
+        "recipes": "silentgems:ammolite_teleporter"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

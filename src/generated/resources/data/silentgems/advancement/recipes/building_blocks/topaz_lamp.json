@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:topaz_lamp"
+        "recipes": "silentgems:topaz_lamp"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:garnet_lamp"
+        "recipes": "silentgems:garnet_lamp"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

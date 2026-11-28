@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:polished_ammolite"
+        "recipes": "silentgems:polished_ammolite"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:light_blue_dye_from_aquamarine_glowrose"
+        "recipes": "silentgems:light_blue_dye_from_aquamarine_glowrose"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

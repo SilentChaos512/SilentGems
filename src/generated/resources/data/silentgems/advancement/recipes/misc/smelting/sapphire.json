@@ -3,7 +3,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:smelting/sapphire"
+        "recipes": "silentgems:smelting/sapphire"
       },
       "trigger": "minecraft:recipe_unlocked"
     },

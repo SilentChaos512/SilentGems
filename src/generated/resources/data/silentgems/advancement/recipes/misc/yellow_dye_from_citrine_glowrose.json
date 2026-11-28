@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:yellow_dye_from_citrine_glowrose"
+        "recipes": "silentgems:yellow_dye_from_citrine_glowrose"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

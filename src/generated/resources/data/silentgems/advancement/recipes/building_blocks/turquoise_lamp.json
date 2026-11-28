@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:turquoise_lamp"
+        "recipes": "silentgems:turquoise_lamp"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

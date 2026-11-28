@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:summon_puppy"
+        "recipes": "silentgems:summon_puppy"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

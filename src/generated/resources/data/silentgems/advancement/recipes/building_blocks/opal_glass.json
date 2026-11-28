@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:opal_glass"
+        "recipes": "silentgems:opal_glass"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

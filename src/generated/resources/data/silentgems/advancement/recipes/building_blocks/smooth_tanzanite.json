@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:smooth_tanzanite"
+        "recipes": "silentgems:smooth_tanzanite"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

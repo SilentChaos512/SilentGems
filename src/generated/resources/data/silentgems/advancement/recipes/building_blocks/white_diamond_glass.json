@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:white_diamond_glass"
+        "recipes": "silentgems:white_diamond_glass"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

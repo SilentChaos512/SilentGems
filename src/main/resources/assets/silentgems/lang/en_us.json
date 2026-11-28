@@ -87,6 +87,7 @@
   "silentgems.configuration.glowrose": "Glowrose",
   "silentgems.configuration.normalLight": "Normal Light Value",
   "silentgems.configuration.pottedLight": "Potted Light Value",
+  "silentgems.configuration.rabbitCoffeeDelay": "Rabbit Coffee Delay",
   "silentgems.configuration.rabbitsProduceCoffee": "Rabbits Produce Coffee",
   "trait.silentgems.barrier_jacket": "Barrier Jacket",
   "trait.silentgems.barrier_jacket.desc": "Grants more magic armor at higher durability",

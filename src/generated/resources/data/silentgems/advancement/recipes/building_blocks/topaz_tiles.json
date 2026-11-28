@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:topaz_tiles"
+        "recipes": "silentgems:topaz_tiles"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

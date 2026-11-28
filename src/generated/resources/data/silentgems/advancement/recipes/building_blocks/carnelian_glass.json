@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:carnelian_glass"
+        "recipes": "silentgems:carnelian_glass"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

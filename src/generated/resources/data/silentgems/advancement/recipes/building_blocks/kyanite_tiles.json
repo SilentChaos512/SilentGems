@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:kyanite_tiles"
+        "recipes": "silentgems:kyanite_tiles"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

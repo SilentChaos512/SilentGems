@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:smoking/fishy_stew"
+        "recipes": "silentgems:smoking/fishy_stew"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

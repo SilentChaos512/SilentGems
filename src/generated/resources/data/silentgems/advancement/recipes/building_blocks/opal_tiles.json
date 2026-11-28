@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:opal_tiles"
+        "recipes": "silentgems:opal_tiles"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

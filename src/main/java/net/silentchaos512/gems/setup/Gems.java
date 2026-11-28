@@ -12,10 +12,10 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.storage.loot.providers.number.ints.ContextIntProviders;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.silentchaos512.gems.SilentGems;
@@ -501,7 +501,7 @@ public enum Gems {
                             .isValidSpawn((state, world, pos, entityType) -> false)
                             .isRedstoneConductor(isNotSolid)
                             .isSuffocating(isNotSolid)
-                            .isViewBlocking(isNotSolid),
+                            .isViewBlocking((state, world, pos, nearPlaneBox) -> false),
                     Gems::defaultBlockItem
             );
 
@@ -521,7 +521,11 @@ public enum Gems {
                             .sound(SoundType.GRASS)
                             .strength(0)
                             .noCollision(),
-                    Gems::defaultBlockItem
+                    Gems::defaultBlockItem,
+                    // Compostables were a data map before 26.3, now an item component
+                    itemProperties -> itemProperties
+                            .useBlockDescriptionPrefix()
+                            .compostable(ContextIntProviders.COMPOSTABLE_MEDIUM)
             );
 
         for (Gems gem : values()) {
@@ -530,7 +534,7 @@ public enum Gems {
                     properties -> properties
                             .strength(0)
             );
-            ((FlowerPotBlock) Blocks.FLOWER_POT).addPlant(SilentGems.getId(gem.getName() + "_glowrose"), gem.pottedGlowrose);
+            // NeoForge maps the empty pot and flower to this pot automatically when the block is registered
         }
 
         for (Gems gem : values())

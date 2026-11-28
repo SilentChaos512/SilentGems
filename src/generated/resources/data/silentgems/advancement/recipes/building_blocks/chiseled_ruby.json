@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:chiseled_ruby"
+        "recipes": "silentgems:chiseled_ruby"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

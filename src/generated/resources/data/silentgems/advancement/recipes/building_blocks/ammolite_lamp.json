@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:ammolite_lamp"
+        "recipes": "silentgems:ammolite_lamp"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

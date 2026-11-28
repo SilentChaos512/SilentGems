@@ -3,7 +3,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:smelting/iolite"
+        "recipes": "silentgems:smelting/iolite"
       },
       "trigger": "minecraft:recipe_unlocked"
     },

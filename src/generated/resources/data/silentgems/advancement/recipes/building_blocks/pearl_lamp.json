@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:pearl_lamp"
+        "recipes": "silentgems:pearl_lamp"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

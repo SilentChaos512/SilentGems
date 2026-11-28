@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:tanzanite_lamp"
+        "recipes": "silentgems:tanzanite_lamp"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:turquoise_block"
+        "recipes": "silentgems:turquoise_block"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:rose_quartz_tiles"
+        "recipes": "silentgems:rose_quartz_tiles"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

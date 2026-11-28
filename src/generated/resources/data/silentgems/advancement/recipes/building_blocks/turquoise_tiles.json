@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:turquoise_tiles"
+        "recipes": "silentgems:turquoise_tiles"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

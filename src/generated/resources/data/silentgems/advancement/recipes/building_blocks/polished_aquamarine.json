@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:polished_aquamarine"
+        "recipes": "silentgems:polished_aquamarine"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:moldavite_glass"
+        "recipes": "silentgems:moldavite_glass"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:topaz_glass"
+        "recipes": "silentgems:topaz_glass"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

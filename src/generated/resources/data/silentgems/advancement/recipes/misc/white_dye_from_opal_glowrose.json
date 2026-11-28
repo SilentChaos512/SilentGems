@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:white_dye_from_opal_glowrose"
+        "recipes": "silentgems:white_dye_from_opal_glowrose"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

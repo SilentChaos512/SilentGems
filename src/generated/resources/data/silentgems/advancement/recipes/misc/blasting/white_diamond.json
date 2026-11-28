@@ -3,7 +3,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:blasting/white_diamond"
+        "recipes": "silentgems:blasting/white_diamond"
       },
       "trigger": "minecraft:recipe_unlocked"
     },

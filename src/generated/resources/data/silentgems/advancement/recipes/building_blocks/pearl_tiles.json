@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:pearl_tiles"
+        "recipes": "silentgems:pearl_tiles"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

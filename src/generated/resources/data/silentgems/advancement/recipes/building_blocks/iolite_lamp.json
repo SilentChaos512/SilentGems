@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:iolite_lamp"
+        "recipes": "silentgems:iolite_lamp"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

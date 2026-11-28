@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:rose_quartz_lamp"
+        "recipes": "silentgems:rose_quartz_lamp"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

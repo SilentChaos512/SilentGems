@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:smoking/meaty_stew"
+        "recipes": "silentgems:smoking/meaty_stew"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

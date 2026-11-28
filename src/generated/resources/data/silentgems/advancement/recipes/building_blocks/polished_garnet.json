@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:polished_garnet"
+        "recipes": "silentgems:polished_garnet"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

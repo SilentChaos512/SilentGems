@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:carnelian_teleporter"
+        "recipes": "silentgems:carnelian_teleporter"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

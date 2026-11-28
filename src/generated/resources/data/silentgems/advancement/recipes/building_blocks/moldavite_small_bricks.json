@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:moldavite_small_bricks"
+        "recipes": "silentgems:moldavite_small_bricks"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

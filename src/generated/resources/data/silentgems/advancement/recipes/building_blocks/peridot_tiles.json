@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:peridot_tiles"
+        "recipes": "silentgems:peridot_tiles"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

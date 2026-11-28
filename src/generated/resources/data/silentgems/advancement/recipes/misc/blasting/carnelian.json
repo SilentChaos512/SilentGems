@@ -3,7 +3,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:blasting/carnelian"
+        "recipes": "silentgems:blasting/carnelian"
       },
       "trigger": "minecraft:recipe_unlocked"
     },

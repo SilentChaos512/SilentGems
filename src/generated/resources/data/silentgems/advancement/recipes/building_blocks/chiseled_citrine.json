@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:chiseled_citrine"
+        "recipes": "silentgems:chiseled_citrine"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

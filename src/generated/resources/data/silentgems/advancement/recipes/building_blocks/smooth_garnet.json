@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:smooth_garnet"
+        "recipes": "silentgems:smooth_garnet"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

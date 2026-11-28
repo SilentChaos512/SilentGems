@@ -3,7 +3,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:blasting/opal"
+        "recipes": "silentgems:blasting/opal"
       },
       "trigger": "minecraft:recipe_unlocked"
     },

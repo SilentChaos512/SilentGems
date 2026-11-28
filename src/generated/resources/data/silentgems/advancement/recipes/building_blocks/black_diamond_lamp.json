@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:black_diamond_lamp"
+        "recipes": "silentgems:black_diamond_lamp"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

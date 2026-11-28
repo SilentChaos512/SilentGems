@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:chiseled_opal"
+        "recipes": "silentgems:chiseled_opal"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

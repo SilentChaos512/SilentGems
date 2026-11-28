@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:tanzanite_tiles"
+        "recipes": "silentgems:tanzanite_tiles"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

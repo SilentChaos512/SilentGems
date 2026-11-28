@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:sparkling_bone_meal"
+        "recipes": "silentgems:sparkling_bone_meal"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

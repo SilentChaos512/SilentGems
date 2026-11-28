@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:ammolite_tiles"
+        "recipes": "silentgems:ammolite_tiles"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

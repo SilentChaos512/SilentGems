@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:aquamarine_bricks"
+        "recipes": "silentgems:aquamarine_bricks"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

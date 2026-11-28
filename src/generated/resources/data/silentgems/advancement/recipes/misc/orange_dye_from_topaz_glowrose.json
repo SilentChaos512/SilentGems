@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:orange_dye_from_topaz_glowrose"
+        "recipes": "silentgems:orange_dye_from_topaz_glowrose"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

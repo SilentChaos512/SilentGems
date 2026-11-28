@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:chiseled_iolite"
+        "recipes": "silentgems:chiseled_iolite"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

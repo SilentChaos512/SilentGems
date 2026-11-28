@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:pearl_glass"
+        "recipes": "silentgems:pearl_glass"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

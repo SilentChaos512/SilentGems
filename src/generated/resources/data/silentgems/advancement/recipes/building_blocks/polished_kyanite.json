@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:polished_kyanite"
+        "recipes": "silentgems:polished_kyanite"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

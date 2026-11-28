@@ -3,7 +3,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:smelting/turquoise"
+        "recipes": "silentgems:smelting/turquoise"
       },
       "trigger": "minecraft:recipe_unlocked"
     },

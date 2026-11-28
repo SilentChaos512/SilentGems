@@ -16,7 +16,7 @@ import org.jspecify.annotations.Nullable;
 
 public class GemRedstoneTeleporterBlock extends GemTeleporterBlock {
     public GemRedstoneTeleporterBlock(Gems gem, Properties properties) {
-        super(gem, properties, GemRedstoneTeleporterBlock::new);
+        super(gem, properties);
     }
 
     @Override

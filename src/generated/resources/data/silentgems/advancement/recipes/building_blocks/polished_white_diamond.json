@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:polished_white_diamond"
+        "recipes": "silentgems:polished_white_diamond"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

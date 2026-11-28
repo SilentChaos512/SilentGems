@@ -3,7 +3,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:blasting/ammolite"
+        "recipes": "silentgems:blasting/ammolite"
       },
       "trigger": "minecraft:recipe_unlocked"
     },

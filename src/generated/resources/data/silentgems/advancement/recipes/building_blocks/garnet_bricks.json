@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:garnet_bricks"
+        "recipes": "silentgems:garnet_bricks"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

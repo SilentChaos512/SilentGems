@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:alexandrite_lamp"
+        "recipes": "silentgems:alexandrite_lamp"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:sapphire_bricks"
+        "recipes": "silentgems:sapphire_bricks"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

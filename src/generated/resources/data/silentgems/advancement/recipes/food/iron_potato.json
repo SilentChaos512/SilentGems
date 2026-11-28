@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:iron_potato"
+        "recipes": "silentgems:iron_potato"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

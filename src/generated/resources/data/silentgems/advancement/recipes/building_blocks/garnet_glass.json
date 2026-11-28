@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:garnet_glass"
+        "recipes": "silentgems:garnet_glass"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

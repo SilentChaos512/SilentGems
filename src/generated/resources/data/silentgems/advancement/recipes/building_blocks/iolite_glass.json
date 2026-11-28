@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:iolite_glass"
+        "recipes": "silentgems:iolite_glass"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

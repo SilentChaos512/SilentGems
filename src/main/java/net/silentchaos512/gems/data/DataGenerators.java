@@ -10,6 +10,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
+import net.neoforged.neoforge.data.event.GatherDataRegistryEntriesEvent;
 import net.silentchaos512.gems.SilentGems;
 import net.silentchaos512.gems.data.client.GemsBlockModelGenerator;
 import net.silentchaos512.gems.data.client.GemsItemModelGenerator;
@@ -19,7 +20,6 @@ import net.silentchaos512.gems.data.tags.GemsDamageTypeTagsProvider;
 import net.silentchaos512.gems.data.tags.GemsEntityTypeTagsProvider;
 import net.silentchaos512.gems.data.tags.GemsItemTagsProvider;
 import net.silentchaos512.lib.data.client.LibModelProvider;
-import net.silentchaos512.lib.data.recipe.LibRecipeProvider;
 
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -33,19 +33,15 @@ public final class DataGenerators {
     public static void gatherData(GatherDataEvent.Client event) {
         var generator = event.getGenerator();
         var packOutput = generator.getPackOutput();
-        var lookupProvider = event.getLookupProvider();
-
-        generator.addProvider(true, new GemsDataMapProvider(packOutput, lookupProvider));
+        // Tags and other data providers use the world registries, like vanilla
+        var lookupProvider = event.getWorldLookupProvider();
 
         GemsBlockTagsProvider blockTags = new GemsBlockTagsProvider(packOutput, lookupProvider);
         generator.addProvider(true, blockTags);
         generator.addProvider(true, new GemsItemTagsProvider(packOutput, lookupProvider));
         generator.addProvider(true, new GemsEntityTypeTagsProvider(packOutput, lookupProvider));
         generator.addProvider(true, new GemsDamageTypeTagsProvider(packOutput, lookupProvider));
-        generator.addProvider(true, LibRecipeProvider.createRunner(packOutput, lookupProvider, "Silent's Gems Recipes", GemsRecipeProvider::new));
-        generator.addProvider(true, new GemsLootTableProvider(packOutput, lookupProvider));
-
-        generator.addProvider(true, new WorldGenGenerator(event));
+        // Recipes, loot tables, and worldgen are datapack registries, see gatherRegistryEntries
 
         boolean gearIsLoaded = ModList.get().isLoaded("silentgear");
         if (gearIsLoaded) {
@@ -64,5 +60,16 @@ public final class DataGenerators {
                 return new GemsItemModelGenerator(itemModelOutput, modelOutput);
             }
         });
+    }
+
+    /**
+     * Recipes and loot tables became reloadable datapack registries in 26.3, so they are generated from registry
+     * bootstraps instead of standalone data providers, along with the worldgen registries.
+     */
+    @SubscribeEvent
+    public static void gatherRegistryEntries(GatherDataRegistryEntriesEvent event) {
+        event.recipe(GemsRecipeProvider::new);
+        GemsLootTableProvider.gather(event);
+        WorldGenGenerator.gather(event);
     }
 }

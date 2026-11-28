@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:smooth_opal"
+        "recipes": "silentgems:smooth_opal"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

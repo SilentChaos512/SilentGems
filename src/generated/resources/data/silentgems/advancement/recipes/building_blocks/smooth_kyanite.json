@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:smooth_kyanite"
+        "recipes": "silentgems:smooth_kyanite"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

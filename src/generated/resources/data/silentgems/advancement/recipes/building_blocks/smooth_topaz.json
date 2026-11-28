@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:smooth_topaz"
+        "recipes": "silentgems:smooth_topaz"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

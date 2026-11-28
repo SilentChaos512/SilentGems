@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:aquamarine_lamp_inverted_on"
+        "recipes": "silentgems:aquamarine_lamp_inverted_on"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

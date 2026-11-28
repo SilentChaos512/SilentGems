@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:alexandrite_tiles"
+        "recipes": "silentgems:alexandrite_tiles"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

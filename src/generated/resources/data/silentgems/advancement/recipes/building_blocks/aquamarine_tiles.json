@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:aquamarine_tiles"
+        "recipes": "silentgems:aquamarine_tiles"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

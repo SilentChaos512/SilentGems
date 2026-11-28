@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:opal_lamp"
+        "recipes": "silentgems:opal_lamp"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

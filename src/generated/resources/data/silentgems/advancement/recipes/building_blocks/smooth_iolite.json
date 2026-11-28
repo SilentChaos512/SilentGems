@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:smooth_iolite"
+        "recipes": "silentgems:smooth_iolite"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

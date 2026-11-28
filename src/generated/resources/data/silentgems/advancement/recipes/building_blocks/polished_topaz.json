@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:polished_topaz"
+        "recipes": "silentgems:polished_topaz"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

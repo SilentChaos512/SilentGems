@@ -3,7 +3,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:blasting/peridot"
+        "recipes": "silentgems:blasting/peridot"
       },
       "trigger": "minecraft:recipe_unlocked"
     },

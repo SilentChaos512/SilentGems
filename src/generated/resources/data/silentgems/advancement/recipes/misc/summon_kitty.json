@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:summon_kitty"
+        "recipes": "silentgems:summon_kitty"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

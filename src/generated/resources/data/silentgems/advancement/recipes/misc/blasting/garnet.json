@@ -3,7 +3,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:blasting/garnet"
+        "recipes": "silentgems:blasting/garnet"
       },
       "trigger": "minecraft:recipe_unlocked"
     },

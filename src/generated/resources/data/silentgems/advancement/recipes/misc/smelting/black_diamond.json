@@ -3,7 +3,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:smelting/black_diamond"
+        "recipes": "silentgems:smelting/black_diamond"
       },
       "trigger": "minecraft:recipe_unlocked"
     },

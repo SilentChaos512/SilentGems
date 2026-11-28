@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:smooth_black_diamond"
+        "recipes": "silentgems:smooth_black_diamond"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

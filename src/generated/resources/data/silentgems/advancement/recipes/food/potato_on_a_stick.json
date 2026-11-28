@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:potato_on_a_stick"
+        "recipes": "silentgems:potato_on_a_stick"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:alexandrite_redstone_teleporter"
+        "recipes": "silentgems:alexandrite_redstone_teleporter"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:polished_iolite"
+        "recipes": "silentgems:polished_iolite"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

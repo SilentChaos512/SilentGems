@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:citrine_lamp"
+        "recipes": "silentgems:citrine_lamp"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

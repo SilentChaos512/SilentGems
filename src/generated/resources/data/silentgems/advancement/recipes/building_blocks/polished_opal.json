@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:polished_opal"
+        "recipes": "silentgems:polished_opal"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

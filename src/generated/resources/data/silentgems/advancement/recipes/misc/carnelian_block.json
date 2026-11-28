@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:carnelian_block"
+        "recipes": "silentgems:carnelian_block"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

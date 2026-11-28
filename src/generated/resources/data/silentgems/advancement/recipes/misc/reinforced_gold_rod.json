@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:reinforced_gold_rod"
+        "recipes": "silentgems:reinforced_gold_rod"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

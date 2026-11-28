@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:iolite_teleporter"
+        "recipes": "silentgems:iolite_teleporter"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

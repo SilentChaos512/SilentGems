@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:smooth_citrine"
+        "recipes": "silentgems:smooth_citrine"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

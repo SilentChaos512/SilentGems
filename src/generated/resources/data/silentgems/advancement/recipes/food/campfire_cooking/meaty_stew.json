@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:campfire_cooking/meaty_stew"
+        "recipes": "silentgems:campfire_cooking/meaty_stew"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

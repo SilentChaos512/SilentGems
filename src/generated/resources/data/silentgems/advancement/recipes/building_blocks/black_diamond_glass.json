@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:black_diamond_glass"
+        "recipes": "silentgems:black_diamond_glass"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

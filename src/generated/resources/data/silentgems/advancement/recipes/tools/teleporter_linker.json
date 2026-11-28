@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:teleporter_linker"
+        "recipes": "silentgems:teleporter_linker"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

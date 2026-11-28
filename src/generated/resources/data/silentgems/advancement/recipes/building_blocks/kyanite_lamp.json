@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:kyanite_lamp"
+        "recipes": "silentgems:kyanite_lamp"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

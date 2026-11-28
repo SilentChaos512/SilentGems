@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:purple_dye_from_alexandrite_glowrose"
+        "recipes": "silentgems:purple_dye_from_alexandrite_glowrose"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

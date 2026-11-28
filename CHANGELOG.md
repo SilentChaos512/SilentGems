@@ -3,6 +3,9 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [26.3-5.3.0] - 2026-11-23
+- Ported to NeoForge 26.3, Silent Lib 13.0+, and Silent Gear 4.4+
+
 ## [26.2-5.2.0] - 2026-09-02
 - Ported to NeoForge 26.2, Silent Lib 12.0+, and Silent Gear 4.3+ (Acidglow) [#597]
 

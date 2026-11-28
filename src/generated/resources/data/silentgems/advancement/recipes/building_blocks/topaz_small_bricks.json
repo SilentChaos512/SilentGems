@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:topaz_small_bricks"
+        "recipes": "silentgems:topaz_small_bricks"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

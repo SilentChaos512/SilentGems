@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:white_diamond_redstone_teleporter"
+        "recipes": "silentgems:white_diamond_redstone_teleporter"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

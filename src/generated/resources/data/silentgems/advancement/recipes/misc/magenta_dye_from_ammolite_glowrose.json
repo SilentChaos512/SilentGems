@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:magenta_dye_from_ammolite_glowrose"
+        "recipes": "silentgems:magenta_dye_from_ammolite_glowrose"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

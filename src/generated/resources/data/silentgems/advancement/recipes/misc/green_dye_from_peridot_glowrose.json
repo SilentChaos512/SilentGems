@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "silentgems:green_dye_from_peridot_glowrose"
+        "recipes": "silentgems:green_dye_from_peridot_glowrose"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
